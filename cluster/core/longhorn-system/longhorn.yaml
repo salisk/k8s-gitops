@@ -17,7 +17,7 @@ spec:
   values:
     defaultSettings:
       defaultDataPath: /longhorn
-      createDefaultDiskLabeledNodes: true
+      createDefaultDiskLabeledNodes: false
       defaultDataLocality: best-effort
       defaultReplicaCount: 1
     ingress:
