@@ -20,3 +20,7 @@ spec:
       createDefaultDiskLabeledNodes: true
       defaultDataLocality: best-effort
       defaultReplicaCount: 1
+    ingress:
+      enabled: true
+      ingressClassName: "nginx"
+      host: "longhorn.${SECRET_DOMAIN}"
