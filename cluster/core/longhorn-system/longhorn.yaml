@@ -16,10 +16,7 @@ spec:
         namespace: flux-system
   values:
     defaultSettings:
-      defaultDataPath: /longhorn
-      createDefaultDiskLabeledNodes: false
-      defaultDataLocality: best-effort
-      defaultReplicaCount: 1
+      defaultReplicaCount: 2
     ingress:
       enabled: true
       ingressClassName: "nginx"
