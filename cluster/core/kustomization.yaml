@@ -7,3 +7,4 @@ resources:
   - metallb-system
   - system-upgrade
   - longhorn-system
+  - intel-gpu-plugin
