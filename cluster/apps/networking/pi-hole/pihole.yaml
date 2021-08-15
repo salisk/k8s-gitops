@@ -33,6 +33,15 @@ spec:
       hosts:
         - pihole.${SECRET_DOMAIN}
     affinity:
+      nodeAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 1
+          preference:
+            matchExpressions:
+            - key: kubernetes.io/arch
+              operator: In
+              values:
+              - arm64       
       podAntiAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
         - labelSelector:
@@ -46,8 +55,6 @@ spec:
       enabled: true
       existingClaim: pihole-config
     replicaCount: 2
-    nodeSelector:
-      kubernetes.io/arch: arm64
     admin:
       existingSecret: "pihole-secret"
       passwordKey: "password"
