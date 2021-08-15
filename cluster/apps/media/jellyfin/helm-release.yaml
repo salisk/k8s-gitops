@@ -30,8 +30,6 @@ spec:
     service:
       main:
         type: LoadBalancer
-        annotations:
-          metallb.universe.tf/allow-shared-ip: jellyfin
         externalIPs:
         - "${LB_JELLYFIN_IP}"
         externalTrafficPolicy: Local
