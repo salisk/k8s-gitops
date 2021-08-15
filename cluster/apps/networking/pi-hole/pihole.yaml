@@ -32,25 +32,19 @@ spec:
       path: /
       hosts:
         - pihole.${SECRET_DOMAIN}
-    affinity:
-      nodeAffinity:
-        preferredDuringSchedulingIgnoredDuringExecution:
-        - weight: 1
-          preference:
-            matchExpressions:
-            - key: kubernetes.io/arch
-              operator: In
-              values:
-              - arm64       
-      podAntiAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-        - labelSelector:
-            matchExpressions:
-            - key: app.kubernetes.io/name
-              operator: In
-              values:
-              - pihole
-          topologyKey: "kubernetes.io/hostname"
+    topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: kubernetes.io/arch
+        whenUnsatisfiable: DoNotSchedule
+        labelSelector:
+          matchLabels:
+            release: pihole
+      - maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: DoNotSchedule
+        labelSelector:
+          matchLabels:
+            release: pihole
     persistentVolumeClaim:
       enabled: true
       existingClaim: pihole-config
@@ -58,6 +52,3 @@ spec:
     admin:
       existingSecret: "pihole-secret"
       passwordKey: "password"
-  valuesFrom:
-  - kind: Secret
-    name: pihole-helm-values
