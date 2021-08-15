@@ -6,3 +6,4 @@ resources:
   - longhorn-system.yaml
   - networking.yaml
   - intel-gpu-plugin.yaml
+  - media.yaml
