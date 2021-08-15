@@ -7,4 +7,3 @@ resources:
   - metallb-system
   - system-upgrade
   - longhorn-system
-  - storage
