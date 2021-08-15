@@ -6,7 +6,4 @@ metadata:
   namespace: networking
 type: Opaque
 stringData:
-  values.yaml: |
-    dnsmasq:
-      additionalHostsEntries:
-        - ${INGRESS_NGINX_LB} ${SECRET_DOMAIN}
+  values.yaml: ""
