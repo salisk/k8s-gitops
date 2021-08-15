@@ -6,4 +6,3 @@ resources:
   - cert-manager
   - system-upgrade
   - longhorn-system
-  - storage
