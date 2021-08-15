@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: pihole-helm-values
+  namespace: networking
+type: Opaque
+stringData:
+  values.yaml: |
+    dnsmasq:
+      additionalHostsEntries:
+        - ${INGRESS_NGINX_LB} ${SECRET_DOMAIN}
