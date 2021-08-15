@@ -32,6 +32,16 @@ spec:
       path: /
       hosts:
         - pihole.${SECRET_DOMAIN}
+    affinity:
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchExpressions:
+            - key: app.kubernetes.io/name
+              operator: In
+              values:
+              - pihole
+          topologyKey: "kubernetes.io/hostname"
     persistentVolumeClaim:
       enabled: true
       existingClaim: pihole-config
