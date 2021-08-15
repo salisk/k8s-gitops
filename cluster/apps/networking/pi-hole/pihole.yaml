@@ -52,3 +52,6 @@ spec:
     admin:
       existingSecret: "pihole-secret"
       passwordKey: "password"
+  valuesFrom:
+  - kind: Secret
+    name: pihole-helm-values
