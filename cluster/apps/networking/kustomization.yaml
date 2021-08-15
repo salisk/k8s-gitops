@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - traefik
   - wildcard-certificate
+  - pi-hole

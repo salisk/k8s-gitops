@@ -12,7 +12,6 @@ resources:
   - jetstack-charts.yaml
   - k8s-at-home-charts.yaml
   - metallb-charts.yaml
-<<<<<<< HEAD
   - minecraft-server-charts.yaml
   - minio-charts.yaml
   - nfs-subdir-external-provisioner-charts.yaml
@@ -22,6 +21,5 @@ resources:
   - stakater-charts.yaml
   - traefik-charts.yaml
   - weaveworks-kured-charts.yaml
-=======
   - longhorn-charts.yaml
->>>>>>> fd76741 (Add longhorn)
+  - mojo2600-charts.yaml
