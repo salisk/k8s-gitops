@@ -66,9 +66,16 @@ spec:
         readOnly: true
     resources:
       requests:
-        gpu.intel.com/i915: 1
         cpu: 1000m
         memory: 500Mi
       limits:
-        gpu.intel.com/i915: 1
         memory: 1700Mi
+    affinity:
+      nodeAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 1
+              preference:
+                matchExpressions:
+                  - key: "kubernetes.io/hostname"
+                    operator: In
+                    values: ["htpc"]
