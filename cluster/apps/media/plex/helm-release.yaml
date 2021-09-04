@@ -58,11 +58,11 @@ spec:
         medium: Memory
       movies:
         enabled: true
-        existingClaim: nfs-movies-pvc
+        existingClaim: nfs-movies-pvc-v1
         readOnly: true
       shows:
         enabled: true
-        existingClaim: nfs-shows-pvc
+        existingClaim: nfs-shows-pvc-v1
         readOnly: true
     resources:
       requests:
