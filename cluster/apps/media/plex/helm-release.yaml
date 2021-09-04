@@ -74,8 +74,8 @@ spec:
       nodeAffinity:
         preferredDuringSchedulingIgnoredDuringExecution:
           - weight: 1
-              preference:
-                matchExpressions:
-                  - key: "kubernetes.io/hostname"
-                    operator: In
-                    values: ["htpc"]
+            preference:
+              matchExpressions:
+                - key: "kubernetes.io/hostname"
+                  operator: In
+                  values: ["htpc"]
