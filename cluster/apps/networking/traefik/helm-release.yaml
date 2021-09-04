@@ -58,7 +58,8 @@ spec:
       traefik:
         expose: true
       web:
-        redirectTo: websecure
+        expose: true
+        exposedPort: 80
       websecure:
         tls:
           enabled: true
@@ -71,7 +72,7 @@ spec:
       default:
         minVersion: VersionTLS12
         maxVersion: VersionTLS13
-        sniStrict: true
+        sniStrict: false
     pilot:
       enabled: false
     experimental:
