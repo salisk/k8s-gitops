@@ -42,7 +42,7 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: "nginx"
+        ingressClassName: "traefik"
         hosts:
         - host: "plex.${SECRET_DOMAIN}"
           paths:
