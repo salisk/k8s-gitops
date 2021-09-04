@@ -14,7 +14,7 @@ spec:
     server: 192.168.0.146
     path: /mnt/shared/movies
   mountOptions:
-  - nfsvers=4.1
+  - nfsvers=4
   - tcp
   - intr
   - hard
