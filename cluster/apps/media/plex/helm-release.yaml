@@ -22,8 +22,11 @@ spec:
     env:
       TZ: "Europe/Vilnius"
     podSecurityContext:
-      supplementalGroups:
-        - 44
+      runAsUser: 568                                                                                                                                                                                                                                                                         
+      runAsGroup: 568                                                                                                                                                                                                                                                                        
+      fsGroup: 568                                                                                                                                                                                                                                                                           
+      supplementalGroups:                                                                                                                                                                                                                                                                    
+        - 44                                                                                                                                                                                                                                                                                   
         - 109
         - 100
     service:
