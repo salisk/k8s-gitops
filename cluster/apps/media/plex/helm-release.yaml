@@ -21,6 +21,11 @@ spec:
       tag: v1.24.0.4930-ab6e1a058
     env:
       TZ: "Europe/Vilnius"
+    podSecurityContext:
+      supplementalGroups:
+        - 44
+        - 109
+        - 100
     service:
       main:
         enabled: true
