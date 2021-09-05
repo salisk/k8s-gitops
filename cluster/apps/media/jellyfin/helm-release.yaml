@@ -57,6 +57,10 @@ spec:
         enabled: true
         existingClaim: nfs-shows-pvc-v1
         readOnly: true
+      data:
+        enabled: true
+        existingClaim: nfs-data-pvc-v1
+        readOnly: true
     resources:
       requests:
         gpu.intel.com/i915: 1
