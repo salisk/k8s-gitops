@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - nfs-movies.yaml
   - nfs-shows.yaml
+  - nfs-data.yaml
