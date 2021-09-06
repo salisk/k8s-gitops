@@ -46,7 +46,6 @@ spec:
       dashboard:
         enabled: false
     globalArguments:
-      - "--api.insecure=true"
       - "--serverstransport.insecureskipverify=true"
       - "--providers.kubernetesingress.ingressclass=traefik"
       - "--metrics.prometheus=true"
@@ -64,7 +63,7 @@ spec:
         exposedPort: 80
       websecure:
         tls:
-          enabled: true
+          enabled: false
           options: "default"
       metrics:
         port: 8082
