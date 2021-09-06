@@ -32,9 +32,9 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: "traefik"
         annotations:
           hajimari.io/enable: "true"
+          kubernetes.io/ingress.class: "traefik"
         hosts:
           - host: "minio.${SECRET_DOMAIN}"
             paths:

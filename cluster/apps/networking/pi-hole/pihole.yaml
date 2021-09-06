@@ -27,7 +27,8 @@ spec:
         metallb.universe.tf/allow-shared-ip: pihole-svc
     ingress:
       enabled: true
-      ingressClassName: "traefik"
+      annotations:
+        kubernetes.io/ingress.class: "traefik"
       path: /
       hosts:
         - pihole.${SECRET_DOMAIN}

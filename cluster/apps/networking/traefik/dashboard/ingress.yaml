@@ -9,6 +9,7 @@ metadata:
     hajimari.io/enable: "true"
     hajimari.io/icon: "web"
     hajimari.io/appName: "traefik"
+    kubernetes.io/ingress.class: "traefik"
 spec:
   rules:
     - host: "traefik.${SECRET_DOMAIN}"
