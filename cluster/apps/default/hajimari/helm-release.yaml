@@ -101,7 +101,6 @@ spec:
         enabled: true
         ingressClassName: "traefik"
         annotations:
-          traefik.ingress.kubernetes.io/router.entrypoints: "web"
           hajimari.io/enable: "true"
           hajimari.io/icon: "weather-sunset"
         hosts:
