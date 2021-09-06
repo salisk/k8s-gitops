@@ -48,5 +48,5 @@ spec:
       enabled: false
   valuesFrom:
   - kind: Secret
-    name: "minio-secret"
+    name: "minio-helm-values"
     optional: false
