@@ -33,11 +33,13 @@ spec:
       main:
         enabled: true
         ingressClassName: "traefik"
+        annotations:
+          hajimari.io/enable: "true"
         hosts:
-        - host: "minio.${SECRET_DOMAIN}"
-          paths:
-          - path: /
-            pathType: Prefix
+          - host: "minio.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
     resources:
       requests:
         memory: 350Mi
