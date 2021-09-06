@@ -44,8 +44,10 @@ spec:
       fallbackApiVersion: v1
     ingressRoute:
       dashboard:
-        enabled: false
+        enabled: true
+        insecure: true
     globalArguments:
+      - "--api.insecure=true"
       - "--serverstransport.insecureskipverify=true"
       - "--providers.kubernetesingress.ingressclass=traefik"
       - "--metrics.prometheus=true"
