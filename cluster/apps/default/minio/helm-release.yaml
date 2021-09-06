@@ -30,16 +30,10 @@ spec:
       existingClaim: "cifs-pvc"
       subPath: "minio"
     ingress:
-      main:
-        enabled: true
-        annotations:
-          hajimari.io/enable: "true"
-          kubernetes.io/ingress.class: "traefik"
-        hosts:
-          - host: "minio.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                pathType: Prefix
+      enabled: true
+      annotations:
+        kubernetes.io/ingress.class: traefik
+      hosts: [minio.${SECRET_DOMAIN}]
     resources:
       requests:
         memory: 350Mi
