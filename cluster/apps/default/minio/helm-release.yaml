@@ -33,7 +33,7 @@ spec:
       enabled: true
       annotations:
         kubernetes.io/ingress.class: traefik
-      hosts: [minio.${SECRET_DOMAIN}]
+      hosts: ["minio.${SECRET_DOMAIN}"]
     resources:
       requests:
         memory: 350Mi
