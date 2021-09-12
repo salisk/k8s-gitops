@@ -10,9 +10,11 @@ spec:
   flexVolume:
     driver: juliohm/cifs
     options:
-      opts: uid=1000
+      opts: vers=2.0
       server: 192.168.0.1
-      share: /tpshared
+      share: /H
+    secretRef:
+      name: cifs-secret
   accessModes:
     - ReadWriteMany
 ---
