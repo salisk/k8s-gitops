@@ -33,6 +33,9 @@ spec:
       enabled: true
       annotations:
         kubernetes.io/ingress.class: "traefik"
+        traefik.ingress.kubernetes.io/router.entrypoints: "web"
+        hajimari.io/enable: "true"
+        hajimari.io/icon: "aws"
       hosts: 
         - "minio.${SECRET_DOMAIN}"
     resources:

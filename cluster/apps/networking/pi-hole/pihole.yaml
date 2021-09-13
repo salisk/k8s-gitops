@@ -29,6 +29,8 @@ spec:
       enabled: true
       annotations:
         kubernetes.io/ingress.class: "traefik"
+        hajimari.io/enable: "true"
+        hajimari.io/icon: "web-cancel"
       path: /
       hosts:
         - pihole.${SECRET_DOMAIN}
