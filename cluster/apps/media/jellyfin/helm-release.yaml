@@ -36,6 +36,9 @@ spec:
       main:
         enabled: true
         ingressClassName: "traefik"
+        annotations:
+          hajimari.io/enable: "true"
+          hajimari.io/icon: "filmstrip"
         hosts:
         - host: "jellyfin.${SECRET_DOMAIN}"
           paths:

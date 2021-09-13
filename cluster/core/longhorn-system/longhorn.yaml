@@ -22,4 +22,7 @@ spec:
     ingress:
       enabled: true
       ingressClassName: "traefik"
+      annotations:
+        hajimari.io/enable: "true"
+        hajimari.io/icon: "server"
       host: "longhorn.${SECRET_DOMAIN}"
