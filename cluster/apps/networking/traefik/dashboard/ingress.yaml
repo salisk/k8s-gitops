@@ -10,7 +10,14 @@ metadata:
     hajimari.io/icon: "web"
     hajimari.io/appName: "traefik"
     kubernetes.io/ingress.class: "traefik"
+    traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+    cert-manager.io/cluster-issuer: "letsencrypt-production"
 spec:
+  ingressClassName: "traefik"
+  tls:
+    - hosts:
+        - "traefik.${SECRET_DOMAIN}"
+      secretName: "traefik-dashboard-${SECRET_DOMAIN//./-}-tls"
   rules:
     - host: "traefik.${SECRET_DOMAIN}"
       http:
