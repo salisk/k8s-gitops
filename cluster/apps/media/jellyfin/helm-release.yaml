@@ -40,6 +40,7 @@ spec:
           hajimari.io/enable: "true"
           hajimari.io/icon: "filmstrip"
           traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+          cert-manager.io/cluster-issuer: "letsencrypt-production"
         hosts:
           - host: "jellyfin.${SECRET_DOMAIN}"
             paths:
@@ -48,6 +49,7 @@ spec:
         tls:
           - hosts:
               - "jellyfin.${SECRET_DOMAIN}"
+          secretName: "jellyfin-tls"
     persistence:
       config:
         enabled: true

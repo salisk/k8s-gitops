@@ -25,4 +25,14 @@ spec:
       annotations:
         hajimari.io/enable: "true"
         hajimari.io/icon: "server"
-      host: "longhorn.${SECRET_DOMAIN}"
+        cert-manager.io/cluster-issuer: "letsencrypt-production"
+        traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+      hosts:
+          - host: "longhorn.${SECRET_DOMAIN}"
+            paths:
+            - path: /
+              pathType: Prefix
+        tls:
+          - hosts:
+              - "longhorn.${SECRET_DOMAIN}"
+          secretName: "longhorn-tls"
