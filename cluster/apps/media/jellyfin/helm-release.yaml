@@ -44,12 +44,12 @@ spec:
         hosts:
           - host: "jellyfin.${SECRET_DOMAIN}"
             paths:
-            - path: /
-              pathType: Prefix
+              - path: /
+                pathType: Prefix
         tls:
           - hosts:
               - "jellyfin.${SECRET_DOMAIN}"
-          secretName: "jellyfin-tls"
+            secretName: "jellyfin-tls"
     persistence:
       config:
         enabled: true
