@@ -40,9 +40,9 @@ spec:
       hosts: 
         - "minio.${SECRET_DOMAIN}"
       tls:
-          - hosts:
-              - "minio.${SECRET_DOMAIN}"
-          secretName: "minio-tls"
+      - hosts:
+        - minio.${SECRET_DOMAIN}
+        secretName: minio-tls
     resources:
       requests:
         memory: 350Mi
