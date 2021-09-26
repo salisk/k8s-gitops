@@ -7,3 +7,4 @@ resources:
   - networking.yaml
   - intel-gpu-plugin.yaml
   - media.yaml
+  - monitoring.yaml
