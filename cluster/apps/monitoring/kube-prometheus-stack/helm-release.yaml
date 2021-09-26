@@ -25,11 +25,13 @@ spec:
         ingressClassName: "traefik"
         annotations:
           traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+          cert-manager.io/cluster-issuer: "letsencrypt-production"
         hosts:
           - "alert-manager.${SECRET_DOMAIN}"
         tls:
           - hosts:
               - "alert-manager.${SECRET_DOMAIN}"
+            secretName: alert-manager-tls
       alertmanagerSpec:
         storage:
           volumeClaimTemplate:
@@ -93,6 +95,7 @@ spec:
         tls:
           - hosts:
               - "prometheus.${SECRET_DOMAIN}"
+            secretName: prometheus-tls
       thanosService:
         enabled: true
       thanosServiceMonitor:
@@ -118,5 +121,5 @@ spec:
           image: quay.io/thanos/thanos:v0.22.0
           version: v0.22.0
           objectStorageConfig:
-            name: thanos-objstore
+            name: thanos-objstore-secret
             key: objstore.yml
