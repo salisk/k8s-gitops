@@ -32,8 +32,6 @@ spec:
           traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
           cert-manager.io/cluster-issuer: "letsencrypt-production"
         tls: true
-        secrets:
-          - thanos-tls
     objstoreConfig: |
       type: S3
       config:
