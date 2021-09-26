@@ -36,7 +36,7 @@ spec:
       type: S3
       config:
         bucket: "thanos"
-        endpoint: "minio.default:9000"
+        endpoint: "minio.default.svc:9000"
         insecure: true
         access_key: "${MINIO_ACCESS_KEY}"
         secret_key: "${MINIO_SECRET_KEY}"
