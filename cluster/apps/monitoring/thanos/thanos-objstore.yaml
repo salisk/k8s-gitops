@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Secret
+metadata:
+    name: thanos-objstore
+    namespace: monitoring
+type: Opaque
+stringData:
+    objstore.yml: |
+        type: S3
+        config:
+            bucket: "thanos"
+            endpoint: "minio.default.svc:9000"
+            insecure: true
+            trace:
+                enabled: false
+            access_key: "${MINIO_ACCESS_KEY}"
+            secret_key: "${MINIO_SECRET_KEY}"
