@@ -110,6 +110,15 @@ spec:
         retention: 6h
         enableAdminAPI: true
         walCompression: true
+        initContainers:
+          - name: "init-datapath"
+            image: debian:stable
+            command: ["chown", "-R", "2000:2000", "/data"]
+            command: ["/bin/chmod","-R","777","/data"]
+            volumeMounts:
+              - name: prometheus-prometheus-db
+                mountPath: /data
+                subPath: ""
         storageSpec:
           volumeClaimTemplate:
             spec:
