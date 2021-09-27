@@ -35,14 +35,7 @@ spec:
           traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
           cert-manager.io/cluster-issuer: "letsencrypt-production"
         tls: true
-    objstoreConfig: |
-      type: S3
-      config:
-        bucket: "thanos"
-        endpoint: "minio.default.svc:9000"
-        insecure: true
-        access_key: "${MINIO_ACCESS_KEY}"
-        secret_key: "${MINIO_SECRET_KEY}"
+    existingObjstoreSecret: thanos-objstore
     queryFrontend:
       enabled: false
     bucketweb:
