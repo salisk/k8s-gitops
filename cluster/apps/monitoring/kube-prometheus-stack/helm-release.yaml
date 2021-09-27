@@ -111,14 +111,13 @@ spec:
         enableAdminAPI: true
         walCompression: true
         initContainers:
-          - name: "init-datapath"
-            image: debian:stable
-            command: ["chown", "-R", "2000:2000", "/data"]
-            command: ["/bin/chmod","-R","777","/data"]
-            volumeMounts:
-              - name: prometheus-prometheus-db
-                mountPath: /data
-                subPath: ""
+        - name: "init-datapath"
+          image: busybox
+          command: ["/bin/chmod","-R","777","/data"]
+          volumeMounts:
+          - name: prometheus-prometheus-db
+            mountPath: /data
+            subPath: ""
         storageSpec:
           volumeClaimTemplate:
             spec:
