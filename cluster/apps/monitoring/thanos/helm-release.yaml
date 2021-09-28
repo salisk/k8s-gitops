@@ -52,10 +52,10 @@ spec:
         size: 20Gi
     ruler:
       enabled: false
-    volumePermissions:
-      enabled: true
-      image:
-        repository: busybox
-        tag: latest
+    # volumePermissions:
+    #   enabled: true
+    #   image:
+    #     repository: busybox
+    #     tag: latest
     metrics:
       enabled: true
