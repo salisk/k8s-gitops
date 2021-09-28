@@ -119,6 +119,8 @@ spec:
         #   - name: prometheus-prometheus-db
         #     mountPath: /data
         #     subPath: ""
+        nodeSelector:
+          kubernetes.io/arch: amd64
         storageSpec:
           volumeClaimTemplate:
             spec:
