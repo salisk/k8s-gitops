@@ -110,14 +110,14 @@ spec:
         retention: 6h
         enableAdminAPI: true
         walCompression: true
-        # initContainers:
-        # - name: "init-datapath"
-        #   image: busybox
-        #   command: ["/bin/chmod","-R","777","/data"]
-        #   volumeMounts:
-        #   - name: prometheus-prometheus-db
-        #     mountPath: /data
-        #     subPath: ""
+        initContainers:
+        - name: "init-datapath"
+          image: busybox
+          command: ["/bin/chmod","-R","777","/data"]
+          volumeMounts:
+          - name: prometheus-prometheus-db
+            mountPath: /data
+            subPath: ""
         storageSpec:
           volumeClaimTemplate:
             spec:
