@@ -54,5 +54,6 @@ spec:
       enabled: false
     volumePermissions:
       enabled: true
+      image: busybox
     metrics:
       enabled: true
