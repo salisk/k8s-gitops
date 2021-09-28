@@ -128,6 +128,8 @@ spec:
     serviceAccount:
       create: true
       autoMount: true
+    initChownData:
+      enabled: true
     persistence:
       enabled: true
       storageClassName: "longhorn"
