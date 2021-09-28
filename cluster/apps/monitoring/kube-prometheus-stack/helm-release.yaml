@@ -121,6 +121,24 @@ spec:
         #     subPath: ""
         nodeSelector:
           kubernetes.io/arch: amd64
+        affinity:
+          nodeAffinity:
+            nodeAffinity:
+              preferredDuringSchedulingIgnoredDuringExecution:
+              - preference:
+                  matchExpressions:
+                  - key: kubernetes.io/arch
+                    operator: In
+                    values:
+                    - amd64
+                weight: 100
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                - matchExpressions:
+                  - key: kubernetes.io/arch
+                    operator: In
+                    values:
+                    - amd64
         storageSpec:
           volumeClaimTemplate:
             spec:
