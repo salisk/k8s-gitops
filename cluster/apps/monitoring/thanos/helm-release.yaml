@@ -46,6 +46,8 @@ spec:
         enabled: false
     storegateway:
       enabled: true
+      containerSecurityContext:
+        runAsNonRoot: false
       persistence:
         enabled: true
         storageClass: "longhorn"
