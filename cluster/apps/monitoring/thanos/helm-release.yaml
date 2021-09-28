@@ -56,5 +56,6 @@ spec:
       enabled: true
       image:
         repository: busybox
+        tag: latest
     metrics:
       enabled: true
