@@ -47,7 +47,7 @@ k3s_server:
     - "address=0.0.0.0"
     - "bind-address=0.0.0.0"
   # Required to monitor etcd with kube-prometheus-stack
-  etcd-expose-metrics: true
+  etcd-expose-metrics: false
   # Required for HAProxy health-checks
   kube-apiserver-arg:
     - "anonymous-auth=true"

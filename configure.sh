@@ -226,7 +226,7 @@ verify_ansible_hosts() {
         _has_envar "${node_password}"
         _has_envar "${node_control}"
 
-        if ssh -q -o BatchMode=yes -o ConnectTimeout=5 "${!node_username}"@"${!var}" "true"; then
+        if ssh -q "${!node_username}"@"${!var}" "true"; then
             _log "INFO" "Successfully SSH'ed into host '${!var}' with username '${!node_username}'"
         else
             _log "ERROR" "Unable to SSH into host '${!var}' with username '${!node_username}'"
