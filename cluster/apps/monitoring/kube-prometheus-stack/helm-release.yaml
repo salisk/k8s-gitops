@@ -132,13 +132,13 @@ spec:
                     values:
                     - amd64
                 weight: 100
-              requiredDuringSchedulingIgnoredDuringExecution:
-                nodeSelectorTerms:
-                - matchExpressions:
-                  - key: kubernetes.io/arch
-                    operator: In
-                    values:
-                    - amd64
+              # requiredDuringSchedulingIgnoredDuringExecution:
+              #   nodeSelectorTerms:
+              #   - matchExpressions:
+              #     - key: kubernetes.io/arch
+              #       operator: In
+              #       values:
+              #       - amd64
         storageSpec:
           volumeClaimTemplate:
             spec:
