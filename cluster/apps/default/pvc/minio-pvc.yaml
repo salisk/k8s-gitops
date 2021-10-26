@@ -1,35 +1,30 @@
----
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: nfs-movies-pv-v1
+  name: minio-pv
 spec:
-  storageClassName: media-movies
+  storageClassName: minio-data
   capacity:
     storage: 1Mi
   accessModes:
   - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   nfs:
-    server: 192.168.0.146
-    path: /mnt/shared/movies
+    server: 192.168.0.180
+    path: /volume1/minio
   mountOptions:
-  - nfsvers=4
-  - tcp
-  - intr
-  - hard
+  - nfsvers=4.1
   - noatime
-  - nodiratime
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: nfs-movies-pvc-v1
-  namespace: media
+  name: minio-pvc
+  namespace: default
 spec:
   accessModes:
-  - ReadWriteMany
-  storageClassName: media-movies
+    - ReadWriteMany
+  storageClassName: minio-data
   resources:
     requests:
       storage: 1Mi
