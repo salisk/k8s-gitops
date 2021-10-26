@@ -1,7 +1,7 @@
 ---
 #
 # Below vars are for the xanmanning.k3s role
-# ...see https://github.com/PyratLabs/ansible-role-k3s
+# ...see https://github.com/PyratLabs /ansible-role-k3s
 #
 
 # (string) Use a specific version of k3s
@@ -20,7 +20,7 @@ k3s_debug: false
 k3s_etcd_datastore: false
 
 # (bool) Allow the use of unsupported configurations in k3s
-k3s_use_unsupported_config: false
+k3s_use_unsupported_config: true
 
 # (string) Control Plane registration address
 k3s_registration_address: "{{ kubevip_address }}"
@@ -36,3 +36,4 @@ k3s_server_manifests_templates:
   - "calico-installation.yaml.j2"
   - "kube-vip-rbac.yaml.j2"
   - "kube-vip-daemonset.yaml.j2"
+  
