@@ -17,9 +17,6 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
-    image:
-      repository: raspbernetes/thanos
-      tag: v0.23.1
     query:
       enabled: true
       replicaLabels:

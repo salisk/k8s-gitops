@@ -119,8 +119,8 @@ spec:
         #   - name: prometheus-prometheus-db
         #     mountPath: /data
         #     subPath: ""
-        nodeSelector:
-          kubernetes.io/arch: amd64
+        # nodeSelector:
+        #   kubernetes.io/arch: amd64
         affinity:
           nodeAffinity:
             preferredDuringSchedulingIgnoredDuringExecution:
@@ -146,8 +146,6 @@ spec:
                 requests:
                   storage: 10Gi
         thanos:
-          image: raspbernetes/thanos
-          version: v0.22.0
           objectStorageConfig:
             name: thanos-objstore
             key: objstore.yml
