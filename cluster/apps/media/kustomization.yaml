@@ -4,3 +4,13 @@ resources:
   - pvc
   - jellyfin
   - plex
+  - qbittorrent
+  - bazarr
+  - lidarr
+  - overseerr
+  - prowlarr
+  - radarr
+  - readarr
+  - sabnzbd
+  - sonarr
+  - tautulli

@@ -10,7 +10,7 @@ spec:
   - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   nfs:
-    server: 192.168.0.180
+    server: ${NAS_ADDR}
     path: /volume1/minio
   mountOptions:
   - nfsvers=4.1
