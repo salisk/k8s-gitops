@@ -70,8 +70,9 @@ spec:
       prometheusRule:
         enabled: true
     podSecurityContext:
-      supplementalGroups:
-        - 100
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
     persistence:
       config:
         enabled: true
