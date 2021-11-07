@@ -27,6 +27,8 @@ spec:
         hajimari.io/icon: "server"
         cert-manager.io/cluster-issuer: "letsencrypt-production"
         traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+        traefik.ingress.kubernetes.io/router.tls: "true"       
+        traefik.ingress.kubernetes.io/router.middlewares: longhorn-system-svc-longhorn-headers@kubernetescrd
       host: "longhorn.${SECRET_DOMAIN}"
       tls: true
       tlsSecret: longhorn-tls
