@@ -30,6 +30,7 @@ spec:
           hajimari.io/enable: "true"
           hajimari.io/icon: "book-open"
           traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+          cert-manager.io/cluster-issuer: "letsencrypt-production"
         hosts:
           - host: "readarr.${SECRET_DOMAIN}"
             paths:
