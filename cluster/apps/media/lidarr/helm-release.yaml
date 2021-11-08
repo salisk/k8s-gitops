@@ -41,7 +41,7 @@ spec:
             secretName: "lidarr-tls"
     podSecurityContext:
       supplementalGroups:
-        - 100
+        - 65539
     metrics:
       enabled: true
       serviceMonitor:

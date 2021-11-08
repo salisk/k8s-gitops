@@ -22,8 +22,8 @@ spec:
       tag: v1.0.0
     env:
       TZ: "${TIMEZONE}"
-      PUID: 1001
-      PGID: 1001
+      PUID: 1000
+      PGID: 1000
     ingress:
       main:
         enabled: true
