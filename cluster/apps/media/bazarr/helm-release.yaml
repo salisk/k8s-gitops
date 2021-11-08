@@ -22,8 +22,6 @@ spec:
       tag: v1.0.0
     env:
       TZ: "${TIMEZONE}"
-      PUID: 1000
-      PGID: 1000
     ingress:
       main:
         enabled: true
@@ -42,8 +40,9 @@ spec:
               - "bazarr.${SECRET_DOMAIN}"
             secretName: "bazarr-tls"
     podSecurityContext:
-      supplementalGroups:
-        - 100
+      runAsUser: 1001
+      runAsGroup: 1001
+      fsGroup: 1001
     persistence:
       config:
         enabled: true
