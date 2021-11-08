@@ -40,8 +40,9 @@ spec:
               - "radarr.${SECRET_DOMAIN}"
             secretName: "radarr-tls"
     podSecurityContext:
-      supplementalGroups:
-        - 100
+      runAsUser: 1001
+      runAsGroup: 1001
+      fsGroup: 1001
     metrics:
       enabled: true
       serviceMonitor:
