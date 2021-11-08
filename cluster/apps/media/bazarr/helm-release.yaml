@@ -41,21 +41,14 @@ spec:
               - "bazarr.${SECRET_DOMAIN}"
             secretName: "bazarr-tls"
     podSecurityContext:
-      runAsUser: 1001
-      runAsGroup: 1001
-      fsGroup: 1001
+      runAsUser: 0
     persistence:
       config:
         enabled: true
         existingClaim: bazarr-config-v1
       media:
         enabled: true
-        type: custom
-        volumeSpec:
-          nfs:
-            server: "${NAS_ADDR}"
-            path: /volume1/media
-        mountPath: /media
+        existingClaim: nfs-media-pvc-v1
     resources:
       requests:
         memory: 250Mi

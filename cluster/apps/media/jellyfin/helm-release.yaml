@@ -62,15 +62,15 @@ spec:
         enabled: true
         existingClaim: nfs-media-pvc-v1
         readOnly: true
-    affinity:
-      nodeAffinity:
-        preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 1
-            preference:
-              matchExpressions:
-                - key: "kubernetes.io/hostname"
-                  operator: In
-                  values: ["master-node"]
+    # affinity:
+    #   nodeAffinity:
+    #     preferredDuringSchedulingIgnoredDuringExecution:
+    #       - weight: 1
+    #         preference:
+    #           matchExpressions:
+    #             - key: "kubernetes.io/hostname"
+    #               operator: In
+    #               values: ["master-node"]
     resources:
       requests:
         gpu.intel.com/i915: 1

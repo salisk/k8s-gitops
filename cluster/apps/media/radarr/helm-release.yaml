@@ -41,9 +41,7 @@ spec:
               - "radarr.${SECRET_DOMAIN}"
             secretName: "radarr-tls"
     podSecurityContext:
-      runAsUser: 1001
-      runAsGroup: 1001
-      fsGroup: 1001
+      runAsUser: 0
     metrics:
       enabled: true
       serviceMonitor:
@@ -57,12 +55,7 @@ spec:
         existingClaim: radarr-config-v1
       media:
         enabled: true
-        type: custom
-        volumeSpec:
-          nfs:
-            server: "${NAS_ADDR}"
-            path: /volume1/media
-        mountPath: /media
+        existingClaim: nfs-media-pvc-v1
     resources:
       requests:
         memory: 250Mi
