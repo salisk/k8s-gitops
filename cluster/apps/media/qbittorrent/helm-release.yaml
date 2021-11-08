@@ -55,6 +55,7 @@ spec:
         tls:
           - hosts:
               - "qb.${SECRET_DOMAIN}"
+            secretName: "qb-tls"
     metrics:
       enabled: true
       exporter:

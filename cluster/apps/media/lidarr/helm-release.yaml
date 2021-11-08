@@ -38,6 +38,7 @@ spec:
         tls:
           - hosts:
               - "lidarr.${SECRET_DOMAIN}"
+            secretName: "lidarr-tls"
     podSecurityContext:
       supplementalGroups:
         - 100

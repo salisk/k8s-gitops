@@ -38,6 +38,7 @@ spec:
         tls:
           - hosts:
               - "sabnzbd.${SECRET_DOMAIN}"
+            secretName: "sabnzbd-tls"
     podSecurityContext:
       supplementalGroups:
         - 100
@@ -59,4 +60,4 @@ spec:
         cpu: 250m
       limits:
         memory: 3000Mi
-        
+

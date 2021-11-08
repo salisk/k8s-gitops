@@ -38,6 +38,7 @@ spec:
         tls:
           - hosts:
               - "readarr.${SECRET_DOMAIN}"
+            secretName: "readarr-tls"
     podSecurityContext:
       supplementalGroups:
         - 100
