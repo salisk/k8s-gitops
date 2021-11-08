@@ -40,8 +40,9 @@ spec:
               - "lidarr.${SECRET_DOMAIN}"
             secretName: "lidarr-tls"
     podSecurityContext:
-      supplementalGroups:
-        - 65539
+      runAsUser: 1001
+      runAsGroup: 1001
+      fsGroup: 1001
     metrics:
       enabled: true
       serviceMonitor:
