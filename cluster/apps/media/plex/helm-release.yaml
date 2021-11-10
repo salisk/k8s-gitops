@@ -71,12 +71,9 @@ spec:
         memory: 500Mi
       limits:
         memory: 1700Mi
-    affinity:
-      nodeAffinity:
-        preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 1
-            preference:
-              matchExpressions:
-                - key: "kubernetes.io/hostname"
-                  operator: In
-                  values: ["htpc"]
+    nodeSelector:
+      matchExpressions:
+        - key: node-role.kubernetes.io/master
+          operator: NotIn
+          values:
+            - "true"
