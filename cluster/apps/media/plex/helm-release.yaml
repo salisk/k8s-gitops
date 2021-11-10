@@ -71,9 +71,12 @@ spec:
         memory: 500Mi
       limits:
         memory: 1700Mi
-    nodeSelector:
-      matchExpressions:
-        - key: node-role.kubernetes.io/master
-          operator: NotIn
-          values:
-            - "true"
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingRequiredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: node-role.kubernetes.io/master
+              operator: NotIn
+              values:
+                - "true"
