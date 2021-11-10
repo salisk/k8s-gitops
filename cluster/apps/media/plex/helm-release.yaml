@@ -73,7 +73,7 @@ spec:
         memory: 1700Mi
     affinity:
       nodeAffinity:
-        requiredDuringSchedulingRequiredDuringExecution:
+        requiredDuringSchedulingIgnoredDuringExecution:
           nodeSelectorTerms:
           - matchExpressions:
             - key: node-role.kubernetes.io/master

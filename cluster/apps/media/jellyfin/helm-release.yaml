@@ -64,7 +64,7 @@ spec:
         readOnly: true
     affinity:
       nodeAffinity:
-        requiredDuringSchedulingRequiredDuringExecution:
+        requiredDuringSchedulingIgnoredDuringExecution:
           nodeSelectorTerms:
           - matchExpressions:
             - key: node-role.kubernetes.io/master
