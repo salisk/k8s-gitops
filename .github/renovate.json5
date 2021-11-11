@@ -96,7 +96,7 @@
       "matchDatasources": ["helm"],
       "matchUpdateTypes": ["patch"],
       "labels": ["renovate/helm", "dep/patch"]
-    }
+    },
      // enable auto-merge
     {
       "matchDatasources": ["docker"],
