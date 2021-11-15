@@ -6,3 +6,4 @@ resources:
   - grafana
   - speedtest-exporter
   - loki
+  - promtail
