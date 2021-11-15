@@ -51,7 +51,7 @@ spec:
         service:
           type: LoadBalancer
           externalIPs:
-            - "${SVC_SYSLOG_ADDR}"
+            - "${LB_SYSLOG_IP}"
     extraVolumes:
       - name: journal
         hostPath:
