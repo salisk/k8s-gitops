@@ -5,17 +5,17 @@ metadata:
     name: home-assistant
     namespace: home
 stringData:
-    HASS_ELEVATION: ENC[AES256_GCM,data:TCw=,iv:7BXEMs9Kqi4RHek/fReVYBVIpNqESPGLJQmVibTqhM8=,tag:cL7nvenuUJBR6N6RIwzajw==,type:int]
-    HASS_LATITUDE: ENC[AES256_GCM,data:aB/gNPy8WWz2,iv:RniyvuMh+Wxefl6DYdC9ZSBmEMfbF1kNYHDmgxct4VE=,tag:dQwMzpHHue/yvpIGrdG/YQ==,type:float]
-    HASS_LONGITUDE: ENC[AES256_GCM,data:kFANqkGNsBch,iv:nvifozLeV26+E4nIt1I5lNb9dTj+uNI6MNCuUNc/xwQ=,tag:24/AAom+hdIbD5+ty1BX5w==,type:float]
+    HASS_ELEVATION: ENC[AES256_GCM,data:EqA=,iv:RcyGlG+geqSwnf9tMSEzqy3ugGAsHPS8CeMuZ+h4Ink=,tag:TY/FBwd8MscL0ZC9NelimQ==,type:str]
+    HASS_LATITUDE: ENC[AES256_GCM,data:2NhNuGnmYXOD,iv:cd3z9OvpkPHsj72mRy+/Na2PHnwwPuOfdK/OzP8quVM=,tag:+hWZTu/IxnXhM7+WmEH13Q==,type:str]
+    HASS_LONGITUDE: ENC[AES256_GCM,data:MJLXME+jXxuK,iv:IRiLFFFV7UjPT86AeQlId7ykncTcpmntaUcxlqyKHrc=,tag:gN3J+JI2Lx+0EcebpKy/7w==,type:str]
 sops:
     kms: []
     gcp_kms: []
     azure_kv: []
     hc_vault: []
     age: []
-    lastmodified: "2021-11-17T23:11:56Z"
-    mac: ENC[AES256_GCM,data:dDzunsHh5K63Dn8nGWVAApr4yaBgP648ebZPKUhLIYp3qgJYSHbUX5/dcXtRsfzqj6GX178hg6NMY9tPEdKEn38iZfGp0JulR/1b/Z2EOFqLhQjJlAubCFGqZwJBOTliRurJqXTpwFdZOW0Qm0iMjAk5cHRgbOOQYGM3K0XuGRY=,iv:TcoeUoda/99/vVsNDCMEfVuFfjWOe+uCiFuBkLDgAXQ=,tag:5ct00v5GAQElGgT0qGI0Jw==,type:str]
+    lastmodified: "2021-11-17T23:13:46Z"
+    mac: ENC[AES256_GCM,data:hOSIJNRdMo+VwiYPP1ZK51tkyJioPlFBtfKbVvrLAwRc4nKjqUe9JMXDlv5frm1eveTgHFzkmHGLz02ybGN43IXsmz7amUwyuNsSQ9tE8fTTEqvQtFVhyKCfH70c2CTVniTJYpMCy2MQZLLJ+VM6sMyUbDjMdJ2bB4jh4SBaLNU=,iv:Wx5jvH2tScxdUTbr96t2qZSbGf7YToqsom7EGqw0NsE=,tag:2fZJfPYebo8e6qjp1FDG5Q==,type:str]
     pgp:
         - created_at: "2021-11-17T23:11:56Z"
           enc: |
