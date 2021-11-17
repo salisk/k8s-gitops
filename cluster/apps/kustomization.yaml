@@ -7,3 +7,4 @@ resources:
   - system-upgrade
   - media
   - monitoring
+  - data
