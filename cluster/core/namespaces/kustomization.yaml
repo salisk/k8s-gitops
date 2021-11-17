@@ -8,3 +8,5 @@ resources:
   - intel-gpu-plugin.yaml
   - media.yaml
   - monitoring.yaml
+  - data.yaml
+  - home.yaml
