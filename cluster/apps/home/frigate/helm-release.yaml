@@ -103,7 +103,27 @@ spec:
 
        # Specify camera's
       cameras:
-    
+        terrace:
+          ffmpeg:
+            inputs:
+              - path: rtsp://view:{FRIGATE_RTSP_PASSWORD}@192.168.0.151:554
+                roles:
+                  - rtmp
+                  - record
+          rtmp:
+            enabled: True
+          record:
+            enabled: True
+            retain_days: 7
+            events:
+              retain:
+                default: 7
+          snapshots:
+            enabled: True
+            timestamp: False
+            retain:
+              default: 7
+        # --
        
     podAnnotations:
       configmap.reloader.stakater.com/reload: "frigate-config"
