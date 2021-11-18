@@ -114,15 +114,17 @@ spec:
             enabled: True
           record:
             enabled: True
-            retain_days: 7
+            retain_days: 14
             events:
               retain:
-                default: 7
+                default: 14
+          detect:
+            enabled: False
           snapshots:
             enabled: True
             timestamp: False
             retain:
-              default: 7
+              default: 14
         # --
        
     podAnnotations:
