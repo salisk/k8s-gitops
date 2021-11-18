@@ -8,14 +8,16 @@ stringData:
     HASS_ELEVATION: ENC[AES256_GCM,data:EqA=,iv:RcyGlG+geqSwnf9tMSEzqy3ugGAsHPS8CeMuZ+h4Ink=,tag:TY/FBwd8MscL0ZC9NelimQ==,type:str]
     HASS_LATITUDE: ENC[AES256_GCM,data:2NhNuGnmYXOD,iv:cd3z9OvpkPHsj72mRy+/Na2PHnwwPuOfdK/OzP8quVM=,tag:+hWZTu/IxnXhM7+WmEH13Q==,type:str]
     HASS_LONGITUDE: ENC[AES256_GCM,data:MJLXME+jXxuK,iv:IRiLFFFV7UjPT86AeQlId7ykncTcpmntaUcxlqyKHrc=,tag:gN3J+JI2Lx+0EcebpKy/7w==,type:str]
+    HASS_EXTERNAL_URL: ENC[AES256_GCM,data:QTMif2Il9VRg+zmT9JTC4iI=,iv:iIPY63FIdzCihEggW0a2sCXmjrHWqftJyEFyGiP/aMo=,tag:I2hN8CWPJ0zij1gUQmtDpg==,type:str]
+    HASS_INTERNAL_URL: ENC[AES256_GCM,data:b6N9zir8RlrUSrSJxhBFlJVK,iv:a5uQY4JMgbkE1qKKBGpqSmAaFSwsktTvRDe15zY4j+s=,tag:5YRLk7jC4zLjCVrniC6jPg==,type:str]
 sops:
     kms: []
     gcp_kms: []
     azure_kv: []
     hc_vault: []
     age: []
-    lastmodified: "2021-11-17T23:13:46Z"
-    mac: ENC[AES256_GCM,data:hOSIJNRdMo+VwiYPP1ZK51tkyJioPlFBtfKbVvrLAwRc4nKjqUe9JMXDlv5frm1eveTgHFzkmHGLz02ybGN43IXsmz7amUwyuNsSQ9tE8fTTEqvQtFVhyKCfH70c2CTVniTJYpMCy2MQZLLJ+VM6sMyUbDjMdJ2bB4jh4SBaLNU=,iv:Wx5jvH2tScxdUTbr96t2qZSbGf7YToqsom7EGqw0NsE=,tag:2fZJfPYebo8e6qjp1FDG5Q==,type:str]
+    lastmodified: "2021-11-18T09:07:18Z"
+    mac: ENC[AES256_GCM,data:gNKkioE/LeZI3bBAt9FZXTOs/rwPPEdwd6WQyuumpQO3RD+T0ot7SgKRg4djJDp7sFkDUVE6FGTtQ+FMz4lFN8vFYHcembl2ODcuVOKL2OysRrnY2YcWj5lsBCnQnNomUqNBaP4ijSoyvuC13olRexoBHdiJETj/MaUM8djS3xE=,iv:/FUbScXbD2uLKzkmsYOpFc9EaptvhiyB1o3yRl/hEFs=,tag:+OJIG6cgpFu+AoaJtW26Eg==,type:str]
     pgp:
         - created_at: "2021-11-17T23:11:56Z"
           enc: |
