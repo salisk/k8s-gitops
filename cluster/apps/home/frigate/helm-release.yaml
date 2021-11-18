@@ -106,7 +106,7 @@ spec:
         terrace:
           ffmpeg:
             inputs:
-              - path: rtsp://view:{FRIGATE_RTSP_PASSWORD}@192.168.0.151:554
+              - path: rtsp://view:${FRIGATE_RTSP_PASSWORD}@192.168.0.151:554
                 roles:
                   - rtmp
                   - record
