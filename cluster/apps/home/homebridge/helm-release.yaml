@@ -17,17 +17,17 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
-    image:
-      repository: ghcr.io/oznu/homebridge
-      tag: ubuntu-no-avahi@sha256:63fe56c57d34b8a335c871bbcb661e391517185c91fea21f124290f672a57594
+    # image:
+      # repository: ghcr.io/oznu/homebridge
+      # tag: ubuntu-no-avahi@sha256:63fe56c57d34b8a335c871bbcb661e391517185c91fea21f124290f672a57594
     env:
       TZ: "${TIMEZONE}"
-      PUID: 568
-      PGID: 568
       HOMEBRIDGE_CONFIG_UI: 1
       HOMEBRIDGE_CONFIG_UI_PORT: 8581
     hostNetwork: true
     dnsPolicy: ClusterFirstWithHostNet
+    podSecurityContext:
+      runAsUser: 0
     service:
       main:
         ports:
