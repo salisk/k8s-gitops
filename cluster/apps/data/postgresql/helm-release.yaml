@@ -27,3 +27,6 @@ spec:
     persistence:
       enabled: true
       existingClaim: postgresql-pvc-v1
+    initdbScripts:
+      create-databases.sql: |
+        CREATE DATABASE hass_db;
