@@ -10,8 +10,8 @@ spec:
   chart:
     spec:
       # renovate: registryUrl=https://helm.influxdata.com/
-      chart: influxdb
-      version: 4.10.0
+      chart: influxdb2
+      version: 2.0.1
       sourceRef:
         kind: HelmRepository
         name: influxdata-charts
@@ -21,38 +21,31 @@ spec:
     image:
       repository: "influxdb"
       tag: "2.1.1"
-    service:
-      type: LoadBalancer
-      externalIPs:
-        - ${LB_INFLUXDB_IP}
-      externalTrafficPolicy: Local
+    adminUser:
+      organization: "Home"
+      bucket: "HomeAssistant"
+      user: "${SECRET_INFLUXDB_USERNAME}"
+      retention_policy: "0s"
+      ## Leave empty to generate a random password and token.
+      ## Or fill any of these values to use fixed values.
+      password: "${SECRET_INFLUXDB_PASSWORD}"
+      token: "${SECRET_INFLUXDB_TOKEN}"
+    ingress:
+      enabled: true
+      ingressClassName: "traefik"
+      hostname: influxdb.${SECRET_DOMAIN}
+      annotations:
+        traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+        cert-manager.io/cluster-issuer: "letsencrypt-production"
+      tls: true
+      secretName: influxdb-tls
     persistence:
       enabled: true
-      existingClaim: influxdb-pvc
+      useExisting: true
+      name: influxdb-pvc
     resources:
       requests:
         memory: 500Mi
         cpu: 100m
       limits:
         memory: 3000Mi
-    livenessProbe:
-      timeoutSeconds: 10
-    readinessProbe:
-      timeoutSeconds: 10
-    startupProbe:
-      enabled: true
-      failureThreshold: 10
-      periodSeconds: 10
-    config:
-      opentsdb:
-        enabled: true
-      graphite:
-        enabled: true
-        database: graphitedb
-        retention-policy: ""
-        bind-address: ":2003"
-        protocol: tcp
-        consistency-lvel: one
-        templates:
-          - "*.app env.service.resource.measurement"
-          - "servers.* .host.resource.measurement.field*"
