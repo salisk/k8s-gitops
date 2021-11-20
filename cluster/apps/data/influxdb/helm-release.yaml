@@ -56,9 +56,3 @@ spec:
         templates:
           - "*.app env.service.resource.measurement"
           - "servers.* .host.resource.measurement.field*"
-    nodeSelector:
-      matchExpressions:
-      - key: node-role.kubernetes.io/master
-        operator: NotIn
-        values:
-          - "true"
