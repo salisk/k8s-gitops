@@ -25,3 +25,4 @@ resources:
   - longhorn-charts.yaml
   - mojo2600-charts.yaml
   - emqx-charts.yaml
+  - influxdata-charts.yaml
