@@ -62,7 +62,7 @@ spec:
           - tcp+udp:${GATEWAY_ADDR}
       customDNS:
         mapping:
-          ${SECRET_DOMAIN}: tcp+udp:${METALLB_TRAEFIK_ADDR}
+          ${SECRET_DOMAIN}: ${METALLB_TRAEFIK_ADDR}
       blocking:
         blackLists:
           ads:
