@@ -60,7 +60,7 @@ spec:
       upstream:
         default:
           - tcp+udp:${GATEWAY_ADDR}
-      conditional:
+      customDNS:
         mapping:
           ${SECRET_DOMAIN}: tcp+udp:${METALLB_TRAEFIK_ADDR}
       blocking:
