@@ -97,7 +97,12 @@
       "matchUpdateTypes": ["patch"],
       "labels": ["renovate/helm", "dep/patch"]
     },
-     // enable auto-merge
+    // enable auto-merge
+    {
+      "matchUpdateTypes": ["minor", "patch"],
+      "matchCurrentVersion": "!/^0/",
+      "automerge": true
+    },
     {
       "matchDatasources": ["docker"],
       "automerge": true,
