@@ -4,15 +4,19 @@ metadata:
   name: docker-wyze-bridge
   namespace: home
   annotations:
+    kubernetes.io/ingress.class: traefik 
     traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
     cert-manager.io/cluster-issuer: "letsencrypt-production"
-    kubernetes.io/ingress.class: treafik
 spec:
   rules:
-    - host: wyze.${SECRET_DOMAIN}
+    - host: "wyze.${SECRET_DOMAIN}"
       http:
         paths:
           - backend:
               serviceName: docker-wyze-bridge
               servicePort: 8888
             path: /
+  tls:
+    - secretName: wyze-tls
+      host:
+      - "wyze.${SECRET_DOMAIN}"
