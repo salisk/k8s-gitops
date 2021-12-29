@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: docker-wyze-bridge
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+    cert-manager.io/cluster-issuer: "letsencrypt-production"
+    kubernetes.io/ingress.class: treafik
+spec:
+  rules:
+    - host: wyze.${SECRET_DOMAIN}
+      http:
+        paths:
+          - backend:
+              serviceName: docker-wyze-bridge
+              servicePort: 8888
+            path: /
