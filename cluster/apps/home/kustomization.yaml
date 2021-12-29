@@ -6,4 +6,4 @@ resources:
   - esphome
   - frigate
   - homebridge
-  - wyze-docker-bridge
+  - docker-wyze-bridge
