@@ -126,6 +126,75 @@ spec:
             retain:
               default: 14
         # --
+        front_yard:
+          ffmpeg:
+            inputs:
+              - path: rtsp://docker-wyze-bridge:8554/front-porch-cam
+                roles:
+                  - rtmp
+                  - record
+          rtmp:
+            enabled: True
+          record:
+            enabled: True
+            retain_days: 14
+            events:
+              retain:
+                default: 14
+          detect:
+            enabled: False
+          snapshots:
+            enabled: True
+            timestamp: False
+            retain:
+              default: 14
+        # --
+        study:
+          ffmpeg:
+            inputs:
+              - path: rtsp://docker-wyze-bridge:8554/study
+                roles:
+                  - rtmp
+                  - record
+          rtmp:
+            enabled: True
+          record:
+            enabled: True
+            retain_days: 14
+            events:
+              retain:
+                default: 14
+          detect:
+            enabled: False
+          snapshots:
+            enabled: True
+            timestamp: False
+            retain:
+              default: 14
+        # --
+        living_room:
+          ffmpeg:
+            inputs:
+              - path: rtsp://docker-wyze-bridge:8554/living-room-cam
+                roles:
+                  - rtmp
+                  - record
+          rtmp:
+            enabled: True
+          record:
+            enabled: True
+            retain_days: 14
+            events:
+              retain:
+                default: 14
+          detect:
+            enabled: False
+          snapshots:
+            enabled: True
+            timestamp: False
+            retain:
+              default: 14
+        # --
        
     podAnnotations:
       configmap.reloader.stakater.com/reload: "frigate-config"
