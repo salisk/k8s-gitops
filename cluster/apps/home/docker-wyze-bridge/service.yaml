@@ -15,4 +15,4 @@ spec:
       port: 8554
       targetPort: 8554
   selector:
-    app: docker-wyze-bridge
+    app.kubernetes.io/instance: docker-wyze-bridge
