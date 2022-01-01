@@ -1,0 +1,45 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: mariadb
+  namespace: data
+spec:
+  interval: 10m0s
+  chart:
+    spec:
+      # renovate: registryUrl=https://charts.bitnami.com/bitnami
+      chart: mariadb
+      version: 10.6.5
+      sourceRef:
+        kind: HelmRepository
+        name: bitnami-charts
+        namespace: flux-system
+  values:
+    serviceAccount:
+        create: false
+    primary:
+      extraEnvVars:
+      - name: TZ
+        value: "${TIMEZONE}"
+      persistence:
+        enabled: true
+        existingClaim: mariadb-pvc-v1
+    auth:
+      rootPassword: "${MARIADB_ROOT_PASSWORD}"
+      replicationPassword: "${MARIADB_REPLICATION_PASSWORD}"
+    resources:
+      requests:
+        cpu: 300m
+        memory: 256Mi
+      limits:
+        memory: 512Mi
+    initdbScripts:
+      create-photoprism.sql: |
+        CREATE DATABASE photoprism
+        CHARACTER SET = 'utf8mb4'
+        COLLATE = 'utf8mb4_unicode_ci';
+
+        CREATE USER 'photoprism'@'%' IDENTIFIED BY '${PHOTOPRISM_DB_PASSWORD}';
+        GRANT ALL PRIVILEGES ON photoprism.* to 'photoprism'@'%';
+        FLUSH PRIVILEGES;

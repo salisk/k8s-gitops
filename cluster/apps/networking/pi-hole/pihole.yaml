@@ -38,19 +38,6 @@ spec:
         - secretName: pihole-tls
           hosts:
             - pihole.${SECRET_DOMAIN}
-    topologySpreadConstraints:
-      - maxSkew: 1
-        topologyKey: kubernetes.io/arch
-        whenUnsatisfiable: DoNotSchedule
-        labelSelector:
-          matchLabels:
-            release: pihole
-      - maxSkew: 1
-        topologyKey: kubernetes.io/hostname
-        whenUnsatisfiable: DoNotSchedule
-        labelSelector:
-          matchLabels:
-            release: pihole
     persistentVolumeClaim:
       enabled: true
       existingClaim: pihole-config
