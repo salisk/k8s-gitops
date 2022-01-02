@@ -42,7 +42,7 @@ spec:
         volumeSpec:
           nfs:
             server: "${NAS_ADDR}"
-            path: /mnt/documents/paperless/media
+            path: /volume1/documents/paperless/media
         mountPath: /usr/src/paperless/media
       consume:
         enabled: true
@@ -50,7 +50,7 @@ spec:
         volumeSpec:
           nfs:
             server: "${NAS_ADDR}"
-            path: /mnt/documents/paperless/consume
+            path: /volume1/documents/paperless/consume
         mountPath: /usr/src/paperless/consume
       export:
         enabled: true
@@ -58,7 +58,7 @@ spec:
         volumeSpec:
           nfs:
             server: "${NAS_ADDR}"
-            path: /mnt/documents/paperless/export
+            path: /volume1/documents/paperless/export
         mountPath: /usr/src/paperless/export
     ingress:
       main:
