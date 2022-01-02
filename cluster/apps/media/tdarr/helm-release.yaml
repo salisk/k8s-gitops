@@ -28,8 +28,8 @@ spec:
       webUIPort: 8265
       serverIP: 0.0.0.0
       serverPort: 8266
-      PUID: "1000"
-      PGID: "1000"
+      PUID: "0"
+      PGID: "0"
     podSecurityContext:
       runAsUser: 0
       # Required for passthrough of /dev/dri devices from NFD
