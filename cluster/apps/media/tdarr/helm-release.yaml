@@ -10,7 +10,7 @@ spec:
   suspend: false
   chart:
     spec:
-      # renovate: registryUrl=https://k8s-at-home.com/charts/
+      # renovate: registryUrl=https://k8s-a t-home.com/charts/
       chart: tdarr
       version: 4.2.0
       sourceRef:
@@ -25,8 +25,9 @@ spec:
       pullPolicy: IfNotPresent
     env:
       TZ: "${TIMEZONE}"
+      webUIPort: 8265
       serverIP: 0.0.0.0
-      ffmpegPath: /usr/bin/ffmpeg
+      serverPort: 8266
     podSecurityContext:
       runAsUser: 0
       # Required for passthrough of /dev/dri devices from NFD
