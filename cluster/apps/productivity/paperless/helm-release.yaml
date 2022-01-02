@@ -1,0 +1,83 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: paperless
+  namespace: productivity
+spec:
+  interval: 5m
+  chart:
+    spec:
+      # renovate: registryUrl=https://k8s-at-home.com/charts
+      chart: paperless
+      version: 8.2.1
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home-charts
+        namespace: flux-system
+      interval: 5m
+  # See https://github.com/k8s-at-home/charts/blob/master/charts/paperless/values.yaml
+  values:
+    image:
+      repository: jonaswinkler/paperless-ng
+      tag: 1.5.0
+    env:
+      PAPERLESS_OCR_LANGUAGE: eng+lit
+      PAPERLESS_TIME_ZONE: "${TIMEZONE}"
+      PAPERLESS_CONSUMER_POLLING: "60"
+      PAPERLESS_REDIS: redis://localhost:6379
+      PAPERLESS_DBHOST: postgresql.data.svc
+      PAPERLESS_DBPASS: ${PAPERLESS_DBPASS}
+      PAPERLESS_ADMIN_USER: ${PAPERLESS_ADMIN_USER}
+      PAPERLESS_ADMIN_PASSWORD: ${PAPERLESS_ADMIN_PASSWORD}
+    podSecurityContext:
+      runAsUser: 0
+    persistence:
+      data:
+        enabled: true
+        existingClaim: paperless-config-v1
+      media:
+        enabled: true
+        volumeSpec:
+          nfs:
+            server: "${NAS_ADDR}"
+            path: /mnt/documents/paperless/media
+        mountPath: /usr/src/paperless/media
+      consume:
+        enabled: true
+        type: custom
+        volumeSpec:
+          nfs:
+            server: "${NAS_ADDR}"
+            path: /mnt/documents/paperless/consume
+        mountPath: /usr/src/paperless/consume
+      export:
+        enabled: true
+        type: custom
+        volumeSpec:
+          nfs:
+            server: "${NAS_ADDR}"
+            path: /mnt/documents/paperless/export
+        mountPath: /usr/src/paperless/export
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "traefik"
+        annotations:
+          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+          cert-manager.io/cluster-issuer: "letsencrypt-production"
+          hajimari.io/enable: "true"
+          hajimari.io/icon: "note-multiple"
+        hosts:
+          - host: "paperless.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - secretName: paperless-tls
+            hosts:
+              - "paperless.${SECRET_DOMAIN}"
+    additionalContainers:
+      - name: broker
+        image: redis:6.2
+        imagePullPolicy: IfNotPresent

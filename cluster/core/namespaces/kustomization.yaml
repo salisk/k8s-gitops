@@ -10,3 +10,4 @@ resources:
   - monitoring.yaml
   - data.yaml
   - home.yaml
+  - productivity.yaml

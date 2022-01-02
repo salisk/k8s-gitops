@@ -30,3 +30,7 @@ spec:
     initdbScripts:
       create-databases.sql: |
         CREATE DATABASE hass_db;
+        
+        CREATE DATABASE paperless;
+        CREATE USER paperless with encrypted password '${PAPERLESS_DBPASS}'
+        GRANT ALL privileges on database paperless to paperless;
