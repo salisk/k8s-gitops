@@ -30,8 +30,6 @@ spec:
       PAPERLESS_DBPASS: ${PAPERLESS_DBPASS}
       PAPERLESS_ADMIN_USER: ${PAPERLESS_ADMIN_USER}
       PAPERLESS_ADMIN_PASSWORD: ${PAPERLESS_ADMIN_PASSWORD}
-    podSecurityContext:
-      runAsUser: 0
     persistence:
       data:
         enabled: true
