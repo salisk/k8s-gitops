@@ -32,5 +32,9 @@ spec:
         CREATE DATABASE hass_db;
         
         CREATE DATABASE paperless;
-        CREATE USER paperless with encrypted password '${PAPERLESS_DBPASS}'
+        CREATE USER paperless with encrypted password '${PAPERLESS_DBPASS}';
         GRANT ALL privileges on database paperless to paperless;
+
+        CREATE DATABASE nextcloud;
+        CREATE USER nextcloud with encrypted password '${NEXTCLOUD_DBPASS}';
+        GRANT ALL privileges on database nextcloud to nextcloud;
