@@ -31,12 +31,26 @@ spec:
     persistence:
       enabled: true
       existingClaim: nfs-nextcloud-pvc-v1
+    livenessProbe:
+      enabled: true
+      initialDelaySeconds: 600 # first install is slow in rsync
     metrics:
       enabled: true
     nextcloud:
       host: nextcloud.${SECRET_DOMAIN}
       username: admin
       password: "${NEXTCLOUD_ADMIN_PASSWORD}"
+      phpConfigs:
+        upload.ini: |-
+          upload_max_filesize=10G
+          post_max_size=10G
+          memory_limit=4G
+      configs:
+        https.config.php: |-
+          <?php
+          $CONFIG = array (
+            'overwriteprotocol' => 'https'
+          );
       extraVolumes:
         - name: nfs-photos
           persistentVolumeClaim:
