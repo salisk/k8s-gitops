@@ -31,6 +31,9 @@ spec:
     persistence:
       enabled: true
       existingClaim: nextcloud-config-v1
+      nextcloudData:
+        enabled: true
+        existingClaim: nfs-nextcloud-pvc-v1
     livenessProbe:
       enabled: true
       initialDelaySeconds: 600 # first install is slow in rsync
@@ -55,14 +58,9 @@ spec:
         - name: nfs-photos
           persistentVolumeClaim:
             claimName: nfs-photos-pvc-v1
-        - name: nfs-files
-          persistentVolumeClaim:
-            claimName: nfs-nextcloud-pvc-v1
       extraVolumeMounts:
         - name: nfs-photos
           mountPath: /nfs/photos
-        - name: nfs-files
-          mountPath: /nfs/files
     internalDatabase:
       enabled: false
     externalDatabase:
