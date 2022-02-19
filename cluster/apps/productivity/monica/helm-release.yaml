@@ -30,14 +30,13 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: traefik
+        ingressClassName: "traefik"
         annotations:
           kubernetes.io/ingress.class: traefik
           traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
           cert-manager.io/cluster-issuer: "letsencrypt-production"
           hajimari.io/enable: "true"
           hajimari.io/icon: "card-account-phone"
-          hajimari.io/instance: "external"
         hosts:
           - host: "monica.${SECRET_DOMAIN}"
             paths:
