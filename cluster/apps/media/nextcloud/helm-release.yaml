@@ -30,7 +30,7 @@ spec:
             - "nextcloud.${SECRET_DOMAIN}"
     persistence:
       enabled: true
-      existingClaim: nfs-nextcloud-pvc-v1
+      existingClaim: nfs-nextcloud-pvc-v2
     livenessProbe:
       enabled: true
       initialDelaySeconds: 600 # first install is slow in rsync
