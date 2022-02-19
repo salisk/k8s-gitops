@@ -59,7 +59,10 @@ spec:
       extraVolumeMounts:
         - name: nfs-photos
           mountPath: /nfs/photos
-        
+      extraSecurityContext:
+        runAsUser: "admin"
+        runAsGroup: "users"
+        runAsNonRoot: true
     internalDatabase:
       enabled: false
     externalDatabase:
