@@ -30,7 +30,7 @@ spec:
             - "nextcloud.${SECRET_DOMAIN}"
     persistence:
       enabled: true
-      existingClaim: nfs-nextcloud-pvc-v2
+      existingClaim: nextcloud-config-v1
     livenessProbe:
       enabled: true
       initialDelaySeconds: 600 # first install is slow in rsync
@@ -55,14 +55,14 @@ spec:
         - name: nfs-photos
           persistentVolumeClaim:
             claimName: nfs-photos-pvc-v1
-
+        - name: nfs-files
+          persistentVolumeClaim:
+            claimName: nfs-nextcloud-pvc-v1
       extraVolumeMounts:
         - name: nfs-photos
           mountPath: /nfs/photos
-      extraSecurityContext:
-        runAsUser: "admin"
-        runAsGroup: "users"
-        runAsNonRoot: true
+        - name: nfs-files
+          mountPath: /nfs/files
     internalDatabase:
       enabled: false
     externalDatabase:
