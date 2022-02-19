@@ -43,6 +43,7 @@ spec:
       host: nextcloud.${SECRET_DOMAIN}
       username: "${NEXTCLOUD_ADMIN_USERNAME}"
       password: "${NEXTCLOUD_ADMIN_PASSWORD}"
+      datadir: "/nfs/data"
       phpConfigs:
         upload.ini: |-
           upload_max_filesize=10G
@@ -58,9 +59,14 @@ spec:
         - name: nfs-photos
           persistentVolumeClaim:
             claimName: nfs-photos-pvc-v1
+        - name: nfs-data
+          persistentVolumeClaim:
+            claimName: nfs-nextcloud-pvc-v1
       extraVolumeMounts:
         - name: nfs-photos
           mountPath: /nfs/photos
+        - name: nfs-data
+          mountPath: /nfs/data
     internalDatabase:
       enabled: false
     externalDatabase:
