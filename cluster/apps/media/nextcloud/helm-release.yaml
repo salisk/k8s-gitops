@@ -38,7 +38,7 @@ spec:
       enabled: true
     nextcloud:
       host: nextcloud.${SECRET_DOMAIN}
-      username: admin
+      username: "${NEXTCLOUD_ADMIN_USERNAME}"
       password: "${NEXTCLOUD_ADMIN_PASSWORD}"
       phpConfigs:
         upload.ini: |-
