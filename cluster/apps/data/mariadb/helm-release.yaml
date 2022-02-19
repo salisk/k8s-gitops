@@ -43,3 +43,12 @@ spec:
         CREATE USER 'photoprism'@'%' IDENTIFIED BY '${PHOTOPRISM_DB_PASSWORD}';
         GRANT ALL PRIVILEGES ON photoprism.* to 'photoprism'@'%';
         FLUSH PRIVILEGES;
+
+      create-monica.sql: |
+        CREATE DATABASE monica
+        CHARACTER SET = 'utf8mb4'
+        COLLATE = 'utf8mb4_unicode_ci';
+
+        CREATE USER 'monica'@'%' IDENTIFIED BY '${MONICA_DB_PASSWORD}';
+        GRANT ALL PRIVILEGES ON monica.* to 'monica'@'%';
+        FLUSH PRIVILEGES;
