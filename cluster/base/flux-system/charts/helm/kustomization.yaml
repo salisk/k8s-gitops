@@ -27,3 +27,4 @@ resources:
   - emqx-charts.yaml
   - influxdata-charts.yaml
   - nextcloud-charts.yaml
+  - hashicorp-charts.yaml

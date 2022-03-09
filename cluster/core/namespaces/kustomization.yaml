@@ -11,3 +11,4 @@ resources:
   - data.yaml
   - home.yaml
   - productivity.yaml
+  - vault.yaml
