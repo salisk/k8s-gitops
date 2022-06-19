@@ -1,0 +1,8 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: openssh-server-key
+  namespace: default
+data:
+  host.pem: "${SSH_HOST_KEY}"

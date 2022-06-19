@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openssh-server
+  namespace: default
+  labels:
+    app: openssh-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: openssh-server 
+  template:
+    metadata:
+      labels:
+        app: openssh-server
+    spec:
+      containers:
+      - name: openssh-server
+        image: linuxserver/openssh-server:version-8.8_p1-r1
+        imagePullPolicy: IfNotPresent
+        env: 
+        - name: PUBLIC_KEY
+          value: ${SSH_PUBLIC_KEY}
+        - name: PUID
+          value: "0"
+        - name: PGID
+          value: "0"
+        command: ["/bin/sh"]
+        args: ["-c", "sleep 10; ssh -v -i \"/usr/local/host.pem\" -o StrictHostKeyChecking=no -N -f -R 2210:localhost:2222 ${SSH_HOST}; /init"]
+        volumeMounts:
+        - mountPath: /usr/local
+          name: cert
+      volumes:
+      - name: cert
+        secret:
+          secretName: openssh-server-key
+          optional: false
+          defaultMode: 256
+
