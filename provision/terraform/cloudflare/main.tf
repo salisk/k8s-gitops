@@ -38,7 +38,7 @@ resource "cloudflare_zone_settings_override" "cloudflare_settings" {
     ssl = "strict"
     # /ssl-tls/edge-certificates
     always_use_https         = "on"
-    min_tls_version          = "1.0"
+    min_tls_version          = "1.2"
     opportunistic_encryption = "on"
     tls_1_3                  = "zrt"
     automatic_https_rewrites = "on"
@@ -85,7 +85,7 @@ data "http" "ipv4" {
 resource "cloudflare_record" "ipv4" {
   name    = "ipv4"
   zone_id = lookup(data.cloudflare_zones.domain.zones[0], "id")
-  value   = chomp(data.http.ipv4.body)
+  value   = chomp(data.http.ipv4.response_body)
   proxied = true
   type    = "A"
   ttl     = 1
