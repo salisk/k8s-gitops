@@ -19,7 +19,7 @@ spec:
   values:
     image:
       repository: "influxdb"
-      tag: "2.6.0"
+      tag: "2.6.1"
     adminUser:
       organization: "Home"
       bucket: "HomeAssistant"
