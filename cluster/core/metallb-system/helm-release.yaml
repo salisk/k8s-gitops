@@ -15,15 +15,15 @@ spec:
         kind: HelmRepository
         name: metallb-charts
         namespace: flux-system
-      install:
-        createNamespace: true
-        remediation:
-          retries: 3
-      upgrade:
-        remediation:
-          retries: 3
-      values:
-        crds:
-          enabled: true
-        psp:
-          create: false
+    install:
+      createNamespace: true
+      remediation:
+        retries: 3
+    upgrade:
+      remediation:
+        retries: 3
+    values:
+      crds:
+        enabled: true
+      psp:
+        create: false
