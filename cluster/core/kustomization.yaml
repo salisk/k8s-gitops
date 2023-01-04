@@ -4,7 +4,7 @@ resources:
   - namespaces
   - cert-manager
   - kube-system
-  - metallb-system
+  - metallb
   - system-upgrade
   - longhorn-system
   - intel-gpu-plugin
