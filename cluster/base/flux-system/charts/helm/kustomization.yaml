@@ -11,7 +11,9 @@ resources:
   - infracloudio-charts.yaml
   - jetstack-charts.yaml
   - k8s-at-home-charts.yaml
-  - metallb-charts.yaml
+  - k8s-gateway.yaml
+  - kubernetes-dashboard.yaml
+  - metallb.yaml
   - metrics-server-charts.yaml
   - minecraft-server-charts.yaml
   - minio-charts.yaml
@@ -21,7 +23,7 @@ resources:
   - rook-ceph-charts.yaml
   - stakater-charts.yaml
   - traefik-charts.yaml
-  - weaveworks-kured-charts.yaml
+  - weave-gitops.yaml
   - longhorn-charts.yaml
   - mojo2600-charts.yaml
   - emqx-charts.yaml
