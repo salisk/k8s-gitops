@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - traefik
   - blocky
+  - ./metallb/ks.yaml
