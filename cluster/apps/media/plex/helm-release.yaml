@@ -5,18 +5,33 @@ metadata:
   name: plex
   namespace: media
 spec:
-  interval: 5m
+  interval: 15m
   chart:
     spec:
-      # renovate: registryUrl=https://k8s-at-home.com/charts/
-      chart: plex
-      version: 6.4.3
+      chart: app-template
+      version: 1.2.1
       sourceRef:
         kind: HelmRepository
-        name: k8s-at-home-charts
+        name: bjw-s
         namespace: flux-system
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
   timeout: 10m
   values:
+    controller:
+      type: statefulset
+    image:
+      repository: ghcr.io/onedr0p/plex
+      tag: 1.30.0.6486-629d58034@sha256:b3e3a2a305443f243643553161cff639f3dcc74349595884ac9c77cf6bb24068
     env:
       TZ: "${TIMEZONE}"
     podSecurityContext:
@@ -32,10 +47,11 @@ spec:
         type: LoadBalancer
         annotations:
           metallb.universe.tf/allow-shared-ip: plex
-        loadBalancerIP: ${LB_PLEX_IP}
+        externalIPs: ["${LB_PLEX_IP}"]
         externalTrafficPolicy: Local
-        port:
-          port: 32400
+        ports:
+          http:
+            port: 32400
     ingress:
       main:
         enabled: true
@@ -71,9 +87,16 @@ spec:
         memory: 1000Mi
         gpu.intel.com/i915: 1
       limits:
-        memory: 4000Mi
+        memory: 6000Mi
         gpu.intel.com/i915: 1
     affinity:
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+                - key: app.kubernetes.io/name
+                  operator: In
+                  values: ["frigate"]
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
           nodeSelectorTerms:
