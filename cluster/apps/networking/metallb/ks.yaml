@@ -7,7 +7,7 @@ metadata:
   labels:
     substitution.flux.home.arpa/enabled: "true"
 spec:
-  path: ./cluster/core/metallb/app
+  path: ./cluster/apps/networking/metallb/app
   prune: true
   sourceRef:
     kind: GitRepository
@@ -31,7 +31,7 @@ metadata:
 spec:
   dependsOn:
     - name: cluster-apps-metallb
-  path: ./cluster/core/metallb/config
+  path: ./cluster/apps/networking/metallb/config
   prune: true
   sourceRef:
     kind: GitRepository
