@@ -26,12 +26,20 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    controller:
+      type: statefulset
     image:
       repository: ghcr.io/sct/overseerr
       tag: 1.31.0
     env:
       TZ: "${TIMEZONE}"
       LOG_LEVEL: "info"
+      PORT: &port 80
+    service:
+      main:
+        ports:
+          http:
+            port: *port
     ingress:
       main:
         enabled: true
