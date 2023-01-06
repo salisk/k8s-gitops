@@ -13,8 +13,10 @@ spec:
       http:
         paths:
           - backend:
-              serviceName: docker-wyze-bridge
-              servicePort: 8888
+              service:
+                name: docker-wyze-bridge
+                port:
+                  number: 8888
             path: /
   tls:
     - secretName: wyze-tls
