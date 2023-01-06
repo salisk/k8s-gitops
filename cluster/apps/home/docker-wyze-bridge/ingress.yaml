@@ -18,6 +18,7 @@ spec:
                 port:
                   number: 8888
             path: /
+            pathType: Prefix
   tls:
     - secretName: wyze-tls
       hosts:
