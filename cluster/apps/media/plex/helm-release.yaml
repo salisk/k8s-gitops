@@ -97,6 +97,7 @@ spec:
                 - key: app.kubernetes.io/name
                   operator: In
                   values: ["frigate"]
+            topologyKey: kubernetes.io/hostname
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
           nodeSelectorTerms:
