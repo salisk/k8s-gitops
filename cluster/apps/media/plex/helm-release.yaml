@@ -14,7 +14,7 @@ spec:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
-  maxHistory: 3
+  maxHistory: 5
   install:
     createNamespace: true
     remediation:
@@ -25,7 +25,7 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
-  timeout: 10m
+  timeout: 20m
   values:
     controller:
       type: statefulset
