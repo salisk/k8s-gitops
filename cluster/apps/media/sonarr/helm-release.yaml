@@ -5,23 +5,45 @@ metadata:
   name: sonarr
   namespace: media
 spec:
-  interval: 5m
+  interval: 15m
+  timeout: 15m
   chart:
     spec:
-      # renovate: registryUrl=https://k8s-at-home.com/charts/
-      chart: sonarr
-      version: 16.3.2
+      chart: app-template
+      version: 1.2.1
       sourceRef:
         kind: HelmRepository
-        name: k8s-at-home-charts
+        name: bjw-s
         namespace: flux-system
-      interval: 5m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
   values:
+    controller:
+      type: statefulset
+      annotations:
+        reloader.stakater.com/auto: "true"
     image:
-      repository: ghcr.io/k8s-at-home/sonarr
-      tag: v3.0.9.1549
+      repository: ghcr.io/onedr0p/sonarr-develop
+      tag: 4.0.0.339@sha256:5449ffbd55b2bf34f4133c5a7997690bd495658bc6790300b9eee000614cf881
     env:
       TZ: "${TIMEZONE}"
+      SONARR__INSTANCE_NAME: Sonarr
+      SONARR__PORT: &port 80
+      SONARR__LOG_LEVEL: info
+    service:
+      main:
+        ports:
+          http:
+            port: *port
     ingress:
       main:
         enabled: true
@@ -42,6 +64,8 @@ spec:
             secretName: "sonarr-tls"
     podSecurityContext:
       runAsUser: 0
+      supplementalGroups:
+        - 100
     metrics:
       enabled: true
       serviceMonitor:
