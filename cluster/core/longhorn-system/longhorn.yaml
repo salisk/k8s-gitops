@@ -16,9 +16,9 @@ spec:
         namespace: flux-system
   values:
     persistence:
-      defaultClassReplicaCount: 2
+      defaultClassReplicaCount: 3
     defaultSettings:
-      defaultReplicaCount: 2
+      defaultReplicaCount: 3
       backupTarget: s3://longhorn@minio/backups
       backupTargetCredentialSecret: longhorn-backup-secret
     ingress:
