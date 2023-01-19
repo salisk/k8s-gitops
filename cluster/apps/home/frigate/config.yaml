@@ -1,0 +1,127 @@
+mqtt:
+  host: mosquitto
+  topic_prefix: frigate
+  user: ${SECRET_MQTT_USERNAME}
+  password: ${SECRET_MQTT_PASSWORD}
+
+database:
+  path: /data/frigate.db
+
+# detectors:
+#   coral:
+#     type: edgetpu
+#     device: usb
+
+# Global objects configuration
+# objects:
+#   track:
+#     - person
+#   filters:
+#     person:
+#       min_area: 2500
+#       max_area: 100000
+#       threshold: 0.7
+
+# Global ffmpeg configuration
+ffmpeg:
+  hwaccel_args:
+    - -hwaccel
+    - vaapi
+    - -hwaccel_device
+    - /dev/dri/renderD128
+    - -hwaccel_output_format
+    - yuv420p
+
+  # Specify camera's
+cameras:
+  terrace:
+    ffmpeg:
+      inputs:
+        - path: rtsp://view:${FRIGATE_RTSP_PASSWORD}@192.168.0.151:554
+          roles:
+            - rtmp
+            - record
+    rtmp:
+      enabled: True
+    record:
+      enabled: True
+      retain_days: 14
+      events:
+        retain:
+          default: 14
+    detect:
+      enabled: False
+    snapshots:
+      enabled: True
+      timestamp: False
+      retain:
+        default: 14
+  # --
+  front_yard:
+    ffmpeg:
+      inputs:
+        - path: rtsp://docker-wyze-bridge:8554/front-porch-cam
+          roles:
+            - rtmp
+            - record
+    rtmp:
+      enabled: True
+    record:
+      enabled: True
+      retain_days: 14
+      events:
+        retain:
+          default: 14
+    detect:
+      enabled: False
+    snapshots:
+      enabled: True
+      timestamp: False
+      retain:
+        default: 14
+  # --
+  study:
+    ffmpeg:
+      inputs:
+        - path: rtsp://docker-wyze-bridge:8554/study
+          roles:
+            - rtmp
+            - record
+    rtmp:
+      enabled: True
+    record:
+      enabled: True
+      retain_days: 14
+      events:
+        retain:
+          default: 14
+    detect:
+      enabled: False
+    snapshots:
+      enabled: True
+      timestamp: False
+      retain:
+        default: 14
+  # --
+  living_room:
+    ffmpeg:
+      inputs:
+        - path: rtsp://docker-wyze-bridge:8554/living-room-cam
+          roles:
+            - rtmp
+            - record
+    rtmp:
+      enabled: True
+    record:
+      enabled: True
+      retain_days: 14
+      events:
+        retain:
+          default: 14
+    detect:
+      enabled: False
+    snapshots:
+      enabled: True
+      timestamp: False
+      retain:
+        default: 14

@@ -5,24 +5,58 @@ metadata:
   name: frigate
   namespace: home
 spec:
-  interval: 5m
+  interval: 15m
+  timeout: 15m
   chart:
     spec:
-      # renovate: registryUrl=https://k8s-at-home.com/charts/
-      chart: frigate
-      version: 8.2.2
+      chart: app-template
+      version: 1.2.1
       sourceRef:
         kind: HelmRepository
-        name: k8s-at-home-charts
+        name: bjw-s
         namespace: flux-system
-      interval: 5m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false    
   dependsOn:
     - name: mosquitto
       namespace: home
   values:
+    controller:
+      type: statefulset
+      annotations:
+        reloader.stakater.com/auto: "true"
     image:
-      repository: ghcr.io/k8s-at-home/frigate
-      tag: v0.10.1-amd64
+      repository: ghcr.io/blakeblackshear/frigate
+      tag: 0.12.0-beta4
+    service:
+      main:
+        ports:
+          http:
+            port: &port 5000
+    probes:
+      liveness: &probes
+        enabled: true
+        custom: true
+        spec:
+          httpGet:
+            path: /api/version
+            port: *port
+          initialDelaySeconds: 0
+          periodSeconds: 10
+          timeoutSeconds: 1
+          failureThreshold: 3
+      readiness: *probes
+      startup:
+        enabled: false
     ingress:
       main:
         enabled: true
@@ -44,6 +78,13 @@ spec:
     securityContext:
       privileged: true
     persistence:
+      config:
+        enabled: true
+        type: configMap
+        name: frigate-config
+        subPath: config.yaml
+        mountPath: /config/config.yml
+        readOnly: true
       data:
         enabled: true
         existingClaim: frigate-config-v1
@@ -66,136 +107,6 @@ spec:
         medium: Memory
         sizeLimit: 2Gi
         mountPath: /dev/shm
-    config: |
-      mqtt:
-        host: mosquitto
-        topic_prefix: frigate
-        user: ${SECRET_MQTT_USERNAME}
-        password: ${SECRET_MQTT_PASSWORD}
-
-      database:
-        path: /data/frigate.db
-
-      # detectors:
-      #   coral:
-      #     type: edgetpu
-      #     device: usb
-
-      # Global objects configuration
-      # objects:
-      #   track:
-      #     - person
-      #   filters:
-      #     person:
-      #       min_area: 2500
-      #       max_area: 100000
-      #       threshold: 0.7
-
-      # Global ffmpeg configuration
-      ffmpeg:
-        hwaccel_args:
-          - -hwaccel
-          - vaapi
-          - -hwaccel_device
-          - /dev/dri/renderD128
-          - -hwaccel_output_format
-          - yuv420p
-
-       # Specify camera's
-      cameras:
-        terrace:
-          ffmpeg:
-            inputs:
-              - path: rtsp://view:${FRIGATE_RTSP_PASSWORD}@192.168.0.151:554
-                roles:
-                  - rtmp
-                  - record
-          rtmp:
-            enabled: True
-          record:
-            enabled: True
-            retain_days: 14
-            events:
-              retain:
-                default: 14
-          detect:
-            enabled: False
-          snapshots:
-            enabled: True
-            timestamp: False
-            retain:
-              default: 14
-        # --
-        front_yard:
-          ffmpeg:
-            inputs:
-              - path: rtsp://docker-wyze-bridge:8554/front-porch-cam
-                roles:
-                  - rtmp
-                  - record
-          rtmp:
-            enabled: True
-          record:
-            enabled: True
-            retain_days: 14
-            events:
-              retain:
-                default: 14
-          detect:
-            enabled: False
-          snapshots:
-            enabled: True
-            timestamp: False
-            retain:
-              default: 14
-        # --
-        study:
-          ffmpeg:
-            inputs:
-              - path: rtsp://docker-wyze-bridge:8554/study
-                roles:
-                  - rtmp
-                  - record
-          rtmp:
-            enabled: True
-          record:
-            enabled: True
-            retain_days: 14
-            events:
-              retain:
-                default: 14
-          detect:
-            enabled: False
-          snapshots:
-            enabled: True
-            timestamp: False
-            retain:
-              default: 14
-        # --
-        living_room:
-          ffmpeg:
-            inputs:
-              - path: rtsp://docker-wyze-bridge:8554/living-room-cam
-                roles:
-                  - rtmp
-                  - record
-          rtmp:
-            enabled: True
-          record:
-            enabled: True
-            retain_days: 14
-            events:
-              retain:
-                default: 14
-          detect:
-            enabled: False
-          snapshots:
-            enabled: True
-            timestamp: False
-            retain:
-              default: 14
-        # --
-       
     podAnnotations:
       configmap.reloader.stakater.com/reload: "frigate-config"
     # affinity:
