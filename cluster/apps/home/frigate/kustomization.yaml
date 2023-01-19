@@ -5,7 +5,7 @@ resources:
   - config-pvc.yaml
   - helm-release.yaml
 configMapGenerator:
-  - name: frigate-config
+  - name: frigate-config-map
     files:
       - config.yaml
 generatorOptions:
