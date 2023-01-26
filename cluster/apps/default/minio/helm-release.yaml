@@ -8,9 +8,9 @@ spec:
   interval: 5m
   chart:
     spec:
-      # renovate: registryUrl=https://helm.min.io/
+      # renovate: registryUrl=https://charts.min.io/
       chart: minio
-      version: 8.0.10
+      version: 5.0.4
       sourceRef:
         kind: HelmRepository
         name: minio-charts
@@ -18,19 +18,24 @@ spec:
       interval: 5m
   values:
     image:
-      repository: jessestuart/minio
-      tag: RELEASE.2020-08-08T04-50-06Z
+      repository: quay.io/minio/minio
+      tag: RELEASE.2022-10-24T18-35-07Z
+      pullPolicy: IfNotPresent
     mcImage:
-      repository: jessestuart/mc
-      tag: RELEASE.2020-08-08T02-33-58Z
-    helmKubectlJqImage:
-      repository: drnic/kubectl
-      tag: 1.16
+      repository: quay.io/minio/mc
+      tag: RELEASE.2021-12-29T06-52-55Z
+      pullPolicy: IfNotPresent
+    rootUser: "${MINIO_ROOT_USER}"
+    rootPassword: "${MINIO_ROOT_PASSWORD}"
+    drivesPerNode: 1
+    replicas: 1
+    mode: standalone
     persistence:
       existingClaim: "minio-pvc-v2"
       subPath: "minio"
     ingress:
       enabled: true
+      ingressClassName: traefik
       annotations:
         kubernetes.io/ingress.class: "traefik"
         traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
@@ -38,23 +43,41 @@ spec:
         hajimari.io/enable: "true"
         hajimari.io/icon: "aws"
       hosts: 
-        - "minio.${SECRET_DOMAIN}"
+        - &host-api "s3.${SECRET_DOMAIN}"
       tls:
       - hosts:
-        - minio.${SECRET_DOMAIN}
-        secretName: minio-tls
+        - *host-api 
+        secretName: minio-api-tls
+    consoleIngress:
+      enabled: true
+      ingressClassName: traefik
+      annotations:
+        kubernetes.io/ingress.class: "traefik"
+        traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+        cert-manager.io/cluster-issuer: "letsencrypt-production"
+      path: /
+      hosts:
+        - &host-console "minio.${SECRET_DOMAIN}"
+      tls:
+        - secretName: minio-console-tls
+          hosts:
+            - *host-console
+    users:
+      - accessKey: "${MINIO_ACCESS_KEY}"
+        secretKey: "${MINIO_SECRET_KEY}"
+        policy: readwrite
+    environment:
+      TZ: "${TIMEZONE}"
+      MINIO_UPDATE: "off"
+      MINIO_PROMETHEUS_JOB_ID: "minio"
+      MINIO_PROMETHEUS_URL: "http://thanos-query.monitoring:9090"
+      MINIO_SERVER_URL: "https://s3.${SECRET_DOMAIN}"
     resources:
       requests:
-        memory: 350Mi
-        cpu: 25m
+        memory: 250Mi
+        cpu: 150m
       limits:
-        memory: 1000Mi
-    securityContext:
-      enabled: false
+        memory: 1500Mi
     metrics:
       serviceMonitor:
         enabled: true
-  valuesFrom:
-  - kind: Secret
-    name: "minio-helm-values"
-    optional: false
