@@ -7,14 +7,14 @@ spec:
   capacity:
     storage: 1Mi
   accessModes:
-  - ReadWriteMany
+    - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   nfs:
     server: 192.168.0.180
     path: /volume1/minio
   mountOptions:
-  - mountver=4.1
-  - noatime
+    - nfsvers=4.1
+    - noatime
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
