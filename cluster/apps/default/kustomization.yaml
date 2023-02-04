@@ -4,4 +4,4 @@ resources:
   - hajimari
   - pvc
   - minio
-  - ssh
+  # - ssh
