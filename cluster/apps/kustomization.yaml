@@ -10,4 +10,4 @@ resources:
   - data
   - home
   - productivity
-  - vault
+  # - vault
