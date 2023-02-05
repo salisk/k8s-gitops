@@ -10,11 +10,21 @@ spec:
     spec:
       # renovate: registryUrl=https://charts.bitnami.com/bitnami
       chart: mariadb
-      version: 11.4.3
+      version: 11.4.5
       sourceRef:
         kind: HelmRepository
         name: bitnami-charts
         namespace: flux-system
+    maxHistory: 3
+    install:
+      remediation:
+        retries: 3
+    upgrade:
+      cleanupOnFail: true
+      remediation:
+        retries: 3
+    uninstall:
+      keepHistory: false
   values:
     serviceAccount:
         create: false
@@ -27,28 +37,27 @@ spec:
         existingClaim: mariadb-pvc-v1
     auth:
       rootPassword: "${MARIADB_ROOT_PASSWORD}"
-      replicationPassword: "${MARIADB_REPLICATION_PASSWORD}"
     resources:
       requests:
-        cpu: 300m
+        cpu: 200m
         memory: 256Mi
       limits:
         memory: 512Mi
     initdbScripts:
       create-photoprism.sql: |
-        CREATE DATABASE photoprism
+        CREATE DATABASE IF NOT EXISTS photoprism
         CHARACTER SET = 'utf8mb4'
         COLLATE = 'utf8mb4_unicode_ci';
 
-        CREATE USER 'photoprism'@'%' IDENTIFIED BY '${PHOTOPRISM_DB_PASSWORD}';
+        CREATE USER IF NOT EXISTS 'photoprism'@'%' IDENTIFIED BY '${PHOTOPRISM_DB_PASSWORD}';
         GRANT ALL PRIVILEGES ON photoprism.* to 'photoprism'@'%';
         FLUSH PRIVILEGES;
 
       create-monica.sql: |
-        CREATE DATABASE monica
+        CREATE DATABASE IF NOT EXISTS monica
         CHARACTER SET = 'utf8mb4'
         COLLATE = 'utf8mb4_unicode_ci';
 
-        CREATE USER 'monica'@'%' IDENTIFIED BY '${MONICA_DB_PASSWORD}';
+        CREATE USER IF NOT EXISTS 'monica'@'%' IDENTIFIED BY '${MONICA_DB_PASSWORD}';
         GRANT ALL PRIVILEGES ON monica.* to 'monica'@'%';
         FLUSH PRIVILEGES;
