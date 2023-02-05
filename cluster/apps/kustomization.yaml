@@ -10,4 +10,5 @@ resources:
   - data
   - home
   - productivity
+  - ./cert-manager/ks.yaml
   # - vault
