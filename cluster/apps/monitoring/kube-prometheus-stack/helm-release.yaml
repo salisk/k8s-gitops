@@ -17,134 +17,117 @@ spec:
         namespace: flux-system
       interval: 5m
   timeout: 20m
+  install:
+    crds: CreateReplace
+  upgrade:
+    crds: CreateReplace
   values:
-    fullnameOverride: prometheus
+    server:
+      resources:
+        requests:
+          memory: 500Mi
+          cpu: 25m
+        limits:
+          memory: 2000Mi
+    prometheusOperator:
+      createCustomResource: true
+      admissionWebhooks:
+        enabled: false
+      prometheusConfigReloader:
+        resources:
+          limits:
+            cpu: 200m
     alertmanager:
-      ingress:
-        enabled: true
-        pathType: Prefix
-        ingressClassName: nginx
-        annotations:
-          cert-manager.io/cluster-issuer: "letsencrypt-production"
-        hosts:
-          - "alert-manager.${SECRET_DOMAIN}"
-        tls:
-          - hosts:
-              - "alert-manager.${SECRET_DOMAIN}"
-            secretName: alert-manager-tls
       alertmanagerSpec:
         storage:
           volumeClaimTemplate:
             spec:
-              storageClassName: "longhorn"
+              storageClassName: longhorn
               resources:
                 requests:
-                  storage: 5Gi
+                  storage: 10Gi
+      ingress:
+        enabled: true
+        pathType: ImplementationSpecific
+        ingressClassName: nginx
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt-prod
+        hosts: 
+        - "alertmanager.${SECRET_DOMAIN}"
+        tls:
+        - hosts:
+          - "alertmanager.${SECRET_DOMAIN}"
+          secretName: alertmanager-tls
+      config:
+        global:
+          resolve_timeout: 5m
     nodeExporter:
-      enabled: true
       serviceMonitor:
         relabelings:
-          - action: replace
-            regex: (.*)
-            replacement: $1
-            sourceLabels:
-              - __meta_kubernetes_pod_node_name
-            targetLabel: kubernetes_node
-    kube-state-metrics:
-      fullnameOverride: kube-state-metrics
-    prometheus-node-exporter:
-      fullnameOverride: node-exporter
+        - sourceLabels: [__meta_kubernetes_pod_node_name]
+          targetLabel: instance
+          action: replace
     grafana:
       enabled: false
-      forceDeployDashboards: true
-      sidecar:
-        dashboards:
-          multicluster:
-            etcd:
-              enabled: true
-    kubelet:
-      enabled: true
-      serviceMonitor:
-        metricRelabelings:
-          - action: replace
-            sourceLabels:
-              - node
-            targetLabel: instance
     kubeApiServer:
       enabled: true
+    kubeEtcd:
+      enabled: false
     kubeControllerManager:
-      enabled: true
+      enabled: false
     kubeScheduler:
       enabled: false
     kubeProxy:
       enabled: false
-    kubeEtcd:
-      enabled: false
-    # Setting this option to 0 disabled CPU limits
-    prometheusOperator:
-      configReloaderCpu: 0
+    prometheus-node-exporter:
+      prometheus:
+        monitor:
+          enabled: true
+          relabelings:
+            - action: replace
+              regex: (.*)
+              replacement: $1
+              sourceLabels:
+                - __meta_kubernetes_pod_node_name
+              targetLabel: instance
     prometheus:
       ingress:
         enabled: true
-        pathType: Prefix
+        pathType: ImplementationSpecific
         ingressClassName: nginx
         annotations:
-          cert-manager.io/cluster-issuer: "letsencrypt-production"
+          cert-manager.io/cluster-issuer: letsencrypt-prod
         hosts:
-          - "prometheus.${SECRET_DOMAIN}"
+        - "prometheus.${SECRET_DOMAIN}"
         tls:
-          - hosts:
-              - "prometheus.${SECRET_DOMAIN}"
-            secretName: prometheus-tls
-      thanosService:
-        enabled: true
-      thanosServiceMonitor:
-        enabled: true
+        - hosts:
+          - "prometheus.${SECRET_DOMAIN}"
+          secretName: prometheus-tls
       prometheusSpec:
-        replicas: 1
+        replicas: 2
         replicaExternalLabelName: "replica"
+        ruleSelector: {}
+        ruleNamespaceSelector: {}
         ruleSelectorNilUsesHelmValues: false
+        serviceMonitorSelector: {}
+        serviceMonitorNamespaceSelector: {}
         serviceMonitorSelectorNilUsesHelmValues: false
+        podMonitorSelector: {}
+        podMonitorNamespaceSelector: {}
         podMonitorSelectorNilUsesHelmValues: false
-        probeSelectorNilUsesHelmValues: false
         retention: 6h
         enableAdminAPI: true
         walCompression: true
-        # initContainers:
-        # - name: "init-datapath"
-        #   image: busybox
-        #   command: ["/bin/chmod","-R","777","/data"]
-        #   volumeMounts:
-        #   - name: prometheus-prometheus-db
-        #     mountPath: /data
-        #     subPath: ""
-        # nodeSelector:
-        #   kubernetes.io/arch: amd64
-        affinity:
-          nodeAffinity:
-            preferredDuringSchedulingIgnoredDuringExecution:
-            - preference:
-                matchExpressions:
-                - key: kubernetes.io/arch
-                  operator: In
-                  values:
-                  - amd64
-              weight: 100
-            # requiredDuringSchedulingIgnoredDuringExecution:
-            #   nodeSelectorTerms:
-            #   - matchExpressions:
-            #     - key: kubernetes.io/arch
-            #       operator: In
-            #       values:
-            #       - amd64
         storageSpec:
           volumeClaimTemplate:
             spec:
-              storageClassName: "longhorn"
+              storageClassName: longhorn
               resources:
                 requests:
                   storage: 10Gi
         thanos:
+          image: quay.io/thanos/thanos:v0.30.2@sha256:6b97f63c716781c487da88750850cf5a4e0a1c23af32764e97faefc1383432b1
+          version: v0.17.0
           objectStorageConfig:
-            name: thanos-objstore
-            key: objstore.yml
+            name: thanos
+            key: objstore.yaml
