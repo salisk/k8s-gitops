@@ -5,6 +5,8 @@ metadata:
   name: cluster-apps-ingress-nginx-certificates
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: cluster-apps-cert-manager-issuers
   path: ./cluster/apps/networking/ingress-nginx/certificates
   prune: true
   sourceRef:
