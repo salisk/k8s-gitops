@@ -5,25 +5,32 @@ metadata:
   name: cert-manager
   namespace: cert-manager
 spec:
-  interval: 5m
+  interval: 15m
   chart:
     spec:
-      # renovate: registryUrl=https://charts.jetstack.io/
       chart: cert-manager
       version: v1.11.0
       sourceRef:
         kind: HelmRepository
-        name: jetstack-charts
+        name: jetstack
         namespace: flux-system
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
   values:
     installCRDs: true
-    webhook:
-      enabled: true
     extraArgs:
       - --dns01-recursive-nameservers=1.1.1.1:53,9.9.9.9:53
       - --dns01-recursive-nameservers-only
-    replicaCount: 1
-    podDnsPolicy: "None"
+    podDnsPolicy: None
     podDnsConfig:
       nameservers:
         - "1.1.1.1"
@@ -32,3 +39,4 @@ spec:
       enabled: true
       servicemonitor:
         enabled: true
+        prometheusInstance: monitoring
