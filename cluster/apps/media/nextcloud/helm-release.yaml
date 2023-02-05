@@ -18,10 +18,9 @@ spec:
   values:
     ingress:
       enabled: true
-      className: "traefik"
+      className: nginx
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-production
-        traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
       hosts:
         - "nextcloud.${SECRET_DOMAIN}"
       tls:

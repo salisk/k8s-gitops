@@ -115,9 +115,8 @@ spec:
       enabled: true
     ingress:
       enabled: true
-      ingressClassName: "traefik"
+      ingressClassName: nginx
       annotations:
-        traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
         cert-manager.io/cluster-issuer: "letsencrypt-production"
       hosts:
         - "grafana.${SECRET_DOMAIN}"

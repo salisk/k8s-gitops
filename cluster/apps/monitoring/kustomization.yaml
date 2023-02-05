@@ -7,3 +7,4 @@ resources:
   - speedtest-exporter
   - loki
   - promtail
+  - ./kubernetes-dashboard/ks.yaml

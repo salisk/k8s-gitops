@@ -23,14 +23,11 @@ spec:
       backupTargetCredentialSecret: longhorn-backup-secret
     ingress:
       enabled: true
-      ingressClassName: "traefik"
+      ingressClassName: nginx
       annotations:
         hajimari.io/enable: "true"
         hajimari.io/icon: "server"
         cert-manager.io/cluster-issuer: "letsencrypt-production"
-        traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
-        traefik.ingress.kubernetes.io/router.tls: "true"       
-        traefik.ingress.kubernetes.io/router.middlewares: networking-svc-longhorn-headers@kubernetescrd
       host: "longhorn.${SECRET_DOMAIN}"
       tls: true
       tlsSecret: longhorn-tls

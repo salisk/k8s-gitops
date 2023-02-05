@@ -4,8 +4,7 @@ metadata:
   name: docker-wyze-bridge
   namespace: home
   annotations:
-    kubernetes.io/ingress.class: traefik 
-    traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+    kubernetes.io/ingress.class: nginx 
     cert-manager.io/cluster-issuer: "letsencrypt-production"
 spec:
   rules:

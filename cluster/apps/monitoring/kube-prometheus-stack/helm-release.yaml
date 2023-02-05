@@ -23,9 +23,8 @@ spec:
       ingress:
         enabled: true
         pathType: Prefix
-        ingressClassName: "traefik"
+        ingressClassName: nginx
         annotations:
-          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
           cert-manager.io/cluster-issuer: "letsencrypt-production"
         hosts:
           - "alert-manager.${SECRET_DOMAIN}"
@@ -88,9 +87,8 @@ spec:
       ingress:
         enabled: true
         pathType: Prefix
-        ingressClassName: "traefik"
+        ingressClassName: nginx
         annotations:
-          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
           cert-manager.io/cluster-issuer: "letsencrypt-production"
         hosts:
           - "prometheus.${SECRET_DOMAIN}"

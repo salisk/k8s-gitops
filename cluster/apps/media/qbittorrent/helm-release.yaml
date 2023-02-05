@@ -56,11 +56,10 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: "traefik"
+        ingressClassName: nginx
         annotations:
           hajimari.io/enable: "true"
           hajimari.io/icon: "cloud-download"
-          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
           cert-manager.io/cluster-issuer: "letsencrypt-production"
         hosts:
           - host: "qb.${SECRET_DOMAIN}"

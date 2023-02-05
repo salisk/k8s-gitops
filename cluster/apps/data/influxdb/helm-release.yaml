@@ -31,10 +31,9 @@ spec:
       token: "${SECRET_INFLUXDB_TOKEN}"
     ingress:
       enabled: true
-      ingressClassName: "traefik"
+      ingressClassName: nginx
       hostname: influxdb.${SECRET_DOMAIN}
       annotations:
-        traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
         cert-manager.io/cluster-issuer: "letsencrypt-production"
       tls: true
       secretName: influxdb-tls
