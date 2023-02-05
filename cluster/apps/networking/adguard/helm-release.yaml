@@ -38,7 +38,7 @@ spec:
         type: LoadBalancer
         externalTrafficPolicy: Local
         annotations:
-          metallb.universe.tf/loadBalancerIPs: "${ADGUARD_IP}"
+          metallb.universe.tf/loadBalancerIPs: "${LB_BLOCKY_IP}"
         ports:
           dns-tcp:
             enabled: true
