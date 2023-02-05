@@ -37,8 +37,8 @@ spec:
         enabled: true
         type: LoadBalancer
         externalTrafficPolicy: Local
-        annotations:
-          metallb.universe.tf/loadBalancerIPs: "${LB_BLOCKY_IP}"
+        externalIPs:
+          - "${LB_BLOCKY_IP}"
         ports:
           dns-tcp:
             enabled: true
