@@ -29,7 +29,7 @@ spec:
           memory: 500Mi
           cpu: 25m
         limits:
-          memory: 2000Mi
+          memory: 1500Mi
     prometheusOperator:
       createCustomResource: true
       prometheusConfigReloader:
@@ -60,7 +60,10 @@ spec:
       config:
         global:
           resolve_timeout: 5m
+    kube-state-metrics:
+      fullnameOverride: kube-state-metrics
     nodeExporter:
+      fullnameOverride: node-exporter
       serviceMonitor:
         relabelings:
         - sourceLabels: [__meta_kubernetes_pod_node_name]
@@ -128,5 +131,5 @@ spec:
           image: quay.io/thanos/thanos:v0.30.2@sha256:6b97f63c716781c487da88750850cf5a4e0a1c23af32764e97faefc1383432b1
           version: v0.17.0
           objectStorageConfig:
-            name: thanos
-            key: objstore.yaml
+            name: thanos-objstore
+            key: objstore.yml
