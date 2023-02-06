@@ -35,6 +35,7 @@ spec:
         existingClaim: mariadb-pvc-v1
     auth:
       rootPassword: "${MARIADB_ROOT_PASSWORD}"
+      replicationPassword: "${MARIADB_REPLICATION_PASSWORD}"
     resources:
       requests:
         cpu: 200m
