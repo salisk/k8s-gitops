@@ -16,9 +16,20 @@ spec:
         name: grafana-charts
         namespace: flux-system
       interval: 5m
+  maxHistory: 5
+  install:
+    createNamespace: true
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  timeout: 20m
   values:
-    image:
-      repository: ghcr.io/k8s-at-home/grafana
     replicas: 1
     env:
       GF_EXPLORE_ENABLED: true
@@ -64,12 +75,20 @@ spec:
     datasources:
       datasources.yaml:
         apiVersion: 1
+        # Delete the default Loki that comes OOTB to avoid datasource contention
+        deleteDatasources:
+          - name: Loki
+            orgId: 1
         datasources:
           - name: Prometheus
             type: prometheus
             access: proxy
             url: http://thanos-query:9090/
-            isDefault: true
+            isDefault: false
+          - name: Loki
+            type: loki
+            access: proxy
+            url: http://loki:3100
     dashboards:
       default:
         # Ref: https://grafana.com/grafana/dashboards/13502
@@ -82,11 +101,21 @@ spec:
           gnetId: 13665
           revision: 1
           datasource: Prometheus
+        node-exporter-full:
+          gnetId: 1860
+          revision: 23
+          datasource: Prometheus
+        cert-manager:
+          url: https://gitlab.com/uneeq-oss/cert-manager-mixin/-/raw/master/dashboards/cert-manager.json
+          datasource: Prometheus
         flux-cluster:
           url: https://raw.githubusercontent.com/fluxcd/flux2/main/manifests/monitoring/grafana/dashboards/cluster.json
           datasource: Prometheus
         flux-control-plane:
           url: https://raw.githubusercontent.com/fluxcd/flux2/main/manifests/monitoring/grafana/dashboards/control-plane.json
+          datasource: Prometheus
+        flux-logs:
+          url: https://raw.githubusercontent.com/fluxcd/flux2/main/manifests/monitoring/monitoring-config/dashboards/logs.json
           datasource: Prometheus
         lidarr:
           url: https://raw.githubusercontent.com/k8s-at-home/grafana-dashboards/main/lidarr.json
@@ -96,6 +125,30 @@ spec:
           datasource: Prometheus
         sonarr:
           url: https://raw.githubusercontent.com/k8s-at-home/grafana-dashboards/main/sonarr.json
+          datasource: Prometheus
+        thanos-overview:
+          url: https://raw.githubusercontent.com/thanos-io/thanos/v0.28.0/examples/dashboards/overview.json
+          datasource: Prometheus
+        thanos-compact:
+          url: https://raw.githubusercontent.com/thanos-io/thanos/v0.28.0/examples/dashboards/compact.json
+          datasource: Prometheus
+        thanos-querier:
+          url: https://raw.githubusercontent.com/thanos-io/thanos/v0.28.0/examples/dashboards/query.json
+          datasource: Prometheus
+        thanos-store:
+          url: https://raw.githubusercontent.com/thanos-io/thanos/v0.28.0/examples/dashboards/store.json
+          datasource: Prometheus
+        thanos-receiver:
+          url: https://raw.githubusercontent.com/thanos-io/thanos/v0.28.0/examples/dashboards/receive.json
+          datasource: Prometheus
+        thanos-sidecar:
+          url: https://raw.githubusercontent.com/thanos-io/thanos/v0.28.0/examples/dashboards/sidecar.json
+          datasource: Prometheus
+        thanos-ruler:
+          url: https://raw.githubusercontent.com/thanos-io/thanos/v0.28.0/examples/dashboards/rule.json
+          datasource: Prometheus
+        thanos-replicate:
+          url: https://raw.githubusercontent.com/thanos-io/thanos/v0.28.0/examples/dashboards/bucket-replicate.json
           datasource: Prometheus
     sidecar:
       dashboards:
