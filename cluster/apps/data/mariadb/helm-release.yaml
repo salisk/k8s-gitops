@@ -36,10 +36,14 @@ spec:
       extraVolumes:
       - name: recovery
         persistentVolumeClaim:
-          claimName: mariadb-pvc-v1
+          claimName: mariadb-pvc-v2-recovery
       extraVolumeMounts:
       - mountPath: /bitnami/recovery_database
         name: recovery  
+      readinessProbe:
+        initialDelaySeconds: 90
+        periodSeconds: 30
+        failureThreshold: 10
     auth:
       rootPassword: "${MARIADB_ROOT_PASSWORD}"
       replicationPassword: "${MARIADB_REPLICATION_PASSWORD}"
