@@ -47,6 +47,10 @@ spec:
       limits:
         memory: 512Mi
     initdbScripts:
+      mysql-init.sql: |
+        ALTER USER 'root'@'localhost' IDENTIFIED BY '${MARIADB_ROOT_PASSWORD}';
+        UPDATE mysql.user SET password = PASSWORD('${MARIADB_ROOT_PASSWORD}') WHERE user = 'root';
+        FLUSH PRIVILEGES;
       create-photoprism.sql: |
         CREATE DATABASE IF NOT EXISTS photoprism
         CHARACTER SET = 'utf8mb4'
