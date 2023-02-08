@@ -10,7 +10,7 @@ spec:
     spec:
       # renovate: registryUrl=https://charts.bitnami.com/bitnami
       chart: mariadb
-      version: 11.4.5
+      version: 11.4.6
       sourceRef:
         kind: HelmRepository
         name: bitnami-charts
@@ -32,11 +32,14 @@ spec:
         value: "${TIMEZONE}"
       persistence:
         enabled: true
-        existingClaim: mariadb-pvc-v1
-      livenessProbe:
-        initialDelaySeconds: 600
-        periodSeconds: 60
-        failureThreshold: 10        
+        existingClaim: mariadb-pvc-v2
+      extraVolumes:
+      - name: recovery
+        persistentVolumeClaim:
+          claimName: mariadb-pvc-v1
+      extraVolumeMounts:
+      - mountPath: /bitnami/recovery_database
+        name: recovery  
     auth:
       rootPassword: "${MARIADB_ROOT_PASSWORD}"
       replicationPassword: "${MARIADB_REPLICATION_PASSWORD}"
@@ -47,10 +50,6 @@ spec:
       limits:
         memory: 512Mi
     initdbScripts:
-      mysql-init.sql: |
-        ALTER USER 'root'@'localhost' IDENTIFIED BY '${MARIADB_ROOT_PASSWORD}';
-        UPDATE mysql.user SET password = PASSWORD('${MARIADB_ROOT_PASSWORD}') WHERE user = 'root';
-        FLUSH PRIVILEGES;
       create-photoprism.sql: |
         CREATE DATABASE IF NOT EXISTS photoprism
         CHARACTER SET = 'utf8mb4'
