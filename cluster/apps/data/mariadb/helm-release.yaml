@@ -36,7 +36,7 @@ spec:
       extraVolumes:
       - name: recovery
         persistentVolumeClaim:
-          claimName: mariadb-pvc-v2-recovery
+          claimName: mariadb-pvc-v1
       extraVolumeMounts:
       - mountPath: /bitnami/recovery_database
         name: recovery  

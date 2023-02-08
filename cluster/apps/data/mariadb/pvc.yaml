@@ -15,14 +15,12 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mariadb-pvc-v2-recovery
+  name: mariadb-pvc-v1
   namespace: data
 spec:
   accessModes:
     - ReadWriteMany
   storageClassName: longhorn
-  volumeMode: Filesystem
-  volumeName: pvc-05500475-7cea-4f9c-8d38-595aa5ba224c
   resources:
     requests:
       storage: 50Gi
