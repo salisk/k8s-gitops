@@ -34,11 +34,11 @@ spec:
         enabled: true
         existingClaim: mariadb-pvc-v2 
       readinessProbe:
-        initialDelaySeconds: 180
+        initialDelaySeconds: 1500
         periodSeconds: 45
         failureThreshold: 60
       livelinessProbe:
-        initialDelaySeconds: 120
+        initialDelaySeconds: 1500
         periodSeconds: 30
         failureThreshold: 40
     auth:
@@ -57,7 +57,6 @@ spec:
 
         CREATE USER IF NOT EXISTS 'photoprism'@'%' IDENTIFIED BY '${PHOTOPRISM_DB_PASSWORD}';
         GRANT ALL PRIVILEGES ON photoprism.* to 'photoprism'@'%';
-        FLUSH PRIVILEGES;
 
       create-monica.sql: |
         CREATE DATABASE IF NOT EXISTS monica
@@ -66,4 +65,3 @@ spec:
 
         CREATE USER IF NOT EXISTS 'monica'@'%' IDENTIFIED BY '${MONICA_DB_PASSWORD}';
         GRANT ALL PRIVILEGES ON monica.* to 'monica'@'%';
-        FLUSH PRIVILEGES;
