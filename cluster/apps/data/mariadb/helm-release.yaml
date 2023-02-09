@@ -34,13 +34,13 @@ spec:
         enabled: true
         existingClaim: mariadb-pvc-v2 
       readinessProbe:
-        initialDelaySeconds: 90
-        periodSeconds: 30
-        failureThreshold: 10
+        initialDelaySeconds: 180
+        periodSeconds: 45
+        failureThreshold: 60
       livelinessProbe:
-        initialDelaySeconds: 90
-        periodSeconds: 20
-        failureThreshold: 30
+        initialDelaySeconds: 120
+        periodSeconds: 30
+        failureThreshold: 40
     auth:
       rootPassword: "${MARIADB_ROOT_PASSWORD}"
     resources:
