@@ -32,21 +32,17 @@ spec:
         value: "${TIMEZONE}"
       persistence:
         enabled: true
-        existingClaim: mariadb-pvc-v2
-      extraVolumes:
-      - name: recovery
-        persistentVolumeClaim:
-          claimName: mariadb-pvc-v1
-      extraVolumeMounts:
-      - mountPath: /bitnami/recovery_database
-        name: recovery  
+        existingClaim: mariadb-pvc-v2 
       readinessProbe:
         initialDelaySeconds: 90
         periodSeconds: 30
         failureThreshold: 10
+      livelinessProbe:
+        initialDelaySeconds: 90
+        periodSeconds: 20
+        failureThreshold: 30
     auth:
       rootPassword: "${MARIADB_ROOT_PASSWORD}"
-      replicationPassword: "${MARIADB_REPLICATION_PASSWORD}"
     resources:
       requests:
         cpu: 200m
