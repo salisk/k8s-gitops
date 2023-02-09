@@ -41,6 +41,8 @@ spec:
         initialDelaySeconds: 1500
         periodSeconds: 30
         failureThreshold: 40
+    image:
+      debug: true
     auth:
       rootPassword: "${MARIADB_ROOT_PASSWORD}"
     resources:
