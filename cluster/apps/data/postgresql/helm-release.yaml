@@ -38,3 +38,7 @@ spec:
         CREATE DATABASE IF NOT EXISTS nextcloud;
         CREATE USER IF NOT EXISTS nextcloud with encrypted password '${NEXTCLOUD_DBPASS}';
         GRANT ALL privileges on database nextcloud to nextcloud;
+
+        CREATE DATABASE IF NOT EXISTS immich;
+        CREATE USER IF NOT EXISTS immich with encrypted password '${IMMICH_DB_PASSWORD}';
+        GRANT ALL privileges on database immich to immich;

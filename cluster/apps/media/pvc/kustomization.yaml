@@ -4,3 +4,4 @@ resources:
   - nfs-media.yaml
   - nfs-photos.yaml
   - nfs-nextcloud.yaml
+  - nfs-immich.yaml
