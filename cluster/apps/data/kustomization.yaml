@@ -4,3 +4,4 @@ resources:
   - postgresql
   - influxdb
   - mariadb
+  - ./redis/ks.yaml
