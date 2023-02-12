@@ -29,7 +29,7 @@ spec:
     primary:
       persistence:
         enabled: true
-        existingClaim: postgresql-pvc-v1
+        existingClaim: postgresql-pvc-v2
       initdb:
         scripts:
           create-databases.sql: |
