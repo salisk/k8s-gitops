@@ -22,12 +22,10 @@ spec:
       repository: bitnami/postgresql
       tag: 15.2.0
       pullPolicy: IfNotPresent
-    global:
-      postgresql:
-        auth:
-          postgresPassword: "${SECRET_POSTGRESQL_PASSWORD}"
-          username: ${SECRET_POSTGRESQL_USERNAME}
-          password: ${SECRET_POSTGRESQL_PASSWORD}
+    auth:
+      postgresPassword: "${SECRET_POSTGRESQL_PASSWORD}"
+      username: ${SECRET_POSTGRESQL_USERNAME}
+      password: ${SECRET_POSTGRESQL_PASSWORD}
     persistence:
       enabled: true
       existingClaim: postgresql-pvc-v1
