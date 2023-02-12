@@ -26,10 +26,10 @@ spec:
       postgresPassword: "${SECRET_POSTGRESQL_PASSWORD}"
       username: ${SECRET_POSTGRESQL_USERNAME}
       password: ${SECRET_POSTGRESQL_PASSWORD}
-    persistence:
-      enabled: true
-      existingClaim: postgresql-pvc-v1
     primary:
+      persistence:
+        enabled: true
+        existingClaim: postgresql-pvc-v1
       initdb:
         scripts:
           create-databases.sql: |
