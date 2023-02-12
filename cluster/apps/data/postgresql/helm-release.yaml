@@ -22,23 +22,29 @@ spec:
       repository: bitnami/postgresql
       tag: 15.2.0
       pullPolicy: IfNotPresent
-    postgresqlUsername: ${SECRET_POSTGRESQL_USERNAME}
-    postgresqlPassword: ${SECRET_POSTGRESQL_PASSWORD}
+    global:
+      postgresql:
+        auth:
+          postgresPassword: "${SECRET_POSTGRESQL_PASSWORD}"
+          username: ${SECRET_POSTGRESQL_USERNAME}
+          password: ${SECRET_POSTGRESQL_PASSWORD}
     persistence:
       enabled: true
       existingClaim: postgresql-pvc-v1
-    initdbScripts:
-      create-databases.sql: |
-        CREATE DATABASE IF NOT EXISTS hass_db;
-        
-        CREATE DATABASE IF NOT EXISTS paperless;
-        CREATE USER IF NOT EXISTS paperless with encrypted password '${PAPERLESS_DBPASS}';
-        GRANT ALL privileges on database paperless to paperless;
+    primary:
+      initdb:
+        scripts:
+          create-databases.sql: |
+            CREATE DATABASE IF NOT EXISTS hass_db;
+            
+            CREATE DATABASE IF NOT EXISTS paperless;
+            CREATE USER IF NOT EXISTS paperless with encrypted password '${PAPERLESS_DBPASS}';
+            GRANT ALL privileges on database paperless to paperless;
 
-        CREATE DATABASE IF NOT EXISTS nextcloud;
-        CREATE USER IF NOT EXISTS nextcloud with encrypted password '${NEXTCLOUD_DBPASS}';
-        GRANT ALL privileges on database nextcloud to nextcloud;
+            CREATE DATABASE IF NOT EXISTS nextcloud;
+            CREATE USER IF NOT EXISTS nextcloud with encrypted password '${NEXTCLOUD_DBPASS}';
+            GRANT ALL privileges on database nextcloud to nextcloud;
 
-        CREATE DATABASE IF NOT EXISTS immich;
-        CREATE USER IF NOT EXISTS immich with encrypted password '${IMMICH_DB_PASSWORD}';
-        GRANT ALL privileges on database immich to immich;
+            CREATE DATABASE IF NOT EXISTS immich;
+            CREATE USER IF NOT EXISTS immich with encrypted password '${IMMICH_DB_PASSWORD}';
+            GRANT ALL privileges on database immich to immich;
