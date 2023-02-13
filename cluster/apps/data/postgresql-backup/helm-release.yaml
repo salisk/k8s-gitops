@@ -10,7 +10,7 @@ spec:
     spec:
       # renovate: registryUrl=https://charts.bitnami.com/bitnami
       chart: postgresql
-      version: 10.16.2
+      version: 11.1.15
       sourceRef:
         kind: HelmRepository
         name: bitnami-charts
@@ -22,8 +22,11 @@ spec:
       repository: bitnami/postgresql
       tag: 14.7.0
       pullPolicy: IfNotPresent
-    postgresqlUsername: ${SECRET_POSTGRESQL_USERNAME}
-    postgresqlPassword: ${SECRET_POSTGRESQL_PASSWORD}
-    persistence:
-      enabled: true
-      existingClaim: postgresql-pvc-v1
+    auth:
+      postgresPassword: "${SECRET_POSTGRESQL_PASSWORD}"
+      username: ${SECRET_POSTGRESQL_USERNAME}
+      password: ${SECRET_POSTGRESQL_PASSWORD}
+    primary:
+      persistence:
+        enabled: true
+        existingClaim: postgresql-pvc-v1
