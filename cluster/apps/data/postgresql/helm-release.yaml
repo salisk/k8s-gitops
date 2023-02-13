@@ -33,16 +33,16 @@ spec:
       initdb:
         scripts:
           create-databases.sql: |
-            CREATE DATABASE IF NOT EXISTS hass_db;
+            CREATE DATABASE hass_db;
             
-            CREATE DATABASE IF NOT EXISTS paperless;
-            CREATE USER IF NOT EXISTS paperless with encrypted password '${PAPERLESS_DBPASS}';
+            CREATE DATABASE paperless;
+            CREATE USER paperless with encrypted password '${PAPERLESS_DBPASS}';
             GRANT ALL privileges on database paperless to paperless;
 
-            CREATE DATABASE IF NOT EXISTS nextcloud;
-            CREATE USER IF NOT EXISTS nextcloud with encrypted password '${NEXTCLOUD_DBPASS}';
+            CREATE DATABASE nextcloud;
+            CREATE USER nextcloud with encrypted password '${NEXTCLOUD_DBPASS}';
             GRANT ALL privileges on database nextcloud to nextcloud;
 
-            CREATE DATABASE IF NOT EXISTS immich;
-            CREATE USER IF NOT EXISTS immich with encrypted password '${IMMICH_DB_PASSWORD}';
+            CREATE DATABASE immich;
+            CREATE USER immich with encrypted password '${IMMICH_DB_PASSWORD}';
             GRANT ALL privileges on database immich to immich;
