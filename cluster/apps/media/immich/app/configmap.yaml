@@ -11,7 +11,7 @@ data:
   LOG_LEVEL: verbose
   NODE_ENV: "production"
   # REDIS_HOSTNAME: immich-redis.default.svc.cluster.local
-  REDIS_HOSTNAME: redis-lb.data.svc.cluster.local
+  REDIS_HOSTNAME: redis-server.data.svcl.cluster.local
   REDIS_PORT: "6379"
   REDIS_DBINDEX: "10"
   IMMICH_WEB_URL: http://immich-web.media.svc.cluster.local:3000
