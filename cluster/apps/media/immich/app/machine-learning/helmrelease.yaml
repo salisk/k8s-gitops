@@ -60,6 +60,16 @@ spec:
         labelSelector:
           matchLabels:
             app.kubernetes.io/name: *app
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+              - k8s-3
+              - k8s-4
     resources:
       requests:
         cpu: 100m
