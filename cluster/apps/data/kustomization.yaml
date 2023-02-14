@@ -5,4 +5,4 @@ resources:
   - influxdb
   - mariadb
   - ./redis/ks.yaml
-  - redis-server
+  # - redis-server
