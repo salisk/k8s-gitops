@@ -1,20 +1,113 @@
 ---
+- name: System Configuration | Disable apparmor
+  ansible.builtin.systemd:
+    name: apparmor
+    state: stopped
+    masked: true
+- name: System Configuration | Disable swap
+  ansible.posix.mount:
+    name: "{% raw %}{{ item }}{% endraw %}"
+    fstype: swap
+    state: absent
+  loop: ["none", "swap"]
+- name: System Configuration | Kernel modules (br_netfilter)
+  become: true
+  community.general.modprobe:
+    name: br_netfilter
+    state: present
+- name: System Configuration | Kernel modules (ceph)
+  become: true
+  community.general.modprobe:
+    name: ceph
+    state: present
+- name: System Configuration | Kernel modules (ip_vs)
+  become: true
+  community.general.modprobe:
+    name: ip_vs
+    state: present
+- name: System Configuration | Kernel modules (ip_vs_rr)
+  become: true
+  community.general.modprobe:
+    name: ip_vs_rr
+    state: present
+- name: System Configuration | Kernel modules (nbd)
+  become: true
+  community.general.modprobe:
+    name: nbd
+    state: present
+- name: System Configuration | Kernel modules (overlay)
+  become: true
+  community.general.modprobe:
+    name: overlay
+    state: present
+- name: System Configuration | Kernel modules (rbd)
+  become: true
+  community.general.modprobe:
+    name: rbd
+    state: present
+- name: System Configuration | Kernel modules (br_netfilter)
+  ansible.builtin.copy:
+    dest: "/etc/modules-load.d/br_netfilter.conf"
+    mode: "0644"
+    content: "br_netfilter"
+- name: System Configuration | Kernel modules (ceph)
+  ansible.builtin.copy:
+    dest: "/etc/modules-load.d/br_netfilter.conf"
+    mode: "0644"
+    content: "ceph"
+- name: System Configuration | Kernel modules (ip_vs)
+  ansible.builtin.copy:
+    dest: "/etc/modules-load.d/ip_vs.conf"
+    mode: "0644"
+    content: "ip_vs"
+- name: System Configuration | Kernel modules (ip_vs_rr)
+  ansible.builtin.copy:
+    dest: "/etc/modules-load.d/ip_vs_rr.conf"
+    mode: "0644"
+    content: "ip_vs_rr"
+- name: System Configuration | Kernel modules (nbd)
+  ansible.builtin.copy:
+    dest: "/etc/modules-load.d/nbd.conf"
+    mode: "0644"
+    content: "nbd"
+- name: System Configuration | Kernel modules (overlay)
+  ansible.builtin.copy:
+    dest: "/etc/modules-load.d/overlay.conf"
+    mode: "0644"
+    content: "overlay"
+- name: System Configuration | Kernel modules (rbd)
+  ansible.builtin.copy:
+    dest: "/etc/modules-load.d/rbd.conf"
+    mode: "0644"
+    content: "rbd"
+- name: Update max_user_instances
+  ansible.posix.sysctl:
+    name: fs.inotify.max_user_instances
+    value: "8192"
+    state: present
+    sysctl_file: /etc/sysctl.d/98-kubernetes-fs.conf
 - name: Update max_user_watches
   ansible.posix.sysctl:
     name: fs.inotify.max_user_watches
+    value: "524288"
+    state: present
+    sysctl_file: /etc/sysctl.d/98-kubernetes-fs.conf
+- name: Update max_queued_events
+  ansible.posix.sysctl:
+    name: fs.inotify.max_queued_events
     value: "65536"
     state: present
     sysctl_file: /etc/sysctl.d/98-kubernetes-fs.conf
 
-- name: Disable swap at runtime
-  ansible.builtin.command: swapoff -a
-  when: ansible_swaptotal_mb > 0
+# - name: Disable swap at runtime
+#   ansible.builtin.command: swapoff -a
+#   when: ansible_swaptotal_mb > 0
 
-- name: Disable swap on boot
-  ansible.posix.mount:
-    name: "{{ item }}"
-    fstype: swap
-    state: absent
-  loop:
-    - swap
-    - none
+# - name: Disable swap on boot
+#   ansible.posix.mount:
+#     name: "{{ item }}"
+#     fstype: swap
+#     state: absent
+#   loop:
+#     - swap
+#     - none

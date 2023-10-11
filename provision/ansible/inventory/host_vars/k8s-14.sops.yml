@@ -1,0 +1,35 @@
+kind: Secret
+ansible_user: ENC[AES256_GCM,data:iZFzi3drBA==,iv:W5sMuwV9tgZzUtXYqsKm0FfsBRNJCCk08s3LsSoZXYk=,tag:9kGFeOsOhVltgAQFHNQtkQ==,type:str]
+ansible_become_pass: ENC[AES256_GCM,data:l3EfR2hgKIvpps8=,iv:TSyuVZsIfkS50AMIVbOkex0uYiz7PpYmGTHgTpZhG24=,tag:pnSD1Qth4frgBcDrAk5brw==,type:str]
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age: []
+    lastmodified: "2023-10-04T17:39:45Z"
+    mac: ENC[AES256_GCM,data:tgEBJxWZvh9xyg4WK8eRjHteb/99R7glF5wSJsl8AG9qpowEfRDzErbFZdOkKxIky59VFA9AsEgYkTJAPlo80NjvERNEbVXKqFwuNR3Y+QzuCDLRpf/AlFbW0D7Jd0HVCdc6NtxANq5sLgZGrm/aVpcD6TM/Pdth4RjB/ZPwAaI=,iv:T1zW9XpCqOO2Mu5FCmviRPXDC9Jfb8jp9zuRIHNKQBY=,tag:TGyQJfzKRCrccpsfTe8Kcg==,type:str]
+    pgp:
+        - created_at: "2021-10-11T20:40:24Z"
+          enc: |
+            -----BEGIN PGP MESSAGE-----
+
+            hQIMA7g2VW/AGAKJAQ/9GCAzL/bFlt+o+zNOXVojS/isWRXvABbcphrMABiWkp2F
+            pvBN1slDJjL7c0bp0KQjEn7h7j/TCSCTMcZFL1Go/M27GX3Asa1un7nedum/fvW8
+            lM/1qusAFGel0Ra6jVqkl2iXpePbNBK4EqKPnUGR8c5XMSkaq/RKRTOvSZtqMGjs
+            FzmEuXqs8XL+RreWD3khZojR7W7rcK1Lh70Xt+LjWISvgHs1FjrudrPa5nY+01h9
+            UZjn5/dyvRjNkzS4ILt7KQlbLzniCuHRJbtceT/NhQtW0tek8BQ7GlHX1s8+XqkQ
+            6YNPHp1WgXqiI7LMybMfKag51LpU1h1KAQnkBT4TKRdTXqw2t8/z9OWqSblaifoA
+            vcXEM4Nyi65IlGlPzuu209zoj2ACBlBoPpcLWCiW9PC/oGKmQAG+d2AiSz468RzC
+            3/SVnIIZgKHh0eV23NTv0dG65cM5Yl4nK+w51fzeq029Ms/okCEvpQE3pAzMnHSV
+            yJZ1BE8rKxcAani37uhiUJYDsI7tJ4Rl3unh4KRwMWf1nZMpspDnKFqTkqGVDlZ0
+            MtvXpi86N3A9olZ8n2b8J7v6cYgcgIJBBtPCailJVPBBCjT4SQk+ugbgwMJkUnP4
+            TbI+9gQwWkLIEVi65wTM52bucZcfMEwODa+D8Joy2JbJHMYKJRGP7LtsB+0tw9TU
+            aAEJAhX0pAegOhu1VjChdIEnDXhzg+/FNOhrj2kDzsIyYCJgxOtbBUCPenN3soBd
+            0VuiWQiT0ynq3kHXj02hbFoPO8UI9+57Oa5+vtubbp8zdK8sJYQPpUj3ZpNiuPOg
+            3iqgVi8J/F9c
+            =Jmuc
+            -----END PGP MESSAGE-----
+          fp: 6FC67C6BC892D31B043BF11051128F232821721B
+    unencrypted_regex: ^(kind)$
+    version: 3.8.0

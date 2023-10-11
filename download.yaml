@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dataaccess
+  namespace: data
+spec:
+  containers:
+  - name: alpine
+    image: ubuntu:latest
+    command: ['sleep', 'infinity']
+    volumeMounts:
+    - name: mypvc
+      mountPath: /data
+  volumes:
+  - name: mypvc
+    persistentVolumeClaim:
+      claimName: mariadb-pvc-v2-recovery 
