@@ -30,7 +30,7 @@ spec:
     replicas: 1
     mode: standalone
     persistence:
-      existingClaim: "minio-pvc-v2"
+      existingClaim: "minio-pvc-v3"
       subPath: "minio"
     ingress:
       enabled: true

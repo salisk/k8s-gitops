@@ -59,7 +59,7 @@ spec:
         mountPath: /shared
       media:
         enabled: true
-        existingClaim: nfs-media-pvc-v1
+        existingClaim: nfs-media-pvc-v2
     service:
       main:
         ports:

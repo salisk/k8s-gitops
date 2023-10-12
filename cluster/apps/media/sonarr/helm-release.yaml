@@ -78,7 +78,7 @@ spec:
         existingClaim: sonarr-config-v1
       media:
         enabled: true
-        existingClaim: nfs-media-pvc-v1
+        existingClaim: nfs-media-pvc-v2
     resources:
       requests:
         memory: 250Mi

@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: nfs-media-pv-v1
+  name: nfs-media-pv-v2
 spec:
   storageClassName: media-data
   capacity:
@@ -11,7 +11,7 @@ spec:
   - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   nfs:
-    server: 192.168.30.180
+    server: ${NAS_ADDR}
     path: /volume1/media
   mountOptions:
   - nfsvers=4.1
@@ -20,7 +20,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: nfs-media-pvc-v1
+  name: nfs-media-pvc-v2
   namespace: media
 spec:
   accessModes:

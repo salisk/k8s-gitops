@@ -61,7 +61,7 @@ spec:
         existingClaim: bazarr-config-v2
       media:
         enabled: true
-        existingClaim: nfs-media-pvc-v1
+        existingClaim: nfs-media-pvc-v2
       add-ons:
           enabled: true
           type: emptyDir

@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: minio-pv-v2
+  name: minio-pv-v3
 spec:
   storageClassName: minio-data
   capacity:
@@ -10,7 +10,7 @@ spec:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   nfs:
-    server: 192.168.30.180
+    server: ${NAS_ADDR}
     path: /volume1/minio
   mountOptions:
     - nfsvers=4.1
@@ -19,7 +19,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: minio-pvc-v2
+  name: minio-pvc-v3
   namespace: default
 spec:
   accessModes:

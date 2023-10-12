@@ -79,7 +79,7 @@ spec:
         medium: Memory
       media:
         enabled: true
-        existingClaim: nfs-media-pvc-v1
+        existingClaim: nfs-media-pvc-v2
     resources:
       requests:
         cpu: 1000m
