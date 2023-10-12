@@ -78,7 +78,7 @@ spec:
     persistence:
       library:
         enabled: true
-        existingClaim: nfs-immich-pvc-v1
+        existingClaim: nfs-immich-pvc-v2
         mountPath: /usr/src/app/upload
     topologySpreadConstraints:
       - maxSkew: 1

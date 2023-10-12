@@ -54,10 +54,10 @@ spec:
       extraVolumes:
         - name: nfs-photos
           persistentVolumeClaim:
-            claimName: nfs-photos-pvc-v1
+            claimName: nfs-photos-pvc-v2
         - name: nfs-data
           persistentVolumeClaim:
-            claimName: nfs-nextcloud-pvc-v1
+            claimName: nfs-nextcloud-pvc-v2
       extraVolumeMounts:
         - name: nfs-photos
           mountPath: /nfs/photos

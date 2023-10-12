@@ -62,7 +62,7 @@ spec:
       photos:
         enabled: true
         mountPath: "/photoprism/photos"
-        existingClaim: nfs-photos-pvc-v1
+        existingClaim: nfs-photos-pvc-v2
     service:
       main:
         ports:

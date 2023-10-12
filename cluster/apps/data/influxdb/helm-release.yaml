@@ -40,7 +40,7 @@ spec:
     persistence:
       enabled: true
       useExisting: true
-      name: influxdb-pvc
+      name: influxdb-pvc-v2
     resources:
       requests:
         memory: 500Mi
