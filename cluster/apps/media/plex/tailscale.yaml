@@ -1,8 +1,0 @@
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: tailscale-auth
-  namespace: media
-stringData:
-  TS_AUTH_KEY: ${SECRET_TAILSCALE_AUTH_KEY}

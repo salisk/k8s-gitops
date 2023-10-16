@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.0
+      version: 1.5.1
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -30,8 +30,8 @@ spec:
     controller:
       type: statefulset
     image:
-      repository: ghcr.io/onedr0p/plex
-      tag: 1.32.1.6999-91e1e2e2c@sha256:fa9bbdbd8a73d110c703839619b9e1cc13524187b00662955235c02e07cef50c
+      repository: ghcr.io/onedr0p/plex-beta
+      tag: 1.32.7.7571-13cdc68dc@sha256:59d99221e5560d57ecb1e8550c330bb7dd5ccb77cd0ecab3832125a6608b3207
     env:
       TZ: "${TIMEZONE}"
     podSecurityContext:
@@ -97,11 +97,11 @@ spec:
                   operator: In
                   values: ["frigate"]
             topologyKey: kubernetes.io/hostname
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-          - matchExpressions:
-            - key: node-role.kubernetes.io/master
-              operator: NotIn
-              values:
-                - "true"
+      # nodeAffinity:
+      #   requiredDuringSchedulingIgnoredDuringExecution:
+      #     nodeSelectorTerms:
+      #     - matchExpressions:
+      #       - key: node-role.kubernetes.io/master
+      #         operator: NotIn
+      #         values:
+      #           - "true"
