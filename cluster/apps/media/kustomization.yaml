@@ -3,7 +3,7 @@ kind: Kustomization
 resources:
   - pvc
   - jellyfin
-  - plex
+  - ./plex/ks.yaml
   - qbittorrent
   - bazarr
   - lidarr
