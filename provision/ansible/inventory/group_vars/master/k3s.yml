@@ -36,9 +36,10 @@ k3s_server:
   # Required to monitor kube-controller-manager with kube-prometheus-stack
   kube-controller-manager-arg:
     - "bind-address=0.0.0.0"
-  # Required to monitor kube-proxy with kube-prometheus-stack
-  kube-proxy-arg:
-    - "metrics-bind-address=0.0.0.0"
+  disable-kube-proxy: true            # Cilium uses eBPF
+  # # Required to monitor kube-proxy with kube-prometheus-stack
+  # kube-proxy-arg:
+  #   - "metrics-bind-address=0.0.0.0"
   # Required to monitor kube-scheduler with kube-prometheus-stack
   kube-scheduler-arg:
     - "bind-address=0.0.0.0"
