@@ -32,5 +32,5 @@ resources:
   - influxdata-charts.yaml
   - nextcloud-charts.yaml
   - hashicorp-charts.yaml
-  - cilium.uaml
-  - coredns.uaml
+  - cilium.yaml
+  - coredns.yaml
