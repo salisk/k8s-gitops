@@ -11,6 +11,7 @@ k3s_server:
   tls-san:
     # kube-vip
     - "{{ kubevip_address }}"
+    # - 192.168.30.132
   # Disable Docker - this will use the default containerd CRI
   docker: false
   flannel-backend: "none" # This needs to be in quotes
@@ -24,6 +25,7 @@ k3s_server:
     # Disable metrics-server - installed with Flux
     - metrics-server
     - local-storage                   # Disable local-path-provisioner  - installed with Flux
+    - coredns
   disable-network-policy: true
   disable-cloud-controller: true
   write-kubeconfig-mode: "644"

@@ -14,3 +14,8 @@
     - ssh_authorized_keys is defined
     - ssh_authorized_keys is iterable
     - ssh_authorized_keys | length > 0
+    
+- name: Reboot
+  ansible.builtin.reboot:
+    msg: Rebooting nodes
+    reboot_timeout: 3600

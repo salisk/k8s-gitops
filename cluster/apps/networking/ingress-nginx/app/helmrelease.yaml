@@ -34,6 +34,7 @@ spec:
       service:
         annotations:
           metallb.universe.tf/loadBalancerIPs: "${METALLB_INGRESS_ADDR}"
+          io.cilium/lb-ipam-ips: "${METALLB_INGRESS_ADDR}"
         externalTrafficPolicy: Local
       publishService:
         enabled: true
@@ -46,12 +47,11 @@ spec:
         enable-brotli: "true"
         enable-real-ip: "true"
         forwarded-for-header: "CF-Connecting-IP"
-        hsts-max-age: "31449600"
+        hsts-max-age: 31449600
         keep-alive: 120
         keep-alive-requests: 10000
         proxy-body-size: 0
-        proxy-buffer-size: "16k"
-        ssl-protocols: "TLSv1.3 TLSv1.2"
+        proxy-buffer-size: 16k
         use-forwarded-headers: "true"
         log-format-escape-json: "true"
         log-format-upstream: >-

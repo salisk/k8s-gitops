@@ -3,4 +3,3 @@ kind: Kustomization
 resources:
   - ./ingress-nginx/ks.yaml
   - adguard
-  - ./metallb/ks.yaml

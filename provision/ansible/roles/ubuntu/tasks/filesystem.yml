@@ -98,6 +98,20 @@
     value: "65536"
     state: present
     sysctl_file: /etc/sysctl.d/98-kubernetes-fs.conf
+- name: System Configuration | Grub (1)
+  ansible.builtin.replace:
+    path: /etc/default/grub
+    regexp: '^(GRUB_CMDLINE_LINUX=(?:(?![" ]{{ item.key | regex_escape }}=).)*)(?:[" ]{{ item.key | regex_escape }}=\S+)?(.*")$'
+    replace: '\1 {{ item.key }}={{ item.value }}\2'
+  with_dict: "{{ grub_config }}"
+  vars:
+    grub_config:
+      apparmor: "0"
+      mitigations: "off"
+  register: grub_status
+- name: System Configuration | Grub (2) # noqa: no-changed-when no-handler
+  ansible.builtin.command: update-grub
+  when: grub_status.changed
 
 # - name: Disable swap at runtime
 #   ansible.builtin.command: swapoff -a

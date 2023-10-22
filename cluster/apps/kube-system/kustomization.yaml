@@ -4,3 +4,5 @@ kind: Kustomization
 resources:
   - metrics-server
   - reloader
+  - ./cilium/ks.yaml
+  - ./coredns/ks.yaml
