@@ -48,7 +48,7 @@ spec:
             port: 53
             protocol: UDP
             targetPort: 53
-        externalTrafficPolicy: Local
+        externalTrafficPolicy: Cluster
     metrics:
       enabled: true
       serviceMonitor:

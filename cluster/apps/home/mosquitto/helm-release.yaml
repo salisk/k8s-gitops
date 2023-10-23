@@ -25,7 +25,7 @@ spec:
         type: LoadBalancer
         externalIPs:
           - "${LB_MOSQUITTO_IP}"
-        externalTrafficPolicy: Local
+        externalTrafficPolicy: Cluster
     auth:
       enabled: true
     persistence:

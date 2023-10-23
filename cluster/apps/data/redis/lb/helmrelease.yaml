@@ -39,7 +39,7 @@ spec:
         annotations:
           coredns.io/hostname: redis.${SECRET_DOMAIN}
         externalIPs: ["${LB_REDIS_IP}"]
-        externalTrafficPolicy: Local
+        externalTrafficPolicy: Cluster
         ports:
           http:
             port: 8080

@@ -49,7 +49,7 @@ spec:
           metallb.universe.tf/allow-shared-ip: plex
           io.cilium/lb-ipam-ips: "${LB_PLEX_IP}"
         externalIPs: ["${LB_PLEX_IP}"]
-        externalTrafficPolicy: Local
+        externalTrafficPolicy: Cluster
         ports:
           http:
             port: 32400

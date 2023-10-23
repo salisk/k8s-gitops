@@ -43,7 +43,7 @@ spec:
       dns:
         enabled: true
         type: LoadBalancer
-        externalTrafficPolicy: Local
+        externalTrafficPolicy: Cluster
         externalIPs:
           - "${LB_BLOCKY_IP}"
         ports:

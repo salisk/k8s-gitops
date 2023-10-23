@@ -31,7 +31,7 @@ spec:
       main:
         type: LoadBalancer
         loadBalancerIP: ${LB_JELLYFIN_IP}
-        externalTrafficPolicy: Local
+        externalTrafficPolicy: Cluster
     ingress:
       main:
         enabled: true

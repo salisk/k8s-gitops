@@ -35,7 +35,7 @@ spec:
         type: LoadBalancer
         externalIPs:
           - "${LB_HOME_ASSISTANT_IP}"
-        externalTrafficPolicy: Local
+        externalTrafficPolicy: Cluster
     ingress:
       main:
         enabled: true
