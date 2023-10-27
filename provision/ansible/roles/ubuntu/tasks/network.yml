@@ -37,6 +37,22 @@
     state: absent
     path: /etc/sysctl.d/99-kubernetes-cri.conf
 
+- name: Delete calico cilium config
+  ansible.builtin.file:
+    state: absent
+    path: /etc/cni/net.d/10-calico.conflist.cilium_bak
+
+- name: Delete calico config
+  ansible.builtin.file:
+    state: absent
+    path: /etc/cni/net.d/calico-kubeconfig
+
+- name: Flush remaining calico iptables
+  ansible.builtin.command: bash -c "iptables-save | grep -i 'cali' | iptables -F"
+
+- name: Delete remaining calico iptables
+  ansible.builtin.command: bash -c "iptables-save | grep -i 'cali' | iptables -X"
+
 # - name: Check for bridge-nf-call-iptables
 #   ansible.builtin.stat:
 #     path: /proc/sys/net/bridge/bridge-nf-call-iptables
