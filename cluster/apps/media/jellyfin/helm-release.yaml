@@ -68,8 +68,6 @@ spec:
                 memory: 4Gi
         pod:
           enableServiceLinks: false
-          nodeSelector:
-            intel.feature.node.kubernetes.io/gpu: "true"
           securityContext:
             runAsUser: 568
             runAsGroup: 568
