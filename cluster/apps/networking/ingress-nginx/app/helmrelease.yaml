@@ -33,7 +33,7 @@ spec:
           value: "${TIMEZONE}"
       service:
         annotations:
-          metallb.universe.tf/loadBalancerIPs: "${METALLB_INGRESS_ADDR}"
+          # metallb.universe.tf/loadBalancerIPs: "${METALLB_INGRESS_ADDR}"
           io.cilium/lb-ipam-ips: "${METALLB_INGRESS_ADDR}"
         externalTrafficPolicy: Cluster
       publishService:
