@@ -34,6 +34,12 @@ tasks:
     cmds:
       - "ansible-playbook -i {{.ANSIBLE_INVENTORY_DIR}}/hosts.yml {{.ANSIBLE_PLAYBOOK_DIR}}/ubuntu-upgrade.yml"
 
+  playbook:ubuntu-info:
+    desc: List information about the hosts
+    dir: provision/ansible
+    cmds:
+      - "ansible-playbook -i {{.ANSIBLE_INVENTORY_DIR}}/hosts.yml {{.ANSIBLE_PLAYBOOK_DIR}}/ubuntu-info.yml"
+
   playbook:k3s-install:
     desc: Install Kubernetes on the nodes
     dir: provision/ansible

@@ -1,0 +1,15 @@
+---
+- hosts:
+    - master
+    - worker
+  become: true
+  gather_facts: true
+  any_errors_fatal: true
+  tasks:
+    - name: Get network interface information
+      setup:
+      register: network_facts
+
+    - name: Print network interfaces
+      debug:
+        var: network_facts.ansible_facts.ansible_interfaces
