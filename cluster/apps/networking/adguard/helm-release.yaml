@@ -42,10 +42,10 @@ spec:
             port: 3000
       dns:
         enabled: true
+        annotations:
+          io.cilium/lb-ipam-ips: ${LB_BLOCKY_IP}
         type: LoadBalancer
         externalTrafficPolicy: Cluster
-        externalIPs:
-          - "${LB_BLOCKY_IP}"
         ports:
           dns-tcp:
             enabled: true
