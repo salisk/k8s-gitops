@@ -41,7 +41,7 @@ spec:
             port: &api-port 9000
     args:
       - server
-      - /data
+      - /data/minio
       - --console-address
       - :9001
     env:
