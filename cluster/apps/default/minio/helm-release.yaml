@@ -54,8 +54,10 @@ spec:
       MINIO_PROMETHEUS_AUTH_TYPE: public
       MINIO_API_CORS_ALLOW_ORIGIN: https://minio.${SECRET_DOMAIN},https://s3.${SECRET_DOMAIN}
     persistence:
-      existingClaim: "minio-pvc-v3"
-      subPath: "minio"
+      config:
+        enabled: true
+        existingClaim: "minio-pvc-v3"
+        mountPath: /data
     ingress:
       main:
         enabled: true
