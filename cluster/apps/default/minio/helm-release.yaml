@@ -53,6 +53,8 @@ spec:
       MINIO_PROMETHEUS_URL: "http://thanos-query.monitoring:9090"
       MINIO_PROMETHEUS_AUTH_TYPE: public
       MINIO_API_CORS_ALLOW_ORIGIN: https://minio.${SECRET_DOMAIN},https://s3.${SECRET_DOMAIN}
+      MINIO_ROOT_USER: ${MINIO_ACCESS_KEY}
+      MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY}
     persistence:
       config:
         enabled: true
