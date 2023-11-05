@@ -6,3 +6,4 @@ resources:
   - mariadb
   - ./redis/ks.yaml
   # - redis-server
+  - ./cloudnative-pg/ks.yaml

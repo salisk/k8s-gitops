@@ -34,3 +34,4 @@ resources:
   - hashicorp-charts.yaml
   - cilium.yaml
   - coredns.yaml
+  - cloudnative-pg.yaml
