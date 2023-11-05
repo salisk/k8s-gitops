@@ -6,7 +6,7 @@ metadata:
   name: cluster-apps-cloudnative-pg
   namespace: flux-system
 spec:
-  path: ./cluster/apps/database/cloudnative-pg/app
+  path: ./cluster/apps/data/cloudnative-pg/app
   prune: true
   sourceRef:
     kind: GitRepository
@@ -36,7 +36,7 @@ metadata:
 spec:
   dependsOn:
     - name: cluster-apps-cloudnative-pg
-  path: ./cluster/apps/database/cloudnative-pg/cluster
+  path: ./cluster/apps/data/cloudnative-pg/cluster
   prune: true
   sourceRef:
     kind: GitRepository
