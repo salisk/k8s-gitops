@@ -5,12 +5,12 @@ metadata:
   name: qbittorrent
   namespace: media
 spec:
-  interval: 15m
+  interval: 30m
   timeout: 15m
   chart:
     spec:
       chart: app-template
-      version: 1.2.1
+      version: 2.0.3
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -27,36 +27,60 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    controller:
-      type: statefulset
-    image:
-      repository: ghcr.io/onedr0p/qbittorrent
-      tag: 4.5.5@sha256:30dffe7ad04ea0e39db0b50c0bd5e79362f99f7ff6b250526d2f389b58d96f14
-    env:
-      TZ: "${TIMEZONE}"
-      QBITTORRENT__PORT: &port 80
-      QBITTORRENT__BT_PORT: &port-bt 50413
+    controllers:
+      main:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          main:
+            image:
+              repository: ghcr.io/onedr0p/qbittorrent
+              tag: 4.6.0@sha256:cb6259df3be61a5108bc4f85b09a523fc4b250589ca9b315ef927cbdf779afb6
+            env:
+              TZ: "${TIMEZONE}"
+              QBITTORRENT__PORT: &port 80
+              QBITTORRENT__BT_PORT: &port-bt 50413
+              QBT_Preferences__WebUI__AlternativeUIEnabled: false
+              QBT_Preferences__WebUI__AuthSubnetWhitelistEnabled: true
+              QBT_Preferences__WebUI__AuthSubnetWhitelist: 10.32.0.0/16
+              QBT_Preferences__WebUI__LocalHostAuth: false
+              QBT_BitTorrent__Session__Interface: eth0
+              QBT_BitTorrent__Session__InterfaceAddress:
+                valueFrom:
+                  fieldRef:
+                    fieldPath: status.podIP
+              QBT_BitTorrent__Session__InterfaceName: eth0
+            resources:
+              requests:
+                cpu: 200m
+                memory: 2Gi
+              limits:
+                memory: 8Gi
+        pod:
+          securityContext:
+            runAsUser: 0
+            supplementalGroups: [100,10000]
     service:
       main:
         ports:
           http:
             port: *port
       bittorrent:
+        controller: main
         enabled: true
         type: LoadBalancer
-        externalIPs:
-          - "${LB_QBITTORRENT_IP}"
+        annotations:
+          io.cilium/lb-ipam-ips: "${LB_QBITTORRENT_IP}"
         ports:
           bittorrent:
             enabled: true
             port: *port-bt
             protocol: TCP
-            targetPort: *port-bt
         externalTrafficPolicy: Cluster
     ingress:
       main:
         enabled: true
-        ingressClassName: nginx
+        className: nginx
         annotations:
           hajimari.io/enable: "true"
           hajimari.io/icon: "cloud-download"
@@ -65,41 +89,15 @@ spec:
           - host: "qb.${SECRET_DOMAIN}"
             paths:
               - path: /
-                pathType: Prefix
+                service:
+                  name: main
+                  port: http
         tls:
           - hosts:
               - "qb.${SECRET_DOMAIN}"
-            secretName: "qb-tls"
-    metrics:
-      enabled: true
-      exporter:
-        image:
-          repository: ghcr.io/k8s-at-home/prometheus-qbittorrent-exporter
-          tag: v1.2.0
-      serviceMonitor:
-        interval: 1m
-        scrapeTimeout: 10s
-      prometheusRule:
-        enabled: true
-    podSecurityContext:
-      runAsUser: 0
-      supplementalGroups:
-        - 100
     persistence:
       config:
         enabled: true
         existingClaim: qbittorrent-config-v1
       media:
-        enabled: true
-        type: custom
-        volumeSpec:
-          nfs:
-            server: "${NAS_ADDR}"
-            path: /volume1/media
-        mountPath: /media
-    resources:
-      requests:
-        memory: 250Mi
-        cpu: 100m
-      limits:
-        memory: 4000Mi
+        existingClaim: nfs-media-pvc-v2
