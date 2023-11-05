@@ -31,15 +31,15 @@ spec:
       main:
         annotations:
           reloader.stakater.com/auto: "true"
-        # initContainers:
-        #   init-db:
-        #     image:
-        #       repository: ghcr.io/onedr0p/postgres-init
-        #       tag: 14.9
-        #       pullPolicy: IfNotPresent
-        #     envFrom: &envFrom
-        #       - secretRef:
-        #           name: radarr-secret
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/onedr0p/postgres-init
+              tag: 14.9
+              pullPolicy: IfNotPresent
+            envFrom: &envFrom
+              - secretRef:
+                  name: radarr-secret
         containers:
           main:
             image:
@@ -54,7 +54,7 @@ spec:
               RADARR__APPLICATION_URL: "https://{{ .Release.Name }}.${SECRET_DOMAIN}"
               RADARR__LOG_LEVEL: info
               RADARR__THEME: dark
-            # envFrom: *envFrom
+            envFrom: *envFrom
             probes:
               liveness: &probes
                 enabled: true
