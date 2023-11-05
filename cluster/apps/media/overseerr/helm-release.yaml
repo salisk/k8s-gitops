@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.2.1
+      version: 2.0.3
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -27,15 +27,25 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    controller:
-      type: statefulset
-    image:
-      repository: ghcr.io/sct/overseerr
-      tag: 1.32.5
-    env:
-      TZ: "${TIMEZONE}"
-      LOG_LEVEL: "info"
-      PORT: &port 80
+    controllers:
+      main:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          main:
+            image:
+              repository: ghcr.io/sct/overseerr
+              tag: 1.33.2
+            env:
+              TZ: "${TIMEZONE}"
+              LOG_LEVEL: "info"
+              PORT: &port 80
+            resources:
+              requests:
+                cpu: 100m
+                memory: 256Mi
+              limits:
+                memory: 2Gi
     service:
       main:
         ports:
@@ -50,22 +60,17 @@ spec:
           hajimari.io/icon: "eye-circle"
           cert-manager.io/cluster-issuer: "letsencrypt-production"
         hosts:
-          - host: "requests.${SECRET_DOMAIN}"
+          - host: &host requests.${SECRET_DOMAIN}
             paths:
               - path: /
-                pathType: Prefix
+                service:
+                  name: main
+                  port: http
         tls:
           - hosts:
-              - "requests.${SECRET_DOMAIN}"
-            secretName: "requests-tls"
+              - *host
     persistence:
       config:
         enabled: true
         existingClaim: overseerr-config-v1
         mountPath: /app/config
-    resources:
-      requests:
-        memory: 250Mi
-        cpu: 250m
-      limits:
-        memory: 750Mi
