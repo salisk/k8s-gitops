@@ -54,7 +54,7 @@ spec:
               RADARR__APPLICATION_URL: "https://{{ .Release.Name }}.${SECRET_DOMAIN}"
               RADARR__LOG_LEVEL: info
               RADARR__THEME: dark
-            envFrom: *envFrom
+            # envFrom: *envFrom
             probes:
               liveness: &probes
                 enabled: true
