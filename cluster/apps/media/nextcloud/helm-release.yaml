@@ -68,7 +68,7 @@ spec:
     externalDatabase:
       enabled: true
       type: postgresql
-      host: postgresql.data.svc
+      host: postgres-rw.data.svc.cluster.local:5432
       user: nextcloud
       password: "${NEXTCLOUD_DBPASS}"
     resources:

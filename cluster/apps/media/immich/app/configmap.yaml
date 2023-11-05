@@ -19,7 +19,7 @@ data:
   IMMICH_MACHINE_LEARNING_URL: http://immich-machine-learning.media.svc.cluster.local:3003
    # Immich
   DB_DATABASE_NAME: immich
-  DB_HOSTNAME: postgresql.data.svc
+  DB_HOSTNAME: postgres-rw.data.svc.cluster.local:5432
   DB_PASSWORD: "${IMMICH_DB_PASSWORD}"
   DB_USERNAME: immich
   JWT_SECRET: "${IMMICH_JWT_SECRET}"

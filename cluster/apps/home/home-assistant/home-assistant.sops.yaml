@@ -10,7 +10,7 @@ stringData:
     HASS_LONGITUDE: ENC[AES256_GCM,data:MJLXME+jXxuK,iv:IRiLFFFV7UjPT86AeQlId7ykncTcpmntaUcxlqyKHrc=,tag:gN3J+JI2Lx+0EcebpKy/7w==,type:str]
     HASS_EXTERNAL_URL: ENC[AES256_GCM,data:2NIID3eoPMgvNI3n9v2apm0mBdTHp9P5tA==,iv:D+QrJ4tYoxvCdTTjgAKFrmaJxSmylljUsnSo2iBbquQ=,tag:+hYgrB/XCVQa1UMfGeygZQ==,type:str]
     HASS_INTERNAL_URL: ENC[AES256_GCM,data:CJDjDoOmUbX1piaa+I1sAFTAKcE5oHbWUA==,iv:EUmyMEHQyAZlfCNZRrcxlPzm8fLwZ8TzwetOf6QzcV8=,tag:wscHkmp4Y+SjjvtA/fCntg==,type:str]
-    HASS_POSTGRES_CONNECTION_STRING: ENC[AES256_GCM,data:fTgi1mq2kkMcVxMhIiT5lQSjgAdyDgZ4+xh5msQImUEuA8QZc2behj04rKI8hhp9dMw859zPPFyJmHj1d1DzRg==,iv:WlTZy4ctGvAFV8L89kLxn4qsUs5U66EE5D55MDKrktM=,tag:9QIpv7XNnv/Za/dPvbpyPQ==,type:str]
+    HASS_POSTGRES_CONNECTION_STRING: ENC[AES256_GCM,data:eXqyP1kkiuYy1EULnJoppYHd5X4OTOE9bl3SODW04cZShzAKytKw6haRs+wto2x+Wx/rsko2xPE4tnFEFVbQu/Yht+7ELggmxO5xZ+R18ZreNm9q5OCk,iv:YnnEI3AHF9bb+bsuC/K20Xuuso0IAe/tLOnkLp5Aqjw=,tag:NxePJst1VHOrm5qQuw/LJg==,type:str]
     HASS_MQTT_USERNAME: ENC[AES256_GCM,data:uaNEkllCggc=,iv:ViWm+lYqjlERweyvRMDEpiHDw6zjS76ewxZ1Y1f7980=,tag:ucw3va8e/dU0E6l82Niw8Q==,type:str]
     HASS_MQTT_PASSWORD: ENC[AES256_GCM,data:TWorjtXbtHD/OUS7yvE=,iv:XVnw+0kugblM8foxtZOA/2flJM+7RH0fLRdWuhJqzxg=,tag:/VnDhCX7Wcf4hzLz4/cS6g==,type:str]
     HASS_INFLUXDB_TOKEN: ENC[AES256_GCM,data:YY1pHe/pkQiR62Vg9LpbMCAAUR6+yDVq48pWb+rb+c3+wvHyZhdbzLBrj6sAZ0sNhJ7OyT+LvHqSTthfOrJSA4DJv0OxnRvBSEE+4pgrgRjAUb4K6TSE7g==,iv:9zPXvg/IRaMUUg11iUrUqi52wvcrQcDetjt/K0yOiII=,tag:ZEqMMjJhexbrotm4y+H2bg==,type:str]
@@ -20,8 +20,8 @@ sops:
     azure_kv: []
     hc_vault: []
     age: []
-    lastmodified: "2021-11-20T13:34:27Z"
-    mac: ENC[AES256_GCM,data:M0iA2xsfKeAVKOhpVeF6uyRAjVTQNamQcixYsRw3vBr1WKNoJ5pTlgqb02JJgg73Ew0zwj5cEmjMmx6+xL9ASaaLg3v4fTR1sLwOu8HwEkmAYsFgS7RYVhQEviCMnZlgPRe2pLuP4OeJd1pQeVfRQ0x2xarLutSHNIc1khhrKOA=,iv:RE8qzfnWlK6QpSBnXtQ2AT9bPuAH5av9PxiH5VXYkq4=,tag:+ABg7GxGKiJMh1baK7A4zg==,type:str]
+    lastmodified: "2023-11-05T15:18:51Z"
+    mac: ENC[AES256_GCM,data:bRZpKpm4MPUUWrWXiE7X1YEQl//ME9dEmbg2YNaXROQptvJJ+2gm7QMEJMSvTLsXTkc++RQDR+UayIJjuIS6WgFWq7fbRDjONJxmX7Qn2hrhnMujIOOEgOq1mNXbeN9p+0yIBzJKHlCY19MO+GM/oR339/3LkFqxhoETgPqY1sM=,iv:Gve+iDeZRWTJktEbjEfChY6a9C5lXEBUtibtDScBnlQ=,tag:8dNvrmkFnzVFV8Pc8ZHkbw==,type:str]
     pgp:
         - created_at: "2021-11-17T23:11:56Z"
           enc: |
@@ -66,4 +66,4 @@ sops:
             -----END PGP MESSAGE-----
           fp: 6FC67C6BC892D31B043BF11051128F232821721B
     encrypted_regex: ^(data|stringData)$
-    version: 3.7.1
+    version: 3.8.0
