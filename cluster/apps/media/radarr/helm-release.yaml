@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.2.1
+      version: 2.0.3
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -27,19 +27,61 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    controller:
-      type: statefulset
-      annotations:
-        reloader.stakater.com/auto: "true"
-    image:
-      repository: ghcr.io/onedr0p/radarr-develop
-      tag: 4.4.2.6956@sha256:f7b154a592d65d18170a329ff630b9447fd538158ec95bce8ce9a8d77e1d4941
-    env:
-      TZ: "${TIMEZONE}"
-      RADARR__INSTANCE_NAME: Radarr
-      RADARR__PORT: &port 80
-      RADARR__APPLICATION_URL: "https://{{ .Release.Name }}.${SECRET_DOMAIN}"
-      RADARR__LOG_LEVEL: info
+    controllers:
+      main:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/onedr0p/postgres-init
+              tag: 14.9
+              pullPolicy: IfNotPresent
+            envFrom: &envFrom
+              - secretRef:
+                  name: radarr-secret
+        containers:
+          main:
+            image:
+              repository: ghcr.io/onedr0p/radarr-develop
+              tag: 5.1.2.8207@sha256:7e026aae3fa4ac9d4066a0533fdbfaa35a0ccdc41033bc4f2460aa9401ecfb46
+            env:
+              TZ: "${TIMEZONE}"
+              RADARR__INSTANCE_NAME: Radarr
+              RADARR__AUTHENTICATION_METHOD: External
+              RADARR__AUTHENTICATION_REQUIRED: DisabledForLocalAddresses
+              RADARR__PORT: &port 80
+              RADARR__APPLICATION_URL: "https://{{ .Release.Name }}.${SECRET_DOMAIN}"
+              RADARR__LOG_LEVEL: info
+              RADARR__THEME: dark
+            envFrom: *envFrom
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /ping
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: false
+            resources:
+              requests:
+                cpu: 10m
+                memory: 256M
+              limits:
+                memory: 1Gi
+        pod:
+          securityContext:
+            runAsUser: 0
+            supplementalGroups:
+              - 100
+              - 10000
     service:
       main:
         ports:
@@ -62,17 +104,6 @@ spec:
           - hosts:
               - "radarr.${SECRET_DOMAIN}"
             secretName: "radarr-tls"
-    podSecurityContext:
-      runAsUser: 0
-      supplementalGroups:
-        - 100
-    metrics:
-      enabled: true
-      serviceMonitor:
-        interval: 3m
-        scrapeTimeout: 1m
-      prometheusRule:
-        enabled: true
     persistence:
       config:
         enabled: true
@@ -80,9 +111,3 @@ spec:
       media:
         enabled: true
         existingClaim: nfs-media-pvc-v2
-    resources:
-      requests:
-        memory: 250Mi
-        cpu: 150m
-      limits:
-        memory: 1500Mi
