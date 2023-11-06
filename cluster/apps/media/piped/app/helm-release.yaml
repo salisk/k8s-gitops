@@ -35,7 +35,7 @@ spec:
       image:
         repository: docker.io/1337kavin/piped-frontend
       env:
-        BACKEND_HOSTNAME: &pipedapi pipedapi.internal.${SECRET_DOMAIN}
+        BACKEND_HOSTNAME: &pipedapi pipedapi.${SECRET_DOMAIN}
     backend:
       image:
         repository: docker.io/1337kavin/piped
@@ -49,7 +49,7 @@ spec:
       config:
         PORT: 8080
         HTTP_WORKERS: 2
-        PROXY_PART: https://ytproxy.internal.${SECRET_DOMAIN}
+        PROXY_PART: https://ytproxy.${SECRET_DOMAIN}
         COMPROMISED_PASSWORD_CHECK: true
         DISABLE_REGISTRATION: false
         database:
@@ -67,7 +67,7 @@ spec:
           hajimari.io/group: media
           cert-manager.io/cluster-issuer: "letsencrypt-production"
         hosts:
-          - host: &host "piped.internal.${SECRET_DOMAIN}"
+          - host: &host "piped.${SECRET_DOMAIN}"
             paths:
               - path: /
         tls:
@@ -93,7 +93,7 @@ spec:
         annotations:
           cert-manager.io/cluster-issuer: "letsencrypt-production"
         hosts:
-          - host: &proxy ytproxy.internal.${SECRET_DOMAIN}
+          - host: &proxy ytproxy.${SECRET_DOMAIN}
             paths:
               - path: "/"
         tls:
