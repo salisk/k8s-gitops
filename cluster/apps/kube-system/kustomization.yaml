@@ -6,3 +6,5 @@ resources:
   - reloader
   - ./cilium/ks.yaml
   - ./coredns/ks.yaml
+  - ./intel-device-plygin/ks.yaml
+  - ./node-feature-discovery/ks.yaml

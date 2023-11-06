@@ -4,4 +4,3 @@ resources:
   - namespaces
   - kube-system
   - longhorn-system
-  - intel-gpu-plugin
