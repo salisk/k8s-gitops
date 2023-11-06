@@ -35,3 +35,4 @@ resources:
   - cilium.yaml
   - coredns.yaml
   - cloudnative-pg.yaml
+  - piped.yaml

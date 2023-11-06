@@ -18,3 +18,4 @@ resources:
   - photoprism
   - tdarr
   - nextcloud
+  - ./piped/ks.yaml
