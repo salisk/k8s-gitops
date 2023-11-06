@@ -20,7 +20,6 @@ resources:
   - minecraft-server-charts.yaml
   - minio-charts.yaml
   - nfs-subdir-external-provisioner-charts.yaml
-  - node-feature-discovery-charts.yaml
   - prometheus-community-charts.yaml
   - rook-ceph-charts.yaml
   - stakater-charts.yaml
@@ -36,3 +35,5 @@ resources:
   - coredns.yaml
   - cloudnative-pg.yaml
   - piped.yaml
+  - intel.yaml
+  - node-feature-discovery.yaml
