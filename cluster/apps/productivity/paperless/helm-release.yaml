@@ -78,5 +78,5 @@ spec:
               - "paperless.${SECRET_DOMAIN}"
     additionalContainers:
       - name: broker
-        image: redis:7.0
+        image: redis:7.2
         imagePullPolicy: IfNotPresent
