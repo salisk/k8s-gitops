@@ -53,7 +53,7 @@ spec:
         COMPROMISED_PASSWORD_CHECK: true
         DISABLE_REGISTRATION: false
         database:
-          connection_url: jdbc:postgresql://postgres-rw.database.svc.cluster.local:5432/piped
+          connection_url: jdbc:postgresql://postgres-rw.data.svc.cluster.local:5432/piped
           driver_class: org.postgresql.Driver
           secret: *secret
     ingress:
