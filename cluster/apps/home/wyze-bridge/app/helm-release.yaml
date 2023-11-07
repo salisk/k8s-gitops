@@ -1,0 +1,74 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: wyze-bridge
+  namespace: home
+spec:
+  interval: 20m
+  chart:
+    spec:
+      chart: app-template
+      version: 1.5.1
+      interval: 30m
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  install:
+    createNamespace: true
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
+  values:
+    image:
+      repository: mrlt8/wyze-bridge
+      tag: 2.5.0
+    env:
+      WYZE_EMAIL: ${WYZE_EMAIL}
+      WYZE_PASSWORD: ${WYZE_PASSWORD}
+      TZ: ${TIMEZONE}
+    service:
+      main:
+        ports:
+          http:
+            enabled: true
+            port: 5000
+          rtmp:
+            enabled: true
+            port: 1935
+          rstp:
+            enabled: true
+            port: 8554
+          hls:
+            enabled: true
+            port: 8888
+          webrtc:
+            enabled: true
+            port: 8889
+          webrtcice:
+            enabled: true
+            port: 8189
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: nginx
+        annotations:
+          hajimari.io/enable: "true"
+          cert-manager.io/cluster-issuer: "letsencrypt-production"
+        hosts:
+          - host: &host wyze.${SECRET_DOMAIN}
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - *host
+    resources:
+      requests:
+        cpu: 35m
+        memory: 500M
+      limits:
+        memory: 1000M
