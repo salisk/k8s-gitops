@@ -6,8 +6,6 @@ metadata:
   name: cluster-apps-mosquitto
   namespace: flux-system
 spec:
-  dependsOn:
-    - name: cluster-apps-external-secrets-stores
   path: ./cluster/apps/home/mosquitto/app
   prune: true
   sourceRef:
