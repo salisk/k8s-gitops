@@ -96,7 +96,7 @@ spec:
     ingress:
       main:
         enabled: true
-        className: ingress
+        className: nginx
         annotations:
           cert-manager.io/cluster-issuer: "letsencrypt-production"
           hajimari.io/enable: "true"
