@@ -49,6 +49,7 @@ spec:
               # Mosquitto
               FRIGATE_MQTT_USERNAME: "${SECRET_MQTT_USERNAME}"
               FRIGATE_MQTT_PASSWORD: "${SECRET_MQTT_PASSWORD}"
+              FRIGATE_RTSP_PASSWORD: "${FRIGATE_RTSP_PASSWORD}"
             probes:
               liveness: &probes
                 enabled: true
