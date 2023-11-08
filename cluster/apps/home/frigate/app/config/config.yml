@@ -53,6 +53,10 @@ objects:
       max_area: 100000
       threshold: 0.7
 
+go2rtc:
+  streams:
+    frigate_front_yard: rtsp://wyze-bridge:8554/front-porch-cam
+
   # Specify camera's
 cameras:
   #   terrace:
@@ -72,22 +76,17 @@ cameras:
   #       retain:
   #         default: 14
   #   # --
-  front_yard:
+  frigate_front_yard:
     ffmpeg:
       inputs:
-        - path: rtsp://wyze-bridge:8554/front-porch-cam
+        - path: rtsp://localhost:8554/frigate_front_yard
           roles:
-            - rtmp
+            - detect
             - record
-    rtmp:
-      enabled: True
     detect:
-      enabled: False
-    snapshots:
-      enabled: True
-      timestamp: False
-      retain:
-        default: 14
+      width: 1024
+      height: 576
+      fps: 10
 #   # --
 #   study:
 #     ffmpeg:
