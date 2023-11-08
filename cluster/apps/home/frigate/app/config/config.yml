@@ -38,11 +38,11 @@ snapshots:
 record:
   enabled: true
   retain:
-    days: 7
+    days: 14
     mode: all
   events:
     retain:
-      default: 7
+      default: 14
       mode: active_objects
 
 objects:
@@ -64,12 +64,6 @@ cameras:
             - record
     rtmp:
       enabled: True
-    record:
-      enabled: True
-      retain_days: 14
-      events:
-        retain:
-          default: 14
     detect:
       enabled: False
     snapshots:
@@ -87,12 +81,6 @@ cameras:
             - record
     rtmp:
       enabled: True
-    record:
-      enabled: True
-      retain_days: 14
-      events:
-        retain:
-          default: 14
     detect:
       enabled: False
     snapshots:
@@ -110,12 +98,6 @@ cameras:
             - record
     rtmp:
       enabled: True
-    record:
-      enabled: True
-      retain_days: 14
-      events:
-        retain:
-          default: 14
     detect:
       enabled: False
     snapshots:
@@ -133,12 +115,6 @@ cameras:
             - record
     rtmp:
       enabled: True
-    record:
-      enabled: True
-      retain_days: 14
-      events:
-        retain:
-          default: 14
     detect:
       enabled: False
     snapshots:
