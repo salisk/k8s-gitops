@@ -54,40 +54,40 @@ objects:
       threshold: 0.7
 
   # Specify camera's
-# cameras:
-#   terrace:
-#     ffmpeg:
-#       inputs:
-#         - path: rtsp://view:{FRIGATE_RTSP_PASSWORD}@192.168.0.151:554
-#           roles:
-#             - rtmp
-#             - record
-#     rtmp:
-#       enabled: True
-#     detect:
-#       enabled: False
-#     snapshots:
-#       enabled: True
-#       timestamp: False
-#       retain:
-#         default: 14
-#   # --
-#   front_yard:
-#     ffmpeg:
-#       inputs:
-#         - path: rtsp://docker-wyze-bridge:8554/front-porch-cam
-#           roles:
-#             - rtmp
-#             - record
-#     rtmp:
-#       enabled: True
-#     detect:
-#       enabled: False
-#     snapshots:
-#       enabled: True
-#       timestamp: False
-#       retain:
-#         default: 14
+cameras:
+  #   terrace:
+  #     ffmpeg:
+  #       inputs:
+  #         - path: rtsp://view:{FRIGATE_RTSP_PASSWORD}@192.168.0.151:554
+  #           roles:
+  #             - rtmp
+  #             - record
+  #     rtmp:
+  #       enabled: True
+  #     detect:
+  #       enabled: False
+  #     snapshots:
+  #       enabled: True
+  #       timestamp: False
+  #       retain:
+  #         default: 14
+  #   # --
+  front_yard:
+    ffmpeg:
+      inputs:
+        - path: rtsp://wyze-bridge:8554/front-porch-cam
+          roles:
+            - rtmp
+            - record
+    rtmp:
+      enabled: True
+    detect:
+      enabled: False
+    snapshots:
+      enabled: True
+      timestamp: False
+      retain:
+        default: 14
 #   # --
 #   study:
 #     ffmpeg:
