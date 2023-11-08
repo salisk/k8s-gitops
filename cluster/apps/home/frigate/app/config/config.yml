@@ -1,5 +1,5 @@
-logger:
-  default: info
+# logger:
+#   default: info
 
 mqtt:
   host: mosquitto
