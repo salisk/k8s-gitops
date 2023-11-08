@@ -10,10 +10,10 @@ mqtt:
 database:
   path: /data/frigate.db
 
-detectors:
-  coral:
-    type: edgetpu
-    device: usb
+# detectors:
+#   coral:
+#     type: edgetpu
+#     device: usb
 
 # Global ffmpeg configuration
 ffmpeg:
