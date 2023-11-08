@@ -37,7 +37,10 @@ spec:
               tag: 2.0.18
               pullPolicy: IfNotPresent
             command: ["/bin/sh", "-c"]
-            args: ["cp /tmp/secret/* /mosquitto/external_config/ && mosquitto_passwd -U /mosquitto/external_config/mosquitto_pwd"]
+            args:
+              [
+                "cp /tmp/secret/* /mosquitto/external_config/ && mosquitto_passwd -U /mosquitto/external_config/mosquitto_pwd",
+              ]
         containers:
           main:
             image:
@@ -67,7 +70,7 @@ spec:
     persistence:
       data:
         enabled: true
-        existingClaim: mosquitto-config-v1
+        existingClaim: mosquitto-config-v2
       config-file:
         type: configMap
         name: mosquitto-configmap # overriden by kustomizeconfig
