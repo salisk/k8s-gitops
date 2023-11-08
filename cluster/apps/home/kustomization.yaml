@@ -4,6 +4,6 @@ resources:
   - ./mosquitto/ks.yaml
   - home-assistant
   - esphome
-  - frigate
+  - ./frigate/ks.yaml
   - homebridge
   - ./wyze-bridge/ks.yaml

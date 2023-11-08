@@ -1,3 +1,6 @@
+logger:
+  default: info
+
 mqtt:
   host: mosquitto
   topic_prefix: frigate
@@ -7,30 +10,48 @@ mqtt:
 database:
   path: /data/frigate.db
 
-# detectors:
-#   coral:
-#     type: edgetpu
-#     device: usb
-
-# Global objects configuration
-# objects:
-#   track:
-#     - person
-#   filters:
-#     person:
-#       min_area: 2500
-#       max_area: 100000
-#       threshold: 0.7
+detectors:
+  coral:
+    type: edgetpu
+    device: usb
 
 # Global ffmpeg configuration
 ffmpeg:
+  global_args: ["-hide_banner", "-loglevel", "warning"]
   hwaccel_args:
-    - -hwaccel
-    - vaapi
-    - -hwaccel_device
-    - /dev/dri/renderD128
-    - -hwaccel_output_format
-    - yuv420p
+    [
+      "-hwaccel",
+      "vaapi",
+      "-hwaccel_device",
+      "/dev/dri/renderD128",
+      "-hwaccel_output_format",
+      "yuv420p",
+    ]
+
+snapshots:
+  enabled: true
+  timestamp: false
+  bounding_box: true
+  retain:
+    default: 7
+
+record:
+  enabled: true
+  retain:
+    days: 7
+    mode: all
+  events:
+    retain:
+      default: 7
+      mode: active_objects
+
+objects:
+  track: ["person"]
+  filters:
+    person:
+      min_area: 5000
+      max_area: 100000
+      threshold: 0.7
 
   # Specify camera's
 cameras:

@@ -1,0 +1,137 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.devbu.io/helm.toolkit.fluxcd.io/helmrelease_v2beta1.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: frigate
+  namespace: home
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 2.0.3
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  dependsOn:
+    - name: intel-device-plugin-gpu
+      namespace: kube-system
+    - name: mosquitto
+      namespace: home
+  values:
+    controllers:
+      main:
+        type: statefulset
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          main:
+            image:
+              repository: ghcr.io/blakeblackshear/frigate
+              tag: 0.13.0-beta4
+            env:
+              TZ: ${TIMEZONE}
+              LIBVA_DRIVER_NAME: i965
+              # App
+              PLUS_API_KEY: "${SECRET_FRIGATE_PLUS}"
+              # Mosquitto
+              FRIGATE_MQTT_USERNAME: "${SECRET_MQTT_USERNAME}"
+              FRIGATE_MQTT_PASSWORD: "${SECRET_MQTT_PASSWORD}"
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/version
+                    port: &port 5000
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: false
+            securityContext:
+              privileged: true
+            resources:
+              requests:
+                cpu: 1000m
+                memory: 2Gi
+                gpu.intel.com/i915: "1"
+              limits:
+                memory: 8Gi
+                gpu.intel.com/i915: "1"
+        pod:
+          nodeSelector:
+            google.feature.node.kubernetes.io/coral: "true"
+            intel.feature.node.kubernetes.io/gpu: "true"
+        statefulset:
+          volumeClaimTemplates:
+            - name: config
+              accessMode: ReadWriteOnce
+              size: 5Gi
+              storageClass: longhorn
+              globalMounts:
+                - path: /data
+    service:
+      main:
+        ports:
+          http:
+            port: *port
+          rtsp:
+            port: 8554
+    ingress:
+      main:
+        enabled: true
+        className: ingress
+        annotations:
+          cert-manager.io/cluster-issuer: "letsencrypt-production"
+          hajimari.io/enable: "true"
+          hajimari.io/icon: "cctv"
+        hosts:
+          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                service:
+                  name: main
+                  port: http
+        tls:
+          - hosts:
+              - *host
+    persistence:
+      config-file:
+        type: configMap
+        name: frigate-configmap
+        globalMounts:
+          - path: /config/config.yml
+            subPath: config.yml
+            readOnly: true
+      cache:
+        enabled: true
+        type: emptyDir
+        medium: Memory
+        sizeLimit: 4Gi
+        globalMounts:
+          - path: /dev/shm
+      usb:
+        enabled: true
+        type: hostPath
+        hostPath: /dev/bus/usb
+        hostPathType: Directory
+        globalMounts:
+          - path: /dev/bus/usb
+      media:
+        existingClaim: frigate-nfs-v1
