@@ -43,7 +43,7 @@ spec:
               tag: 0.13.0-beta4
             env:
               TZ: ${TIMEZONE}
-              LIBVA_DRIVER_NAME: i965
+              # LIBVA_DRIVER_NAME: i965
               # App
               PLUS_API_KEY: "${SECRET_FRIGATE_PLUS}"
               # Mosquitto
