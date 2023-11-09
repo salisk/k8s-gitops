@@ -55,29 +55,14 @@ objects:
 
 go2rtc:
   streams:
+    frigate_helios: rtsp://wyze-bridge:8554/helios
+    frigate_sventoji1: rtsp://wyze-bridge:8554/sventoji1
+    frigate_sventoji2: rtsp://wyze-bridge:8554/sventoji2
     frigate_front_yard: rtsp://wyze-bridge:8554/front-porch-cam
     frigate_terrace: rtsp://view:{FRIGATE_RTSP_PASSWORD}@192.168.0.151:554
 
   # Specify camera's
 cameras:
-  #   terrace:
-  #     ffmpeg:
-  #       inputs:
-  #         - path: rtsp://view:{FRIGATE_RTSP_PASSWORD}@192.168.0.151:554
-  #           roles:
-  #             - rtmp
-  #             - record
-  #     rtmp:
-  #       enabled: True
-  #     detect:
-  #       enabled: False
-  #     snapshots:
-  #       enabled: True
-  #       timestamp: False
-  #       retain:
-  #         default: 14
-  #   # --
-  #
   frigate_terrace:
     ffmpeg:
       inputs:
@@ -101,37 +86,39 @@ cameras:
       width: 1024
       height: 576
       fps: 10
-#   # --
-#   study:
-#     ffmpeg:
-#       inputs:
-#         - path: rtsp://docker-wyze-bridge:8554/study
-#           roles:
-#             - rtmp
-#             - record
-#     rtmp:
-#       enabled: True
-#     detect:
-#       enabled: False
-#     snapshots:
-#       enabled: True
-#       timestamp: False
-#       retain:
-#         default: 14
-#   # --
-#   living_room:
-#     ffmpeg:
-#       inputs:
-#         - path: rtsp://docker-wyze-bridge:8554/living-room-cam
-#           roles:
-#             - rtmp
-#             - record
-#     rtmp:
-#       enabled: True
-#     detect:
-#       enabled: False
-#     snapshots:
-#       enabled: True
-#       timestamp: False
-#       retain:
-#         default: 14
+
+  frigate_sventoji1:
+    ffmpeg:
+      inputs:
+        - path: rtsp://localhost:8554/frigate_sventoji1
+          roles:
+            - detect
+            - record
+    detect:
+      width: 1024
+      height: 576
+      fps: 10
+
+  frigate_sventoji2:
+    ffmpeg:
+      inputs:
+        - path: rtsp://localhost:8554/frigate_sventoji2
+          roles:
+            - detect
+            - record
+    detect:
+      width: 1024
+      height: 576
+      fps: 10
+
+  frigate_helios:
+    ffmpeg:
+      inputs:
+        - path: rtsp://localhost:8554/frigate_helios
+          roles:
+            - detect
+            - record
+    detect:
+      width: 1024
+      height: 576
+      fps: 10
