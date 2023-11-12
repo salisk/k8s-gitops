@@ -79,3 +79,6 @@ data:
       Storage:
         style: row
         columns: 2
+    providers:
+      longhorn:
+        url: https://longhorn.${SECRET_DOMAIN}
