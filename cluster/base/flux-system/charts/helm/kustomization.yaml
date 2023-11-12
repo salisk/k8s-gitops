@@ -37,3 +37,4 @@ resources:
   - piped.yaml
   - intel.yaml
   - node-feature-discovery.yaml
+  - jameswynn.yaml
