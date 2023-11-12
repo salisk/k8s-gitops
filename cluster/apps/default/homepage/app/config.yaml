@@ -81,4 +81,4 @@ data:
         columns: 2
     providers:
       longhorn:
-        url: https://longhorn.${SECRET_DOMAIN}
+        url: http://longhorn-frontend.longhorn-system
