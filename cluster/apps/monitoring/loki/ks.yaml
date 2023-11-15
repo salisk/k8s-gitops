@@ -6,8 +6,6 @@ metadata:
   name: cluster-apps-loki
   namespace: flux-system
 spec:
-  dependsOn:
-    - name: cluster-apps-external-secrets-stores
   path: ./cluster/apps/monitoring/loki/app
   prune: true
   sourceRef:
