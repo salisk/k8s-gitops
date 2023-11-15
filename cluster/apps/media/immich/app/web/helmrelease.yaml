@@ -35,7 +35,7 @@ spec:
         secret.reloader.stakater.com/reload: &secret immich-secret
     image:
       repository: ghcr.io/immich-app/immich-web
-      tag: v1.84.0
+      tag: v1.86.0
     envFrom:
       - configMapRef:
           name: *configMap
@@ -64,6 +64,7 @@ spec:
           nignx.ingress.kubernetes.io/force-ssl-redirect: "true"
           nginx.ingress.kubernetes.io/proxy-body-size: "0"
           nginx.ingress.kubernetes.io/upstream-hash-by: "$client_ip"
+          cert-manager.io/cluster-issuer: "letsencrypt-production"
           hajimari.io/appName: Immich
           hajimari.io/icon: heroicons:photo
         hosts:

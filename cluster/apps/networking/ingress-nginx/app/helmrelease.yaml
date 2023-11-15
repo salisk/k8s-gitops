@@ -28,6 +28,14 @@ spec:
     keepHistory: false
   values:
     controller:
+      replicaCount: 3
+
+      updateStrategy:
+        type: RollingUpdate
+
+      allowSnippetAnnotations: true
+      enableAnnotationValidations: true
+
       extraEnvs:
         - name: TZ
           value: "${TIMEZONE}"
@@ -63,14 +71,19 @@ spec:
           "duration": $request_time,"method": "$request_method", "http_referrer": "$http_referer",
           "http_user_agent": "$http_user_agent"}
       metrics:
-        enabled: false
+        enabled: true
+        serviceMonitor:
+          enabled: true
+          namespace: networking
+          namespaceSelector:
+            any: true
       extraArgs:
         default-ssl-certificate: "networking/${SECRET_DOMAIN/./-}-production-tls"
       podAnnotations:
         configmap.reloader.stakater.com/reload: cloudflare-networks
       resources:
         requests:
-          cpu: 10m
+          cpu: 10
           memory: 250Mi
         limits:
           memory: 500Mi
