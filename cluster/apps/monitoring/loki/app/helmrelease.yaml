@@ -116,6 +116,8 @@ spec:
       ingress:
         enabled: true
         ingressClassName: internal
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt-prod
         hosts:
           - host: &host loki.${SECRET_DOMAIN}
             paths:
