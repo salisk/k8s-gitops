@@ -11,3 +11,4 @@ resources:
   - ./goldilocks/ks.yaml
   - ./vpa/ks.yaml
   - ./smartctl-exporter/ks.yaml
+  - ./kube-state-metrics/ks.yaml
