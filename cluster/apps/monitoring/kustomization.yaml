@@ -6,10 +6,10 @@ resources:
   - grafana
   - speedtest-exporter
   - loki
-  - promtail
   - ./kubernetes-dashboard/ks.yaml
   - ./goldilocks/ks.yaml
   - ./vpa/ks.yaml
   - ./smartctl-exporter/ks.yaml
   - ./kube-state-metrics/ks.yaml
   - ./node-exporter/ks.yaml
+  - ./vector/ks.yaml
