@@ -10,3 +10,4 @@ resources:
   - ./kubernetes-dashboard/ks.yaml
   - ./goldilocks/ks.yaml
   - ./vpa/ks.yaml
+  - ./smartctl-exporter/ks.yaml
