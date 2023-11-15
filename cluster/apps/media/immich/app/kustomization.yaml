@@ -5,12 +5,9 @@ kind: Kustomization
 namespace: media
 resources:
   - ./configmap.yaml
+  - ./secret.yaml
   - ./server
   - ./microservices
   - ./machine-learning
+  - ./typesense
   - ./web
-labels:
-  - pairs:
-      app.kubernetes.io/name: immich
-      app.kubernetes.io/instance: immich
-      app.kubernetes.io/part-of: immich

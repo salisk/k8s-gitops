@@ -6,10 +6,7 @@ metadata:
   namespace: media
 data:
   DB_PORT: "5432"
-  DISABLE_REVERSE_GEOCODING: "true"
-  ENABLE_MAPBOX: "false"
   LOG_LEVEL: verbose
-  NODE_ENV: "production"
   # REDIS_HOSTNAME: immich-redis.default.svc.cluster.local
   REDIS_HOSTNAME: redis-lb.data.svc.cluster.local
   REDIS_PORT: "6379"
@@ -18,8 +15,6 @@ data:
   IMMICH_SERVER_URL: http://immich-server.media.svc.cluster.local:3001
   IMMICH_MACHINE_LEARNING_URL: http://immich-machine-learning.media.svc.cluster.local:3003
    # Immich
-  DB_DATABASE_NAME: immich
-  DB_HOSTNAME: postgres-rw.data.svc.cluster.local:5432
-  DB_PASSWORD: "${IMMICH_DB_PASSWORD}"
-  DB_USERNAME: immich
-  JWT_SECRET: "${IMMICH_JWT_SECRET}"
+  TRANSFORMERS_CACHE: /usr/src/app/.transformers_cache
+  TYPESENSE_DATA_DIR: /config
+  TYPESENSE_HOST: immich-typesense.media.svc.cluster.local
