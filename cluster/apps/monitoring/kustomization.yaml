@@ -5,7 +5,6 @@ resources:
   - kube-prometheus-stack
   - grafana
   - speedtest-exporter
-  - loki
   - ./kubernetes-dashboard/ks.yaml
   - ./goldilocks/ks.yaml
   - ./vpa/ks.yaml
@@ -13,3 +12,4 @@ resources:
   - ./kube-state-metrics/ks.yaml
   - ./node-exporter/ks.yaml
   - ./vector/ks.yaml
+  - ./loki/ks.yaml
