@@ -12,7 +12,7 @@ resources:
   - prowlarr
   - radarr
   - readarr
-  - sabnzbd
+  - ./sabnzbd/ks.yaml
   - sonarr
   - tautulli
   - photoprism
