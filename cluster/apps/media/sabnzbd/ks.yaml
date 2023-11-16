@@ -6,7 +6,7 @@ metadata:
   name: sabnzbd
   namespace: flux-system
 spec:
-  path: ./cluster/apps/default/sabnzbd/app
+  path: ./cluster/apps/media/sabnzbd/app
   prune: true
   sourceRef:
     kind: GitRepository
