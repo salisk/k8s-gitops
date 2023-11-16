@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.0.2
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -52,15 +52,15 @@ spec:
         ingressClassName: nginx
         annotations:
           nginx.ingress.kubernetes.io/configuration-snippet: |
-            rewrite /api/(.*) /$1 break;
             set $forwarded_client_ip "";
             if ($http_x_forwarded_for ~ "^([^,]+)") {
               set $forwarded_client_ip $1;
             }
             set $client_ip $remote_addr;
             if ($forwarded_client_ip != "") {
-              set $client_ip $forwarded_client_ip;
+             set $client_ip $forwarded_client_ip;
             }
+            rewrite /api/(.*) /$1 break;
           nignx.ingress.kubernetes.io/force-ssl-redirect: "true"
           nginx.ingress.kubernetes.io/proxy-body-size: "0"
           nginx.ingress.kubernetes.io/upstream-hash-by: "$client_ip"
@@ -73,7 +73,6 @@ spec:
               - path: /
                 pathType: Prefix
               - path: /api
-                pathType: Prefix
                 service:
                   name: immich-server
                   port: 3001
