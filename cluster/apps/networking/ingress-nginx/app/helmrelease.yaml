@@ -49,7 +49,7 @@ spec:
       ingressClassResource:
         default: true
       config:
-        client-body-buffer-size: 100M
+        client-body-buffer-size: 150M
         client-body-timeout: 120
         client-header-timeout: 120
         enable-brotli: "true"
@@ -67,6 +67,7 @@ spec:
         proxy-body-size: 0
         proxy-buffer-size: 16k
         ssl-protocols: TLSv1.3 TLSv1.2
+        use-forwarded-headers: "true"
       metrics:
         enabled: true
         serviceMonitor:

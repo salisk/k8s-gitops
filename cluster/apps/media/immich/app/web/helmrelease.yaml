@@ -73,6 +73,7 @@ spec:
               - path: /
                 pathType: Prefix
               - path: /api
+                pathType: Prefix
                 service:
                   name: immich-server
                   port: 3001
