@@ -19,3 +19,4 @@ resources:
   - tdarr
   - nextcloud
   - ./piped/ks.yaml
+  - ./recyclarr/ks.yaml
