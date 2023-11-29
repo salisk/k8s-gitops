@@ -55,6 +55,7 @@ spec:
               TZ: ${TIMEZONE}
               RADARR_API_KEY: ${RADARR_API_KEY}
               SONARR_API_KEY: ${SONARR_API_KEY}
+              CRON_SCHEDULE: "*/5 * * * *"
             resources:
               requests:
                 cpu: 10m
