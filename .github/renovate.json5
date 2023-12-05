@@ -44,7 +44,7 @@
       "(^|/)cluster/.+\\.ya?ml(\\.j2)?$"
     ]
   },
-  "cluster": {
+  "kubernetes": {
     "fileMatch": [
       "(^|/)\\.taskfiles/.+\\.ya?ml(\\.j2)?$",
       "(^|/)ansible/.+\\.ya?ml(\\.j2)?$",
