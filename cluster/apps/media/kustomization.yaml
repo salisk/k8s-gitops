@@ -5,7 +5,7 @@ resources:
   - jellyfin
   - ./plex/ks.yaml
   - qbittorrent
-  - bazarr
+  - ./bazarr/ks.yaml
   - lidarr
   - ./immich/ks.yaml
   - overseerr
