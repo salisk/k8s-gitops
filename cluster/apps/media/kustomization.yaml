@@ -14,7 +14,7 @@ resources:
   - readarr
   - ./sabnzbd/ks.yaml
   - sonarr
-  - tautulli
+  - ./tautulli/ks.yaml
   - photoprism
   - tdarr
   - nextcloud
