@@ -2,7 +2,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: cluster-apps-cert-manager
+  name: cert-manager
   namespace: flux-system
 spec:
   path: ./cluster/apps/cert-manager/app
@@ -22,7 +22,7 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: cluster-apps-cert-manager-issuers
+  name: cert-manager-issuers
   namespace: flux-system
 spec:
   dependsOn:
@@ -35,3 +35,14 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-gpg
+  postBuild:
+    substitute: {}
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-settings
+      - kind: Secret
+        name: cluster-secrets
