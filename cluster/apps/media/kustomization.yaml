@@ -6,7 +6,7 @@ resources:
   - ./plex/ks.yaml
   - qbittorrent
   - ./bazarr/ks.yaml
-  - lidarr
+  - ./lidarr/ks.yaml
   - ./immich/ks.yaml
   - overseerr
   - prowlarr
