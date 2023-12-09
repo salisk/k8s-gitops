@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: ingress-nginx
+  name: nginx-internal
   namespace: networking
 spec:
   interval: 15m
@@ -27,6 +27,7 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    fullnameOverride: nginx-internal
     controller:
       replicaCount: 3
 
@@ -48,6 +49,12 @@ spec:
         enabled: true
       ingressClassResource:
         default: true
+      admissionWebhooks:
+        objectSelector:
+          matchExpressions:
+            - key: ingress-class
+              operator: In
+              values: ["nginx"]
       config:
         client-body-buffer-size: 150M
         client-body-timeout: 120
