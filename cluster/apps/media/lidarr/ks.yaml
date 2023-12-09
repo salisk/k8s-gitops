@@ -6,6 +6,7 @@ metadata:
   name: &app lidarr
   namespace: flux-system
 spec:
+  targetNamespace: media
   dependsOn:
     - name: cluster-apps-cloudnative-pg
   path: ./cluster/apps/media/lidarr/app

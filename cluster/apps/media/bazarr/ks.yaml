@@ -6,6 +6,7 @@ metadata:
   name: &app bazarr
   namespace: flux-system
 spec:
+  targetNamespace: media
   path: ./cluster/apps/media/bazarr/app
   prune: true
   sourceRef:

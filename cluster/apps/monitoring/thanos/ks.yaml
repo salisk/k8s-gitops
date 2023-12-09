@@ -6,6 +6,7 @@ metadata:
   name: &app thanos
   namespace: flux-system
 spec:
+  targetNamespace: monitoring
   path: ./cluster/apps/monitoring/thanos/app
   prune: true
   sourceRef:

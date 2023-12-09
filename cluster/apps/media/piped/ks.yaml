@@ -6,6 +6,7 @@ metadata:
   name: &app piped
   namespace: flux-system
 spec:
+  targetNamespace: media
   path: ./cluster/apps/media/piped/app
   prune: true
   sourceRef:

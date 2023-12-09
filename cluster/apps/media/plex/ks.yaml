@@ -6,6 +6,7 @@ metadata:
   name: &app plex
   namespace: flux-system
 spec:
+  targetNamespace: media
   path: ./cluster/apps/media/plex/app
   prune: true
   sourceRef:

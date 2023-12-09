@@ -6,6 +6,7 @@ metadata:
   name: &app prowlarr
   namespace: flux-system
 spec:
+  targetNamespace: media
   dependsOn:
     - name: cluster-apps-cloudnative-pg
   path: ./cluster/apps/media/prowlarr/app
