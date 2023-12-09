@@ -18,16 +18,16 @@ spec:
     storageClass: longhorn
   superuserSecret:
     name: cloudnative-pg-secret
-  bootstrap:
-    initdb:
-      import:
-        type: monolith
-        databases:
-          - "*"
-        roles:
-          - "*"
-        source:
-          externalCluster: bitnami-pg
+  # bootstrap:
+  #   initdb:
+  #     import:
+  #       type: monolith
+  #       databases:
+  #         - "*"
+  #       roles:
+  #         - "*"
+  #       source:
+  #         externalCluster: bitnami-pg
   postgresql:
     parameters:
       max_connections: "600"
