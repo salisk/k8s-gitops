@@ -10,3 +10,4 @@ resources:
   - ./microservices
   - ./machine-learning
   - ./typesense
+  - ../../../../templates/gatus/guarded

@@ -4,3 +4,4 @@ namespace: media
 resources:
   - ./helm-release.yaml
   - ./secret.yaml
+  - ../../../../templates/gatus/guarded

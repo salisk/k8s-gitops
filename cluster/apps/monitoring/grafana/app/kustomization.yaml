@@ -6,3 +6,4 @@ namespace: monitoring
 resources:
   - ./secret.yaml
   - ./helmrelease.yaml
+  - ../../../../templates/gatus/guarded
