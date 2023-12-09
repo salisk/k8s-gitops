@@ -136,6 +136,11 @@ spec:
           revision: 6
           datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
+        external-dns:
+          # renovate: depName="External-dns"
+          gnetId: 15038
+          revision: 3
+          datasource: Prometheus
         # Ref: https://grafana.com/grafana/dashboards/13665
         speedtest:
           gnetId: 13665
@@ -151,6 +156,14 @@ spec:
           # renovate: depName="Node Exporter Full"
           gnetId: 1860
           revision: 33
+          datasource: Prometheus
+        node-exporter-global:
+          gnetId: 15172
+          revision: 6
+          datasource: Prometheus
+        k8s-for-prometheus:
+          gnetId: 15661
+          revision: 1
           datasource: Prometheus
         redis:
           # renovate: depName="Redis Dashboard for Prometheus Redis Exporter 1.x"
@@ -177,6 +190,10 @@ spec:
           url: https://raw.githubusercontent.com/fluxcd/flux2/main/manifests/monitoring/monitoring-config/dashboards/logs.json
           datasource: Prometheus
       kubernetes:
+        kubernetes-cluster:
+          gnetId: 315
+          revision: 3
+          datasource: Prometheus
         kubernetes-api-server:
           # renovate: depName="Kubernetes / System / API Server"
           gnetId: 15761
