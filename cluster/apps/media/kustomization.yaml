@@ -9,7 +9,7 @@ resources:
   - ./lidarr/ks.yaml
   - ./immich/ks.yaml
   - overseerr
-  - prowlarr
+  - ./prowlarr/ks.yaml
   - radarr
   - readarr
   - ./sabnzbd/ks.yaml
