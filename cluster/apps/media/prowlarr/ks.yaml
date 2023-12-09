@@ -26,7 +26,6 @@ spec:
     secretRef:
       name: sops-gpg
   postBuild:
-    # APP: *app
     substitute: {}
     substituteFrom:
       - kind: ConfigMap
