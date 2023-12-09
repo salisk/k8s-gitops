@@ -5,7 +5,7 @@ resources:
   - config-pvc.yaml
   - helm-release.yaml
   - secret.yaml
-  - ../../../../templates/gatus/guarded
+  - ../../../../templates/gatus/internal
 configMapGenerator:
   - name: bazarr-scripts
     files:

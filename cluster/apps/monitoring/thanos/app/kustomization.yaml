@@ -3,4 +3,4 @@ kind: Kustomization
 resources:
   - helm-release.yaml
   - thanos-objstore.yaml
-  - ../../../../templates/gatus/guarded
+  - ../../../../templates/gatus/internal
