@@ -9,7 +9,6 @@ resources:
   - ./lidarr/ks.yaml
   - ./immich/ks.yaml
   - overseerr
-  - ./prowlarr/ks.yaml
   - radarr
   - readarr
   - ./sabnzbd/ks.yaml
@@ -20,3 +19,4 @@ resources:
   - nextcloud
   - ./piped/ks.yaml
   - ./recyclarr/ks.yaml
+  - ./prowlarr/ks.yaml
