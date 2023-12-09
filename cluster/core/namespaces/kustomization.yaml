@@ -4,7 +4,6 @@ resources:
   - cert-manager.yaml
   - longhorn-system.yaml
   - networking.yaml
-  - intel-gpu-plugin.yaml
   - media.yaml
   - monitoring.yaml
   - data.yaml
