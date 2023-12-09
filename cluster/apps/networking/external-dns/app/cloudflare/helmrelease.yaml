@@ -29,8 +29,10 @@ spec:
     fullnameOverride: *app
     provider: cloudflare
     env:
-      CF_API_EMAIL: ${SECRET_CLOUDFLARE_EMAIL}
-      CF_API_KEY: ${SECRET_CLOUDFLARE_API_KEY}
+      - name: CF_API_EMAIL
+        value: ${SECRET_CLOUDFLARE_EMAIL}
+      - name: CF_API_KEY
+        value: ${SECRET_CLOUDFLARE_API_KEY}
     extraArgs:
       - --ingress-class=external
       - --cloudflare-proxied
