@@ -88,7 +88,7 @@ spec:
         configmap.reloader.stakater.com/reload: cloudflare-networks
       resources:
         requests:
-          cpu: 10
+          cpu: 50m
           memory: 250Mi
         limits:
           memory: 500Mi
