@@ -8,7 +8,7 @@ resources:
   - ./bazarr/ks.yaml
   - ./lidarr/ks.yaml
   - ./immich/ks.yaml
-  - overseerr
+  - ./overseerr/ks.yaml
   - radarr
   - readarr
   - ./sabnzbd/ks.yaml

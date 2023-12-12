@@ -3,11 +3,11 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app plex
+  name: &app overseer
   namespace: flux-system
 spec:
   targetNamespace: media
-  path: ./cluster/apps/media/plex/app
+  path: ./cluster/apps/media/overseer/app
   prune: true
   sourceRef:
     kind: GitRepository
@@ -23,7 +23,7 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      GATUS_PATH: /web/index.html
+      GATUS_SUBDOMAIN: requests
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings
