@@ -26,7 +26,6 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      GATUS_SUBDOMAIN: sab
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings
