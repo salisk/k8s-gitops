@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - paperless
   - monica
+  - ./atuin/ks.yaml
