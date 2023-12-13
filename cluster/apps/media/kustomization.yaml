@@ -15,7 +15,7 @@ resources:
   - sonarr
   - ./tautulli/ks.yaml
   - photoprism
-  - tdarr
+  # - tdarr
   - nextcloud
   - ./piped/ks.yaml
   - ./recyclarr/ks.yaml
