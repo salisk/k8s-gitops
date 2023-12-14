@@ -1,0 +1,45 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nas
+  namespace: networking
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: "nas.${SECRET_DOMAIN}"
+      http:
+        paths:
+          - backend:
+              service:
+               name: nas
+               port:
+                 number: 5000
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - "nas.${SECRET_DOMAIN}"
+      secretName: nas-tls
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nas
+  namespace: networking
+spec:
+  ports:
+    - name: http
+      port: 5001
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: nas
+  namespace: networking
+subsets:
+  - addresses:
+      - ip: ${NAS_ADDR}
+    ports:
+      - port: 5001
