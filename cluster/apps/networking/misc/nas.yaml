@@ -14,7 +14,7 @@ spec:
               service:
                name: nas
                port:
-                 number: 5000
+                 number: 5001
             path: /
             pathType: Prefix
   tls:
@@ -31,15 +31,5 @@ spec:
   ports:
     - name: http
       port: 5001
-  type: ClusterIP
----
-apiVersion: v1
-kind: Endpoints
-metadata:
-  name: nas
-  namespace: networking
-subsets:
-  - addresses:
-      - ip: ${NAS_ADDR}
-    ports:
-      - port: 5001
+  type: ExternalName
+  externalName: ${NAS_ADDR}
