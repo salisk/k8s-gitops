@@ -16,7 +16,7 @@ spec:
               service:
                name: nas
                port:
-                 number: 5001
+                 number: 5000
             path: /
             pathType: Prefix
   tls:
@@ -32,6 +32,6 @@ metadata:
 spec:
   ports:
     - name: http
-      port: 5001
+      port: 5000
   type: ExternalName
   externalName: ${NAS_ADDR}
