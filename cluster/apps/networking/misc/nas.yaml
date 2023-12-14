@@ -6,6 +6,8 @@ metadata:
   namespace: networking
 spec:
   ingressClassName: nginx
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
   rules:
     - host: "nas.${SECRET_DOMAIN}"
       http:
