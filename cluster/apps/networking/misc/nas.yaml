@@ -4,10 +4,10 @@ kind: Ingress
 metadata:
   name: nas
   namespace: networking
+  annotations:
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
 spec:
   ingressClassName: nginx
-  annotations:
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
   rules:
     - host: "nas.${SECRET_DOMAIN}"
       http:
