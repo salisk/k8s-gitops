@@ -5,4 +5,5 @@ resources:
   - pvc
   - minio
   - ./homepage/ks.yaml
+  - ./miniflux/ks.yaml
   # - ssh
