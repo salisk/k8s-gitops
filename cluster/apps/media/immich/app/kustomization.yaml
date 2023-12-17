@@ -9,5 +9,4 @@ resources:
   - ./server
   - ./microservices
   - ./machine-learning
-  - ./typesense
   - ../../../../templates/gatus/internal
