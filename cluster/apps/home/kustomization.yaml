@@ -7,3 +7,4 @@ resources:
   - ./frigate/ks.yaml
   - homebridge
   - ./wyze-bridge/ks.yaml
+  - ./zigbee2mqtt/ks.yaml
