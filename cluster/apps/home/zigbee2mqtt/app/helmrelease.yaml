@@ -70,9 +70,6 @@ spec:
               ZIGBEE2MQTT_CONFIG_ADVANCED_NETWORK_KEY: "GENERATE"
               ZIGBEE2MQTT_CONFIG_MQTT_USER: "${SECRET_MQTT_USERNAME}"
               ZIGBEE2MQTT_CONFIG_MQTT_PASSWORD: "${SECRET_MQTT_PASSWORD}"
-            envFrom:
-              - secretRef:
-                  name: zigbee2mqtt-secret
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
