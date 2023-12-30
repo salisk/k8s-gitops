@@ -26,6 +26,7 @@ spec:
               tag: 2023.12.5
             env:
               ESPHOME_DASHBOARD_USE_PING: true
+              TZ: ${TIMEZONE}
             probes:
               liveness:
                 enabled: false
