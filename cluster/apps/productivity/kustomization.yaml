@@ -5,3 +5,4 @@ resources:
   - paperless
   - monica
   - ./atuin/ks.yaml
+  - ./actual/ks.yaml
