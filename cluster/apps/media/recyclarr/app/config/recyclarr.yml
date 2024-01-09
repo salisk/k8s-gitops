@@ -127,7 +127,7 @@ radarr:
         reset_unmatched_scores:
           enabled: true
         upgrade:
-          allowed: true
+          allowed: false
           until_quality: Remux-1080p
           until_score: 0
         min_format_score: 0
