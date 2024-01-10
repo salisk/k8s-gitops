@@ -70,6 +70,9 @@ spec:
             fsGroupChangePolicy: OnRootMismatch
     service:
       main:
+        type: LoadBalancer
+        loadBalancerIP: ${LB_HASS_IP}
+        externalTrafficPolicy: Cluster
         ports:
           http:
             port: 8123
