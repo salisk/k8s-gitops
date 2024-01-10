@@ -68,6 +68,7 @@ spec:
             runAsNonRoot: true
             fsGroup: 568
             fsGroupChangePolicy: OnRootMismatch
+    hostNetwork: true
     service:
       main:
         type: LoadBalancer
