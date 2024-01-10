@@ -62,13 +62,14 @@ spec:
               limits:
                 memory: 1Gi
         pod:
+          hostNetwork: true
+          dnsPolicy: ClusterFirstWithHostNet
           securityContext:
             runAsUser: 568
             runAsGroup: 568
             runAsNonRoot: true
             fsGroup: 568
             fsGroupChangePolicy: OnRootMismatch
-    hostNetwork: true
     service:
       main:
         type: LoadBalancer
@@ -77,6 +78,16 @@ spec:
         ports:
           http:
             port: 8123
+        mdns-tcp:
+            enabled: true
+            port: 5353
+            protocol: TCP
+            targetPort: 5353
+        mdns-udp:
+          enabled: true
+          port: 5353
+          protocol: UDP
+          targetPort: 5353
     ingress:
       main:
         enabled: true
