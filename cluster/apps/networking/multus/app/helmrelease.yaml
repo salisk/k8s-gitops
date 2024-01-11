@@ -25,9 +25,9 @@ spec:
         repository: ghcr.io/angelnu/cni-plugins
         tag: 1.4.0
 
-      # paths:
-      #   config: /etc/cni/net.d
-      #   bin: /opt/cni/bin
+      paths:
+        config: /etc/cni/net.d
+        bin: /opt/cni/bin
 
     resources:
       requests:
@@ -36,5 +36,5 @@ spec:
       limits:
         memory: 96Mi
 
-    # hostPaths:
-    #   netns: /var/run/netns
+    hostPaths:
+      netns: /var/run/netns
