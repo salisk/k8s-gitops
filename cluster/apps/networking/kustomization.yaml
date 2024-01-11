@@ -6,4 +6,5 @@ resources:
   - ./echo-server/ks.yaml
   - ./cloudflared/ks.yaml
   - ./external-dns/ks.yaml
+  - ./multus/ks.yaml
   - misc
