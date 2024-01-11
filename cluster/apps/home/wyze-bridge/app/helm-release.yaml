@@ -25,7 +25,7 @@ spec:
   values:
     image:
       repository: mrlt8/wyze-bridge
-      tag: 2.6.0
+      tag: 2.7.0
     env:
       WYZE_EMAIL: ${WYZE_EMAIL}
       WYZE_PASSWORD: ${WYZE_PASSWORD}
