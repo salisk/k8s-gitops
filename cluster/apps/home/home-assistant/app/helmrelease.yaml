@@ -64,6 +64,13 @@ spec:
         pod:
           # hostNetwork: true
           # dnsPolicy: ClusterFirstWithHostNet
+          annotations:
+            k8s.v1.cni.cncf.io/networks: |
+              [{
+                "name":"multus-attach",
+                "namespace": "networking",
+                "ips": ["192.168.30.226/24"]
+              }]
           securityContext:
             runAsUser: 568
             runAsGroup: 568
@@ -72,9 +79,9 @@ spec:
             fsGroupChangePolicy: OnRootMismatch
     service:
       main:
-        type: LoadBalancer
-        annotations:
-          io.cilium/lb-ipam-ips: "${LB_HASS_IP}"
+        # type: LoadBalancer
+        # annotations:
+          # io.cilium/lb-ipam-ips: "${LB_HASS_IP}"
         # externalTrafficPolicy: Cluster
         ports:
           http:
