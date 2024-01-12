@@ -34,6 +34,8 @@ spec:
       masquerade: true
     bgp:
       enabled: false
+    cni:
+      exclusive: false
     cluster:
       name: kubernetes
       id: 1
@@ -78,6 +80,7 @@ spec:
                 - *host
     ipam:
       mode: kubernetes
+    routingMode: native
     ipv4NativeRoutingCIDR: 10.42.0.0/16
     k8sServiceHost: 192.168.30.132
     # k8sServiceHost: 192.168.30.251
