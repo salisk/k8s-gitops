@@ -34,13 +34,13 @@ spec:
         enabled: true
         existingClaim: mariadb-pvc-v2 
       readinessProbe:
-        initialDelaySeconds: 1500
-        periodSeconds: 45
-        failureThreshold: 60
+        initialDelaySeconds: 35
+        periodSeconds: 5
+        failureThreshold: 10
       livenessProbe:
-        initialDelaySeconds: 1500
-        periodSeconds: 30
-        failureThreshold: 40
+        initialDelaySeconds: 35
+        periodSeconds: 5
+        failureThreshold: 10
     image:
       debug: true
     auth:
