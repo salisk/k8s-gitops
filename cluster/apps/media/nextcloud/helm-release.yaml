@@ -93,10 +93,10 @@ spec:
       username: "${NEXTCLOUD_ADMIN_USERNAME}"
       password: "${NEXTCLOUD_ADMIN_PASSWORD}"
       datadir: /var/www/data
-      podSecurityContext:
-        runAsUser: 33
-        runAsGroup: 33
-        fsGroup: 33
+      # podSecurityContext:
+      #   runAsUser: 33
+      #   runAsGroup: 33
+      #   fsGroup: 33
       phpConfigs:
         uploadLimit.ini: |
           upload_max_filesize = 64G
