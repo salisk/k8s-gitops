@@ -80,8 +80,8 @@ spec:
       enabled: true
       existingClaim: nextcloud-config-v1
       nextcloudData:
-        enabled: false
-        # existingClaim: nfs-nextcloud-pvc-v2
+        enabled: true
+        existingClaim: nfs-nextcloud-pvc-v2
     livenessProbe:
       enabled: false
     readinessProbe:
@@ -92,7 +92,11 @@ spec:
       host: nextcloud.${SECRET_DOMAIN}
       username: "${NEXTCLOUD_ADMIN_USERNAME}"
       password: "${NEXTCLOUD_ADMIN_PASSWORD}"
-      datadir: "/nfs/data"
+      datadir: /var/www/data
+      # podSecurityContext:
+      #   runAsUser: 33
+      #   runAsGroup: 33
+      #   fsGroup: 33
       phpConfigs:
         uploadLimit.ini: |
           upload_max_filesize = 64G
@@ -136,14 +140,9 @@ spec:
         - name: nfs-photos
           persistentVolumeClaim:
             claimName: nfs-photos-pvc-v2
-        - name: nfs-data
-          persistentVolumeClaim:
-            claimName: nfs-nextcloud-pvc-v2
       extraVolumeMounts:
         - name: nfs-photos
           mountPath: /nfs/photos
-        - name: nfs-data
-          mountPath: /nfs/data
     internalDatabase:
       enabled: false
     externalDatabase:
