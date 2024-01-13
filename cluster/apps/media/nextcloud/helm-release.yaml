@@ -125,13 +125,6 @@ spec:
           $CONFIG = array (
             'bulkupload.enabled' => false,
           );
-      extraEnv:
-        - name: REDIS_HOST
-          value: redis-lb.data.svc.cluster.local
-        - name: REDIS_HOST_PORT
-          value: "6379"
-        - name: REDIS_DBINDEX
-          value: "11"
       extraVolumes:
         - name: nfs-photos
           persistentVolumeClaim:
@@ -139,6 +132,15 @@ spec:
       extraVolumeMounts:
         - name: nfs-photos
           mountPath: /nfs/photos
+    redis:
+      enabled: true
+      # password: set in secret
+      master:
+        persistence:
+          enabled: false
+      replica:
+        persistence:
+          enabled: false
     internalDatabase:
       enabled: false
     externalDatabase:
