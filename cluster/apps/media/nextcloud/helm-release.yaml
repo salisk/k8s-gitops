@@ -18,7 +18,7 @@ spec:
   values:
     image:
       repository: docker.io/library/nextcloud
-      tag: 25.0.1
+      tag: 26.0.1
     ingress:
       enabled: true
       className: nginx
