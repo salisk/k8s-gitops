@@ -6,4 +6,5 @@ resources:
   - minio
   - ./homepage/ks.yaml
   - ./miniflux/ks.yaml
+  - ./ghost/ks.yaml
   # - ssh
