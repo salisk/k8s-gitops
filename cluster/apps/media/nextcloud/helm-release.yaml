@@ -18,7 +18,7 @@ spec:
   values:
     image:
       repository: docker.io/library/nextcloud
-      tag: 26.0.1
+      tag: 25.0.1
     ingress:
       enabled: true
       className: nginx
@@ -34,8 +34,9 @@ spec:
       enabled: true
       existingClaim: nextcloud-config-v1
     livenessProbe:
-      enabled: true
-      initialDelaySeconds: 600 # first install is slow in rsync
+      enabled: false
+    readinessProbe:
+      enabled: false
     metrics:
       enabled: true
     nextcloud:
