@@ -94,9 +94,9 @@ spec:
       password: "${NEXTCLOUD_ADMIN_PASSWORD}"
       datadir: /var/www/data
       podSecurityContext:
-        runAsUser: 32
-        runAsGroup: 32
-        fsGroup: 32
+        runAsUser: 0
+        runAsGroup: 0
+        fsGroup: 0
         fsGroupChangePolicy: "OnRootMismatch"
       phpConfigs:
         uploadLimit.ini: |
