@@ -10,7 +10,7 @@ spec:
     spec:
       # renovate: registryUrl=https://nextcloud.github.io/helm/
       chart: nextcloud
-      version: 4.5.9
+      version: 4.5.10
       sourceRef:
         kind: HelmRepository
         name: nextcloud-charts
@@ -23,7 +23,53 @@ spec:
       enabled: true
       className: nginx
       annotations:
-        cert-manager.io/cluster-issuer: letsencrypt-production
+        nginx.ingress.kubernetes.io/proxy-body-size: 4G
+        nginx.ingress.kubernetes.io/server-snippet: |-
+          server_tokens off;
+          proxy_hide_header X-Powered-By;
+        
+          # Rule borrowed from .htaccess to handle Microsoft DAV clients
+          location = / {
+            if ( $http_user_agent ~ ^DavClnt ) {
+              return 302 /remote.php/webdav/$is_args$args;
+            }
+          }
+     
+          location = /robots.txt {
+              allow all;
+              log_not_found off;
+              access_log off;
+          }
+
+          location ^~ /.well-known {
+          
+            # The rules in this block are an adaptation of the rules
+            # in .htaccess that concern /.well-known.
+
+            location = /.well-known/carddav { return 301 /remote.php/dav/; }
+            location = /.well-known/caldav  { return 301 /remote.php/dav/; }
+            
+            location /.well-known/acme-challenge    { try_files $uri $uri/ =404; }
+            location /.well-known/pki-validation    { try_files $uri $uri/ =404; }
+            
+            # Let Nextcloud's API for /.well-known URIs handle all other
+            # requests by passing them to the front-end controller.
+            return 301 /index.php$request_uri;
+          }
+          
+          # Rules borrowed from .htaccess to hide certain paths from clients
+          location ~ ^/(?:build|tests|config|lib|3rdparty|templates|data)/ {
+            deny all;
+          }
+          location ~ ^/(?:autotest|occ|issue|indie|db_|console) {
+            deny all;
+          }
+
+          # Rule borrowed from .htaccess
+          #location /remote {
+          #    return 301 /remote.php$request_uri;
+          #}
+        nginx.ingress.kubernetes.io/enable-global-auth: "false"
       hosts:
         - "nextcloud.${SECRET_DOMAIN}"
       tls:
@@ -33,6 +79,9 @@ spec:
     persistence:
       enabled: true
       existingClaim: nextcloud-config-v1
+      nextcloudData:
+        enabled: true
+        existingClaim: nfs-nextcloud-pvc-v2
     livenessProbe:
       enabled: false
     readinessProbe:
@@ -43,30 +92,53 @@ spec:
       host: nextcloud.${SECRET_DOMAIN}
       username: "${NEXTCLOUD_ADMIN_USERNAME}"
       password: "${NEXTCLOUD_ADMIN_PASSWORD}"
-      datadir: "/nfs/data"
+      datadir: /var/www/data
       phpConfigs:
-        upload.ini: |-
-          upload_max_filesize=10G
-          post_max_size=10G
-          memory_limit=4G
+        uploadLimit.ini: |
+          upload_max_filesize = 64G
+          post_max_size = 16G
+          max_input_time = 3600
+          max_execution_time = 3600
       configs:
-        https.config.php: |-
+        proxy.config.php: |-
           <?php
           $CONFIG = array (
-            'overwriteprotocol' => 'https'
+            'trusted_proxies' => 
+            array(
+               0 => '10.42.0.0/16',
+            ),
+            'forwarded_for_headers' => 
+            array (
+              0 => 'HTTP_X_FORWARDED_FOR',
+            ),
           );
+        gitops.config.php: |-
+          <?php
+          $CONFIG = array (
+            'appstoreenabled' => true,
+            #'appstoreurl' => 'https://apps.nextcloud.com/api/v0',
+            'mail_domain' => '${SECRET_DOMAIN}',
+          );
+        #Circumvention for client freezes - https://github.com/nextcloud/desktop/issues/5094
+        bulkupload.config.php: |-
+          <?php
+          $CONFIG = array (
+            'bulkupload.enabled' => false,
+          );
+      extraEnv:
+        - name: REDIS_HOST
+          value: redis-lb.data.svc.cluster.local
+        - name: REDIS_HOST_PORT
+          value: "6379"
+        - name: REDIS_DBINDEX
+          value: "11"
       extraVolumes:
         - name: nfs-photos
           persistentVolumeClaim:
             claimName: nfs-photos-pvc-v2
-        - name: nfs-data
-          persistentVolumeClaim:
-            claimName: nfs-nextcloud-pvc-v2
       extraVolumeMounts:
         - name: nfs-photos
           mountPath: /nfs/photos
-        - name: nfs-data
-          mountPath: /nfs/data
     internalDatabase:
       enabled: false
     externalDatabase:
@@ -75,6 +147,8 @@ spec:
       host: postgres-rw.data.svc.cluster.local:5432
       user: nextcloud
       password: "${NEXTCLOUD_DBPASS}"
+    cronjob:
+      enabled: true
     resources:
       limits:
         cpu: 500m
