@@ -10,7 +10,7 @@ spec:
     spec:
       # renovate: registryUrl=https://charts.bitnami.com/bitnami
       chart: mariadb
-      version: 14.1.4
+      version: 15.0.1
       sourceRef:
         kind: HelmRepository
         name: bitnami-charts
@@ -67,3 +67,11 @@ spec:
 
         CREATE USER IF NOT EXISTS 'monica'@'%' IDENTIFIED BY '${MONICA_DB_PASSWORD}';
         GRANT ALL PRIVILEGES ON monica.* to 'monica'@'%';
+      
+      create-ghost.sql: |
+        CREATE DATABASE IF NOT EXISTS ghost
+        CHARACTER SET = 'utf8mb4'
+        COLLATE = 'utf8mb4_unicode_ci';
+
+        CREATE USER IF NOT EXISTS 'ghost'@'%' IDENTIFIED BY '${GHOST_DB_PASSWORD}';
+        GRANT ALL PRIVILEGES ON ghost.* to 'ghost'@'%';
