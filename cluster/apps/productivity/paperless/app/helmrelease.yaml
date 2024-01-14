@@ -62,6 +62,11 @@ spec:
               # Redis
               PAPERLESS_REDIS: redis://paperless-redis.productivity.svc.cluster.local:6379
               # PAPERLESS_REDIS: redis://localhost:6379
+              # Configure folders
+              PAPERLESS_CONSUMPTION_DIR: /usr/src/paperless/consume
+              PAPERLESS_DATA_DIR: /data
+              PAPERLESS_EXPORT_DIR: /usr/src/paperless/export
+              PAPERLESS_MEDIA_ROOT: /usr/src/paperless/media
             resources:
               requests:
                 cpu: 25m
