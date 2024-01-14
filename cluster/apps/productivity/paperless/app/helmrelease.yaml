@@ -55,7 +55,7 @@ spec:
               PAPERLESS_OCR_LANGUAGE: eng+lit
               # PAPERLESS_OCR_LANGUAGES: lit
               PAPERLESS_TIME_ZONE: "${TIMEZONE}"
-              PAPERLESS_DBHOST: postgres-rw.data.svc.cluster.local:5432
+              PAPERLESS_DBHOST: postgres-rw.data.svc.cluster.local
               PAPERLESS_DBPASS: ${PAPERLESS_DBPASS}
               PAPERLESS_ADMIN_USER: ${PAPERLESS_ADMIN_USER}
               PAPERLESS_ADMIN_PASSWORD: ${PAPERLESS_ADMIN_PASSWORD}
