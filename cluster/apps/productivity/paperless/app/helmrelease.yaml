@@ -34,6 +34,10 @@ spec:
         strategy: RollingUpdate
         annotations:
           reloader.stakater.com/auto: "true"
+        pod:
+          securityContext:
+            supplementalGroups:
+              - 65542
         containers:
           main:
             image:
@@ -53,7 +57,7 @@ spec:
               PAPERLESS_WEBSERVER_WORKERS: 2
               PAPERLESS_URL: https://paperless.${SECRET_DOMAIN}
               PAPERLESS_OCR_LANGUAGE: eng+lit
-              # PAPERLESS_OCR_LANGUAGES: lit
+              PAPERLESS_OCR_LANGUAGES: lit por
               PAPERLESS_TIME_ZONE: "${TIMEZONE}"
               PAPERLESS_DBHOST: postgres-rw.data.svc.cluster.local
               PAPERLESS_DBPASS: ${PAPERLESS_DBPASS}
@@ -67,6 +71,8 @@ spec:
               PAPERLESS_DATA_DIR: /data
               PAPERLESS_EXPORT_DIR: /usr/src/paperless/export
               PAPERLESS_MEDIA_ROOT: /usr/src/paperless/media
+              # Configure user permissions
+              USERMAP_GID: "65542"
             resources:
               requests:
                 cpu: 25m
