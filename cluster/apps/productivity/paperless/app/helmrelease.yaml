@@ -118,6 +118,6 @@ spec:
         enabled: true
         type: nfs
         server: "${NAS_ADDR}"
-        path: /mnt/storage/shared-documents/paperless/data
+        path: /volume1/documents/paperless/data
         globalMounts:
           - path: /usr/src/paperless/data
