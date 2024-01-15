@@ -37,7 +37,7 @@ spec:
         pod:
           securityContext:
             supplementalGroups:
-              - 65542
+              - 1000
         containers:
           main:
             image:
@@ -72,7 +72,7 @@ spec:
               PAPERLESS_EXPORT_DIR: /usr/src/paperless/export
               PAPERLESS_MEDIA_ROOT: /usr/src/paperless/media
               # Configure user permissions
-              USERMAP_GID: "65542"
+              USERMAP_GID: "1000"
             resources:
               requests:
                 cpu: 25m
