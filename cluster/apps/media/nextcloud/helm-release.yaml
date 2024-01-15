@@ -81,7 +81,7 @@ spec:
       existingClaim: nextcloud-config-v1
       nextcloudData:
         enabled: true
-        existingClaim: nfs-nextcloud-pvc-v4
+        existingClaim: nfs-nextcloud-pvc-v5
     livenessProbe:
       enabled: false
     readinessProbe:
