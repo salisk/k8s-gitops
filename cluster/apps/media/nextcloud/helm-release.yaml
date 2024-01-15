@@ -89,6 +89,9 @@ spec:
     metrics:
       enabled: true
     nextcloud:
+      podSecurityContext:
+        supplementalGroups:
+          - 33
       host: nextcloud.${SECRET_DOMAIN}
       username: "${NEXTCLOUD_ADMIN_USERNAME}"
       password: "${NEXTCLOUD_ADMIN_PASSWORD}"
