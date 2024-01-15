@@ -20,7 +20,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: nfs-nextcloud-pvc-v4
+  name: nfs-nextcloud-pvc-v5
   namespace: media
 spec:
   accessModes:
