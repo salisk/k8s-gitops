@@ -47,6 +47,13 @@ spec:
             envFrom: &envFrom
               - secretRef:
                   name: lidarr-secret
+          init-script:
+            image:
+              repository: alpine 
+              tag: 3.19.0
+              pullPolicy: IfNotPresent
+            command:
+            - "/custom-cont-init.d/script_init.bash"
         containers:
           main:
             image:
