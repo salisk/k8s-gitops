@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: plugin-init
+  namespace: media
+data:
+  script_init.bash: |
+    #!/usr/bin/with-contenv bash
+    curl https://raw.githubusercontent.com/RandomNinjaAtk/arr-scripts/main/lidarr/setup.bash | bash
+    exit

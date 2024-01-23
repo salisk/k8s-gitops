@@ -94,3 +94,15 @@ spec:
       media:
         enabled: true
         existingClaim: nfs-media-pvc-v2
+      plugin-config:
+        enabled: true
+        existingClaim: lidarr-plugin-v1
+        globalMounts:
+          - path: /custom-services.d
+      plugin-init:
+        enabled: true
+        type: configMap
+        name: plugin-init
+        globalMounts:
+          - path: /custom-cont-init.d/script_init.bash
+            subPath: script_init.bash
