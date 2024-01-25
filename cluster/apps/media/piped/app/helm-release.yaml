@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: piped
-      version: 4.1.2
+      version: 5.0.0
       sourceRef:
         kind: HelmRepository
         name: piped
@@ -55,7 +55,8 @@ spec:
         database:
           connection_url: jdbc:postgresql://postgres-rw.data.svc.cluster.local:5432/piped
           driver_class: org.postgresql.Driver
-          secret: *secret
+          secret:
+            name: *secret
     ingress:
       main:
         enabled: true
