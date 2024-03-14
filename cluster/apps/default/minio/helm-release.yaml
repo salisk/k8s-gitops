@@ -27,7 +27,7 @@ spec:
   values:
     image:
       repository: quay.io/minio/minio
-      tag: RELEASE.2024-03-05T04-48-44Z
+      tag: RELEASE.2024-03-10T02-53-48Z
     controller:
       annotations:
         reloader.stakater.com/auto: "true"
