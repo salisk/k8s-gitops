@@ -35,7 +35,7 @@ spec:
     shared_preload_libraries:
         - "vectors.so"
     parameters:
-      max_connections: "600"
+      max_connections: "900"
       shared_buffers: 512MB
   monitoring:
     enablePodMonitor: true
