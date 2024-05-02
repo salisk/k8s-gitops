@@ -42,7 +42,7 @@ spec:
           main:
             image:
               repository: ghcr.io/paperless-ngx/paperless-ngx
-              tag: 2.6.2@sha256:9483e2fff0b50c1b5f90c6e6d085fc3551f9dd7d039c29efb3ace712ba9ee42e
+              tag: 2.7.2@sha256:703c990a790dfd4d25fb56df3afec27b13cb0926a3818bf265edac9c71311647
             env:
               COMPOSE_PROJECT_NAME: paperless
               PAPERLESS_CONSUMER_POLLING: "60"
