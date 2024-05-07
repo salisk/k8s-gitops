@@ -32,6 +32,10 @@ spec:
       API_ID: ${WYZE_API_ID}
       API_KEY: ${WYZE_API_KEY}
       TZ: ${TIMEZONE}
+      H264_ENC: h264_qsv
+      ON_DEMAND: False
+      SUBSTREAM: True
+      LIBVA_DRIVER_NAME: i965
     service:
       main:
         ports:
@@ -72,5 +76,7 @@ spec:
       requests:
         cpu: 35m
         memory: 500M
+        gpu.intel.com/i915: 1
       limits:
         memory: 1000M
+        gpu.intel.com/i915: 1
