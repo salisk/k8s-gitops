@@ -1,5 +1,7 @@
-# logger:
-#   default: info
+---
+# yaml-language-server: $schema=https://frigate.devbu.io/api/config/schema.json
+logger:
+  default: info
 
 mqtt:
   host: mosquitto.home.svc.cluster.local
@@ -18,15 +20,7 @@ detectors:
 # Global ffmpeg configuration
 ffmpeg:
   global_args: ["-hide_banner", "-loglevel", "warning"]
-  hwaccel_args:
-    [
-      "-hwaccel",
-      "vaapi",
-      "-hwaccel_device",
-      "/dev/dri/renderD128",
-      "-hwaccel_output_format",
-      "yuv420p",
-    ]
+  hwaccel_args: preset-intel-qsv-h264
 
 snapshots:
   enabled: true
@@ -42,7 +36,7 @@ record:
     mode: all
   events:
     retain:
-      default: 14
+      default: 21
       mode: active_objects
 
 objects:
