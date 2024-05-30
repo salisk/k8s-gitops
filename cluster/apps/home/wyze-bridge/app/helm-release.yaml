@@ -36,6 +36,9 @@ spec:
       ON_DEMAND: False
       SUBSTREAM: True
       LIBVA_DRIVER_NAME: i965
+      FILTER_NAMES: Sventoji1, Sventoji2
+      FILTER_BLOCK: True
+      WB_AUTH: False
     service:
       main:
         ports:
