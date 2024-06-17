@@ -22,7 +22,7 @@ jobs:
               - added|modified: "**.md"
       - name: Lint files
         if: ${{ steps.filter.outputs.markdown == 'true' }}
-        uses: reviewdog/action-shellcheck@6e3a862f231c6895fbd335b70adef8f9243d5762 # v1
+        uses: reviewdog/action-shellcheck@3546242c869924d13293e38e6289e00a26468e02 # v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           markdownlint_flags: "-c '.github/lint/.markdownlint.yaml' ${{ steps.filter.outputs.markdown_files }}"
