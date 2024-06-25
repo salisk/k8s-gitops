@@ -21,10 +21,10 @@ spec:
   bootstrap:
     recovery:
       source: &previousCluster postgres-v15
-    initdb:
-      postInitSQL:
-        - ALTER SYSTEM SET search_path TO "$user", public, vectors;
-        - CREATE EXTENSION IF NOT EXISTS "vectors";
+    # initdb:
+    #   postInitSQL:
+    #     - ALTER SYSTEM SET search_path TO "$user", public, vectors;
+    #     - CREATE EXTENSION IF NOT EXISTS "vectors";
   # bootstrap:
   #   initdb
   #     import:
