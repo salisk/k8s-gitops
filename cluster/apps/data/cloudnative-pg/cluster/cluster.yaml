@@ -7,7 +7,7 @@ metadata:
   namespace: data
 spec:
   instances: 3
-  imageName: ghcr.io/bo0tzz/cnpgvecto.rs:15.5-v0.1.11
+  imageName: ghcr.io/tensorchord/cloudnative-pgvecto.rs:15.7-v0.2.1
   enableSuperuserAccess: true
   inheritedMetadata:
     labels:
@@ -21,8 +21,12 @@ spec:
   bootstrap:
     recovery:
       source: &previousCluster postgres-v15
+    initdb:
+      postInitSQL:
+        - ALTER SYSTEM SET search_path TO "$user", public, vectors;
+        - CREATE EXTENSION IF NOT EXISTS "vectors";
   # bootstrap:
-  #   initdb:
+  #   initdb
   #     import:
   #       type: monolith
   #       databases:
@@ -33,7 +37,7 @@ spec:
   #         externalCluster: bitnami-pg
   postgresql:
     shared_preload_libraries:
-        - "vectors.so"
+      - "vectors.so"
     parameters:
       max_connections: "900"
       shared_buffers: 512MB
