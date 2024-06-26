@@ -7,6 +7,5 @@ resources:
   - ./configmap.yaml
   - ./secret.yaml
   - ./server
-  - ./microservices
   - ./machine-learning
   - ../../../../templates/gatus/internal
