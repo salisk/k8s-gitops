@@ -11,10 +11,13 @@ data:
   REDIS_HOSTNAME: redis-lb.data.svc.cluster.local
   REDIS_PORT: "6379"
   REDIS_DBINDEX: "10"
+  DISABLE_REVERSE_GEOCODING: "true"
+  ENABLE_MAPBOX: "false"
+  NODE_ENV: production
   IMMICH_WEB_URL: http://immich-web.media.svc.cluster.local:3000
   IMMICH_SERVER_URL: http://immich-server.media.svc.cluster.local:3001
   IMMICH_MACHINE_LEARNING_URL: http://immich-machine-learning.media.svc.cluster.local:3003
    # Immich
-  TRANSFORMERS_CACHE: /usr/src/app/.transformers_cache
+  # TRANSFORMERS_CACHE: /usr/src/app/.transformers_cache
   # TYPESENSE_DATA_DIR: /config
   # TYPESENSE_HOST: immich-typesense.media.svc.cluster.local
