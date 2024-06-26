@@ -7,13 +7,16 @@ metadata:
 data:
   DB_PORT: "5432"
   LOG_LEVEL: verbose
+  # Redis
   # REDIS_HOSTNAME: immich-redis.default.svc.cluster.local
-  REDIS_HOSTNAME: redis-lb.data.svc.cluster.local
+  REDIS_HOSTNAME: dragonfly.data.svc.cluster.local
+  REDIS_DBINDEX: "1"
   REDIS_PORT: "6379"
-  REDIS_DBINDEX: "10"
+  # Settings
   DISABLE_REVERSE_GEOCODING: "true"
   ENABLE_MAPBOX: "false"
   NODE_ENV: production
+  # Urls
   IMMICH_WEB_URL: http://immich-web.media.svc.cluster.local:3000
   IMMICH_SERVER_URL: http://immich-server.media.svc.cluster.local:3001
   IMMICH_MACHINE_LEARNING_URL: http://immich-machine-learning.media.svc.cluster.local:3003
