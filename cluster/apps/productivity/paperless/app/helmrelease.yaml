@@ -57,7 +57,7 @@ spec:
               PAPERLESS_WEBSERVER_WORKERS: 2
               PAPERLESS_URL: https://paperless.${SECRET_DOMAIN}
               PAPERLESS_OCR_LANGUAGE: eng+lit
-              PAPERLESS_OCR_LANGUAGES: eng+lit
+              PAPERLESS_OCR_LANGUAGES: eng lit por
               PAPERLESS_TIME_ZONE: "${TIMEZONE}"
               PAPERLESS_DBHOST: postgres-rw.data.svc.cluster.local
               PAPERLESS_DBPASS: ${PAPERLESS_DBPASS}

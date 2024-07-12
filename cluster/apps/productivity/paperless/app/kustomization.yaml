@@ -5,13 +5,11 @@ kind: Kustomization
 resources:
   - ./config-pvc.yaml
   - ./helmrelease.yaml
+  - ./pdf-passwords.yaml
   - ../../../../templates/gatus/internal
 configMapGenerator:
   - name: paperless-scripts
     files:
       - pdfpassword.py=./scripts/pdfpassword.py
-  - name: pdf-passwords
-    files:
-      - passwords.txt=./scripts/passwords.txt
 generatorOptions:
   disableNameSuffixHash: true
