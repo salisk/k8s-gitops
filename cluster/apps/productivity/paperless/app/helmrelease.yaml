@@ -109,6 +109,8 @@ spec:
         enabled: true
         type: configMap
         name: paperless-scripts
+        defaultMode: 0775
+        readOnly: true
         globalMounts:
           - path: /usr/src/paperless/scripts/pdfpassword.py
             subPath: pdfpassword.py
@@ -116,6 +118,8 @@ spec:
         enabled: true
         type: configMap
         name: pdf-passwords
+        defaultMode: 0775
+        readOnly: true
         globalMounts:
           - path: /usr/src/paperless/scripts/passwords.txt
             subPath: passwords.txt
