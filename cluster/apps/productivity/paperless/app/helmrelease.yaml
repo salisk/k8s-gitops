@@ -71,7 +71,7 @@ spec:
               PAPERLESS_DATA_DIR: /data
               PAPERLESS_EXPORT_DIR: /usr/src/paperless/export
               PAPERLESS_MEDIA_ROOT: /usr/src/paperless/media
-              PAPERLESS_PRE_CONSUME_SCRIPT: /usr/src/paperless/pdfpassword.py
+              PAPERLESS_PRE_CONSUME_SCRIPT: /usr/src/paperless/scripts/pdfpassword.py
               # Configure user permissions
               USERMAP_GID: "1000"
             resources:
