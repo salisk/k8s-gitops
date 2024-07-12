@@ -57,7 +57,7 @@ spec:
               PAPERLESS_WEBSERVER_WORKERS: 2
               PAPERLESS_URL: https://paperless.${SECRET_DOMAIN}
               PAPERLESS_OCR_LANGUAGE: eng+lit
-              PAPERLESS_OCR_LANGUAGES: lit por
+              PAPERLESS_OCR_LANGUAGES: eng+lit
               PAPERLESS_TIME_ZONE: "${TIMEZONE}"
               PAPERLESS_DBHOST: postgres-rw.data.svc.cluster.local
               PAPERLESS_DBPASS: ${PAPERLESS_DBPASS}
@@ -71,6 +71,7 @@ spec:
               PAPERLESS_DATA_DIR: /data
               PAPERLESS_EXPORT_DIR: /usr/src/paperless/export
               PAPERLESS_MEDIA_ROOT: /usr/src/paperless/media
+              PAPERLESS_PRE_CONSUME_SCRIPT: /usr/src/paperless/pdfpassword.py
               # Configure user permissions
               USERMAP_GID: "1000"
             resources:
@@ -104,6 +105,20 @@ spec:
       data:
         enabled: true
         existingClaim: paperless-config-v1
+      scripts:
+        enabled: true
+        type: configMap
+        name: paperless-scripts
+        globalMounts:
+          - path: /usr/src/paperless/scripts/pdfpassword.py
+            subPath: pdfpassword.py
+      pdfpasswords:
+        enabled: true
+        type: configMap
+        name: pdf-passwords
+        globalMounts:
+          - path: /usr/src/paperless/scripts/passwords.txt
+            subPath: passwords.txt
       media:
         enabled: true
         type: nfs

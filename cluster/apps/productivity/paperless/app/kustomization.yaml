@@ -6,3 +6,10 @@ resources:
   - ./config-pvc.yaml
   - ./helmrelease.yaml
   - ../../../../templates/gatus/internal
+configMapGenerator:
+  - name: paperless-scripts
+    files:
+      - pdfpassword.py=./scripts/pdfpassword.py
+  - name: pdf-passwords
+    files:
+      - passwords.txt=./scripts/passwords.txt
