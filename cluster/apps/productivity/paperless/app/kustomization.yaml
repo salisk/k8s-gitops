@@ -13,3 +13,5 @@ configMapGenerator:
   - name: pdf-passwords
     files:
       - passwords.txt=./scripts/passwords.txt
+generatorOptions:
+  disableNameSuffixHash: true
