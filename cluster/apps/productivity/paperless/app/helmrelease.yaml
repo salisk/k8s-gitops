@@ -66,6 +66,9 @@ spec:
               # Redis
               PAPERLESS_REDIS: redis://paperless-redis.productivity.svc.cluster.local:6379
               # PAPERLESS_REDIS: redis://localhost:6379
+              # Configuration
+              PAPERLESS_OCR_USER_ARGS: |-
+                {"invalidate_digital_signatures"}: true
               # Configure folders
               PAPERLESS_CONSUMPTION_DIR: /usr/src/paperless/consume
               PAPERLESS_DATA_DIR: /data
