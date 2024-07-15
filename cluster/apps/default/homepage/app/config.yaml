@@ -17,7 +17,7 @@ data:
         description: NAS
         widget:
           type: diskstation
-          url: "http://${NAS_ADDR}
+          url: http://${NAS_ADDR}
   widgets.yaml: |
     ---
     - search:
