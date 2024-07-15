@@ -30,6 +30,14 @@ spec:
           hajimari.io/enable: "true"
           hajimari.io/icon: "book-open"
           cert-manager.io/cluster-issuer: "letsencrypt-production"
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Downloads
+          gethomepage.dev/name: Readarr
+          gethomepage.dev/description: Books Downloader
+          gethomepage.dev/icon: readarr.png
+          gethomepage.dev/widget.type: readarr
+          gethomepage.dev/widget.url: http://readarr.media:8787
+          gethomepage.dev/widget.key: "${HOMEPAGE_READARR_KEY}"
         hosts:
           - host: "readarr.${SECRET_DOMAIN}"
             paths:

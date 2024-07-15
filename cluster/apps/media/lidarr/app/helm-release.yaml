@@ -49,7 +49,7 @@ spec:
                   name: lidarr-secret
           # init-script:
           #   image:
-          #     repository: alpine 
+          #     repository: alpine
           #     tag: 3.19.0
           #     pullPolicy: IfNotPresent
           #   command:
@@ -84,6 +84,14 @@ spec:
         className: "nginx"
         annotations:
           hajimari.io/icon: mdi:headphones
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Downloads
+          gethomepage.dev/name: Lidarr
+          gethomepage.dev/description: Music Downloader
+          gethomepage.dev/icon: lidarr.png
+          gethomepage.dev/widget.type: lidarr
+          gethomepage.dev/widget.url: http://lidarr.media
+          gethomepage.dev/widget.key: "${HOMEPAGE_LIDARR_KEY}"
         hosts:
           - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:

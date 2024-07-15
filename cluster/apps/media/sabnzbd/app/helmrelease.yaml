@@ -86,6 +86,14 @@ spec:
         className: nginx
         annotations:
           cert-manager.io/cluster-issuer: "letsencrypt-production"
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Downloads
+          gethomepage.dev/name: SABnzbd
+          gethomepage.dev/description: Usenet Download Tool
+          gethomepage.dev/icon: sabnzbd.png
+          gethomepage.dev/widget.type: sabnzbd
+          gethomepage.dev/widget.url: http://sabnzbd.media
+          gethomepage.dev/widget.key: "${HOMEPAGE_SABNZBD_KEY}"
         hosts:
           - host: &host sab.${SECRET_DOMAIN}
             paths:

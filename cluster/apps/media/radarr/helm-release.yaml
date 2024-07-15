@@ -95,6 +95,14 @@ spec:
           hajimari.io/enable: "true"
           hajimari.io/icon: "filmstrip"
           cert-manager.io/cluster-issuer: "letsencrypt-production"
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Downloads
+          gethomepage.dev/name: Radarr
+          gethomepage.dev/description: Movie Downloader
+          gethomepage.dev/icon: radarr.png
+          gethomepage.dev/widget.type: radarr
+          gethomepage.dev/widget.url: http://radarr.media
+          gethomepage.dev/widget.key: "${HOMEPAGE_RADARR_KEY}"
         hosts:
           - host: "radarr.${SECRET_DOMAIN}"
             paths:

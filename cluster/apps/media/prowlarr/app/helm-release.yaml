@@ -93,6 +93,14 @@ spec:
           hajimari.io/enable: "true"
           hajimari.io/icon: "cloud-search"
           cert-manager.io/cluster-issuer: "letsencrypt-production"
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Downloads
+          gethomepage.dev/name: Prowlarr
+          gethomepage.dev/description: Indexer Manager
+          gethomepage.dev/icon: prowlarr.png
+          gethomepage.dev/widget.type: prowlarr
+          gethomepage.dev/widget.url: http://prowlarr.media
+          gethomepage.dev/widget.key: "${HOMEPAGE_PROWLARR_KEY}"
         hosts:
           - host: "prowlarr.${SECRET_DOMAIN}"
             paths:

@@ -59,7 +59,7 @@ spec:
         pod:
           securityContext:
             runAsUser: 0
-            supplementalGroups: [100,10000]
+            supplementalGroups: [100, 10000]
     service:
       main:
         ports:
@@ -85,6 +85,15 @@ spec:
           hajimari.io/enable: "true"
           hajimari.io/icon: "cloud-download"
           cert-manager.io/cluster-issuer: "letsencrypt-production"
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Downloads
+          gethomepage.dev/name: qBittorrent
+          gethomepage.dev/description: Torrent Client
+          gethomepage.dev/icon: qbittorrent.png
+          gethomepage.dev/widget.type: qbittorrent
+          gethomepage.dev/widget.url: http://qbittorrent.media
+          gethomepage.dev/widget.username: "${SECRET_QB_USERNAME}"
+          gethomepage.dev/widget.password: "${SECRET_QB_PASSWORD}"
         hosts:
           - host: "qb.${SECRET_DOMAIN}"
             paths:

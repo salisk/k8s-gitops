@@ -94,6 +94,14 @@ spec:
           hajimari.io/enable: "true"
           hajimari.io/icon: "television-box"
           cert-manager.io/cluster-issuer: "letsencrypt-production"
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Downloads
+          gethomepage.dev/name: Sonarr
+          gethomepage.dev/description: TV Show Downloader
+          gethomepage.dev/icon: sonarr.png
+          gethomepage.dev/widget.type: sonarr
+          gethomepage.dev/widget.url: http://sonarr.media
+          gethomepage.dev/widget.key: "${HOMEPAGE_SONARR_KEY}"
         hosts:
           - host: "sonarr.${SECRET_DOMAIN}"
             paths:

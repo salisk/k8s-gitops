@@ -60,6 +60,14 @@ spec:
           hajimari.io/icon: "eye-circle"
           cert-manager.io/cluster-issuer: "letsencrypt-production"
           external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Media
+          gethomepage.dev/name: Overseerr
+          gethomepage.dev/description: Movie Requests
+          gethomepage.dev/icon: overseerr.png
+          gethomepage.dev/widget.type: overseerr
+          gethomepage.dev/widget.url: http://overseerr.media
+          gethomepage.dev/widget.key: "${HOMEPAGE_OVERSEERR_KEY}"
         hosts:
           - host: &host requests.${SECRET_DOMAIN}
             paths:
