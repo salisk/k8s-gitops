@@ -13,11 +13,11 @@ data:
     ---
     - Storage
       - Synology
-        icon: si-synology
-        description: NAS
-        widget:
-          type: diskstation
-          url: "http://${NAS_ADDR}
+          icon: si-synology
+          description: NAS
+          widget:
+            type: diskstation
+            url: "http://${NAS_ADDR}
   widgets.yaml: |
     ---
     - search:
