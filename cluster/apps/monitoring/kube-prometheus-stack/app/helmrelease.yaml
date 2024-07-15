@@ -128,7 +128,7 @@ spec:
           gethomepage.dev/description: Metrics
           gethomepage.dev/icon: prometheus.png
           gethomepage.dev/widget.type: prometheus
-          gethomepage.dev/widget.url: "http://kube-prometheus-stack.monitoring:9090"
+          gethomepage.dev/widget.url: "http://kube-prometheus-stack-prometheus.monitoring:9090"
         pathType: Prefix
         hosts:
           - &host prometheus.${SECRET_DOMAIN}
