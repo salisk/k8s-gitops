@@ -94,6 +94,11 @@ spec:
         className: "nginx"
         annotations:
           hajimari.io/icon: mdi:barcode-scan
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: productivity
+          gethomepage.dev/name: Paperless
+          gethomepage.dev/description: Document Service
+          gethomepage.dev/icon: paperless.png
         hosts:
           - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:
