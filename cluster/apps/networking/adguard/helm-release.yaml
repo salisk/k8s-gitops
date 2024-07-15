@@ -77,7 +77,7 @@ spec:
           gethomepage.dev/group: networking
           gethomepage.dev/name: Adguard
           gethomepage.dev/description: Adguard DNS
-          gethomepage.dev/icon: adguard.png
+          gethomepage.dev/icon: adguard-home.png
           gethomepage.dev/widget.type: adguard
           gethomepage.dev/widget.url: "http://adguard.networking"
         hosts:

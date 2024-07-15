@@ -10,7 +10,7 @@ metadata:
     gethomepage.dev/group: data
     gethomepage.dev/name: NAS
     gethomepage.dev/description: Synology
-    gethomepage.dev/icon: diskstation.png
+    gethomepage.dev/icon: si-synology
     gethomepage.dev/widget.type: diskstation
     gethomepage.dev/widget.url: "http://${NAS_ADDR}"
 spec:
