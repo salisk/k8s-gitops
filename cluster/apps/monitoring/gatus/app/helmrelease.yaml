@@ -104,8 +104,13 @@ spec:
       main:
         enabled: true
         className: nginx
-        # annotations:
-        #   external-dns.alpha.kubernetes.io/target: external.devbu.io
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: monitoring
+          gethomepage.dev/name: Gatus
+          gethomepage.dev/description: Service Status
+          gethomepage.dev/icon: gatus.png
+          gethomepage.dev/widget.type: gatus
         hosts:
           - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:
