@@ -49,6 +49,14 @@ spec:
       main:
         enabled: true
         className: nginx
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: home
+          gethomepage.dev/name: ESPHome
+          gethomepage.dev/description: ESPHome
+          gethomepage.dev/icon: esphome.png
+          gethomepage.dev/widget.type: esphome
+          gethomepage.dev/widget.url: "http://esphome.home"
         hosts:
           - host: "esphome.${SECRET_DOMAIN}"
             paths:

@@ -292,6 +292,15 @@ spec:
       ingressClassName: nginx
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/group: monitoring
+        gethomepage.dev/name: Grafana
+        gethomepage.dev/description: Metrics Dashboard
+        gethomepage.dev/icon: grafana.png
+        gethomepage.dev/widget.type: grafana
+        gethomepage.dev/widget.url: "http://grafana.monitoring"
+        gethomepage.dev/widget.user: "admin"
+        gethomepage.dev/widget.password: "${SECRET_GRAFANA_PASSWORD}"
       hosts:
         - &host grafana.${SECRET_DOMAIN}
       tls:

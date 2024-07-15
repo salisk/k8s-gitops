@@ -5,7 +5,14 @@ metadata:
   name: nas
   namespace: networking
   annotations:
-      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: data
+    gethomepage.dev/name: NAS
+    gethomepage.dev/description: Synology
+    gethomepage.dev/icon: diskstation.png
+    gethomepage.dev/widget.type: diskstation
+    gethomepage.dev/widget.url: "http://${NAS_ADDR}"
 spec:
   ingressClassName: nginx
   rules:
@@ -14,9 +21,9 @@ spec:
         paths:
           - backend:
               service:
-               name: nas
-               port:
-                 number: 5000
+                name: nas
+                port:
+                  number: 5000
             path: /
             pathType: Prefix
   tls:

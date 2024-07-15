@@ -73,6 +73,13 @@ spec:
         ingressClassName: nginx
         annotations:
           cert-manager.io/cluster-issuer: "letsencrypt-production"
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: networking
+          gethomepage.dev/name: Adguard
+          gethomepage.dev/description: Adguard DNS
+          gethomepage.dev/icon: adguard.png
+          gethomepage.dev/widget.type: adguard
+          gethomepage.dev/widget.url: "http://adguard.networking"
         hosts:
           - host: &host adguard.${SECRET_DOMAIN}
             paths:

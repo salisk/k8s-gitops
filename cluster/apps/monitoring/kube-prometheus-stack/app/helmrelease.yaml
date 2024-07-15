@@ -122,6 +122,13 @@ spec:
         ingressClassName: nginx
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt-prod
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: monitoring
+          gethomepage.dev/name: Prometheus
+          gethomepage.dev/description: Metrics
+          gethomepage.dev/icon: prometheus.png
+          gethomepage.dev/widget.type: prometheus
+          gethomepage.dev/widget.url: "http://prometheus.monitoring"
         pathType: Prefix
         hosts:
           - &host prometheus.${SECRET_DOMAIN}
