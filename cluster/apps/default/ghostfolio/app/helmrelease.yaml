@@ -1,0 +1,84 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app ghostfolio
+  namespace: default
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.2.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    controllers:
+      ghostfolio:
+        strategy: RollingUpdate
+        annotations:
+          reloader.stakater.com/auto: "true"
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/onedr0p/postgres-init
+              tag: 15.5
+            envFrom: &envFrom
+              - secretRef:
+                  name: ghostfolio-secret
+        containers:
+          app:
+            image:
+              repository: docker.io/ghostfolio/ghostfolio
+              tag: 2.96.0@sha256:d835b2908ca6ad04da4b2d4499ba139920f9183fa2839191596f651797edbcf2
+            env:
+              NODE_ENV: production
+              REDIS_HOST: dragonfly.data.svc.cluster.local
+              REDIS_PORT: 6379
+            envFrom: *envFrom
+            resources:
+              requests:
+                cpu: 100m
+                memory: 256Mi
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: 3333
+    ingress:
+      app:
+        enabled: true
+        className: nginx
+        annotations:
+          hajimari.io/icon: mdi:cash-multiple
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Productivity
+          gethomepage.dev/name: Ghostfolio
+          gethomepage.dev/description: Personal Blog
+          gethomepage.dev/icon: ghostfolio.png
+        hosts:
+          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                service:
+                  identifier: app
+                  port: http
+        tls:
+          - hosts:
+              - *host

@@ -7,4 +7,5 @@ resources:
   - ./homepage/ks.yaml
   - ./miniflux/ks.yaml
   - ./ghost/ks.yaml
+  - ./ghostfolio/ks.yaml
   # - ssh
