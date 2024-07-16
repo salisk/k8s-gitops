@@ -13,10 +13,10 @@ data:
         - Github:
             - abbr: GH
               href: https://github.com/
-        - Hackaday
+        - Hackaday:
             - abbr: GH
               href: https://hackaday.com/blog
-        - Hackernews
+        - Hackernews:
             - abbr: HN
               href: https://news.ycombinator.com
     - Social:
