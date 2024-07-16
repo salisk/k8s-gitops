@@ -75,10 +75,10 @@ spec:
         gethomepage.dev/name: Nextcloud
         gethomepage.dev/description: Cloud
         gethomepage.dev/icon: nextcloud.png
-        gethomepage.dev/widget.type: nextcloud
-        gethomepage.dev/widget.url: http://nextcloud.media:8080
-        gethomepage.dev/widget.username: "${NEXTCLOUD_ADMIN_USERNAME}"
-        gethomepage.dev/widget.password: "${HOMEPAGE_NEXTCLOUD_KEY}"
+        # gethomepage.dev/widget.type: nextcloud
+        # gethomepage.dev/widget.url: http://nextcloud.media:8080
+        # gethomepage.dev/widget.username: "${NEXTCLOUD_ADMIN_USERNAME}"
+        # gethomepage.dev/widget.password: "${HOMEPAGE_NEXTCLOUD_KEY}"
       hosts:
         - "nextcloud.${SECRET_DOMAIN}"
       tls:
