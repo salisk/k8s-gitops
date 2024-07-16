@@ -43,9 +43,9 @@ spec:
           main:
             image:
               repository: ghcr.io/miniflux/miniflux
-              tag: 2.0.50-distroless@sha256:625f6decf8740020fabec273e0f694f218a50281e251e13514ac2be4d9147ca8
+              tag: 2.1.4
             env:
-              BASE_URL: https://miniflux.${SECRET_DOMAIN}
+              BASE_URL: https://rss.${SECRET_DOMAIN}
               CREATE_ADMIN: "1"
               # DEBUG: "1"
               LOG_DATE_TIME: "1"
@@ -105,8 +105,17 @@ spec:
       main:
         enabled: true
         className: nginx
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: News
+          gethomepage.dev/name: MiniFlux
+          gethomepage.dev/description: RSS Reader
+          gethomepage.dev/icon: mdi-rss
+          gethomepage.dev/widget.type: miniflux
+          gethomepage.dev/widget.url: http://miniflux.default
+          gethomepage.dev/widget.key: "${HOMEPAGE_MINIFLUX_KEY}"
         hosts:
-          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
+          - host: &host "rss.${SECRET_DOMAIN}"
             paths:
               - path: /
                 service:

@@ -97,6 +97,12 @@ spec:
       main:
         enabled: true
         className: nginx
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Home
+          gethomepage.dev/name: Zigbee2MQTT
+          gethomepage.dev/description: Zigbee to MQTT integration
+          gethomepage.dev/icon: mdi-zigbee
         hosts:
           - host: &host "zigbee.${SECRET_DOMAIN}"
             paths:

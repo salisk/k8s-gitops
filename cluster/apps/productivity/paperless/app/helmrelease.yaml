@@ -95,10 +95,13 @@ spec:
         annotations:
           hajimari.io/icon: mdi:barcode-scan
           gethomepage.dev/enabled: "true"
-          gethomepage.dev/group: productivity
+          gethomepage.dev/group: Productivity
           gethomepage.dev/name: Paperless
           gethomepage.dev/description: Document Service
           gethomepage.dev/icon: paperless.png
+          gethomepage.dev/widget.type: paperlessngx
+          gethomepage.dev/widget.url: "http://paperless.productivity"
+          gethomepage.dev/widget.key: "${HOMEPAGE_PAPERLESS_KEY}"
         hosts:
           - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:

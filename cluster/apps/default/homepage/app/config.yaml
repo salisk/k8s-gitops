@@ -9,19 +9,49 @@ metadata:
 data:
   bookmarks.yaml: |
     ---
+    - Developer:
+        - Github:
+            - abbr: GH
+              href: https://github.com/
+        - Hackaday
+            - abbr: GH
+              href: https://hackaday.com/blog
+        - Hackernews
+            - abbr: HN
+              href: https://news.ycombinator.com
+    - Social:
+        - Reddit:
+            - abbr: RE
+              href: https://reddit.com/
+
+    - Entertainment:
+        - YouTube:
+            - abbr: YT
+              href: https://youtube.com/
   services.yaml: |
     ---
     - Storage:
       - Synology:
+        href: http://nas.${SECRET_DOMAIN}
+        description: Synology NAS
         icon: si-synology
-        description: NAS
         widget:
           type: diskstation
           url: http://${NAS_ADDR}
+    - Networking:
+      - Cloudflare:
+          icon: cloudflare.png 
+          description: Cloudflare Tunnel
+          href: https://dash.cloudflare.com
+          widget:
+            type: cloudflared
+            accountid: ${SECRET_CF_TUNNEL_TAG}
+            tunnelid: ${SECRET_CF_TUNNEL_ID}
+            key: ${HOMEPAGE_CF_KEY}
   widgets.yaml: |
     ---
     - search:
-        provider: [google, duckduckgo]
+        provider: [google]
         focus: false
         target: _blank
     - greeting:
@@ -40,14 +70,14 @@ data:
           memory: true
           showLabel: true
     - longhorn:
-      # Show the expanded
-      expanded: true
-      # Shows a node representing the aggregate values
-      total: true
-      # Shows the node names as labels
-      labels: true
-      # Show the nodes
-      nodes: true
+        # Show the expanded
+        expanded: true
+        # Shows a node representing the aggregate values
+        total: true
+        # Shows the node names as labels
+        labels: true
+        # Show the nodes
+        nodes: true
   kubernetes.yaml: |
     ---
     mode: cluster
@@ -62,16 +92,16 @@ data:
     target: _self
     headerStyle: clean
     layout:
-      Media Management:
+      Media:
         style: row
         columns: 4
       FileOps:
         style: row
         columns: 2
-      Collaboration:
+      Productivity:
         style: row
         columns: 4
-      Observability:
+      Networking:
         style: column
         columns: 1
       Media Automation:
@@ -80,8 +110,8 @@ data:
       Security:
         style: row
         columns: 2
-      Downloaders:
-        style: row
+      Downloads:
+        style: column
         columns: 2
       Storage:
         style: row

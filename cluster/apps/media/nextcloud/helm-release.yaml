@@ -27,14 +27,14 @@ spec:
         nginx.ingress.kubernetes.io/server-snippet: |-
           server_tokens off;
           proxy_hide_header X-Powered-By;
-        
+
           # Rule borrowed from .htaccess to handle Microsoft DAV clients
           location = / {
             if ( $http_user_agent ~ ^DavClnt ) {
               return 302 /remote.php/webdav/$is_args$args;
             }
           }
-     
+
           location = /robots.txt {
               allow all;
               log_not_found off;
@@ -42,7 +42,7 @@ spec:
           }
 
           location ^~ /.well-known {
-          
+
             # The rules in this block are an adaptation of the rules
             # in .htaccess that concern /.well-known.
 
@@ -56,7 +56,7 @@ spec:
             # requests by passing them to the front-end controller.
             return 301 /index.php$request_uri;
           }
-          
+
           # Rules borrowed from .htaccess to hide certain paths from clients
           location ~ ^/(?:build|tests|config|lib|3rdparty|templates|data)/ {
             deny all;
@@ -70,6 +70,15 @@ spec:
           #    return 301 /remote.php$request_uri;
           #}
         nginx.ingress.kubernetes.io/enable-global-auth: "false"
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/group: Media
+        gethomepage.dev/name: Nextcloud
+        gethomepage.dev/description: Cloud
+        gethomepage.dev/icon: nextcloud.png
+        gethomepage.dev/widget.type: nextcloud
+        gethomepage.dev/widget.url: http://nextcloud.media:8080
+        gethomepage.dev/widget.username: "${NEXTCLOUD_ADMIN_USERNAME}"
+        gethomepage.dev/widget.password: "${HOMEPAGE_NEXTCLOUD_KEY}"
       hosts:
         - "nextcloud.${SECRET_DOMAIN}"
       tls:

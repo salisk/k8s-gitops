@@ -51,7 +51,7 @@ spec:
         className: nginx
         annotations:
           gethomepage.dev/enabled: "true"
-          gethomepage.dev/group: home
+          gethomepage.dev/group: Home
           gethomepage.dev/name: ESPHome
           gethomepage.dev/description: ESPHome
           gethomepage.dev/icon: esphome.png

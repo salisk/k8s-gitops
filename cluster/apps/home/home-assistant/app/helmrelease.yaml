@@ -81,27 +81,36 @@ spec:
       main:
         # type: LoadBalancer
         # annotations:
-          # io.cilium/lb-ipam-ips: "${LB_HASS_IP}"
+        # io.cilium/lb-ipam-ips: "${LB_HASS_IP}"
         # externalTrafficPolicy: Cluster
         ports:
           http:
             port: 8123
         mdns-tcp:
-            enabled: true
-            port: 5353
-            protocol: TCP
-            targetPort: 5353
+          enabled: true
+          port: 5353
+          protocol: TCP
+          targetPort: 5353
         mdns-udp:
           enabled: true
           port: 5353
           protocol: UDP
           targetPort: 5353
         homekit:
-            port: 21063
+          port: 21063
     ingress:
       main:
         enabled: true
         className: nginx
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Home
+          gethomepage.dev/name: Home Assistant
+          gethomepage.dev/description: Home Automation
+          gethomepage.dev/icon: home-assistant.png
+          gethomepage.dev/widget.type: homeassistant
+          gethomepage.dev/widget.url: "http://home-assistant.home:8123"
+          gethomepage.dev/widget.key: "${HOMEPAGE_HASS_KEY}"
         hosts:
           - host: &host hass.${SECRET_DOMAIN}
             paths:

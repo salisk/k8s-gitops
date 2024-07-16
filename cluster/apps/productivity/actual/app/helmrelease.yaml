@@ -61,6 +61,12 @@ spec:
       main:
         enabled: true
         className: nginx
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Productivity
+          gethomepage.dev/name: Actual Budget
+          gethomepage.dev/description: Budgeting App
+          gethomepage.dev/icon: actual.png
         hosts:
           - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:

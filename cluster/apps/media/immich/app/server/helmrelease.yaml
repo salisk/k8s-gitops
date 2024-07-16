@@ -91,6 +91,14 @@ spec:
           cert-manager.io/cluster-issuer: "letsencrypt-production"
           hajimari.io/appName: Immich
           hajimari.io/icon: heroicons:photo
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Media
+          gethomepage.dev/name: Immich
+          gethomepage.dev/description: Photo Library
+          gethomepage.dev/icon: immich.png
+          gethomepage.dev/widget.type: immich
+          gethomepage.dev/widget.url: http://immich.media:3001
+          gethomepage.dev/widget.key: "${HOMEPAGE_IMMICH_KEY}"
         hosts:
           - host: &host immich.${SECRET_DOMAIN}
             paths:
