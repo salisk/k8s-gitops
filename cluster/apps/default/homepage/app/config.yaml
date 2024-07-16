@@ -114,8 +114,8 @@ data:
         style: row
         columns: 3
       Downloads:
-        style: column
-        columns: 2
+        style: row
+        columns: 4
       Media Automation:
         style: column
         columns: 1
