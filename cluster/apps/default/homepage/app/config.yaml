@@ -92,28 +92,34 @@ data:
     target: _self
     headerStyle: clean
     layout:
-      Media:
-        style: row
-        columns: 4
-      FileOps:
-        style: row
-        columns: 2
-      Productivity:
-        style: row
-        columns: 4
-      Networking:
+      News:
         style: column
         columns: 1
+      Productivity:
+        style: row
+        columns: 2
+      Networking:
+        style: row
+        columns: 2
+      Media:
+        style: row
+        columns: 3
+      Home:
+        style: row
+        columns: 4
+      Storage:
+        style: row
+        columns: 1
+      Monitoring:
+        style: row
+        columns: 3
+      Downloads:
+        style: column
+        columns: 2
       Media Automation:
         style: column
         columns: 1
       Security:
-        style: row
-        columns: 2
-      Downloads:
-        style: column
-        columns: 2
-      Storage:
         style: row
         columns: 2
     providers:

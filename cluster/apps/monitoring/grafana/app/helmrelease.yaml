@@ -293,7 +293,7 @@ spec:
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
         gethomepage.dev/enabled: "true"
-        gethomepage.dev/group: monitoring
+        gethomepage.dev/group: Monitoring
         gethomepage.dev/name: Grafana
         gethomepage.dev/description: Metrics Dashboard
         gethomepage.dev/icon: grafana.png

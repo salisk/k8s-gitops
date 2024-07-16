@@ -74,7 +74,7 @@ spec:
         annotations:
           cert-manager.io/cluster-issuer: "letsencrypt-production"
           gethomepage.dev/enabled: "true"
-          gethomepage.dev/group: networking
+          gethomepage.dev/group: Networking
           gethomepage.dev/name: Adguard
           gethomepage.dev/description: Adguard DNS
           gethomepage.dev/icon: adguard-home.png

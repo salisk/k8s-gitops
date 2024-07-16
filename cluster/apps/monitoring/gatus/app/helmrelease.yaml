@@ -106,7 +106,7 @@ spec:
         className: nginx
         annotations:
           gethomepage.dev/enabled: "true"
-          gethomepage.dev/group: monitoring
+          gethomepage.dev/group: Monitoring
           gethomepage.dev/name: Gatus
           gethomepage.dev/description: Service Status
           gethomepage.dev/icon: gatus.png
