@@ -82,6 +82,12 @@ spec:
       admin:
         enabled: true
         className: nginx
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: News
+          gethomepage.dev/name: Ghost
+          gethomepage.dev/description: Personal Blog
+          gethomepage.dev/icon: ghost-light.png
         hosts:
           - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:
