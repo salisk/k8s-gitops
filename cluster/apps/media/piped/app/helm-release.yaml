@@ -32,11 +32,17 @@ spec:
     frontend:
       image:
         repository: docker.io/1337kavin/piped-frontend
+        pullPolicy: "Always"
       env:
         BACKEND_HOSTNAME: &pipedapi pipedapi.${SECRET_DOMAIN}
+    ytproxy:
+      image:
+        repository: "docker.io/1337kavin/piped-proxy"
+        pullPolicy: "Always"
     backend:
       image:
         repository: docker.io/1337kavin/piped
+        pullPolicy: "Always"
       initContainers:
         01-init-db:
           image: "ghcr.io/onedr0p/postgres-init:15.5"
