@@ -61,9 +61,13 @@ spec:
               tag: 2.1.1.3878@sha256:6e3d3df8f076a746b0fb9bb3131c7c970e4020c7986521df41e8b92cbf0bf0f2
             env:
               TZ: "${TIMEZONE}"
-              LIDARR__INSTANCE_NAME: Lidarr
+              LIDARR__APP__INSTANCENAME: Lidarr
+              LIDARR__APP__THEME: dark
+              LIDARR__AUTH_METHOD: External
+              LIDARR__AUTH_REQUIRED: DisabledForLocalAddresses
+              LIDARR__LOG__ANALYTICSENABLED: "False"
+              LIDARR__LOG__LEVEL: info
               LIDARR__PORT: &port 80
-              LIDARR__LOG_LEVEL: info
             envFrom:
               - secretRef:
                   name: lidarr-secret
