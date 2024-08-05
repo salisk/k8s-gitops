@@ -26,11 +26,11 @@ snapshots:
 record:
   enabled: true
   retain:
-    days: 14
+    days: 21
     mode: all
   events:
     retain:
-      default: 21
+      default: 35
       mode: active_objects
 objects:
   track:
@@ -57,8 +57,20 @@ go2rtc:
     # frigate_sventoji2: rtsp://wyze-bridge:8554/sventoji2
     frigate_front_yard: rtsp://wyze-bridge:8554/front-porch-cam
     frigate_terrace: rtsp://view:{FRIGATE_RTSP_PASSWORD}@192.168.0.151:554
+    house_doorbell: rtsp://admin:{FRIGATE_HOUSE_DOORBELL_PASSWORD}@192.168.0.127:554
 # Specify camera's
 cameras:
+  house_doorbell:
+    ffmpeg:
+      inputs:
+        - path: rtsp://localhost:8554/house_doorbell
+          roles:
+            - detect
+            - record
+    detect:
+      width: 1024
+      height: 576
+      fps: 10
   frigate_terrace:
     ffmpeg:
       inputs:
