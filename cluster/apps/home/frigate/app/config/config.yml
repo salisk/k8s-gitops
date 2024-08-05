@@ -57,20 +57,30 @@ go2rtc:
     # frigate_sventoji2: rtsp://wyze-bridge:8554/sventoji2
     frigate_front_yard: rtsp://wyze-bridge:8554/front-porch-cam
     frigate_terrace: rtsp://view:{FRIGATE_RTSP_PASSWORD}@192.168.0.151:554
-    house_doorbell: rtsp://admin:{FRIGATE_HOUSE_DOORBELL_PASSWORD}@192.168.0.127:554
+    house_doorbell:
+      - "ffmpeg:http://192.168.0.127/flv?port=1935&app=bcs&stream=channel0_main.bcs&user=admin&password={FRIGATE_HOUSE_DOORBELL_PASSWORD}#video=copy#audio=copy#audio=opus"
+      - rtsp://admin:{FRIGATE_HOUSE_DOORBELL_PASSWORD}@192.168.0.127:554/h264Preview_01_main
+    house_doorbell_sub:
+      - "ffmpeg:http://192.168.0.127/flv?port=1935&app=bcs&stream=channel0_ext.bcs&user=admin&password={FRIGATE_HOUSE_DOORBELL_PASSWORD}"
 # Specify camera's
 cameras:
   house_doorbell:
     ffmpeg:
       inputs:
         - path: rtsp://localhost:8554/house_doorbell
+          input_args: preset-rtsp-restream
+          roles:
+            - record
+        - path: rtsp://localhost:8554/house_doorbell_sub
+          input_args: preset-rtsp-restream
           roles:
             - detect
-            - record
     detect:
-      width: 1024
-      height: 576
+      width: 640
+      height: 480
       fps: 10
+    live:
+      stream_name: house_doorbell_sub
   frigate_terrace:
     ffmpeg:
       inputs:
