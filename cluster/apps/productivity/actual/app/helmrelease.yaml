@@ -33,7 +33,7 @@ spec:
           main:
             image:
               repository: ghcr.io/actualbudget/actual-server
-              tag: 24.8.0
+              tag: 24.9.0
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
