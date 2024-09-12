@@ -3,7 +3,7 @@ collections:
   - name: community.general
     version: 9.4.0
   - name: community.sops
-    version: 1.8.2
+    version: 1.9.0
 roles:
   - src: xanmanning.k3s
     version: v3.4.4
