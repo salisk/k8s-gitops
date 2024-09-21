@@ -6,3 +6,4 @@ resources:
   - monica
   - ./atuin/ks.yaml
   - ./actual/ks.yaml
+  - ./lubelog/ks.yaml
