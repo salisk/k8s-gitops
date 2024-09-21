@@ -7,3 +7,4 @@ resources:
   - ./atuin/ks.yaml
   - ./actual/ks.yaml
   - ./lubelog/ks.yaml
+  - ./mealie/ks.yaml
