@@ -77,7 +77,7 @@ spec:
                   port: http
     persistence:
       app:
-        existingClaim: *app
+        existingClaim: lubelog-pvc-v1
         globalMounts:
           - path: /App/config
             subPath: config
