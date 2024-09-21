@@ -134,5 +134,3 @@ cameras:
       height: 576
       fps: 10
 version: 0.14
-ui:
-  live_mode: webrtc #Add at the end of config
