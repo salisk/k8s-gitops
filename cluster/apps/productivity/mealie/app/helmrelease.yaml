@@ -53,6 +53,7 @@ spec:
               BASE_URL: https://mealie.${SECRET_DOMAIN}
               API_DOCS: false
               DB_ENGINE: postgres
+              POSTGRES_PORT: 5432
             envFrom: *envFrom
             securityContext:
               allowPrivilegeEscalation: false
