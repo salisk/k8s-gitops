@@ -47,7 +47,7 @@ spec:
               database__connection__user: ghost
               database__connection__password: ${GHOST_DB_PASSWORD}
               mail__transport: SMTP
-              mail__from: ${MAIILGUN_FROM_EMAIL}
+              mail__from: ${MAILGUN_FROM_EMAIL}
               mail__options__service: Mailgun
               mail__options__host: smtp.eu.mailgun.org
               mail__options__port: 587
