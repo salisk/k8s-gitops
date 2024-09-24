@@ -21,6 +21,8 @@ spec:
         secret.reloader.stakater.com/reload: &secret authentik-secret
       deploymentStrategy:
         type: RollingUpdate
+      env:
+        AUTHENTIK_EMAIL__PORT: "${MAILGUN_SMTP_PORT}"
       envFrom:
         - secretRef:
             name: *secret
