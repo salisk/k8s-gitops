@@ -31,7 +31,7 @@ spec:
       type: statefulset
     image:
       repository: ghcr.io/onedr0p/plex-beta
-      tag: 1.41.0.8992-8463ad060@sha256:e41340fa7f5ed0ae35cbff0eaf9ce0ee6c35e58c9539b06bf1c872ff122293fd
+      tag: 1.41.1.9057-af5eaea7a@sha256:164b6347ff1e4d11912637d15fcd27abad94cc51a26fd4cb01c1b78e7881e1a1
     env:
       TZ: "${TIMEZONE}"
     podSecurityContext:
