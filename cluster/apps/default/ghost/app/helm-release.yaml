@@ -36,7 +36,7 @@ spec:
             image:
               repository: ghost
               # renovate: datasource=docker depName=ghost
-              tag: "5.99.0"
+              tag: "5.101.3"
             env:
               TZ: "${TIMEZONE}"
               url: "https://${SECRET_DOMAIN}"
