@@ -28,31 +28,30 @@ spec:
             envFrom: &envFrom
               - secretRef:
                   name: wallabag-secret
-        pod:
-          securityContext:
-            runAsNonRoot: true
-            runAsUser: 568
-            runAsGroup: 568
-            fsGroup: 568
-            fsGroupChangePolicy: OnRootMismatch
-            seccompProfile: { type: RuntimeDefault }
+          migrations:
+            image:
+              repository: wallabag/wallabag
+              tag: 2.6.10
+            envFrom: *envFrom
+            env: &env
+              TZ: ${TIMEZONE}
+              SYMFONY__ENV__DOMAIN_NAME: https://wallabag.${SECRET_DOMAIN}
+              SYMFONY__ENV__SERVER_NAME: Wallabag
+              SYMFONY__ENV__FOSUSER_REGISTRATION: "true"
+              SYMFONY__ENV__FOSUSER_CONFIRMATION: "false"
+              POPULATE_DATABASE: "true"
+            command:
+              - /var/www/wallabag/bin/console
+              - doctrine:migrations:migrate
+              - --env=prod
+              - --no-interaction
         containers:
           app:
             image:
               repository: wallabag/wallabag
               tag: 2.6.10
-            env:
-              TZ: ${TIMEZONE}
-              SYMFONY__ENV__DOMAIN_NAME: https://wallabag.${SECRET_DOMAIN}
-              SYMFONY__ENV__SERVER_NAME: Wallabag
-              SYMFONY__ENV__FOSUSER_REGISTRATION: "false"
-              SYMFONY__ENV__FOSUSER_CONFIRMATION: "false"
-              POPULATE_DATABASE: "false"
+            env: *env
             envFrom: *envFrom
-            securityContext:
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
             resources:
               requests:
                 cpu: 50m
@@ -75,3 +74,9 @@ spec:
                 service:
                   identifier: app
                   port: http
+    persistence:
+      config:
+        enabled: true
+        existingClaim: wallabag-config-v1
+        globalMounts:
+          - path: /images
