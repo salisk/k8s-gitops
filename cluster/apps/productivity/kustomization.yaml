@@ -10,3 +10,4 @@ resources:
   - ./mealie/ks.yaml
   - ./wallabag/ks.yaml
   - ./linkwarden/ks.yaml
+  - ./linkding/ks.yaml
