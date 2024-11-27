@@ -37,6 +37,7 @@ spec:
               TZ: ${TIMEZONE}
               STORAGE_FOLDER: "config" # Will always end up as /data/STOREAGE_FOLDER so eg /data/config
               NEXTAUTH_URL: "https://{{ .Release.Name }}.${SECRET_DOMAIN}/api/v1/auth"
+              NEXTAUTH_SECRET: "${LINKWARDEN_NEXTAUTH_SECRET}"
               # NEXT_PUBLIC_AUTHENTIK_ENABLED: "true"
               HOME: /data/config
             envFrom: *envFrom
