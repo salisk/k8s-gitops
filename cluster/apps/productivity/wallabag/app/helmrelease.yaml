@@ -77,6 +77,6 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: wallabag-config-v1
+        existingClaim: wallabag-pvc-v1
         globalMounts:
           - path: /images
