@@ -9,3 +9,4 @@ resources:
   - ./lubelog/ks.yaml
   - ./mealie/ks.yaml
   - ./wallabag/ks.yaml
+  - ./linkwarden/ks.yaml
