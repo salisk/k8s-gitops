@@ -28,6 +28,14 @@ spec:
             envFrom: &envFrom
               - secretRef:
                   name: wallabag-secret
+        pod:
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 568
+            runAsGroup: 568
+            fsGroup: 568
+            fsGroupChangePolicy: OnRootMismatch
+            seccompProfile: { type: RuntimeDefault }
         containers:
           app:
             image:
@@ -41,6 +49,10 @@ spec:
               SYMFONY__ENV__FOSUSER_CONFIRMATION: "false"
               POPULATE_DATABASE: "false"
             envFrom: *envFrom
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
             resources:
               requests:
                 cpu: 50m
