@@ -22,6 +22,6 @@ jobs:
               - added|modified: "**.sh"
       - name: Lint files
         if: ${{ steps.filter.outputs.shell == 'true' }}
-        uses: reviewdog/action-shellcheck@ccaafec556ffa154f112bfcb7b9c9574190b7091 # v1
+        uses: reviewdog/action-shellcheck@22f96e34e9185b642c5567cc26d1df952f5c9d10 # v1
         with:
           shellcheck_flags: "${{ steps.filter.outputs.shell_files }}"
