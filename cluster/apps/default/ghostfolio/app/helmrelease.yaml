@@ -45,7 +45,7 @@ spec:
           app:
             image:
               repository: docker.io/ghostfolio/ghostfolio
-              tag: 2.129.0@sha256:768674bf6c65b7da675189fba90231e5fb68008a4d6661aaecfcefc0e51c94a4
+              tag: 2.132.0@sha256:632ebf7a5b21e06a92ff283a6396f50c8ac520bc2927c92d966b885188a40ab8
             env:
               NODE_ENV: production
               REDIS_HOST: dragonfly.data.svc.cluster.local
