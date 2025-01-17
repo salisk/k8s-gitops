@@ -55,9 +55,6 @@ spec:
               ZIGBEE2MQTT_CONFIG_MQTT_SERVER: mqtt://mosquitto.home.svc.cluster.local
               ZIGBEE2MQTT_CONFIG_MQTT_VERSION: 5
               ZIGBEE2MQTT_CONFIG_PERMIT_JOIN: "false"
-              ZIGBEE2MQTT_CONFIG_SERIAL_BAUDRATE: 115200
-              ZIGBEE2MQTT_CONFIG_SERIAL_DISABLE_LED: "false"
-              ZIGBEE2MQTT_CONFIG_SERIAL_PORT: tcp://192.168.30.200:6638
               ZIGBEE2MQTT_CONFIG_ADVANCED_EXT_PAN_ID: "${ZIGBEE2MQTT_EXT_PAN_ID//\\\\/}"
               ZIGBEE2MQTT_CONFIG_ADVANCED_PAN_ID: "${ZIGBEE2MQTT_PAN_ID}"
               ZIGBEE2MQTT_CONFIG_ADVANCED_NETWORK_KEY: "${ZIGBEE2MQTT_NETWORK_KEY//\\\\/}"
@@ -71,6 +68,10 @@ spec:
               ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_STATUS_TOPIC: "homeassistant/status"
               ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_LEGACY_ENTITY_ATTRIBUTES: "false"
               ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_LEGACY_TRIGGERS: "false"
+              # serial adapter
+              ZIGBEE2MQTT_CONFIG_SERIAL_DISABLE_LED: "false"
+              ZIGBEE2MQTT_CONFIG_SERIAL_PORT: tcp://192.168.30.200:6638
+              ZIGBEE2MQTT_CONFIG_SERIAL_ADAPTER: ember
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
