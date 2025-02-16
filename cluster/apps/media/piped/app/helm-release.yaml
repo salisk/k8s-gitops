@@ -44,7 +44,7 @@ spec:
     backend:
       image:
         repository: "1337kavin/piped"
-        tag: "latest@sha256:4640c0a7c2ec920a7e1c42db94cab41c1da08ae04e307620c5d9a619b0e3bffcv"
+        # tag: "latest@sha256:4640c0a7c2ec920a7e1c42db94cab41c1da08ae04e307620c5d9a619b0e3bffcv"
       initContainers:
         01-init-db:
           image: "ghcr.io/onedr0p/postgres-init:15.5"
