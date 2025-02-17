@@ -57,12 +57,15 @@ spec:
         - --compact.concurrency=4
         - --delete-delay=30m
       retentionResolutionRaw: 30d
-      retentionResolution5m: 60d
-      retentionResolution1h: 90d
+      retentionResolution5m: 90d
+      retentionResolution1h: 270d
       persistence:
         enabled: true
         storageClass: local-path
         size: 10Gi
+      resources:
+        limits:
+          memory: 2048M
     storegateway:
       enabled: true
       replicaCount: 2
@@ -70,6 +73,9 @@ spec:
         enabled: true
         storageClass: local-path
         size: 10Gi
+      resources:
+        limits:
+          memory: 4096M
     ruler:
       enabled: true
       replicaCount: 2
