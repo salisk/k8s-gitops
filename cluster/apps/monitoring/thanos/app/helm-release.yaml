@@ -19,6 +19,9 @@ spec:
     - name: local-path-provisioner
       namespace: kube-system
   values:
+    global:
+      security:
+        allowInsecureImages: true
     image:
       registry: quay.io
       repository: thanos/thanos
