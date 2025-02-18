@@ -27,8 +27,7 @@ spec:
       strategy: rollback
       retries: 3
   dependsOn:
-    - name: cluster-apps-kube-prometheus-stack
-    - name: cluster-apps-local-path-provisioner
+    - name: kube-prometheus-stack
   values:
     deploymentMode: SingleBinary
     loki:
