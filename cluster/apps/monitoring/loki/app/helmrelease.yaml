@@ -13,7 +13,7 @@ spec:
       version: 6.27.0
       sourceRef:
         kind: HelmRepository
-        name: grafana
+        name: grafana-charts
         namespace: flux-system
   maxHistory: 2
   install:
@@ -27,10 +27,8 @@ spec:
       strategy: rollback
       retries: 3
   dependsOn:
-    - name: prometheus
-      namespace: monitoring
-    - name: local-path-provisioner
-      namespace: system
+    - name: cluster-apps-kube-prometheus-stack
+    - name: cluster-apps-local-path-provisioner
   values:
     deploymentMode: SingleBinary
     loki:
