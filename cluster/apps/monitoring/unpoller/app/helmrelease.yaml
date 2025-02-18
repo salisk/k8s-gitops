@@ -23,7 +23,7 @@ spec:
       strategy: rollback
       retries: 3
   dependsOn:
-    - name: cluster-apps-kube-prometheus-stack
+    - name: kube-prometheus-stack
   values:
     controllers:
       unpoller:
@@ -34,7 +34,7 @@ spec:
               tag: v2.14.1@sha256:9ba73b1793ef332ae9b4b719ef0fc09f231d6276bc7b721cbb47961ed7792961
             env:
               TZ: "${TIMEZONE}"
-              UP_UNIFI_DEFAULT_ROLE: k8s-gitops
+              # UP_UNIFI_DEFAULT_ROLE: k8s-gitops
               UP_UNIFI_DEFAULT_URL: https://${GATEWAY_ADDR}
               UP_PROMETHEUS_HTTP_LISTEN: 0.0.0.0:80
               UP_INFLUXDB_DISABLE: true
