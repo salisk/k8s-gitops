@@ -115,7 +115,8 @@ spec:
               - *host
     persistence:
       config-file:
-        type: configMap
+        # type: configMap
+        existingClaim: frigate-pvc-temp
         name: frigate-configmap
         globalMounts:
           - path: /config/config.yml
