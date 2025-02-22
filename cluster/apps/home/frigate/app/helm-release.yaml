@@ -117,7 +117,7 @@ spec:
       config-file:
         # type: configMap
         existingClaim: frigate-pvc-temp
-        name: frigate-configmap
+        # name: frigate-configmap
         globalMounts:
           - path: /config/config.yml
             subPath: config.yml
