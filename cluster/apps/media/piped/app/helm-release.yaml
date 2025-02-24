@@ -100,6 +100,15 @@ spec:
               capabilities:
                 drop:
                   - ALL
+      bg-helper:
+        type: deployment
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          bg-helper:
+            image:
+              repository: 1337kavin/bg-helper-server
+              tag: latest
       update-subscriptions:
         type: cronjob
         cronjob:
@@ -149,6 +158,12 @@ spec:
         ports:
           http:
             port: 8080
+      bg-helper:
+        controller: bg-helper
+        type: ClusterIP
+        ports:
+          http:
+            port: 3000
     ingress:
       backend:
         annotations:
