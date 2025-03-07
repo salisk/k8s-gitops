@@ -32,7 +32,7 @@ spec:
           app:
             image:
               repository: docker.io/sissbruecker/linkding
-              tag: 1.38.1-plus-alpine
+              tag: 1.39.1-plus-alpine
             env:
               TZ: ${TIMEZONE}
             envFrom: *envFrom
