@@ -10,7 +10,7 @@ resources:
   - ./immich/ks.yaml
   - ./overseerr/ks.yaml
   - radarr
-  - readarr
+  - ./readarr/ks.yaml
   - ./sabnzbd/ks.yaml
   - sonarr
   - ./tautulli/ks.yaml
