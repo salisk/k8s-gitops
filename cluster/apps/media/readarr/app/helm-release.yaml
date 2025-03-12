@@ -57,15 +57,23 @@ spec:
               TZ: "${TIMEZONE}"
               READARR__AUTH__METHOD: External
               READARR__AUTH__REQUIRED: DisabledForLocalAddresses
+              READARR__AUTH__APIKEY: "${READARR_API_KEY}"
               # https://github.com/Readarr/Readarr/issues/3453
               READARR__LOG__DBENABLED: "False"
               READARR__LOG__LEVEL: info
+              READARR__POSTGRES__HOST: &dbHost postgres-rw.data.svc.cluster.local
+              READARR__POSTGRES__PORT: "5432"
+              READARR__POSTGRES__USER: &dbUser "${READARR_POSTGRES_USER}"
+              READARR__POSTGRES__PASSWORD: &dbPass "${READARR_POSTGRES_PASSWORD}"
+              READARR__POSTGRES__MAIN_DB: readarr_main
+              READARR__POSTGRES__LOG_DB: readarr_log
+              READARR__POSTGRES__CACHE_DB: readarr_cache
             securityContext:
               allowPrivilegeEscalation: false
               # System.IO.IOException: Read-only file system
               readOnlyRootFilesystem: false
               capabilities: { drop: ["ALL"] }
-            envFrom: *envFrom
+            # envFrom: *envFrom
             probes:
               liveness: &probes
                 enabled: true
