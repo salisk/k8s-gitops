@@ -108,7 +108,7 @@ spec:
           bg-helper:
             image:
               repository: 1337kavin/bg-helper-server
-              tag: latest
+              tag: latest@sha256:28048237b3094209774ce8027f658615f2ebbb1ca14d0a2c4c8c0682d083332c
       update-subscriptions:
         type: cronjob
         cronjob:
