@@ -100,15 +100,15 @@ spec:
               capabilities:
                 drop:
                   - ALL
-      bg-helper:
-        type: deployment
-        annotations:
-          reloader.stakater.com/auto: "true"
-        containers:
-          bg-helper:
-            image:
-              repository: 1337kavin/bg-helper-server
-              tag: latest@sha256:28048237b3094209774ce8027f658615f2ebbb1ca14d0a2c4c8c0682d083332c
+      # bg-helper:
+      #   type: deployment
+      #   annotations:
+      #     reloader.stakater.com/auto: "true"
+      #   containers:
+      #     bg-helper:
+      #       image:
+      #         repository: 1337kavin/bg-helper-server
+      #         tag: latest@sha256:28048237b3094209774ce8027f658615f2ebbb1ca14d0a2c4c8c0682d083332c
       update-subscriptions:
         type: cronjob
         cronjob:
@@ -158,11 +158,11 @@ spec:
         ports:
           http:
             port: 8080
-      bg-helper:
-        controller: bg-helper
-        ports:
-          http:
-            port: 3000
+      # bg-helper:
+      #   controller: bg-helper
+      #   ports:
+      #     http:
+      #       port: 3000
     ingress:
       backend:
         annotations:
@@ -207,17 +207,17 @@ spec:
                 service:
                   identifier: ytproxy
                   port: http
-      bg-helper:
-        annotations:
-          cert-manager.io/cluster-issuer: "letsencrypt-production"
-        className: "nginx"
-        hosts:
-          - host: piped-bg-helper.${SECRET_DOMAIN}
-            paths:
-              - path: /
-                service:
-                  identifier: bg-helper
-                  port: http
+      # bg-helper:
+      #   annotations:
+      #     cert-manager.io/cluster-issuer: "letsencrypt-production"
+      #   className: "nginx"
+      #   hosts:
+      #     - host: piped-bg-helper.${SECRET_DOMAIN}
+      #       paths:
+      #         - path: /
+      #           service:
+      #             identifier: bg-helper
+      #             port: http
     persistence:
       config:
         type: secret
