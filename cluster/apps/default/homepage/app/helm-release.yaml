@@ -28,6 +28,7 @@ spec:
     enableRbac: true
     env:
       TZ: "${TIMEZONE}"
+      HOMEPAGE_ALLOWED_HOSTS: "home.${SECRET_DOMAIN}"
     ingress:
       main:
         enabled: true
