@@ -57,7 +57,7 @@ spec:
             envFrom: *envFrom
             securityContext:
               allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: false
+              readOnlyRootFilesystem: true
               capabilities: { drop: ["ALL"] }
             resources:
               requests:
@@ -86,3 +86,7 @@ spec:
         existingClaim: mealie-pvc-v1
         globalMounts:
           - path: /app/data
+      nltk-data:
+        type: emptyDir
+        globalMounts:
+          - path: /nltk_data
