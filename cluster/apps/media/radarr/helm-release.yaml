@@ -35,7 +35,7 @@ spec:
           init-db:
             image:
               repository: ghcr.io/home-operations/postgres-init
-              tag: 15.5
+              tag: 17
               pullPolicy: IfNotPresent
             envFrom: &envFrom
               - secretRef:
@@ -44,7 +44,7 @@ spec:
           main:
             image:
               repository: ghcr.io/home-operations/radarr-develop
-              tag: 5.20.1.9773@sha256:8187c129a78fdfe15b1603db9175abd2be0e1ca2e99ea3733987c3ae941da165
+              tag: 5.20.1.9773
             env:
               TZ: "${TIMEZONE}"
               RADARR__APP__INSTANCENAME: Radarr
