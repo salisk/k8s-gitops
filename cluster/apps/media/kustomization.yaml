@@ -6,7 +6,6 @@ resources:
   - ./plex/ks.yaml
   - qbittorrent
   - ./bazarr/ks.yaml
-  - ./lidarr/ks.yaml
   - ./immich/ks.yaml
   - ./overseerr/ks.yaml
   - radarr
@@ -15,7 +14,6 @@ resources:
   - sonarr
   - ./tautulli/ks.yaml
   - photoprism
-  # - tdarr
   - nextcloud
   - ./piped/ks.yaml
   - ./recyclarr/ks.yaml
