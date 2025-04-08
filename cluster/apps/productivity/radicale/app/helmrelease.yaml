@@ -72,7 +72,7 @@ spec:
     persistence:
       config:
         type: configMap
-        name: radicale-configmap
+        name: radicale-config
         globalMounts:
           - path: /config/config
             subPath: config.cfg
