@@ -12,3 +12,4 @@ resources:
   - ./linkwarden/ks.yaml
   - ./linkding/ks.yaml
   - ./stirling-pdf/ks.yaml
+  - ./radicale/ks.yaml
