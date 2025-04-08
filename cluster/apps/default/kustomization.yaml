@@ -8,4 +8,5 @@ resources:
   - ./miniflux/ks.yaml
   - ./ghost/ks.yaml
   - ./ghostfolio/ks.yaml
+  - ./glance/ks.yaml
   # - ssh
