@@ -13,7 +13,6 @@ resources:
   - ./sabnzbd/ks.yaml
   - sonarr
   - ./tautulli/ks.yaml
-  - photoprism
   - nextcloud
   - ./piped/ks.yaml
   - ./recyclarr/ks.yaml
