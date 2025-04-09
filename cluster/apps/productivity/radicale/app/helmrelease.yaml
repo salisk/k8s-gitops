@@ -62,13 +62,14 @@ spec:
       app:
         className: nginx
         hosts:
-          - host: radicale.${SECRET_DOMAIN}
+          - host: &host radicale.${SECRET_DOMAIN}
             paths:
               - path: /
                 service:
                   identifier: app
                   port: http
-
+        tls:
+          - hosts: [*host]
     persistence:
       config:
         type: configMap
