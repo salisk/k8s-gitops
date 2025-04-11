@@ -25,6 +25,8 @@ spec:
         - secretRef:
             name: *secret
     authentik:
+      email:
+        port: "${MAILGUN_SMTP_PORT}"
       redis:
         host: dragonfly.data.svc.cluster.local
         db: 1
