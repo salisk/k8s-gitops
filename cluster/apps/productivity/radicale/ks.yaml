@@ -25,7 +25,7 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      GATUS_SUBDOMAIN: calendar
+      GATUS_SUBDOMAIN: radicale
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings
