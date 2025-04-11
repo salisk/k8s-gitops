@@ -6,6 +6,7 @@ resources:
   - ./helmrelease.yaml
   - ./pvc.yaml
   - ./secret.yaml
+  - ./authentik.yaml
   - ../../../../templates/gatus/internal
 commonLabels:
   app.kubernetes.io/name: radicale
@@ -17,4 +18,4 @@ configMapGenerator:
 generatorOptions:
   disableNameSuffixHash: true
   # annotations:
-  #   kustomize.toolkit.fluxcd.io/substitute: disabled
+  #   kustomize.toolkit.fluxcd.io/substitute: disabledNo
