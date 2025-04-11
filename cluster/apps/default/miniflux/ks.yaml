@@ -29,6 +29,7 @@ spec:
     substitute:
       APP: *app
       GATUS_PATH: /healthcheck
+      GATUS_SUBDOMAIN: rss
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings
