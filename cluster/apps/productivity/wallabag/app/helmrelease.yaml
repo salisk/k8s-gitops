@@ -31,7 +31,7 @@ spec:
           migrations:
             image:
               repository: wallabag/wallabag
-              tag: 2.6.11
+              tag: 2.6.12
             envFrom: *envFrom
             env: &env
               TZ: ${TIMEZONE}
@@ -49,7 +49,7 @@ spec:
           app:
             image:
               repository: wallabag/wallabag
-              tag: 2.6.11
+              tag: 2.6.12
             env: *env
             envFrom: *envFrom
             resources:
