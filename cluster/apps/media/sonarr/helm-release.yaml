@@ -43,8 +43,8 @@ spec:
         containers:
           main:
             image:
-              repository: ghcr.io/home-operations/sonarr-develop
-              tag: 4.0.14.2938
+              repository: ghcr.io/home-operations/sonarr
+              tag: 4.0.14.2938@sha256:acd5416ab9c36d017687820a32f09d09a4e25a5754aa5ebeae2e7c63d7609c13
             env:
               TZ: "${TIMEZONE}"
               SONARR__APP__INSTANCENAME: Sonarr
