@@ -39,8 +39,8 @@ spec:
               value: kube-system
             - name: svc_enable
               value: "false"
-            - name: vip_address
-              value: "192.168.30.251"
+            - name: address
+              value: 192.168.30.251
           securityContext:
             capabilities:
               add:
