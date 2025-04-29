@@ -18,14 +18,9 @@ spec:
   maxHistory: 3
   install:
     createNamespace: true
-    remediation:
-      retries: 3
+    crds: CreateReplace
   upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
-  uninstall:
-    keepHistory: false
+    crds: CreateReplace
   values:
     # replicaCount: 2
     installCRDs: true
