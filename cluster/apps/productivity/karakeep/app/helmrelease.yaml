@@ -151,7 +151,7 @@ spec:
             port: 7700
     ingress:
       app:
-        className: internal
+        className: nginx
         hosts:
           - host: "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:
