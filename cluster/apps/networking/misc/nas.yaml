@@ -31,7 +31,17 @@ metadata:
   namespace: networking
 spec:
   ports:
-    - name: http
+    - targetPort: 5000
       port: 5000
-  type: ExternalName
-  externalName: ${NAS_ADDR}
+  type: ClusterIP
+  # externalName: ${NAS_ADDR}
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: nas
+subsets:
+  - addresses:
+      - ip: ${NAS_ADDR}
+    ports:
+      - port: 5000
