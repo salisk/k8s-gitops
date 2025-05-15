@@ -4,8 +4,8 @@ kind: Ingress
 metadata:
   name: nas
   namespace: networking
-  annotations:
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+  #  annotations:
+  #  nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
 spec:
   ingressClassName: nginx
   rules:
@@ -31,25 +31,18 @@ metadata:
   namespace: networking
 spec:
   ports:
-    - name: http
-      port: 5000
+    - port: 5000
       protocol: TCP
       targetPort: 5000
-  clusterIP: None
-  type: ClusterIP
 ---
-apiVersion: discovery.k8s.io/v1
-kind: EndpointSlice
+apiVersion: v1
+kind: Endpoints
 metadata:
   name: nas
   namespace: networking
-  labels:
-    kubernetes.io/service-name: nas
-addressType: IPv4
-ports:
-  - name: http
-    port: 5000
-    protocol: TCP
-endpoints:
+subsets:
   - addresses:
-      - ${NAS_ADDR}
+      - ip: ${NAS_ADDR}
+    ports:
+      - port: 5000
+        protocol: TCP
