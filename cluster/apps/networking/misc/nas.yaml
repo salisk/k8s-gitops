@@ -33,16 +33,21 @@ spec:
   ports:
     - targetPort: 5000
       port: 5000
-  type: ClusterIP
+      protocol: TCP
+      name: http
+  # type: ClusterIP
   # externalName: ${NAS_ADDR}
 ---
-apiVersion: v1
-kind: Endpoints
+apiVersion: discovery.k8s.io/v1
+kind: EndpointSlice
 metadata:
   name: nas
   namespace: networking
-subsets:
+  labels:
+    kubernetes.io/service-name: nas
+addressType: IPv4
+ports:
+  - port: 5000
+endpoints:
   - addresses:
-      - ip: ${NAS_ADDR}
-    ports:
-      - port: 5000
+      - ${NAS_ADDR}
