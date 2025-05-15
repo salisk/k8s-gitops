@@ -23,7 +23,10 @@ spec:
       enabled: true
       className: nginx
       annotations:
+        cert-manager.io/cluster-issuer: "letsencrypt-production"
         nginx.ingress.kubernetes.io/proxy-body-size: 4G
+        nginx.ingress.kubernetes.io/proxy-buffering: "off"
+        nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
         nginx.ingress.kubernetes.io/server-snippet: |-
           server_tokens off;
           proxy_hide_header X-Powered-By;
@@ -82,11 +85,11 @@ spec:
       tls:
         - hosts:
             - "nextcloud.${SECRET_DOMAIN}"
-    nginx:
-      enabled: true
-      image:
-        repository: nginx
-        tag: 1.28-alpine
+    # nginx:
+    #   enabled: true
+    #   image:
+    #     repository: nginx
+    #     tag: 1.28-alpine
     persistence:
       enabled: true
       existingClaim: nextcloud-config-v1
