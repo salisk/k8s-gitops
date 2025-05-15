@@ -29,7 +29,7 @@ spec:
   values:
     fullnameOverride: nginx-internal
     controller:
-      replicaCount: 3
+      replicaCount: 2
 
       updateStrategy:
         type: RollingUpdate
@@ -49,6 +49,7 @@ spec:
         enabled: true
       ingressClassResource:
         default: true
+        name: nginx
       admissionWebhooks:
         objectSelector:
           matchExpressions:
@@ -85,7 +86,7 @@ spec:
       extraArgs:
         default-ssl-certificate: "networking/${SECRET_DOMAIN/./-}-production-tls"
       podAnnotations:
-        configmap.reloader.stakater.com/reload: cloudflare-networks
+        configmap.reloader.stakater.com/reload: nginx-internal-controller
       resources:
         requests:
           cpu: 50m

@@ -30,6 +30,8 @@ spec:
     controller:
       replicaCount: 2
       maxmindLicenseKey: ${MAXMIND_LICENSE_KEY}
+      annotations:
+        configmap.reloader.stakater.com/reload: nginx-external-controller
       service:
         annotations:
           external-dns.alpha.kubernetes.io/hostname: external.${SECRET_DOMAIN}
