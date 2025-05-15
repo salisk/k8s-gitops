@@ -82,6 +82,11 @@ spec:
       tls:
         - hosts:
             - "nextcloud.${SECRET_DOMAIN}"
+    nginx:
+      enabled: true
+      image:
+        repository: nginx
+        tag: 1.28-alpine
     persistence:
       enabled: true
       existingClaim: nextcloud-config-v1
