@@ -15,7 +15,6 @@ spec:
         kind: HelmRepository
         name: intel
         namespace: flux-system
-  maxHistory: 2
   install:
     crds: CreateReplace
     remediation:
@@ -30,3 +29,7 @@ spec:
   dependsOn:
     - name: node-feature-discovery
       namespace: kube-system
+  values:
+    manager:
+      devices:
+        gpu: true
