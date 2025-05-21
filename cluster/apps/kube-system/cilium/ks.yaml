@@ -41,7 +41,7 @@ spec:
     - name: cilium
       namespace: flux-system
   interval: 1h
-  path: ./kubernetes/apps/kube-system/cilium/config
+  path: ./cluster/apps/kube-system/cilium/config
   prune: false
   sourceRef:
     kind: GitRepository
