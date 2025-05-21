@@ -1,13 +1,13 @@
 ---
 autoDirectNodeRoutes: true
-bandwidthManager:
-  bbr: true
-  enabled: true
+# bandwidthManager:
+#   bbr: true
+#   enabled: true
 bpf:
-  datapathMode: netkit
+  # datapathMode: netkit
   masquerade: true
-  preallocateMaps: true
-  tproxy: true
+#   preallocateMaps: true
+#   tproxy: true
 bgpControlPlane:
   enabled: true
 cgroup:
