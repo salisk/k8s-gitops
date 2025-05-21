@@ -6,8 +6,8 @@ autoDirectNodeRoutes: true
 bpf:
   # datapathMode: netkit
   masquerade: true
-#   preallocateMaps: true
-#   tproxy: true
+  preallocateMaps: true
+  tproxy: true
 bgpControlPlane:
   enabled: true
 cgroup:
@@ -24,6 +24,7 @@ endpointRoutes:
   enabled: true
 envoy:
   enabled: false
+devices: eno+
 hubble:
   enabled: true
   metrics:
