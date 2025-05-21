@@ -12,4 +12,5 @@ resources:
   - productivity
   - ./cert-manager/ks.yaml
   - security
+  - system
   # - vault

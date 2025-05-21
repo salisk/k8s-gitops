@@ -1,21 +1,14 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.ok8.sh/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: reloader
-  namespace: kube-system
 spec:
-  interval: 30m
-  chart:
-    spec:
-      # renovate: registryUrl=https://stakater.github.io/stakater-charts
-      chart: reloader
-      version: 2.0.0
-      sourceRef:
-        kind: HelmRepository
-        name: stakater-charts
-        namespace: flux-system
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: reloader
+  maxHistory: 2
   install:
     createNamespace: true
     remediation:
@@ -29,6 +22,10 @@ spec:
   values:
     fullnameOverride: reloader
     reloader:
+      enableHA: true
+      deployment:
+        replicas: 2
+
       readOnlyRootFileSystem: true
       podMonitor:
         enabled: true
