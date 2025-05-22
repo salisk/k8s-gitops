@@ -8,5 +8,5 @@ spec:
   allowFirstLastIPs: "Yes"
   blocks:
     - cidr: 10.0.20.5/32
-    - start: 10.0.20.20
+    - start: 10.0.20.10
       stop: 10.0.20.100
