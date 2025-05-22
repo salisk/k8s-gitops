@@ -5,7 +5,7 @@ metadata:
   name: postgres-lb
   namespace: data
   annotations:
-    io.cilium/lb-ipam-ips: ${LB_POSTGRES_IP}
+    lbipam.cilium.io/ips: ${LB_POSTGRES_IP}
 spec:
   type: LoadBalancer
   externalTrafficPolicy: Cluster

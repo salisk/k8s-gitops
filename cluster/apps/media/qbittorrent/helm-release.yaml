@@ -70,7 +70,7 @@ spec:
         enabled: true
         type: LoadBalancer
         annotations:
-          io.cilium/lb-ipam-ips: "${LB_QBITTORRENT_IP}"
+          lbipam.cilium.io/ips: "${LB_QBITTORRENT_IP}"
         ports:
           bittorrent:
             enabled: true

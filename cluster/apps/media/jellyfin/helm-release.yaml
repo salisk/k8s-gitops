@@ -78,7 +78,7 @@ spec:
       main:
         type: LoadBalancer
         annotations:
-          io.cilium/lb-ipam-ips: *loadBalancerIP
+          lbipam.cilium.io/ips: *loadBalancerIP
           cert-manager.io/cluster-issuer: "letsencrypt-production"
         externalTrafficPolicy: Cluster
         ports:

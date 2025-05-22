@@ -43,7 +43,7 @@ spec:
       service:
         annotations:
           # metallb.universe.tf/loadBalancerIPs: "${METALLB_INGRESS_ADDR}"
-          io.cilium/lb-ipam-ips: "${METALLB_INGRESS_ADDR}"
+          lbipam.cilium.io/ips: "${METALLB_INGRESS_ADDR}"
         externalTrafficPolicy: Cluster
       publishService:
         enabled: true

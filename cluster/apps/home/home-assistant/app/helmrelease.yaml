@@ -81,7 +81,7 @@ spec:
       main:
         # type: LoadBalancer
         # annotations:
-        # io.cilium/lb-ipam-ips: "${LB_HASS_IP}"
+        # lbipam.cilium.io/ips: "${LB_HASS_IP}"
         # externalTrafficPolicy: Cluster
         ports:
           http:
