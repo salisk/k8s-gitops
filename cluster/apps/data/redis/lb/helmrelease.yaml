@@ -37,8 +37,8 @@ spec:
       main:
         type: LoadBalancer
         annotations:
+          lbipam.cilium.io/ips: "${LB_REDIS_IP}"
           coredns.io/hostname: redis.${SECRET_DOMAIN}
-        externalIPs: ["${LB_REDIS_IP}"]
         externalTrafficPolicy: Cluster
         ports:
           http:
