@@ -23,7 +23,15 @@ enableIPv4BIGTCP: true
 endpointRoutes:
   enabled: true
 envoy:
-  enabled: false
+  enabled: true
+  rollOutPods: true
+  prometheus:
+    serviceMonitor:
+      enabled: true
+gatewayAPI:
+  enableAlpn: true
+  enabled: true
+  xffNumTrustedHops: 1
 devices: eno+
 hubble:
   enabled: true
