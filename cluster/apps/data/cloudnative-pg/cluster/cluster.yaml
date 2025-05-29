@@ -7,7 +7,7 @@ metadata:
   namespace: data
 spec:
   instances: 3
-  imageName: ghcr.io/tensorchord/cloudnative-pgvecto.rs:15.7-v0.2.1
+  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:15.13-0.3.0
   enableSuperuserAccess: true
   inheritedMetadata:
     labels:
