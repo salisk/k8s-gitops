@@ -19,8 +19,8 @@ spec:
   superuserSecret:
     name: cloudnative-pg-secret
   bootstrap:
-    recovery:
-      source: &previousCluster postgres-v15
+    # recovery:
+    #   source: &previousCluster postgres-v15
     initdb:
       database: immich
       owner: immich
