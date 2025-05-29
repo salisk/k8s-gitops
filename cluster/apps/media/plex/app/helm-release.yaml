@@ -31,7 +31,7 @@ spec:
       type: statefulset
     image:
       repository: ghcr.io/home-operations/plex
-      tag: 1.41.7.9799
+      tag: 1.41.7.9823
     env:
       TZ: "${TIMEZONE}"
     podSecurityContext:
