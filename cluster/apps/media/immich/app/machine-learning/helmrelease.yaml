@@ -33,7 +33,7 @@ spec:
         secret.reloader.stakater.com/reload: &secret immich-secret
     image:
       repository: ghcr.io/immich-app/immich-machine-learning
-      tag: v1.131.2
+      tag: v1.134.0
     envFrom:
       - configMapRef:
           name: *configMap
