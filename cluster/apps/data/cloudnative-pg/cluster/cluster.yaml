@@ -21,10 +21,18 @@ spec:
   bootstrap:
     recovery:
       source: &previousCluster postgres-v15
-    # initdb:
-    #   postInitSQL:
-    #     - ALTER SYSTEM SET search_path TO "$user", public, vectors;
-    #     - CREATE EXTENSION IF NOT EXISTS "vectors";
+    initdb:
+      database: immich
+      owner: immich
+      postInitApplicationSQL:
+        - CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+        - CREATE EXTENSION IF NOT EXISTS cube;
+        - CREATE EXTENSION IF NOT EXISTS earthdistance;
+        - CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
+        - CREATE EXTENSION IF NOT EXISTS pg_trgm;
+      # postInitSQL:
+      #   - ALTER SYSTEM SET search_path TO "$user", public, vectors;
+      #   - CREATE EXTENSION IF NOT EXISTS "vectors";
   # bootstrap:
   #   initdb
   #     import:
@@ -36,8 +44,8 @@ spec:
   #       source:
   #         externalCluster: bitnami-pg
   postgresql:
-    # shared_preload_libraries:
-    # - "vectors.so"
+    shared_preload_libraries:
+      - vchord.so
     parameters:
       max_connections: "900"
       shared_buffers: 512MB
