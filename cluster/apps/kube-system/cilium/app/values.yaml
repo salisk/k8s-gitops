@@ -4,9 +4,8 @@ autoDirectNodeRoutes: true
 #   bbr: true
 #   enabled: true
 bpf:
-  datapathMode: netkit
+  # datapathMode: netkit
   masquerade: true
-  hostLegacyRouting: true
   # preallocateMaps: true
   # tproxy: true
 bgpControlPlane:
@@ -34,6 +33,8 @@ gatewayAPI:
   enabled: true
   xffNumTrustedHops: 1
 devices: eno+
+debug:
+  enabled: true
 hubble:
   enabled: true
   metrics:
