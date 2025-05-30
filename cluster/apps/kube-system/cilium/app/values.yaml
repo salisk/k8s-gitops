@@ -6,8 +6,8 @@ autoDirectNodeRoutes: true
 bpf:
   datapathMode: netkit
   masquerade: true
-  preallocateMaps: true
-  tproxy: true
+  # preallocateMaps: true
+  # tproxy: true
 bgpControlPlane:
   enabled: true
 cgroup:
@@ -31,7 +31,7 @@ envoy:
 gatewayAPI:
   enableAlpn: true
   enabled: true
-  # xffNumTrustedHops: 1
+  xffNumTrustedHops: 1
 devices: eno+
 hubble:
   enabled: true
@@ -68,7 +68,7 @@ hubble:
         - hosts:
             - *host
 ipam:
-  mode: "kubernetes"
+  mode: kubernetes
 routingMode: native
 ipv4NativeRoutingCIDR: 10.42.0.0/16
 k8sServiceHost: 192.168.30.132
