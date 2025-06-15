@@ -5,7 +5,7 @@ autoDirectNodeRoutes: true
 #   enabled: true
 bpf:
   # datapathMode: netkit
-  masquerade: true
+  masquerade: false
   hostLegacyRouting: true
   # preallocateMaps: true
   # tproxy: true
