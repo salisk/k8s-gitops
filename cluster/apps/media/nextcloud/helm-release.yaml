@@ -85,6 +85,7 @@ spec:
       tls:
         - hosts:
             - "nextcloud.${SECRET_DOMAIN}"
+          secretName: "nextcloud-tls"
     # nginx:
     #   enabled: true
     #   image:
