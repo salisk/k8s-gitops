@@ -109,7 +109,7 @@ spec:
           gethomepage.dev/icon: https://hajimari.io/assets/logo.png
           gethomepage.dev/description: Dashboard for applications with service discovery
         hostnames:
-          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
+          - "hajimari.${SECRET_DOMAIN}"
         parentRefs:
           - name: internal
             namespace: kube-system
