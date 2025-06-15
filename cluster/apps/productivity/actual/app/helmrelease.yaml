@@ -12,7 +12,7 @@ spec:
       version: 4.1.1
       sourceRef:
         kind: HelmRepository
-        name: bjw-s
+        name: bjw-s-labs
         namespace: flux-system
   values:
     controllers:
