@@ -9,21 +9,11 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 4.1.1
       sourceRef:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
-  maxHistory: 2
-  install:
-    remediation:
-      retries: 3
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
-  uninstall:
-    keepHistory: false
   values:
     controllers:
       main:
@@ -33,7 +23,9 @@ spec:
           main:
             image:
               repository: ghcr.io/actualbudget/actual-server
-              tag: 25.5.0
+              tag: 25.6.1
+            env:
+              ACTUAL_PORT: &httpPort 5006
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
@@ -56,27 +48,15 @@ spec:
       main:
         ports:
           http:
-            port: 5006
-    ingress:
-      main:
-        enabled: true
-        className: nginx
-        annotations:
-          gethomepage.dev/enabled: "true"
-          gethomepage.dev/group: Productivity
-          gethomepage.dev/name: Actual Budget
-          gethomepage.dev/description: Budgeting App
-          gethomepage.dev/icon: actual.png
-        hosts:
-          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                service:
-                  name: main
-                  port: http
-        tls:
-          - hosts:
-              - *host
+            port: *httpPort
+    route:
+      app:
+        hostnames:
+          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
     persistence:
       config:
         enabled: true
