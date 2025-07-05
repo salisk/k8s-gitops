@@ -39,39 +39,40 @@ gatewayAPI:
 debug:
   enabled: true
 hubble:
+  enabled: false
   # enabled: true
-  metrics:
-    enabled:
-      - dns:query
-      - drop
-      - tcp
-      - flow
-      - port-distribution
-      - icmp
-      - http
-    serviceMonitor:
-      enabled: true
-    dashboards:
-      enabled: true
-      annotations:
-        grafana_folder: Cilium
+  # metrics:
+  #   enabled:
+  #     - dns:query
+  #     - drop
+  #     - tcp
+  #     - flow
+  #     - port-distribution
+  #     - icmp
+  #     - http
+  #   serviceMonitor:
+  #     enabled: true
+  #   dashboards:
+  #     enabled: true
+  #     annotations:
+  #       grafana_folder: Cilium
   # relay:
   #   enabled: true
   #   rollOutPods: true
   #   prometheus:
   #     serviceMonitor:
   #       enabled: true
-  ui:
-    enabled: true
-    rollOutPods: true
-    ingress:
-      enabled: true
-      className: nginx
-      hosts:
-        - &host hubble.${SECRET_DOMAIN}
-      tls:
-        - hosts:
-            - *host
+  # ui:
+  #   enabled: true
+  #   rollOutPods: true
+  #   ingress:
+  #     enabled: true
+  #     className: nginx
+  #     hosts:
+  #       - &host hubble.${SECRET_DOMAIN}
+  #     tls:
+  #       - hosts:
+  #           - *host
 ipam:
   mode: kubernetes
 routingMode: native
