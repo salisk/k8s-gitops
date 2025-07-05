@@ -32,9 +32,9 @@ envoy:
     serviceMonitor:
       enabled: true
 gatewayAPI:
-  enableAlpn: true
+  # enableAlpn: true
   enabled: true
-  xffNumTrustedHops: 1
+  # xffNumTrustedHops: 1
 devices: eno+
 debug:
   enabled: true
