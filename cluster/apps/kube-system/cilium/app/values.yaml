@@ -39,7 +39,7 @@ gatewayAPI:
 debug:
   enabled: true
 hubble:
-  enabled: true
+  # enabled: true
   metrics:
     enabled:
       - dns:query
