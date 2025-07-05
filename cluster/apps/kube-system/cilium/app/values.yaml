@@ -1,13 +1,13 @@
 ---
 autoDirectNodeRoutes: true
-# bandwidthManager:
-#   bbr: true
-#   enabled: true
+bandwidthManager:
+  bbr: true
+  enabled: true
 bpf:
   # datapathMode: netkit
   masquerade: false
-  hostLegacyRouting: true
-  # preallocateMaps: true
+  # hostLegacyRouting: true
+  preallocateMaps: true
   # tproxy: true
 bgpControlPlane:
   enabled: true
@@ -24,7 +24,7 @@ cni:
 endpointRoutes:
   enabled: true
 envoy:
-  enabled: true
+  # enabled: true
   log:
     defaultLevel: trace
   rollOutPods: true
@@ -32,10 +32,10 @@ envoy:
     serviceMonitor:
       enabled: true
 gatewayAPI:
-  # enableAlpn: true
+  enableAlpn: true
   enabled: true
-  # xffNumTrustedHops: 1
-devices: eno+
+  xffNumTrustedHops: 1
+# devices: eno+
 debug:
   enabled: true
 hubble:
@@ -55,12 +55,12 @@ hubble:
       enabled: true
       annotations:
         grafana_folder: Cilium
-  relay:
-    enabled: true
-    rollOutPods: true
-    prometheus:
-      serviceMonitor:
-        enabled: true
+  # relay:
+  #   enabled: true
+  #   rollOutPods: true
+  #   prometheus:
+  #     serviceMonitor:
+  #       enabled: true
   ui:
     enabled: true
     rollOutPods: true
