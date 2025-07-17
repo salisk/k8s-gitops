@@ -23,7 +23,7 @@ spec:
           main:
             image:
               repository: ghcr.io/esphome/esphome
-              tag: 2025.6.3
+              tag: 2025.7.1
             env:
               ESPHOME_DASHBOARD_USE_PING: true
               TZ: ${TIMEZONE}
