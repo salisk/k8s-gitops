@@ -33,7 +33,7 @@ spec:
           app:
             image:
               repository: alangrainger/immich-public-proxy
-              tag: 1.12.0
+              tag: 1.12.1
             env:
               IMMICH_URL: http://immich-server.media.svc.cluster.local:2283
             resources:
