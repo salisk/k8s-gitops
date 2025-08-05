@@ -9,11 +9,11 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 4.2.0
+      version: 3.7.1
       interval: 30m
       sourceRef:
         kind: HelmRepository
-        name: bjw-s-labs
+        name: bjw-s
         namespace: flux-system
   interval: 30m
   values:
@@ -29,7 +29,7 @@ spec:
         annotations:
           secret.reloader.stakater.com/reload: piped-secret
         containers:
-          main:
+          app:
             image:
               repository: 1337kavin/piped
               tag: latest@sha256:121d56e14a3eccfc107cf5bab084772ba16b395e243b65076a6fa73f8fa0e8b2
@@ -52,7 +52,7 @@ spec:
       frontend:
         strategy: RollingUpdate
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/bjw-s-labs/piped-frontend
               tag: 2025.3.17@sha256:8ed05c7df0bc8899e54a3952a99b63d55cdc7669d759beeb9370fbb32330468b
@@ -78,7 +78,7 @@ spec:
       ytproxy:
         strategy: RollingUpdate
         containers:
-          main:
+          app:
             image:
               repository: 1337kavin/piped-proxy
               tag: latest@sha256:ecc6e930645b6445ba013a26ffcf5c1785bfc3ce4a6d1866279a496937e8774d
@@ -118,7 +118,7 @@ spec:
           failedJobsHistory: 1
           successfulJobsHistory: 0
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/bjw-s-labs/piped-scripts
               tag: 0.0.2@sha256:f954c8065473920415d316b16797f7c525838e629e8603bd227b33c671544149

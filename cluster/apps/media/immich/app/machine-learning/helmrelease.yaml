@@ -9,10 +9,10 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 4.2.0
+      version: 1.5.1
       sourceRef:
         kind: HelmRepository
-        name: bjw-s-labs
+        name: bjw-s
         namespace: flux-system
   maxHistory: 3
   install:
@@ -26,26 +26,19 @@ spec:
     - name: immich-server
       namespace: media
   values:
-    controllers:
-      main:
-        strategy: RollingUpdate
-        annotations:
-          configmap.reloader.stakater.com/reload: &configMap immich-configmap
-          secret.reloader.stakater.com/reload: &secret immich-secret
-        containers:
-          main:
-            image:
-              repository: ghcr.io/immich-app/immich-machine-learning
-              tag: v1.137.3
-            envFrom:
-              - configMapRef:
-                  name: *configMap
-              - secretRef:
-                  name: *secret
-            resources:
-              requests:
-                cpu: 100m
-                memory: 250Mi
+    controller:
+      strategy: RollingUpdate
+      annotations:
+        configmap.reloader.stakater.com/reload: &configMap immich-configmap
+        secret.reloader.stakater.com/reload: &secret immich-secret
+    image:
+      repository: ghcr.io/immich-app/immich-machine-learning
+      tag: v1.137.3
+    envFrom:
+      - configMapRef:
+          name: *configMap
+      - secretRef:
+          name: *secret
     service:
       main:
         ports:
@@ -60,3 +53,7 @@ spec:
         enabled: true
         existingClaim: immich-machine-learning-cache
         mountPath: /cache
+    resources:
+      requests:
+        cpu: 100m
+        memory: 250Mi
