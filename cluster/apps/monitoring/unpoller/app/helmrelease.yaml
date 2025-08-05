@@ -9,10 +9,10 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 3.7.1
+      version: 4.2.0
       sourceRef:
         kind: HelmRepository
-        name: bjw-s
+        name: bjw-s-labs
         namespace: flux-system
   install:
     remediation:
@@ -26,9 +26,9 @@ spec:
     - name: kube-prometheus-stack
   values:
     controllers:
-      unpoller:
+      main:
         containers:
-          app:
+          main:
             image:
               repository: ghcr.io/unpoller/unpoller
               tag: v2.15.3@sha256:56069bd90291a7c63e58b594e877c5f868a58f082e20c4c533e4e546ed3b42b3
@@ -59,14 +59,12 @@ spec:
         runAsUser: 1000
         runAsGroup: 1000
     service:
-      app:
-        controller: unpoller
+      main:
         ports:
           http:
             port: 80
     serviceMonitor:
-      app:
-        serviceName: unpoller
+      main:
         endpoints:
           - port: http
             interval: 2m # Unifi API only polls at 2m intervals

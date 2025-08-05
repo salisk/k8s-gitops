@@ -10,10 +10,10 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 4.2.0
       sourceRef:
         kind: HelmRepository
-        name: bjw-s
+        name: bjw-s-labs
         namespace: flux-system
   maxHistory: 3
   install:
@@ -27,12 +27,21 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    controller:
-      replicas: 2
-      strategy: RollingUpdate
-    image:
-      repository: public.ecr.aws/docker/library/haproxy
-      tag: 3.2.3-alpine
+    controllers:
+      main:
+        replicas: 2
+        strategy: RollingUpdate
+        containers:
+          main:
+            image:
+              repository: public.ecr.aws/docker/library/haproxy
+              tag: 3.2.3-alpine
+        pod:
+          securityContext:
+            runAsUser: 99
+            runAsGroup: 99
+            fsGroup: 99
+            fsGroupChangePolicy: "OnRootMismatch"
     service:
       main:
         type: LoadBalancer
@@ -76,11 +85,6 @@ spec:
         tls:
           - hosts:
               - *host
-    podSecurityContext:
-      runAsUser: 99
-      runAsGroup: 99
-      fsGroup: 99
-      fsGroupChangePolicy: "OnRootMismatch"
     persistence:
       config:
         enabled: true

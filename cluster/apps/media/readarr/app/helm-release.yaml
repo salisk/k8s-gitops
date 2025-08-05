@@ -9,10 +9,10 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 3.7.2
+      version: 4.2.0
       sourceRef:
         kind: HelmRepository
-        name: bjw-s
+        name: bjw-s-labs
         namespace: flux-system
       interval: 30m
   targetNamespace: media
@@ -36,7 +36,7 @@ spec:
         seccompProfile:
           type: RuntimeDefault
     controllers:
-      readarr:
+      main:
         annotations:
           reloader.stakater.com/auto: "true"
         initContainers:
@@ -49,7 +49,7 @@ spec:
               - secretRef:
                   name: readarr-secret
         containers:
-          readarr:
+          main:
             image:
               repository: ghcr.io/joryirving/readarr-develop
               tag: 0.4.12.2753@sha256:2d2577d3c27d8892d8d886a3dcd58215b20402aee320da4914dfbd5db373cab4
@@ -94,13 +94,12 @@ spec:
               limits:
                 memory: 400Mi
     service:
-      readarr:
-        controller: *name
+      main:
         ports:
           http:
             port: 8787
     ingress:
-      readarr:
+      main:
         enabled: true
         className: nginx
         annotations:

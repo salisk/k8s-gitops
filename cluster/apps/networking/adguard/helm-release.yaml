@@ -17,24 +17,28 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 4.2.0
       interval: 10m0s
       sourceRef:
         kind: HelmRepository
-        name: bjw-s
+        name: bjw-s-labs
         namespace: flux-system
   values:
-    image:
-      repository: adguard/adguardhome
-      tag: v0.107.64@sha256:23243d0004d9398cf9c83bdfce3dd92005df72aef010f537e7325a021f31a6f5
-    env:
-      TZ: "${TIMEZONE}"
-    args:
-      - "--config"
-      - "/opt/adguardhome/conf/AdGuardHome.yaml"
-      - "--work-dir"
-      - "/opt/adguardhome/work"
-      - "--no-check-update"
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: adguard/adguardhome
+              tag: v0.107.64@sha256:23243d0004d9398cf9c83bdfce3dd92005df72aef010f537e7325a021f31a6f5
+            env:
+              TZ: "${TIMEZONE}"
+            args:
+              - "--config"
+              - "/opt/adguardhome/conf/AdGuardHome.yaml"
+              - "--work-dir"
+              - "/opt/adguardhome/work"
+              - "--no-check-update"
     service:
       main:
         primary: true

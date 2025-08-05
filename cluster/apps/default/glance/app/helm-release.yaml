@@ -9,10 +9,10 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 3.7.3
+      version: 4.2.0
       sourceRef:
         kind: HelmRepository
-        name: bjw-s
+        name: bjw-s-labs
         namespace: flux-system
   install:
     remediation:
@@ -24,11 +24,11 @@ spec:
       retries: 3
   values:
     controllers:
-      glance:
+      main:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          app:
+          main:
             image:
               repository: glanceapp/glance
               tag: v0.8.4@sha256:6df86a7e8868d1eda21f35205134b1962c422957e42a0c44d4717c8e8f741b1a
@@ -51,8 +51,7 @@ spec:
             fsGroup: 568
             fsGroupChangePolicy: OnRootMismatch
     service:
-      app:
-        controller: glance
+      main:
         ports:
           http:
             port: &port 8080
@@ -73,8 +72,8 @@ spec:
         type: configMap
         name: glance-configmap
         advancedMounts:
-          glance:
-            app:
+          main:
+            main:
               - path: /app/config/glance.yml
                 subPath: glance.yml
                 readOnly: true

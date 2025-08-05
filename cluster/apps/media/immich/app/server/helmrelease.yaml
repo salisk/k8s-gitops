@@ -10,10 +10,10 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 3.5.1
+      version: 4.2.0
       sourceRef:
         kind: HelmRepository
-        name: bjw-s
+        name: bjw-s-labs
         namespace: flux-system
   maxHistory: 3
   install:
@@ -37,7 +37,7 @@ spec:
           - secretRef:
               name: &secret immich-secret
     controllers:
-      immich-server:
+      main:
         annotations:
           configmap.reloader.stakater.com/reload: *configMap
           secret.reloader.stakater.com/reload: *secret
@@ -51,7 +51,7 @@ spec:
                 matchLabels:
                   app.kubernetes.io/name: immich-server
         containers:
-          app:
+          main:
             image:
               repository: ghcr.io/immich-app/immich-server
               tag: v1.137.3
@@ -76,13 +76,12 @@ spec:
               startup:
                 enabled: false
     service:
-      app:
-        controller: immich-server
+      main:
         ports:
           http:
             port: 2283
     ingress:
-      app:
+      main:
         enabled: true
         className: nginx
         annotations:

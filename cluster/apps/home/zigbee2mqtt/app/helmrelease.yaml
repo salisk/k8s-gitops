@@ -9,10 +9,10 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 4.2.0
       sourceRef:
         kind: HelmRepository
-        name: bjw-s
+        name: bjw-s-labs
         namespace: flux-system
   install:
     remediation:
@@ -55,9 +55,9 @@ spec:
               ZIGBEE2MQTT_CONFIG_MQTT_SERVER: mqtt://mosquitto.home.svc.cluster.local
               ZIGBEE2MQTT_CONFIG_MQTT_VERSION: 5
               ZIGBEE2MQTT_CONFIG_PERMIT_JOIN: "false"
-              ZIGBEE2MQTT_CONFIG_ADVANCED_EXT_PAN_ID: "${ZIGBEE2MQTT_EXT_PAN_ID//\\\\/}"
+              ZIGBEE2MQTT_CONFIG_ADVANCED_EXT_PAN_ID: "${ZIGBEE2MQTT_EXT_PAN_ID//\\/}"
               ZIGBEE2MQTT_CONFIG_ADVANCED_PAN_ID: "${ZIGBEE2MQTT_PAN_ID}"
-              ZIGBEE2MQTT_CONFIG_ADVANCED_NETWORK_KEY: "${ZIGBEE2MQTT_NETWORK_KEY//\\\\/}"
+              ZIGBEE2MQTT_CONFIG_ADVANCED_NETWORK_KEY: "${ZIGBEE2MQTT_NETWORK_KEY//\\/}"
               ZIGBEE2MQTT_CONFIG_MQTT_USER: "${SECRET_MQTT_USERNAME}"
               ZIGBEE2MQTT_CONFIG_MQTT_PASSWORD: "${SECRET_MQTT_PASSWORD}"
               # frontend

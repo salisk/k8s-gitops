@@ -10,10 +10,10 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 3.2.1
+      version: 4.2.0
       sourceRef:
         kind: HelmRepository
-        name: bjw-s
+        name: bjw-s-labs
         namespace: flux-system
   maxHistory: 2
   install:
@@ -29,7 +29,7 @@ spec:
     keepHistory: false
   values:
     controllers:
-      ghostfolio:
+      main:
         strategy: RollingUpdate
         annotations:
           reloader.stakater.com/auto: "true"
@@ -42,7 +42,7 @@ spec:
               - secretRef:
                   name: ghostfolio-secret
         containers:
-          app:
+          main:
             image:
               repository: docker.io/ghostfolio/ghostfolio
               tag: 2.188.0@sha256:60c59a537981397b943d283033508dfa9475cb53206c330c224eb8cf4d69bfcb
@@ -56,13 +56,12 @@ spec:
                 cpu: 100m
                 memory: 256Mi
     service:
-      app:
-        controller: *app
+      main:
         ports:
           http:
             port: 3333
     ingress:
-      app:
+      main:
         enabled: true
         className: nginx
         annotations:

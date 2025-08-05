@@ -10,10 +10,10 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 3.5.1
+      version: 4.2.0
       sourceRef:
         kind: HelmRepository
-        name: bjw-s
+        name: bjw-s-labs
         namespace: flux-system
   maxHistory: 3
   install:
@@ -28,9 +28,9 @@ spec:
     keepHistory: false
   values:
     controllers:
-      immich-proxy:
+      main:
         containers:
-          app:
+          main:
             image:
               repository: alangrainger/immich-public-proxy
               tag: 1.12.1
@@ -41,8 +41,7 @@ spec:
                 cpu: 100m
                 memory: 250Mi
     service:
-      app:
-        controller: immich-proxy
+      main:
         enabled: true
         primary: true
         type: ClusterIP
@@ -53,7 +52,7 @@ spec:
             port: 3000
             protocol: HTTP
     ingress:
-      app:
+      main:
         enabled: true
         className: external
         annotations:
