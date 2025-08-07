@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 3.7.3
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -27,20 +27,49 @@ spec:
     keepHistory: false
   timeout: 20m
   values:
-    controller:
-      type: statefulset
-    image:
-      repository: ghcr.io/home-operations/plex
-      tag: 1.41.9.9961
-    env:
-      TZ: "${TIMEZONE}"
-    podSecurityContext:
-      runAsUser: 0
-      supplementalGroups:
-        - 44
-        - 109
-        - 100
-        - 107
+    controllers:
+      main:
+        type: statefulset
+        containers:
+          main:
+            image:
+              repository: ghcr.io/home-operations/plex
+              tag: 1.41.9.9961
+            env:
+              TZ: "${TIMEZONE}"
+            resources:
+              requests:
+                cpu: 1000m
+                memory: 1000Mi
+                gpu.intel.com/i915: 1
+              limits:
+                memory: 6000Mi
+                gpu.intel.com/i915: 1
+        pod:
+          securityContext:
+            runAsUser: 0
+            supplementalGroups:
+              - 44
+              - 109
+              - 100
+              - 107
+          affinity:
+            podAntiAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                - labelSelector:
+                    matchExpressions:
+                      - key: app.kubernetes.io/name
+                        operator: In
+                        values: ["frigate"]
+                  topologyKey: kubernetes.io/hostname
+            # nodeAffinity:
+            #   requiredDuringSchedulingIgnoredDuringExecution:
+            #     nodeSelectorTerms:
+            #     - matchExpressions:
+            #       - key: node-role.kubernetes.io/master
+            #         operator: NotIn
+            #         values:
+            #           - "true"
     service:
       main:
         enabled: true
@@ -87,28 +116,3 @@ spec:
       media:
         enabled: true
         existingClaim: nfs-media-pvc-v2
-    resources:
-      requests:
-        cpu: 1000m
-        memory: 1000Mi
-        gpu.intel.com/i915: 1
-      limits:
-        memory: 6000Mi
-        gpu.intel.com/i915: 1
-    affinity:
-      podAntiAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-                - key: app.kubernetes.io/name
-                  operator: In
-                  values: ["frigate"]
-            topologyKey: kubernetes.io/hostname
-      # nodeAffinity:
-      #   requiredDuringSchedulingIgnoredDuringExecution:
-      #     nodeSelectorTerms:
-      #     - matchExpressions:
-      #       - key: node-role.kubernetes.io/master
-      #         operator: NotIn
-      #         values:
-      #           - "true"
