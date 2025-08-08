@@ -6,14 +6,10 @@ metadata:
   name: &app stirling-pdf
 spec:
   interval: 30m
-  chart:
-    spec:
-      chart: app-template
-      version: 3.7.3
-      sourceRef:
-        kind: HelmRepository
-        name: bjw-s
-        namespace: flux-system
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
   install:
     remediation:
       retries: 3
@@ -24,7 +20,7 @@ spec:
       retries: 3
   values:
     controllers:
-      app:
+      stirling-pdf:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
@@ -79,25 +75,22 @@ spec:
 
     service:
       app:
-        controller: app
+        controller: *app
         ports:
           http:
             port: 8080
 
-    ingress:
+    route:
       app:
-        enabled: true
-        className: nginx
         annotations:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/name: Stirling PDF
           gethomepage.dev/description: PDF Viewer and Editor
           gethomepage.dev/group: Services
           gethomepage.dev/icon: https://cdn-icons-png.flaticon.com/512/4208/4208479.png
-        hosts:
-          - host: pdf.${SECRET_DOMAIN}
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
+        hostnames:
+          - "pdf.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
