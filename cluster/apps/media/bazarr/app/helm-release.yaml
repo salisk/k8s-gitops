@@ -30,7 +30,7 @@ spec:
         fsGroup: 568
         fsGroupChangePolicy: OnRootMismatch
     controllers:
-      main:
+      bazarr:
         annotations:
           reloader.stakater.com/auto: "true"
         initContainers:
@@ -43,7 +43,7 @@ spec:
               - secretRef:
                   name: bazarr-secret
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/home-operations/bazarr
               tag: 1.5.2
@@ -58,12 +58,12 @@ spec:
               limits:
                 memory: 1Gi
     service:
-      main:
+      app:
         ports:
           http:
             port: *port
     route:
-      main:
+      app:
         annotations:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Downloads
