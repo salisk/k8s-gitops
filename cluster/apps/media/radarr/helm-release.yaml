@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 3.7.3
+      version: 2.6.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -29,14 +29,8 @@ spec:
   values:
     controllers:
       main:
-        pod:
-          annotations:
-            reloader.stakater.com/auto: "true"
-          securityContext:
-            runAsUser: 0
-            supplementalGroups:
-              - 100
-              - 10000
+        annotations:
+          reloader.stakater.com/auto: "true"
         initContainers:
           init-db:
             image:
@@ -84,6 +78,12 @@ spec:
                 memory: 256M
               limits:
                 memory: 1Gi
+        pod:
+          securityContext:
+            runAsUser: 0
+            supplementalGroups:
+              - 100
+              - 10000
     service:
       main:
         ports:

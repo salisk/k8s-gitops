@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 3.7.3
+      version: 1.5.1
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -26,38 +26,12 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    controllers:
-      main:
-        pod:
-          annotations:
-            reloader.stakater.com/auto: "true"
-        containers:
-          main:
-            image:
-              repository: quay.io/minio/minio
-              tag: RELEASE.2025-04-22T22-12-26Z
-            args:
-              - server
-              - /data/minio
-              - --console-address
-              - :9001
-            env:
-              MINIO_UPDATE: "off"
-              TZ: "${TIMEZONE}"
-              MINIO_BROWSER_REDIRECT_URL: https://minio.${SECRET_DOMAIN}
-              MINIO_SERVER_URL: https://s3.${SECRET_DOMAIN}
-              MINIO_PROMETHEUS_JOB_ID: "minio"
-              MINIO_PROMETHEUS_URL: "http://thanos-query.monitoring:9090"
-              MINIO_PROMETHEUS_AUTH_TYPE: public
-              MINIO_API_CORS_ALLOW_ORIGIN: https://minio.${SECRET_DOMAIN},https://s3.${SECRET_DOMAIN}
-              MINIO_ROOT_USER: ${MINIO_ACCESS_KEY}
-              MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY}
-            resources:
-              requests:
-                memory: 250Mi
-                cpu: 150m
-              limits:
-                memory: 1500Mi
+    image:
+      repository: quay.io/minio/minio
+      tag: RELEASE.2025-04-22T22-12-26Z
+    controller:
+      annotations:
+        reloader.stakater.com/auto: "true"
     service:
       main:
         ports:
@@ -66,6 +40,22 @@ spec:
           api:
             enabled: true
             port: &api-port 9000
+    args:
+      - server
+      - /data/minio
+      - --console-address
+      - :9001
+    env:
+      MINIO_UPDATE: "off"
+      TZ: "${TIMEZONE}"
+      MINIO_BROWSER_REDIRECT_URL: https://minio.${SECRET_DOMAIN}
+      MINIO_SERVER_URL: https://s3.${SECRET_DOMAIN}
+      MINIO_PROMETHEUS_JOB_ID: "minio"
+      MINIO_PROMETHEUS_URL: "http://thanos-query.monitoring:9090"
+      MINIO_PROMETHEUS_AUTH_TYPE: public
+      MINIO_API_CORS_ALLOW_ORIGIN: https://minio.${SECRET_DOMAIN},https://s3.${SECRET_DOMAIN}
+      MINIO_ROOT_USER: ${MINIO_ACCESS_KEY}
+      MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY}
     persistence:
       config:
         enabled: true
@@ -114,3 +104,9 @@ spec:
             path: /minio/v2/metrics/cluster
             interval: 1m
             scrapeTimeout: 10s
+    resources:
+      requests:
+        memory: 250Mi
+        cpu: 150m
+      limits:
+        memory: 1500Mi

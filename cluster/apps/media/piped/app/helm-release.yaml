@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 3.7.3
+      version: 3.7.1
       interval: 30m
       sourceRef:
         kind: HelmRepository
@@ -17,17 +17,17 @@ spec:
         namespace: flux-system
   interval: 30m
   values:
+    defaultPodOptions:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: "OnRootMismatch"
     controllers:
       backend:
         strategy: RollingUpdate
         annotations:
           secret.reloader.stakater.com/reload: piped-secret
-        pod:
-          securityContext:
-            runAsUser: 1000
-            runAsGroup: 1000
-            fsGroup: 1000
-            fsGroupChangePolicy: "OnRootMismatch"
         containers:
           app:
             image:
@@ -51,12 +51,6 @@ spec:
                   - ALL
       frontend:
         strategy: RollingUpdate
-        pod:
-          securityContext:
-            runAsUser: 1000
-            runAsGroup: 1000
-            fsGroup: 1000
-            fsGroupChangePolicy: "OnRootMismatch"
         containers:
           app:
             image:
@@ -83,12 +77,6 @@ spec:
               readOnlyRootFilesystem: true
       ytproxy:
         strategy: RollingUpdate
-        pod:
-          securityContext:
-            runAsUser: 1000
-            runAsGroup: 1000
-            fsGroup: 1000
-            fsGroupChangePolicy: "OnRootMismatch"
         containers:
           app:
             image:
