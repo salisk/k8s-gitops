@@ -6,9 +6,3 @@ resources:
   - helm-release.yaml
   - secret.yaml
   - ../../../../templates/gatus/internal
-configMapGenerator:
-  - name: bazarr-scripts
-    files:
-      - post-process.sh=./scripts/post-process.sh
-configurations:
-  - ./patches/kustomizeconfig.yaml
