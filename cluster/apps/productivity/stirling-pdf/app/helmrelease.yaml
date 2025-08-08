@@ -61,17 +61,20 @@ spec:
         existingClaim: stirling-pdf-pvc-v1
         globalMounts:
           - path: /configs
-      logs:
-        enabled: true
+      temporary:
         type: emptyDir
-      tmp:
-        enabled: true
-        type: emptyDir
-      tessdata:
-        enabled: true
-        type: emptyDir
+        medium: Memory
         globalMounts:
+          - path: /customFiles
+            subPath: customFiles
+          - path: /logs
+            subPath: logs
+          - path: /pipeline
+            subPath: pipeline
+          - path: /tmp
+            subPath: tmp
           - path: /usr/share/tessdata
+            subPath: tessdata
 
     service:
       app:
