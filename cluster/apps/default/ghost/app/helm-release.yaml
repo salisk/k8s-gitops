@@ -60,7 +60,7 @@ spec:
       main:
         ports:
           http:
-            port: 2368
+            port: &port 2368
     route:
       main:
         hostnames:
