@@ -35,7 +35,7 @@ spec:
               tag: "6.0.0"
             env:
               TZ: "${TIMEZONE}"
-              url: "https://${SECRET_DOMAIN}"
+              url: "https://blog.${SECRET_DOMAIN}"
               admin__url: "https://ghost.${SECRET_DOMAIN}"
               database__client: mysql
               database__connection__host: mariadb.data.svc
@@ -64,7 +64,7 @@ spec:
     route:
       main:
         hostnames:
-          - "${SECRET_DOMAIN}"
+          - "blog.${SECRET_DOMAIN}"
         parentRefs:
           - name: internal
             namespace: kube-system
