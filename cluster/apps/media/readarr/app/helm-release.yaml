@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -6,15 +7,10 @@ metadata:
   namespace: media
 spec:
   interval: 30m
-  chart:
-    spec:
-      chart: app-template
-      version: 3.7.2
-      sourceRef:
-        kind: HelmRepository
-        name: bjw-s
-        namespace: flux-system
-      interval: 30m
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
   targetNamespace: media
   install:
     createNamespace: true
@@ -99,10 +95,8 @@ spec:
         ports:
           http:
             port: 8787
-    ingress:
+    route:
       readarr:
-        enabled: true
-        className: nginx
         annotations:
           cert-manager.io/cluster-issuer: "letsencrypt-production"
           gethomepage.dev/enabled: "true"
@@ -113,16 +107,12 @@ spec:
           gethomepage.dev/widget.type: readarr
           gethomepage.dev/widget.url: http://readarr.media:8787
           gethomepage.dev/widget.key: "${HOMEPAGE_READARR_KEY}"
-        hosts:
-          - host: &host "readarr.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                service:
-                  identifier: readarr
-                  port: http
-        tls:
-          - hosts:
-              - *host
+        hostnames:
+          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
     persistence:
       config:
         enabled: true

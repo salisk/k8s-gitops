@@ -11,7 +11,7 @@ resources:
   - ./radarr/ks.yaml
   - ./readarr/ks.yaml
   - ./sabnzbd/ks.yaml
-  - sonarr
+  - ./sonarr/ks.yaml
   - ./tautulli/ks.yaml
   - ./nextcloud/ks.yaml
   - ./piped/ks.yaml
