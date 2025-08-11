@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -6,6 +7,10 @@ metadata:
   namespace: media
 spec:
   interval: 15m
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
   chart:
     spec:
       chart: app-template
@@ -26,33 +31,59 @@ spec:
     - name: immich-server
       namespace: media
   values:
-    controller:
-      strategy: RollingUpdate
-      annotations:
-        configmap.reloader.stakater.com/reload: &configMap immich-configmap
-        secret.reloader.stakater.com/reload: &secret immich-secret
-    image:
-      repository: ghcr.io/immich-app/immich-machine-learning
-      tag: v1.137.3
-    envFrom:
-      - configMapRef:
-          name: *configMap
-      - secretRef:
-          name: *secret
+    controllers:
+      immich-machine-learning:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        strategy: RollingUpdate
+        containers:
+          app:
+            image:
+              repository: ghcr.io/immich-app/immich-machine-learning
+              tag: v1.137.3
+            envFrom:
+              - configMapRef:
+                  name: *configMap
+              - secretRef:
+                  name: *secret
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /ping
+                    port: &port 3003
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 5
+              readiness: *probes
+              startup:
+                enabled: false
     service:
-      main:
+      app:
         ports:
           http:
-            port: 3003
+            port: *port
     persistence:
       library:
         enabled: true
         existingClaim: nfs-immich-pvc-v2
-        mountPath: /usr/src/app/upload
-      cache:
-        enabled: true
-        existingClaim: immich-machine-learning-cache
-        mountPath: /cache
+        globalMounts:
+          - path: /usr/src/app/upload
+        # mountPath: /usr/src/app/upload
+      tmpfs:
+        type: emptyDir
+        advancedMounts:
+          immich-machine-learning:
+            app:
+              - path: /cache
+                subPath: cache
+              - path: /.cache
+                subPath: dotCache
+              - path: /tmp
+                subPath: tmp
     resources:
       requests:
         cpu: 100m
