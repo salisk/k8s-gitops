@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -6,14 +7,10 @@ metadata:
   namespace: media
 spec:
   interval: 15m
-  chart:
-    spec:
-      chart: app-template
-      version: 1.5.1
-      sourceRef:
-        kind: HelmRepository
-        name: bjw-s
-        namespace: flux-system
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
   maxHistory: 5
   install:
     createNamespace: true
@@ -27,36 +24,74 @@ spec:
     keepHistory: false
   timeout: 20m
   values:
-    controller:
-      type: statefulset
-    image:
-      repository: ghcr.io/home-operations/plex
-      tag: 1.41.9.9961
-    env:
-      TZ: "${TIMEZONE}"
-    podSecurityContext:
-      runAsUser: 0
-      supplementalGroups:
-        - 44
-        - 109
-        - 100
-        - 107
+    controllers:
+      plex:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        pod:
+          securityContext:
+            runAsUser: 0
+            supplementalGroups:
+              - 44
+              - 109
+              - 100
+              - 107
+          affinity:
+            podAntiAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                - labelSelector:
+                    matchExpressions:
+                      - key: app.kubernetes.io/name
+                        operator: In
+                        values: ["frigate"]
+                  topologyKey: kubernetes.io/hostname
+        containers:
+          app:
+            image:
+              repository: ghcr.io/home-operations/plex
+              tag: 1.42.1.10054@sha256:d361aef8d6e1072cf18c0d54ded39f5e7f5fcc0f9084e6e427fb5373dbf12edb
+            env:
+              TZ: ${TIMEZONE}
+              PLEX_ADVERTISE_URL: https://plex.${SECRET_DOMAIN}:443,http://${LB_PLEX_IP}:32400
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /identity
+                    port: &port 32400
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 10
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 1000m
+                gpu.intel.com/i915: 1
+              limits:
+                gpu.intel.com/i915: 1
+                memory: 6Gi
     service:
-      main:
-        enabled: true
+      app:
         type: LoadBalancer
         annotations:
-          metallb.universe.tf/allow-shared-ip: plex
           lbipam.cilium.io/ips: "${LB_PLEX_IP}"
-        externalIPs: ["${LB_PLEX_IP}"]
-        externalTrafficPolicy: Cluster
         ports:
           http:
-            port: 32400
-    ingress:
-      main:
-        enabled: true
-        ingressClassName: external
+            port: *port
+    route:
+      app:
         annotations:
           hajimari.io/enable: "true"
           hajimari.io/icon: "movie"
@@ -67,48 +102,35 @@ spec:
           gethomepage.dev/name: Plex
           gethomepage.dev/description: Movies and TV Shows
           gethomepage.dev/icon: plex.png
-        hosts:
-          - host: "plex.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                pathType: Prefix
-        tls:
-          - hosts:
-              - "plex.${SECRET_DOMAIN}"
-            secretName: "plex-tls"
+        hostnames:
+          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: external
+            namespace: kube-system
+            sectionName: https
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *port
     persistence:
       config:
         enabled: true
         existingClaim: plex-config-v1
-      transcode:
-        enabled: true
-        type: emptyDir
-        medium: Memory
+        globalMounts:
+          - path: /config
       media:
         enabled: true
         existingClaim: nfs-media-pvc-v2
-    resources:
-      requests:
-        cpu: 1000m
-        memory: 1000Mi
-        gpu.intel.com/i915: 1
-      limits:
-        memory: 6000Mi
-        gpu.intel.com/i915: 1
-    affinity:
-      podAntiAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-                - key: app.kubernetes.io/name
-                  operator: In
-                  values: ["frigate"]
-            topologyKey: kubernetes.io/hostname
-      # nodeAffinity:
-      #   requiredDuringSchedulingIgnoredDuringExecution:
-      #     nodeSelectorTerms:
-      #     - matchExpressions:
-      #       - key: node-role.kubernetes.io/master
-      #         operator: NotIn
-      #         values:
-      #           - "true"
+        globalMounts:
+          - path: /media
+      tmpfs:
+        type: emptyDir
+        advancedMounts:
+          plex:
+            app:
+              - path: /config/Library/Application Support/Plex Media Server/Logs
+                subPath: logs
+              - path: /transcode
+                subPath: transcode
+              - path: /tmp
+                subPath: tmp
