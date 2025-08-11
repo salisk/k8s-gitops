@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -7,14 +8,10 @@ metadata:
 spec:
   interval: 30m
   timeout: 15m
-  chart:
-    spec:
-      chart: app-template
-      version: 2.6.0
-      sourceRef:
-        kind: HelmRepository
-        name: bjw-s
-        namespace: flux-system
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
   maxHistory: 3
   install:
     createNamespace: true
@@ -28,11 +25,11 @@ spec:
     keepHistory: false
   values:
     controllers:
-      main:
+      qbittorrent:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/home-operations/qbittorrent
               tag: 5.1.2
@@ -61,26 +58,22 @@ spec:
             runAsUser: 0
             supplementalGroups: [100, 10000]
     service:
-      main:
+      app:
+        forceRename: "{{ .Release.Name }}"
+        primary: true
         ports:
           http:
             port: *port
       bittorrent:
-        controller: main
-        enabled: true
         type: LoadBalancer
         annotations:
           lbipam.cilium.io/ips: "${LB_QBITTORRENT_IP}"
         ports:
-          bittorrent:
-            enabled: true
+          bittorrent-tcp:
             port: *port-bt
             protocol: TCP
-        externalTrafficPolicy: Cluster
-    ingress:
-      main:
-        enabled: true
-        className: nginx
+    route:
+      app:
         annotations:
           hajimari.io/enable: "true"
           hajimari.io/icon: "cloud-download"
@@ -94,16 +87,12 @@ spec:
           gethomepage.dev/widget.url: http://qbittorrent.media
           gethomepage.dev/widget.username: "${SECRET_QB_USERNAME}"
           gethomepage.dev/widget.password: "${SECRET_QB_PASSWORD}"
-        hosts:
-          - host: "qb.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                service:
-                  name: main
-                  port: http
-        tls:
-          - hosts:
-              - "qb.${SECRET_DOMAIN}"
+        hostnames:
+          - "qb.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
     persistence:
       config:
         enabled: true

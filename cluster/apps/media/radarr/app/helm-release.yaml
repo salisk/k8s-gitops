@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -7,14 +8,10 @@ metadata:
 spec:
   interval: 15m
   timeout: 15m
-  chart:
-    spec:
-      chart: app-template
-      version: 2.6.0
-      sourceRef:
-        kind: HelmRepository
-        name: bjw-s
-        namespace: flux-system
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
   maxHistory: 3
   install:
     createNamespace: true
@@ -28,7 +25,7 @@ spec:
     keepHistory: false
   values:
     controllers:
-      main:
+      radarr:
         annotations:
           reloader.stakater.com/auto: "true"
         initContainers:
@@ -41,7 +38,7 @@ spec:
               - secretRef:
                   name: radarr-secret
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/home-operations/radarr
               tag: 5.27.3.10153@sha256:1bf822eaf3d944dc994656c3a712a89df0d88f5f46731af4fccc90c5e0333167
@@ -85,14 +82,12 @@ spec:
               - 100
               - 10000
     service:
-      main:
+      app:
         ports:
           http:
             port: *port
-    ingress:
-      main:
-        enabled: true
-        className: nginx
+    route:
+      app:
         annotations:
           hajimari.io/enable: "true"
           hajimari.io/icon: "filmstrip"
@@ -105,16 +100,12 @@ spec:
           gethomepage.dev/widget.type: radarr
           gethomepage.dev/widget.url: http://radarr.media
           gethomepage.dev/widget.key: "${HOMEPAGE_RADARR_KEY}"
-        hosts:
-          - host: "radarr.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                service:
-                  name: main
-                  port: http
-        tls:
-          - hosts:
-              - "radarr.${SECRET_DOMAIN}"
+        hostnames:
+          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
     persistence:
       config:
         enabled: true
