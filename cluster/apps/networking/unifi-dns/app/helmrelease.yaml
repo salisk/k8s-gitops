@@ -4,7 +4,6 @@ apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
   name: unifi-dns
-  namespace: flux-system
 spec:
   interval: 5m
   layerSelector:
@@ -24,7 +23,6 @@ spec:
   chartRef:
     kind: OCIRepository
     name: unifi-dns
-    namespace: flux-system
   install:
     remediation:
       retries: -1
