@@ -3,7 +3,5 @@ kind: Kustomization
 resources:
   - influxdb
   - mariadb
-  - ./redis/ks.yaml
-  # - redis-server
   - ./cloudnative-pg/ks.yaml
   - ./dragonfly/ks.yaml
