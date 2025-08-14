@@ -28,11 +28,11 @@ spec:
   values:
     primary:
       extraEnvVars:
-      - name: TZ
-        value: "${TIMEZONE}"
+        - name: TZ
+          value: "${TIMEZONE}"
       persistence:
         enabled: true
-        existingClaim: mariadb-pvc-v2 
+        existingClaim: mariadb-pvc-v2
       readinessProbe:
         initialDelaySeconds: 35
         periodSeconds: 5
@@ -67,7 +67,7 @@ spec:
 
         CREATE USER IF NOT EXISTS 'monica'@'%' IDENTIFIED BY '${MONICA_DB_PASSWORD}';
         GRANT ALL PRIVILEGES ON monica.* to 'monica'@'%';
-      
+
       create-ghost.sql: |
         CREATE DATABASE IF NOT EXISTS ghost
         CHARACTER SET = 'utf8mb4'
