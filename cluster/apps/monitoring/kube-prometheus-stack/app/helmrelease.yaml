@@ -1,5 +1,19 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.ok8.sh/helm.toolkit.fluxcd.io/helmrelease_v2.json
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/source.toolkit.fluxcd.io/ocirepository_v1.json
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: kube-prometheus-stack
+spec:
+  interval: 5m
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: copy
+  ref:
+    tag: 76.3.0
+  url: oci://ghcr.io/prometheus-community/charts/kube-prometheus-stack
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -34,21 +48,22 @@ spec:
       enabled: true
     cleanPrometheusOperatorObjectNames: true
     alertmanager:
-      ingress:
-        enabled: true
-        pathType: Prefix
-        ingressClassName: nginx
-        annotations:
-          cert-manager.io/cluster-issuer: letsencrypt-prod
-        hosts:
-          - &host alertmanager.${SECRET_DOMAIN}
-        tls:
-          - hosts:
-              - *host
+      route:
+        main:
+          enabled: true
+          hostnames: ["alertmanager.${SECRET_DOMAIN}"]
+          parentRefs:
+            - name: internal
+              namespace: kube-system
+              sectionName: https
       alertmanagerSpec:
-        replicas: 2
+        alertmanagerConfiguration:
+          name: alertmanager
+          global:
+            resolveTimeout: 5m
         useExistingSecret: false
         # configSecret: alertmanager-secret
+        externalUrl: https://alertmanager.${SECRET_DOMAIN}
         storage:
           volumeClaimTemplate:
             spec:
@@ -117,24 +132,23 @@ spec:
     kubeProxy:
       enabled: false
     prometheus:
-      ingress:
-        enabled: true
-        ingressClassName: nginx
-        annotations:
-          cert-manager.io/cluster-issuer: letsencrypt-prod
-          gethomepage.dev/enabled: "true"
-          gethomepage.dev/group: Monitoring
-          gethomepage.dev/name: Prometheus
-          gethomepage.dev/description: Metrics
-          gethomepage.dev/icon: prometheus.png
-          gethomepage.dev/widget.type: prometheus
-          gethomepage.dev/widget.url: "http://kube-prometheus-stack-prometheus.monitoring:9090"
-        pathType: Prefix
-        hosts:
-          - &host prometheus.${SECRET_DOMAIN}
-        tls:
-          - hosts:
-              - *host
+      route:
+        main:
+          annotations:
+            cert-manager.io/cluster-issuer: letsencrypt-prod
+            gethomepage.dev/enabled: "true"
+            gethomepage.dev/group: Monitoring
+            gethomepage.dev/name: Prometheus
+            gethomepage.dev/description: Metrics
+            gethomepage.dev/icon: prometheus.png
+            gethomepage.dev/widget.type: prometheus
+            gethomepage.dev/widget.url: "http://kube-prometheus-stack-prometheus.monitoring:9090"
+          enabled: true
+          hostnames: ["prometheus.${SECRET_DOMAIN}"]
+          parentRefs:
+            - name: internal
+              namespace: kube-system
+              sectionName: https
       thanosService:
         enabled: true
       thanosServiceMonitor:

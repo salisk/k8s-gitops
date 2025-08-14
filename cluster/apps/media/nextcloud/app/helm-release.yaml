@@ -19,9 +19,6 @@ spec:
     image:
       repository: nextcloud
       tag: 31.0.7
-    ingress:
-      enabled: true
-
     persistence:
       enabled: true
       existingClaim: nextcloud-config-v1
