@@ -1,76 +1,78 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: &app adguard
-  namespace: networking
 spec:
-  interval: 10m0s
-  timeout: 10m
+  interval: 15m
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
+  maxHistory: 2
   install:
     createNamespace: true
     remediation:
-      retries: 5
+      retries: -1
   upgrade:
+    cleanupOnFail: true
     remediation:
-      retries: 5
-  chart:
-    spec:
-      chart: app-template
-      version: 1.5.1
-      interval: 10m0s
-      sourceRef:
-        kind: HelmRepository
-        name: bjw-s
-        namespace: flux-system
+      retries: 3
+      strategy: rollback
+  uninstall:
+    keepHistory: false
   values:
-    image:
-      repository: adguard/adguardhome
-      tag: v0.107.64@sha256:23243d0004d9398cf9c83bdfce3dd92005df72aef010f537e7325a021f31a6f5
-    env:
-      TZ: "${TIMEZONE}"
-    args:
-      - "--config"
-      - "/opt/adguardhome/conf/AdGuardHome.yaml"
-      - "--work-dir"
-      - "/opt/adguardhome/work"
-      - "--no-check-update"
+    controllers:
+      adguard:
+        containers:
+          app:
+            image:
+              repository: adguard/adguardhome
+              tag: v0.107.64@sha256:23243d0004d9398cf9c83bdfce3dd92005df72aef010f537e7325a021f31a6f5
+              pullPolicy: IfNotPresent
+            env:
+              TZ: "${TIMEZONE}"
+            args:
+              - "--config"
+              - "/opt/adguardhome/conf/AdGuardHome.yaml"
+              - "--work-dir"
+              - "/opt/adguardhome/work"
+              - "--no-check-update"
+            probes:
+              liveness: &probe
+                type: HTTP
+                path: /login.html
+              readiness: *probe
+              startup: *probe
+
     service:
-      main:
-        primary: true
+      app:
+        forceRename: *app
+        controller: adguard
         ports:
           http:
-            port: 3000
+            port: 80
       dns:
-        enabled: true
+        controller: adguard
+        type: LoadBalancer
         annotations:
           lbipam.cilium.io/ips: ${LB_BLOCKY_IP}
-        type: LoadBalancer
-        externalTrafficPolicy: Cluster
         ports:
+          dns-https:
+            port: 443
+            protocol: TCP
           dns-tcp:
-            enabled: true
             port: 53
             protocol: TCP
-            targetPort: 53
           dns-udp:
-            enabled: true
             port: 53
             protocol: UDP
-            targetPort: 53
-    persistence:
-      data:
-        enabled: true
-        existingClaim: adguard-config-v1
-        subPath:
-          - path: conf
-            mountPath: /opt/adguardhome/conf
-          - path: data
-            mountPath: /opt/adguardhome/work
-    ingress:
-      main:
-        enabled: true
-        ingressClassName: nginx
+          tls-tcp:
+            port: 853
+            protocol: TCP
+    route:
+      app:
         annotations:
           cert-manager.io/cluster-issuer: "letsencrypt-production"
           gethomepage.dev/enabled: "true"
@@ -80,12 +82,18 @@ spec:
           gethomepage.dev/icon: adguard-home.png
           gethomepage.dev/widget.type: adguard
           gethomepage.dev/widget.url: "http://adguard.networking"
-        hosts:
-          - host: &host adguard.${SECRET_DOMAIN}
-            paths:
-              - path: /
-                pathType: Prefix
-        tls:
-          - hosts:
-              - *host
-            secretName: letsencrypt-adguard
+        hostnames:
+          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
+    persistence:
+      data:
+        enabled: true
+        existingClaim: adguard-config-v1
+        globalMounts:
+          - subPath: conf
+            path: /opt/adguardhome/conf
+          - subPath: data
+            path: /opt/adguardhome/work

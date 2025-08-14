@@ -1,12 +1,17 @@
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.ok8.sh/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: cluster-apps-echo-server
+  name: &app cloudflare-dns
   namespace: flux-system
 spec:
-  path: ./cluster/apps/networking/echo-server/app
-  prune: true
+  targetNamespace: networking
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  path: ./cluster/apps/networking/cloudflare-dns/app
+  prune: false
   sourceRef:
     kind: GitRepository
     name: flux-system
