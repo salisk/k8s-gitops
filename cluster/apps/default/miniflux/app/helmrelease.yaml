@@ -1,19 +1,15 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.ok8.sh/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: &app miniflux
 spec:
   interval: 30m
-  chart:
-    spec:
-      chart: app-template
-      version: 2.6.0
-      sourceRef:
-        kind: HelmRepository
-        name: bjw-s
-        namespace: flux-system
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
   maxHistory: 2
   install:
     remediation:
@@ -26,7 +22,7 @@ spec:
     keepHistory: false
   values:
     controllers:
-      main:
+      miniflux:
         replicas: 2
         strategy: RollingUpdate
         annotations:
@@ -40,7 +36,7 @@ spec:
               - secretRef:
                   name: miniflux-secret
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/miniflux/miniflux
               tag: 2.1.4
@@ -94,12 +90,12 @@ spec:
                 matchLabels:
                   app.kubernetes.io/name: *app
     service:
-      main:
+      app:
         ports:
           http:
             port: *port
     serviceMonitor:
-      main:
+      app:
         enabled: true
     ingress:
       main:
