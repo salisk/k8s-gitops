@@ -97,10 +97,8 @@ spec:
     serviceMonitor:
       app:
         enabled: true
-    ingress:
-      main:
-        enabled: true
-        className: nginx
+    route:
+      app:
         annotations:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: News
@@ -110,13 +108,9 @@ spec:
           gethomepage.dev/widget.type: miniflux
           gethomepage.dev/widget.url: http://miniflux.default
           gethomepage.dev/widget.key: "${HOMEPAGE_MINIFLUX_KEY}"
-        hosts:
-          - host: &host "rss.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                service:
-                  name: main
-                  port: http
-        tls:
-          - hosts:
-              - *host
+        hostnames:
+          - "rss.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
