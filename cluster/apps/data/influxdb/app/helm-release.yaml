@@ -29,14 +29,6 @@ spec:
       ## Or fill any of these values to use fixed values.
       password: "${SECRET_INFLUXDB_PASSWORD}"
       token: "${SECRET_INFLUXDB_TOKEN}"
-    ingress:
-      enabled: true
-      ingressClassName: nginx
-      hostname: influxdb.${SECRET_DOMAIN}
-      annotations:
-        cert-manager.io/cluster-issuer: "letsencrypt-production"
-      tls: true
-      secretName: influxdb-tls
     persistence:
       enabled: true
       useExisting: true
@@ -46,4 +38,4 @@ spec:
         memory: 500Mi
         cpu: 100m
       limits:
-        memory: 3000Mi
+        memory: 1000Mi
