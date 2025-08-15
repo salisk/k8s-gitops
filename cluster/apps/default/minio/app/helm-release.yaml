@@ -106,7 +106,7 @@ spec:
               - name: minio
                 port: 9000
     persistence:
-      data:
+      config:
         existingClaim: "minio-pvc-v3"
         globalMounts:
           - path: /data
