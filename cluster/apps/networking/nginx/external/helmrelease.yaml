@@ -32,10 +32,6 @@ spec:
       maxmindLicenseKey: ${MAXMIND_LICENSE_KEY}
       annotations:
         configmap.reloader.stakater.com/reload: nginx-external-controller
-      service:
-        annotations:
-          external-dns.alpha.kubernetes.io/hostname: external.${SECRET_DOMAIN}
-          lbipam.cilium.io/ips: "${METALLB_EXTERNAL_INGRESS_ADDR}"
       ingressClassResource:
         name: external
         default: false
