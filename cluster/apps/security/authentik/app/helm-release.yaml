@@ -41,14 +41,17 @@ spec:
         enabled: true
         serviceMonitor:
           enabled: true
-      ingress:
-        enabled: true
-        ingressClassName: nginx
-        # annotations:
-        # external-dns.alpha.kubernetes.io/target: external.${SECRET_DOMAIN_NAME}
-        hosts:
-          - sso.${SECRET_DOMAIN}
-        https: false
+      route:
+        main:
+          enabled: true
+          hostnames:
+            - sso.${SECRET_DOMAIN}
+          # annotations:
+          # external-dns.alpha.kubernetes.io/target: sso.${SECRET_DOMAIN}
+          parentRefs:
+            - name: internal
+              namespace: kube-system
+              sectionName: https
     prometheus:
       rules:
         enabled: true

@@ -22,13 +22,3 @@ spec:
       defaultReplicaCount: 3
       backupTarget: s3://longhorn@eu-east-1/backups
       backupTargetCredentialSecret: longhorn-backup-secret
-    ingress:
-      enabled: true
-      ingressClassName: nginx
-      annotations:
-        hajimari.io/enable: "true"
-        hajimari.io/icon: "server"
-        cert-manager.io/cluster-issuer: "letsencrypt-production"
-      host: "longhorn.${SECRET_DOMAIN}"
-      tls: true
-      tlsSecret: longhorn-tls

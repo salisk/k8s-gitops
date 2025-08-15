@@ -3,9 +3,9 @@ kind: Kustomization
 resources:
   - ./nginx/ks.yaml
   - adguard
-  - ./echo-server/ks.yaml
+  - ./echo/ks.yaml
   - ./cloudflared/ks.yaml
-  - ./external-dns/ks.yaml
+  - ./cloudflare-dns/ks.yaml
   - ./multus/ks.yaml
   - ./unifi-dns/ks.yaml
   - misc

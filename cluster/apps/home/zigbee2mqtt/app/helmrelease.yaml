@@ -1,19 +1,15 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: zigbee2mqtt
 spec:
   interval: 30m
-  chart:
-    spec:
-      chart: app-template
-      version: 2.6.0
-      sourceRef:
-        kind: HelmRepository
-        name: bjw-s
-        namespace: flux-system
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
   install:
     remediation:
       retries: 3
@@ -28,11 +24,11 @@ spec:
       namespace: home
   values:
     controllers:
-      main:
+      zigbee2mqtt:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/koenkk/zigbee2mqtt
               tag: 2.6.0@sha256:472f4f5ed5d4258056093ea5745bc0ada37628b667d7db4fb12c2ffea74b2703
@@ -93,31 +89,29 @@ spec:
             fsGroup: 568
             fsGroupChangePolicy: OnRootMismatch
     service:
-      main:
+      app:
         ports:
           http:
             port: *port
-    ingress:
-      main:
-        enabled: true
-        className: nginx
+          metrics:
+            port: 9000
+    route:
+      app:
         annotations:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Home
           gethomepage.dev/name: Zigbee2MQTT
           gethomepage.dev/description: Zigbee to MQTT integration
           gethomepage.dev/icon: mdi-zigbee
-        hosts:
-          - host: &host "zigbee.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                service:
-                  name: main
-                  port: http
-        tls:
-          - hosts:
-              - *host
+        hostnames:
+          - "zigbee.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
     persistence:
       config:
         enabled: true
         existingClaim: zigbee2mqtt-config-v1
+        globalMounts:
+          - path: /config

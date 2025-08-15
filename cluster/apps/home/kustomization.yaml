@@ -5,6 +5,5 @@ resources:
   - ./home-assistant/ks.yaml
   - ./esphome/ks.yaml
   - ./frigate/ks.yaml
-  - homebridge
   - ./wyze-bridge/ks.yaml
   - ./zigbee2mqtt/ks.yaml

@@ -2,18 +2,18 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - pvc
-  - jellyfin
+  - ./jellyfin/ks.yaml
   - ./plex/ks.yaml
-  - qbittorrent
+  - ./qbittorrent/ks.yaml
   - ./bazarr/ks.yaml
   - ./immich/ks.yaml
   - ./overseerr/ks.yaml
-  - radarr
+  - ./radarr/ks.yaml
   - ./readarr/ks.yaml
   - ./sabnzbd/ks.yaml
-  - sonarr
+  - ./sonarr/ks.yaml
   - ./tautulli/ks.yaml
-  - nextcloud
+  - ./nextcloud/ks.yaml
   - ./piped/ks.yaml
   - ./recyclarr/ks.yaml
   - ./prowlarr/ks.yaml

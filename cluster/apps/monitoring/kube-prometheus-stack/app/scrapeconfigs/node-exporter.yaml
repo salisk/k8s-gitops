@@ -3,7 +3,7 @@
 apiVersion: monitoring.coreos.com/v1alpha1
 kind: ScrapeConfig
 metadata:
-  name: node-exporter
+  name: &name node-exporter
   namespace: monitoring
 spec:
   staticConfigs:
@@ -11,3 +11,7 @@ spec:
         - 192.168.0.1:9273
         - 192.168.30.1:9273
   metricsPath: /metrics
+  relabelings:
+    - action: replace
+      targetLabel: job
+      replacement: *name

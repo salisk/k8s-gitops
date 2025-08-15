@@ -322,25 +322,25 @@ spec:
       - vonage-status-panel
     serviceMonitor:
       enabled: true
-    ingress:
-      enabled: true
-      ingressClassName: nginx
-      annotations:
-        cert-manager.io/cluster-issuer: letsencrypt-prod
-        gethomepage.dev/enabled: "true"
-        gethomepage.dev/group: Monitoring
-        gethomepage.dev/name: Grafana
-        gethomepage.dev/description: Metrics Dashboard
-        gethomepage.dev/icon: grafana.png
-        gethomepage.dev/widget.type: grafana
-        gethomepage.dev/widget.url: "http://grafana.monitoring"
-        gethomepage.dev/widget.username: "admin"
-        gethomepage.dev/widget.password: "${SECRET_GRAFANA_PASSWORD}"
-      hosts:
-        - &host grafana.${SECRET_DOMAIN}
-      tls:
-        - hosts:
-            - *host
+    route:
+      main:
+        enabled: true
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Monitoring
+          gethomepage.dev/name: Grafana
+          gethomepage.dev/description: Metrics Dashboard
+          gethomepage.dev/icon: grafana.png
+          gethomepage.dev/widget.type: grafana
+          gethomepage.dev/widget.url: "http://grafana.monitoring"
+          gethomepage.dev/widget.username: "admin"
+          gethomepage.dev/widget.password: "${SECRET_GRAFANA_PASSWORD}"
+        hostnames:
+          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
     persistence:
       enabled: false
     testFramework:

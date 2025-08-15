@@ -1,19 +1,15 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: home-assistant
 spec:
   interval: 30m
-  chart:
-    spec:
-      chart: app-template
-      version: 2.6.0
-      sourceRef:
-        kind: HelmRepository
-        name: bjw-s
-        namespace: flux-system
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
   install:
     remediation:
       retries: 3
@@ -25,7 +21,7 @@ spec:
     keepHistory: false
   values:
     controllers:
-      main:
+      home-assistant:
         annotations:
           reloader.stakater.com/auto: "true"
         initContainers:
@@ -37,7 +33,7 @@ spec:
               - secretRef:
                   name: home-assistant-secret
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/home-operations/home-assistant
               tag: 2025.7.4
@@ -61,6 +57,29 @@ spec:
                 memory: 248Mi
               limits:
                 memory: 2Gi
+          code-server:
+            image:
+              repository: ghcr.io/coder/code-server
+              tag: 4.103.0@sha256:7a7431c11eff50f446ebe800df0cf3e27b1ba556f906745dd000c9e46b624097
+            args:
+              - --auth
+              - none
+              - --disable-telemetry
+              - --disable-update-check
+              - --user-data-dir
+              - /config/.code-server
+              - --extensions-dir
+              - /config/.code-server
+              - --port
+              - "12321"
+              - /config
+            env:
+              HASS_SERVER: http://localhost:8123
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 1Gi
         pod:
           # hostNetwork: true
           # dnsPolicy: ClusterFirstWithHostNet
@@ -78,30 +97,28 @@ spec:
             fsGroup: 568
             fsGroupChangePolicy: OnRootMismatch
     service:
-      main:
-        # type: LoadBalancer
-        # annotations:
-        # lbipam.cilium.io/ips: "${LB_HASS_IP}"
-        # externalTrafficPolicy: Cluster
+      app:
+        type: LoadBalancer
+        annotations:
+          lbipam.cilium.io/ips: "${LB_HASS_IP}"
+        primary: true
         ports:
           http:
             port: 8123
-        mdns-tcp:
-          enabled: true
-          port: 5353
-          protocol: TCP
-          targetPort: 5353
-        mdns-udp:
-          enabled: true
-          port: 5353
-          protocol: UDP
-          targetPort: 5353
-        homekit:
-          port: 21063
-    ingress:
-      main:
-        enabled: true
-        className: nginx
+          mdns-tcp:
+            enabled: true
+            port: 5353
+            protocol: TCP
+            targetPort: 5353
+          mdns-udp:
+            enabled: true
+            port: 5353
+            protocol: UDP
+            targetPort: 5353
+          homekit:
+            port: 21063
+    route:
+      app:
         annotations:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Home
@@ -111,19 +128,48 @@ spec:
           gethomepage.dev/widget.type: homeassistant
           gethomepage.dev/widget.url: "http://home-assistant.home:8123"
           gethomepage.dev/widget.key: "${HOMEPAGE_HASS_KEY}"
-        hosts:
-          - host: &host hass.${SECRET_DOMAIN}
-            paths:
-              - path: /
-                service:
-                  name: main
-                  port: http
-        tls:
-          - hosts:
-              - *host
+        hostnames:
+          - hass.${SECRET_DOMAIN}
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /code/
+            filters:
+              - type: URLRewrite
+                urlRewrite:
+                  path:
+                    type: ReplacePrefixMatch
+                    replacePrefixMatch: /
+            backendRefs:
+              - identifier: code-server
+                port: 12321
+          - backendRefs:
+              - identifier: app
+                port: 8123
     persistence:
       config:
         enabled: true
         existingClaim: home-assistant-config-v1
-      tmp:
+        advancedMounts:
+          home-assistant:
+            app:
+              - path: /config
+            code-server:
+              - path: /config
+      tmpfs:
         type: emptyDir
+        advancedMounts:
+          home-assistant:
+            app:
+              - path: /tmp
+                subPath: hass-tmp
+            code-server:
+              - path: /tmp
+                subPath: code-server-tmp
+              - path: /nonexistent
+                subPath: nonexistent

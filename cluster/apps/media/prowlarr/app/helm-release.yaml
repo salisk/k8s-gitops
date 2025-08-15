@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -7,14 +8,10 @@ metadata:
 spec:
   interval: 15m
   timeout: 15m
-  chart:
-    spec:
-      chart: app-template
-      version: 2.6.0
-      sourceRef:
-        kind: HelmRepository
-        name: bjw-s
-        namespace: flux-system
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
   maxHistory: 4
   install:
     createNamespace: true
@@ -28,7 +25,7 @@ spec:
     keepHistory: false
   values:
     controllers:
-      main:
+      prowlarr:
         annotations:
           reloader.stakater.com/auto: "true"
         initContainers:
@@ -41,7 +38,7 @@ spec:
               - secretRef:
                   name: prowlarr-secret
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/home-operations/prowlarr
               tag: 2.0.2.5116
@@ -84,14 +81,12 @@ spec:
             fsGroup: 1001
             fsGroupChangePolicy: OnRootMismatch
     service:
-      main:
+      app:
         ports:
           http:
             port: *port
-    ingress:
-      main:
-        enabled: true
-        className: nginx
+    route:
+      app:
         annotations:
           hajimari.io/enable: "true"
           hajimari.io/icon: "cloud-search"
@@ -104,16 +99,12 @@ spec:
           gethomepage.dev/widget.type: prowlarr
           gethomepage.dev/widget.url: http://prowlarr.media
           gethomepage.dev/widget.key: "${HOMEPAGE_PROWLARR_KEY}"
-        hosts:
-          - host: "prowlarr.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                service:
-                  name: main
-                  port: http
-        tls:
-          - hosts:
-              - "prowlarr.${SECRET_DOMAIN}"
+        hostnames:
+          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
     persistence:
       config:
         enabled: true

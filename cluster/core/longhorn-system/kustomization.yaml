@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - longhorn.yaml
   - longhorn-backup-secret.yaml
+  - ./httproute.yaml
