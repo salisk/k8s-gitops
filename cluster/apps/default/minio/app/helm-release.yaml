@@ -22,7 +22,7 @@ spec:
               tag: RELEASE.2025-04-22T22-12-26Z
             args:
               - server
-              - /data/minio
+              - /data
               - --console-address
               - :9001
             env:
@@ -78,6 +78,8 @@ spec:
             port: 9000
     serviceMonitor:
       app:
+        serviceName: minio
+        enabled: true
         endpoints:
           - port: s3
             scheme: http
@@ -107,6 +109,7 @@ spec:
                 port: 9000
     persistence:
       config:
-        existingClaim: "minio-pvc-v3"
+        enabled: true
+        existingClaim: minio-pvc-v3
         globalMounts:
           - path: /data
