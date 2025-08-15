@@ -35,9 +35,9 @@ spec:
               tag: v1.137.3
             envFrom:
               - configMapRef:
-                  name: *configMap
+                  name: immich-configmap
               - secretRef:
-                  name: *secret
+                  name: immich-secret
             probes:
               liveness: &probes
                 enabled: true
