@@ -130,6 +130,7 @@ spec:
     #     fsGroupChangePolicy: OnRootMismatch
     service:
       app:
+        forceRename: karakeep
         primary: true
         controller: karakeep
         ports:
@@ -153,6 +154,10 @@ spec:
           - name: internal
             namespace: kube-system
             sectionName: https
+        rules:
+          - backendRefs:
+              - name: app
+                port: *httpPort
     persistence:
       data:
         existingClaim: karakeep-pvc-v1

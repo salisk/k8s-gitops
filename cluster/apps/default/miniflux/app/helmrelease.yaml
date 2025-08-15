@@ -91,12 +91,19 @@ spec:
                   app.kubernetes.io/name: *app
     service:
       app:
+        controller: miniflux
         ports:
           http:
             port: *port
     serviceMonitor:
       app:
-        enabled: true
+        serviceName: miniflux
+        endpoints:
+          - port: http
+            scheme: http
+            path: /metrics
+            interval: 1m
+            scrapeTimeout: 10s
     route:
       app:
         annotations:

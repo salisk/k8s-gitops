@@ -117,6 +117,10 @@ spec:
             targetPort: 5353
           homekit:
             port: 21063
+      code-server:
+        ports:
+          code-server:
+            port: 12321
     route:
       app:
         annotations:

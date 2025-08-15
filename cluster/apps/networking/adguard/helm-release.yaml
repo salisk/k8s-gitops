@@ -53,7 +53,7 @@ spec:
         controller: adguard
         ports:
           http:
-            port: 80
+            port: &port 80
       dns:
         controller: adguard
         type: LoadBalancer
@@ -89,6 +89,10 @@ spec:
           - name: internal
             namespace: kube-system
             sectionName: https
+        rules:
+          - backendRefs:
+              - name: app
+                port: *port
     persistence:
       data:
         enabled: true
