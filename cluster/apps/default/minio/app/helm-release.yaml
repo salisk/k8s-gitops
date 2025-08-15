@@ -25,7 +25,7 @@ spec:
               tag: RELEASE.2025-04-22T22-12-26Z
             args:
               - server
-              - /data
+              - /data/minio
               - --console-address
               - :9001
             env:
