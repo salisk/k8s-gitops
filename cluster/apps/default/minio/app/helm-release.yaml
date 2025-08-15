@@ -15,6 +15,9 @@ spec:
       minio:
         annotations:
           reloader.stakater.com/auto: "true"
+        pod:
+          securityContext:
+            runAsUser: 0
         containers:
           app:
             image:
@@ -61,13 +64,6 @@ spec:
                 memory: 100Mi
               limits:
                 memory: 1000Mi
-    defaultPodOptions:
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
-        fsGroupChangePolicy: OnRootMismatch
     service:
       app:
         controller: minio
