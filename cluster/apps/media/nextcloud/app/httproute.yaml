@@ -94,53 +94,53 @@ spec:
               type: ReplaceFullPath
               replaceFullPath: /public.php?service=host-meta-json
       backendRefs: *backendRef
-    # Block restricted paths
-    - matches:
-        - path:
-            type: PathPrefix
-            value: /build
-        - path:
-            type: PathPrefix
-            value: /tests
-        - path:
-            type: PathPrefix
-            value: /config
-        - path:
-            type: PathPrefix
-            value: /lib
-        - path:
-            type: PathPrefix
-            value: /3rdparty
-        - path:
-            type: PathPrefix
-            value: /templates
-        - path:
-            type: PathPrefix
-            value: /data
-        - path:
-            type: PathPrefix
-            value: /autotest
-        - path:
-            type: PathPrefix
-            value: /occ
-        - path:
-            type: PathPrefix
-            value: /issue
-        - path:
-            type: PathPrefix
-            value: /indie
-        - path:
-            type: PathPrefix
-            value: /db_
-        - path:
-            type: PathPrefix
-            value: /console
-      filters:
-        - type: ExtensionRef
-          extensionRef:
-            group: gateway.envoyproxy.io
-            kind: HTTPRouteFilter
-            name: vade-retro-satanas
+    # # Block restricted paths
+    # - matches:
+    #     - path:
+    #         type: PathPrefix
+    #         value: /build
+    #     - path:
+    #         type: PathPrefix
+    #         value: /tests
+    #     - path:
+    #         type: PathPrefix
+    #         value: /config
+    #     - path:
+    #         type: PathPrefix
+    #         value: /lib
+    #     - path:
+    #         type: PathPrefix
+    #         value: /3rdparty
+    #     - path:
+    #         type: PathPrefix
+    #         value: /templates
+    #     - path:
+    #         type: PathPrefix
+    #         value: /data
+    #     - path:
+    #         type: PathPrefix
+    #         value: /autotest
+    #     - path:
+    #         type: PathPrefix
+    #         value: /occ
+    #     - path:
+    #         type: PathPrefix
+    #         value: /issue
+    #     - path:
+    #         type: PathPrefix
+    #         value: /indie
+    #     - path:
+    #         type: PathPrefix
+    #         value: /db_
+    #     - path:
+    #         type: PathPrefix
+    #         value: /console
+    #   filters:
+    #     - type: ExtensionRef
+    #       extensionRef:
+    #         group: gateway.envoyproxy.io
+    #         kind: HTTPRouteFilter
+    #         name: vade-retro-satanas
     - backendRefs: *backendRef
       matches:
         - path:
@@ -148,15 +148,15 @@ spec:
             value: /settings/ajax/checksetup
       timeouts:
         request: 300s
----
-apiVersion: gateway.envoyproxy.io/v1alpha1
-kind: HTTPRouteFilter
-metadata:
-  name: vade-retro-satanas
-spec:
-  directResponse:
-    contentType: text/plain
-    statusCode: 404
-    body:
-      type: Inline
-      inline: "Vade Retro, Satanas!"
+# ---
+# apiVersion: gateway.envoyproxy.io/v1alpha1
+# kind: HTTPRouteFilter
+# metadata:
+#   name: vade-retro-satanas
+# spec:
+#   directResponse:
+#     contentType: text/plain
+#     statusCode: 404
+#     body:
+#       type: Inline
+#       inline: "Vade Retro, Satanas!"
