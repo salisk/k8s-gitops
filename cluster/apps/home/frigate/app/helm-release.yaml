@@ -114,7 +114,7 @@ spec:
       config:
         existingClaim: config-frigate-0
         globalMounts:
-          - path: /config
+          - path: /data
       config-file:
         # type: configMap
         existingClaim: frigate-pvc-temp
