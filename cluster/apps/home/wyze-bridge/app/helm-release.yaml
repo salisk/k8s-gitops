@@ -20,7 +20,7 @@ spec:
       retries: 5
   values:
     controllers:
-      wyze:
+      wyze-bridge:
         containers:
           app:
             image:
@@ -62,7 +62,6 @@ spec:
             intel.feature.node.kubernetes.io/gpu: "true"
     service:
       app:
-        controller: wyze
         ports:
           http:
             enabled: true
