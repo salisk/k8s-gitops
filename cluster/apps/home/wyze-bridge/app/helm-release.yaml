@@ -65,7 +65,7 @@ spec:
         ports:
           http:
             enabled: true
-            port: 5000
+            port: &port 5000
           rtmp:
             enabled: true
             port: 1935
@@ -97,3 +97,7 @@ spec:
           - name: internal
             namespace: kube-system
             sectionName: https
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *port
