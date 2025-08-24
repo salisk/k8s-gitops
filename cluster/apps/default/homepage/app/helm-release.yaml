@@ -33,9 +33,6 @@ spec:
             env:
               HOMEPAGE_ALLOWED_HOSTS: &host "home.${SECRET_DOMAIN}"
               TZ: "${TIMEZONE}"
-            envFrom:
-              - secretRef:
-                  name: homepage-secret
             resources:
               requests:
                 cpu: 15m
