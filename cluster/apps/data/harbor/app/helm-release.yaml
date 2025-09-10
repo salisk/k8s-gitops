@@ -36,19 +36,20 @@ spec:
   #   optional: false
   values:
     expose:
-      type: route
+      # type: route
+      type: clusterIP
       tls:
         auto:
           commonName: harbor-tls
-      route:
-        hosts:
-          - "harbor.${SECRET_DOMAIN}"
-        parentRefs:
-          - name: internal
-            namespace: kube-system
-            sectionName: https
-            group: gateway.networking.k8s.io
-            kind: Gateway
+      # route:
+      #   hosts:
+      #     - "harbor.${SECRET_DOMAIN}"
+      #   parentRefs:
+      #     - name: internal
+      #       namespace: kube-system
+      #       sectionName: https
+      #       group: gateway.networking.k8s.io
+      #       kind: Gateway
     externalURL: https://harbor.${SECRET_DOMAIN}
     harborAdminPassword: ${HARBOR_ADMIN_PASSWORD}
     redis:
