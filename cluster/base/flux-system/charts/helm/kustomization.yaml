@@ -40,3 +40,4 @@ resources:
   - node-feature-discovery.yaml
   - jameswynn.yaml
   - angelnu.yaml
+  - harbor.yaml

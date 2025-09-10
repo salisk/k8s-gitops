@@ -1,0 +1,92 @@
+---
+# yaml-language-server: $schema=https://github.com/fluxcd-community/flux2-schemas/raw/main/helmrelease-helm-v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: harbor
+spec:
+  driftDetection:
+    mode: enabled
+  interval: 30m
+  timeout: 15m
+  chart:
+    spec:
+      chart: harbor
+      version: 1.17.2
+      sourceRef:
+        kind: HelmRepository
+        name: harbor-charts
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  uninstall:
+    keepHistory: false
+  # https://github.com/goharbor/harbor-helm
+  # valuesFrom:
+  # - kind: Secret
+  #   name: harbor
+  #   valuesKey: token
+  #   targetPath: trivy.githubToken
+  #   optional: false
+  values:
+    expose:
+      type: route
+      route:
+        hosts:
+          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
+            group: gateway.networking.k8s.io
+            kind: Gateway
+    externalURL: https://harbor.${SECRET_DOMAIN}
+    harborAdminPassword: ${HARBOR_ADMIN_PASSWORD}
+    redis:
+      type: external
+      external:
+        addr: dragonfly.data.svc.cluster.local:6379
+    database:
+      type: external
+      external:
+        host: postgres-rw.data.svc.cluster.local
+        username: ${HARBOR_POSTGRES_USER}
+        password: ${HARBOR_POSTGRES_PASSWORD}
+    registry:
+      initContainers:
+        - name: init-db
+          image: ghcr.io/home-operations/postgres-init:17.6
+          envFrom:
+            - secretRef:
+                name: harbor-secret
+    trivy:
+      enabled: true
+    persistence:
+      enabled: true
+      persistentVolumeClaim:
+        registry:
+          existingClaim: harbor-registry-v1
+        jobservice:
+          jobLog:
+            storageClass: longhorn
+            size: 1Gi
+        database:
+          storageClass: longhorn
+          size: 1Gi
+        redis:
+          storageClass: longhorn
+          size: 1Gi
+        trivy:
+          storageClass: longhorn
+          size: 5Gi
+    cache:
+      enabled: true
+    secretKey: ${HARBOR_SECRET_KEY}
+    notary:
+      enabled: false
