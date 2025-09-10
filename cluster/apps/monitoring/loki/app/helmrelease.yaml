@@ -75,25 +75,22 @@ spec:
         size: 30Gi
     backend:
       replicas: 0
-    read:
-      replicas: 0
-    write:
-      replicas: 0
+    chunksCache:
+      enabled: false
     gateway:
       replicas: 0
     lokiCanary:
       enabled: false
-    monitoring:
-      dashboards:
-        annotations:
-          grafana_folder: Loki
-      serviceMonitor:
-        enabled: false
-        metricsInstance:
-          enabled: false
+    read:
+      replicas: 0
+    write:
+      replicas: 0
+    resultsCache:
+      enabled: false
     sidecar:
       image:
-        repository: ghcr.io/kiwigrid/k8s-sidecar
+        repository: ghcr.io/home-operations/k8s-sidecar
+        tag: 1.30.10@sha256:dd3b1f0c4e6b4512b2deb50c58acf65fd0f0927120a59a95eec854d32a6c9ce3
       enableUniqueFilenames: true
       rules:
         searchNamespace: ALL
