@@ -5,3 +5,4 @@ resources:
   - ./mariadb/ks.yaml
   - ./cloudnative-pg/ks.yaml
   - ./dragonfly/ks.yaml
+  - ./harbor/ks.yaml
