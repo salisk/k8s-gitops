@@ -37,6 +37,9 @@ spec:
   values:
     expose:
       type: route
+      tls:
+        auto:
+          commonName: harbor-tls
       route:
         hosts:
           - "harbor.${SECRET_DOMAIN}"
