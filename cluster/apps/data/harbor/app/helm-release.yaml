@@ -39,7 +39,7 @@ spec:
       type: route
       route:
         hosts:
-          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
+          - "harbor.${SECRET_DOMAIN}"
         parentRefs:
           - name: internal
             namespace: kube-system
