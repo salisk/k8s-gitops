@@ -34,17 +34,19 @@ spec:
       ingester:
         chunk_encoding: snappy
       storage:
-        type: s3
-        bucketNames:
-          chunks: loki-chunks
-          ruler: loki-ruler
-          admin: loki-admin
-        s3:
-          endpoint: minio.default.svc:9000
-          accessKeyId: "${MINIO_ACCESS_KEY}"
-          secretAccessKey: "${MINIO_SECRET_KEY}"
-          insecure: true
-          s3forcepathstyle: true
+        type: filesystem
+      # storage:
+      #   type: s3
+      #   bucketNames:
+      #     chunks: loki-chunks
+      #     ruler: loki-ruler
+      #     admin: loki-admin
+      #   s3:
+      #     endpoint: minio.default.svc:9000
+      #     accessKeyId: "${MINIO_ACCESS_KEY}"
+      #     secretAccessKey: "${MINIO_SECRET_KEY}"
+      #     insecure: true
+      #     s3forcepathstyle: true
       auth_enabled: false
       analytics:
         reporting_enabled: false
