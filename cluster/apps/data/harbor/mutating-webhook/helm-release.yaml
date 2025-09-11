@@ -38,26 +38,31 @@ spec:
         replace: "harbor.${SECRET_DOMAIN}/docker.io"
         checkUpstream: true
         # authSecretName: harbor-pull-secret
-      # - name: "ghcr.io rewrite"
-      #   matches:
-      #     - "^ghcr.io"
-      #   excludes:
-      #     - "^ghcr.io/(cloudnative-pg/)?(cloudnative-pg|postgresql|plugin-barman*):.*$"
-      #   replace: "harbor.${SECRET_DOMAIN}/ghcr.io"
-      #   checkUpstream: true
-      #   # authSecretName: harbor-pull-secret
-      # - name: "quay.io rewrite"
-      #   matches:
-      #     - "^quay.io"
-      #   excludes:
-      #     - "^quay.io/cilium[/-].*$"
-      #   replace: "harbor.${SECRET_DOMAIN}/quay.io"
-      #   checkUpstream: true
-      #   # authSecretName: harbor-pull-secret
-      # - name: "mirror.gcr.io rewrite"
-      #   matches:
-      #     - "^mirror.gcr.io"
-      #   replace: "harbor.${SECRET_DOMAIN}/mirror.gcr.io"
-      #   checkUpstream: true
-      #   # authSecretName: harbor-pull-secret
+      - name: "ghcr.io rewrite"
+        matches:
+          - "^ghcr.io"
+        excludes:
+          - "^ghcr.io/(cloudnative-pg/)?(cloudnative-pg|postgresql|plugin-barman*):.*$"
+        replace: "harbor.${SECRET_DOMAIN}/ghcr.io"
+        checkUpstream: true
+        # authSecretName: harbor-pull-secret
+      - name: "quay.io rewrite"
+        matches:
+          - "^quay.io"
+        excludes:
+          - "^quay.io/cilium[/-].*$"
+        replace: "harbor.${SECRET_DOMAIN}/quay.io"
+        checkUpstream: true
+        # authSecretName: harbor-pull-secret
+      - name: "mirror.gcr.io rewrite"
+        matches:
+          - "^mirror.gcr.io"
+        replace: "harbor.${SECRET_DOMAIN}/mirror.gcr.io"
+        checkUpstream: true
+      - name: "gcr.io rewrite"
+        matches:
+          - "^gcr.io"
+        replace: "harbor.${SECRET_DOMAIN}/gcr.io"
+        checkUpstream: true
+        # authSecretName: harbor-pull-secret
       - name: "harbor creds"
