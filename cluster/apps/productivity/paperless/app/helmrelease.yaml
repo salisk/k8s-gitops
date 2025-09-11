@@ -57,7 +57,7 @@ spec:
               PAPERLESS_ADMIN_USER: ${PAPERLESS_ADMIN_USER}
               PAPERLESS_ADMIN_PASSWORD: ${PAPERLESS_ADMIN_PASSWORD}
               # Redis
-              PAPERLESS_REDIS: redis://paperless-redis.productivity.svc.cluster.local:6379
+              PAPERLESS_REDIS: redis://dragonfly.data.svc.cluster.local:6379
               # Configuration
               PAPERLESS_OCR_USER_ARGS: |-
                 {"invalidate_digital_signatures"}: true
@@ -75,18 +75,18 @@ spec:
                 memory: 2Gi
               limits:
                 memory: 6Gi
-      redis:
-        containers:
-          redis:
-            image:
-              repository: ghcr.io/valkey-io/valkey
-              tag: 8.1.3
-            resources:
-              requests:
-                cpu: 5m
-                memory: 32Mi
-              limits:
-                memory: 128Mi
+      # redis:
+      #   containers:
+      #     redis:
+      #       image:
+      #         repository: ghcr.io/valkey-io/valkey
+      #         tag: 8.1.3
+      #       resources:
+      #         requests:
+      #           cpu: 5m
+      #           memory: 32Mi
+      #         limits:
+      #           memory: 128Mi
     service:
       app:
         forceRename: paperless
@@ -95,11 +95,11 @@ spec:
         ports:
           http:
             port: &port 8000
-      redis:
-        controller: redis
-        ports:
-          http:
-            port: 6379
+      # redis:
+      #   controller: redis
+      #   ports:
+      #     http:
+      #       port: 6379
     route:
       app:
         hostnames:
