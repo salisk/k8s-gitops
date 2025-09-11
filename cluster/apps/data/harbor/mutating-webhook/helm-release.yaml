@@ -59,10 +59,10 @@ spec:
           - "^mirror.gcr.io"
         replace: "harbor.${SECRET_DOMAIN}/mirror.gcr.io"
         checkUpstream: true
-      - name: "gcr.io rewrite"
-        matches:
-          - "^gcr.io"
-        replace: "harbor.${SECRET_DOMAIN}/gcr.io"
-        checkUpstream: true
-        # authSecretName: harbor-pull-secret
+      # - name: "gcr.io rewrite"
+      #   matches:
+      #     - "^gcr.io"
+      #   replace: "harbor.${SECRET_DOMAIN}/gcr.io"
+      # checkUpstream: true
+      # authSecretName: harbor-pull-secret
       - name: "harbor creds"
