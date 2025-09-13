@@ -1,8 +1,8 @@
 ---
 autoDirectNodeRoutes: true
-bandwidthManager:
-  bbr: true
-  enabled: true
+# bandwidthManager:
+#   bbr: true
+#   enabled: true
 bpf:
   # datapathMode: netkit
   # masquerade: false
