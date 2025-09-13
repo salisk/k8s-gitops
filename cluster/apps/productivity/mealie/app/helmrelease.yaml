@@ -52,7 +52,7 @@ spec:
               POSTGRES_PORT: 5432
               OIDC_AUTH_ENABLED: true
               OIDC_PROVIDER_NAME: authentik
-              OIDC_CONFIGURATION_URL: https://sso.${SECRET_DOMAIN}/application/o/<application_slug>/.well-known/openid-configuration
+              OIDC_CONFIGURATION_URL: https://sso.${SECRET_DOMAIN}/application/o/mealie/.well-known/openid-configuration
               OIDC_SIGNUP_ENABLED: true
               OIDC_USER_GROUP: "authentik users"
               OIDC_ADMIN_GROUP: "Service Aadmin"
