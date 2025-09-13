@@ -1,0 +1,80 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app n8n
+  namespace: home
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
+  values:
+    controllers:
+      n8n:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/home-operations/postgres-init
+              tag: 17@sha256:86a1992d46273c58fd4ad95b626081dfaabfe16bd56944675169e406d1a660dd
+            envFrom: &envFrom
+              - secretRef:
+                  name: n8n-secret
+        containers:
+          app:
+            image:
+              repository: ghcr.io/n8n-io/n8n
+              tag: 1.111.0@sha256:8c99deed73dbb7f7b32c49f328015fe8322129a9dcf0459a10c4398af255083f
+            env:
+              TZ: ${TIMEZONE}
+              GENERIC_TIMEZONE: ${TIMEZONE}
+              DB_TYPE: postgresdb
+              EXECUTIONS_DATA_PRUNE: true
+              EXECUTIONS_DATA_MAX_AGE: 7
+              EXECUTIONS_DATA_PRUNE_MAX_COUNT: 50000
+              N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS: false
+              N8N_PROTOCOL: "https"
+              N8N_PORT: &port 8080
+              N8N_HOST: n8n.${SECRET_DOMAIN}
+              N8N_LOG_LEVEL: info
+              N8N_LOG_OUTPUT: console
+              N8N_RUNNERS_ENABLED: true
+            envFrom: *envFrom
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: false
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 5m
+                memory: 128Mi
+              limits:
+                memory: 2Gi
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+    service:
+      app:
+        ports:
+          http:
+            port: *port
+    route:
+      app:
+        hostnames:
+          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
+    persistence:
+      data:
+        existingClaim: n8n-config-v1
+        globalMounts:
+          - path: /home/node/.n8n
