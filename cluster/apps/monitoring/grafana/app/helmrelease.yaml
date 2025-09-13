@@ -62,8 +62,6 @@ spec:
       auth.generic_oauth:
         name: authentik
         enabled: true
-        client_id: ${GRAFANA_OAUTH_CLIENT_ID}
-        client_secret: ${GRAFANA_OAUTH_CLIENT_SECRET}
         scopes: "openid profile email"
         auth_url: "https://sso.${SECRET_DOMAIN}/application/o/authorize/"
         token_url: "https://sso.${SECRET_DOMAIN}/application/o/token/"
