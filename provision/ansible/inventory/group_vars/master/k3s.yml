@@ -24,7 +24,7 @@ k3s_server:
     - servicelb
     # Disable metrics-server - installed with Flux
     - metrics-server
-    - local-storage                   # Disable local-path-provisioner  - installed with Flux
+    - local-storage # Disable local-path-provisioner  - installed with Flux
     - coredns
   disable-network-policy: true
   disable-cloud-controller: true
@@ -36,7 +36,7 @@ k3s_server:
   # Required to monitor kube-controller-manager with kube-prometheus-stack
   kube-controller-manager-arg:
     - "bind-address=0.0.0.0"
-  disable-kube-proxy: true            # Cilium uses eBPF
+  disable-kube-proxy: true # Cilium uses eBPF
   # # Required to monitor kube-proxy with kube-prometheus-stack
   # kube-proxy-arg:
   #   - "metrics-bind-address=0.0.0.0"
@@ -44,7 +44,7 @@ k3s_server:
   kube-scheduler-arg:
     - "bind-address=0.0.0.0"
   # Required to monitor etcd with kube-prometheus-stack
-  etcd-expose-metrics: false
+  etcd-expose-metrics: true
   # Required for HAProxy health-checks
   kube-apiserver-arg:
     - "anonymous-auth=true"

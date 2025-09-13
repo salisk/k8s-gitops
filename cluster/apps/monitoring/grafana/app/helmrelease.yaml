@@ -35,6 +35,8 @@ spec:
               name: &secret grafana-secret
     replicas: 2
     env:
+      GF_AUTH_ANONYMOUS_ENABLED: false
+      GF_AUTH_BASIC_ENABLED: false
       GF_DATE_FORMATS_USE_BROWSER_LOCALE: true
       GF_EXPLORE_ENABLED: true
       GF_FEATURE_TOGGLES_ENABLE: publicDashboards
@@ -54,6 +56,20 @@ spec:
         # org_role: Viewer
       news:
         news_feed_enabled: false
+      auth:
+        signout_redirect_url: "https://sso.${SECRET_DOMAIN}/application/o/grafana/end-session/"
+        oauth_auto_login: true
+      auth.generic_oauth:
+        name: authentik
+        enabled: true
+        client_id: ${GRAFANA_OAUTH_CLIENT_ID}
+        client_secret: ${GRAFANA_OAUTH_CLIENT_SECRET}
+        scopes: "openid profile email"
+        auth_url: "https://sso.${SECRET_DOMAIN}/application/o/authorize/"
+        token_url: "https://sso.${SECRET_DOMAIN}/application/o/token/"
+        api_url: "https://sso.${SECRET_DOMAIN}/application/o/userinfo/"
+        # Optionally map user groups to Grafana roles
+        role_attribute_path: contains(groups, 'Grafana Admins') && 'Admin' || contains(groups, 'Grafana Editors') && 'Editor' || 'Viewer'
     dashboardProviders:
       dashboardproviders.yaml:
         apiVersion: 1
