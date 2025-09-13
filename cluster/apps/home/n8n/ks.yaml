@@ -6,7 +6,7 @@ metadata:
   name: &app n8n
   namespace: flux-system
 spec:
-  targetNamespace: n8n
+  targetNamespace: home
   path: ./cluster/apps/home/n8n/app
   prune: true
   sourceRef:
