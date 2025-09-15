@@ -42,7 +42,7 @@ spec:
         matches:
           - "^ghcr.io"
         excludes:
-          - "^ghcr.io/(cloudnative-pg/)?(cloudnative-pg|postgresql|plugin-barman*):.*$"
+          - "^ghcr.io/((cloudnative-pg/)?(cloudnative-pg|postgresql|plugin-barman*)|tensorchord/cloudnative-vectorchord):.*$"
         replace: "harbor.${SECRET_DOMAIN}/ghcr.io"
         checkUpstream: true
         # authSecretName: harbor-pull-secret
