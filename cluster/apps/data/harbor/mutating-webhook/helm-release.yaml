@@ -34,7 +34,7 @@ spec:
           - "^docker.io"
         # harbor-ception - requiring harbor to use harbor
         excludes:
-          - "^(docker.io/(goharbor|coredns|longhorn.io)/.*|longhorn.io/.*):.*$"
+          - "^(docker.io/(goharbor|coredns|longhornio)/.*|longhornio/.*):.*$"
         replace: "harbor.${SECRET_DOMAIN}/docker.io"
         checkUpstream: true
         # authSecretName: harbor-pull-secret
