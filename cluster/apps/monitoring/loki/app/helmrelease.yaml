@@ -48,7 +48,7 @@ spec:
       #     insecure: true
       #     s3forcepathstyle: true
       limits_config:
-        retention_period: 10d
+        retention_period: 7d
       auth_enabled: false
       analytics:
         reporting_enabled: false
@@ -84,7 +84,7 @@ spec:
       persistence:
         enabled: true
         storageClass: longhorn
-        size: 30Gi
+        size: 40Gi
     backend:
       replicas: 0
     chunksCache:
