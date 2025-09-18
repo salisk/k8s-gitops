@@ -48,7 +48,7 @@ spec:
       #     insecure: true
       #     s3forcepathstyle: true
       limits_config:
-        retention_period: 14d
+        retention_period: 10d
       auth_enabled: false
       analytics:
         reporting_enabled: false
