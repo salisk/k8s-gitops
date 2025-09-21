@@ -27,19 +27,39 @@ spec:
     keepHistory: false
   values:
     fullnameOverride: node-exporter
-    releaseLabel: true # disable for victoria-metrics
-    podLabels:
-      jobLabel: node-exporter
-    extraArgs:
-      - --collector.filesystem.mount-points-exclude=^/(dev|proc|sys|var/lib/docker/.+|var/lib/kubelet/.+)($|/)
-      - --collector.filesystem.fs-types-exclude=^(autofs|binfmt_misc|bpf|cgroup2?|configfs|debugfs|devpts|devtmpfs|fusectl|hugetlbfs|iso9660|mqueue|nsfs|overlay|proc|procfs|pstore|rpc_pipefs|securityfs|selinuxfs|squashfs|sysfs|tracefs)$
     prometheus:
       monitor:
         enabled: true
-        jobLabel: jobLabel
-        metricRelabelings:
-          - action: drop
-            sourceLabels: ["mountpoint"]
-            regex: /var/lib/kubelet/pods.+
-    rbac:
-      pspEnabled: false
+        jobLabel: app.kubernetes.io/instance
+
+        relabelings:
+          - action: replace
+            regex: (.*)
+            replacement: $1
+            sourceLabels: ["__meta_kubernetes_pod_node_name"]
+            targetLabel: kubernetes_node
+    resources:
+      requests:
+        cpu: 23m
+        memory: 64M
+      limits:
+        memory: 64M
+
+    hostNetwork: false
+
+    # releaseLabel: true # disable for victoria-metrics
+    # podLabels:
+    #   jobLabel: node-exporter
+    # extraArgs:
+    #   - --collector.filesystem.mount-points-exclude=^/(dev|proc|sys|var/lib/docker/.+|var/lib/kubelet/.+)($|/)
+    #   - --collector.filesystem.fs-types-exclude=^(autofs|binfmt_misc|bpf|cgroup2?|configfs|debugfs|devpts|devtmpfs|fusectl|hugetlbfs|iso9660|mqueue|nsfs|overlay|proc|procfs|pstore|rpc_pipefs|securityfs|selinuxfs|squashfs|sysfs|tracefs)$
+    # prometheus:
+    #   monitor:
+    #     enabled: true
+    #     jobLabel: jobLabel
+    #     metricRelabelings:
+    #       - action: drop
+    #         sourceLabels: ["mountpoint"]
+    #         regex: /var/lib/kubelet/pods.+
+    # rbac:
+    #   pspEnabled: false

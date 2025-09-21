@@ -156,8 +156,16 @@ spec:
         #   fsGroup: 64535
         podMonitorSelectorNilUsesHelmValues: false
         probeSelectorNilUsesHelmValues: false
+        resources:
+          requests:
+            cpu: 100m
+          limits:
+            memory: 2000M
+        retention: 14d
+        retentionSize: 50GB
         ruleSelectorNilUsesHelmValues: false
         scrapeConfigSelectorNilUsesHelmValues: false
+        # scrapeInterval: 1m # Must match interval in Grafana Helm chart
         serviceMonitorSelectorNilUsesHelmValues: false
         # thanos:
         #   image: quay.io/thanos/thanos:v0.39.2
@@ -165,26 +173,25 @@ spec:
         #     existingSecret:
         #       name: thanos-objstore
         #       key: objstore.yml
-        retention: 30d
-        retentionSize: 70GB
         storageSpec:
           volumeClaimTemplate:
             spec:
               storageClassName: longhorn
               resources:
                 requests:
-                  storage: 70Gi
+                  storage: 50Gi
     prometheus-node-exporter:
-      fullnameOverride: node-exporter
-      prometheus:
-        monitor:
-          enabled: true
-          relabelings:
-            - action: replace
-              regex: (.*)
-              replacement: $1
-              sourceLabels: ["__meta_kubernetes_pod_node_name"]
-              targetLabel: kubernetes_node
+      enabled: false
+      # fullnameOverride: node-exporter
+      # prometheus:
+      #   monitor:
+      #     enabled: true
+      #     relabelings:
+      #       - action: replace
+      #         regex: (.*)
+      #         replacement: $1
+      #         sourceLabels: ["__meta_kubernetes_pod_node_name"]
+      #         targetLabel: kubernetes_node
     kube-state-metrics:
       fullnameOverride: kube-state-metrics
       metricLabelsAllowlist:
