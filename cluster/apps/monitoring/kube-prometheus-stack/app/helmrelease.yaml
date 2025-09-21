@@ -181,7 +181,7 @@ spec:
                 requests:
                   storage: 50Gi
     nodeExporter:
-      enabled: true
+      enabled: false
     # prometheus-node-exporter:
     # fullnameOverride: node-exporter
     # prometheus:
