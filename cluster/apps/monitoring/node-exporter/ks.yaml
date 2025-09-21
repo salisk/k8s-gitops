@@ -3,8 +3,8 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: cluster-apps-node-exporter
-  namespace: flux-system
+  name: node-exporter
+  namespace: monitoring
 spec:
   path: ./cluster/apps/monitoring/node-exporter/app
   prune: true
