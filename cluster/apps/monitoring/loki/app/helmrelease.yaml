@@ -42,6 +42,7 @@ spec:
           ruler: loki-ruler
           admin: loki-admin
         s3:
+          region: eu-east-1
           endpoint: minio.default.svc:9000
           accessKeyId: "${MINIO_ACCESS_KEY}"
           secretAccessKey: "${MINIO_SECRET_KEY}"
@@ -96,10 +97,8 @@ spec:
         size: 40Gi
     backend:
       replicas: 0
-    # chunksCache:
-    #   enabled: false
     chunksCache:
-      enabled: true
+      enabled: false
       allocatedMemory: 3Gi
     gateway:
       replicas: 0
