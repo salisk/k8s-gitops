@@ -164,7 +164,7 @@ spec:
           - "piped-api.${SECRET_DOMAIN}"
         parentRefs:
           - name: internal
-            namespace: flux-system
+            namespace: kube-system
             sectionName: https
         rules:
           - backendRefs:
@@ -175,7 +175,7 @@ spec:
           - "piped.${SECRET_DOMAIN}"
         parentRefs:
           - name: internal
-            namespace: flux-system
+            namespace: kube-system
             sectionName: https
         rules:
           - backendRefs:
@@ -186,7 +186,7 @@ spec:
           - "piped-proxy.${SECRET_DOMAIN}"
         parentRefs:
           - name: internal
-            namespace: flux-system
+            namespace: kube-system
             sectionName: https
         rules:
           - backendRefs:
