@@ -69,6 +69,16 @@ spec:
               PAPERLESS_PRE_CONSUME_SCRIPT: /usr/src/paperless/scripts/pdfpassword.py
               # Configure user permissions
               USERMAP_GID: "1000"
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 5
             resources:
               requests:
                 cpu: 25m
@@ -110,7 +120,7 @@ spec:
             sectionName: https
         rules:
           - backendRefs:
-              - name: app
+              - identifier: app
                 port: *port
     persistence:
       data:
