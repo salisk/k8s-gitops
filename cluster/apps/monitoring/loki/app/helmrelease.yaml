@@ -65,14 +65,14 @@ spec:
         retention_enabled: true
       schemaConfig:
         configs:
+          # - from: "2024-04-01"
+          #   store: tsdb
+          #   object_store: filesystem
+          #   schema: v13
+          #   index:
+          #     prefix: loki_index_
+          #     period: 24h
           - from: "2024-04-01"
-            store: tsdb
-            object_store: filesystem
-            schema: v13
-            index:
-              prefix: loki_index_
-              period: 24h
-          - from: "2025-09-21"
             store: tsdb
             object_store: s3
             schema: v13
@@ -94,6 +94,7 @@ spec:
       persistence:
         enabled: true
         storageClass: longhorn
+        size: 10Gi
         # size: 40Gi
     backend:
       replicas: 0
