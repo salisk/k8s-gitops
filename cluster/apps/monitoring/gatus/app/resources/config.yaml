@@ -31,7 +31,7 @@ connectivity:
 endpoints:
   - name: status
     group: external
-    url: https://echo-server.${SECRET_DOMAIN}
+    url: https://echo.${SECRET_DOMAIN}
     interval: 1m
     client:
       dns-resolver: tcp://1.1.1.1:53
