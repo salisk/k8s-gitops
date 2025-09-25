@@ -214,3 +214,12 @@ spec:
               - path: /app/config.properties
                 subPath: config.properties
                 readOnly: true
+      tmpfs:
+        type: emptyDir
+        advancedMounts:
+          frontend:
+            app:
+              - path: /config
+                subPath: config
+              - path: /tmp
+                subPath: tmp
