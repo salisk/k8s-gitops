@@ -7,3 +7,4 @@ resources:
   - ./ghost/ks.yaml
   - ./ghostfolio/ks.yaml
   - ./glance/ks.yaml
+  - ./flaresolverr/ks.yaml
