@@ -10,7 +10,7 @@ spec:
     spec:
       # renovate: registryUrl=https://charts.longhorn.io
       chart: longhorn
-      version: 1.10.0
+      version: 1.9.1
       sourceRef:
         kind: HelmRepository
         name: longhorn-charts
@@ -19,6 +19,6 @@ spec:
     persistence:
       defaultClassReplicaCount: 3
     defaultSettings:
-      # defaultReplicaCount: 3
+      defaultReplicaCount: 3
       backupTarget: s3://longhorn@eu-east-1/backups
       backupTargetCredentialSecret: longhorn-backup-secret
