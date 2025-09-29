@@ -19,3 +19,4 @@ resources:
   - ./prowlarr/ks.yaml
   - ./pinchflat/ks.yaml
   - ./calibre/ks.yaml
+  - ./slskd/ks.yaml
