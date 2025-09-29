@@ -18,3 +18,4 @@ resources:
   - ./recyclarr/ks.yaml
   - ./prowlarr/ks.yaml
   - ./pinchflat/ks.yaml
+  - ./calibre/ks.yaml
