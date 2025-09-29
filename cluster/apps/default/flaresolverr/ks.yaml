@@ -4,7 +4,7 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: flaresolverr
-  namespace: default
+  namespace: flux-system
 spec:
   targetNamespace: default
   path: ./cluster/apps/default/flaresolverr/app
