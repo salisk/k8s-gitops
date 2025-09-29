@@ -27,7 +27,7 @@ spec:
         runAsNonRoot: false
         seccompProfile: { type: RuntimeDefault }
     controllers:
-      ${APP}:
+      calibre-downloader:
         containers:
           app:
             image:

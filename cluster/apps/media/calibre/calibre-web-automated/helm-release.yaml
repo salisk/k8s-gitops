@@ -25,7 +25,7 @@ spec:
         runAsNonRoot: false
         seccompProfile: { type: RuntimeDefault }
     controllers:
-      ${APP}:
+      calibre-web-automated:
         containers:
           app:
             image:
