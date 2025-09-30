@@ -85,9 +85,6 @@ spec:
       app:
         hostnames: ["cloud.${SECRET_DOMAIN}"]
         parentRefs:
-          # - name: external
-          #   namespace: network
-          #   sectionName: https
           - name: internal
             namespace: kube-system
             sectionName: https

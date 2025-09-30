@@ -6,3 +6,4 @@ resources:
   - ./cloudnative-pg/ks.yaml
   - ./dragonfly/ks.yaml
   - ./harbor/ks.yaml
+  - ./opencloud/ks.yaml
