@@ -52,6 +52,9 @@ spec:
                 enabled: true
                 custom: true
                 spec:
+                  periodSeconds: 10
+                  timeoutSeconds: 10
+                  failureThreshold: 5
                   httpGet:
                     path: /request/api/status
                     port: *port
