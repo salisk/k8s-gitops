@@ -6,11 +6,12 @@ metadata:
   namespace: longhorn-system
 spec:
   interval: 5m
+  maxHistory: 5
   chart:
     spec:
       # renovate: registryUrl=https://charts.longhorn.io
       chart: longhorn
-      version: 1.9.1
+      version: 1.10.0
       sourceRef:
         kind: HelmRepository
         name: longhorn-charts
