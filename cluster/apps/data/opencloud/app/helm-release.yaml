@@ -20,10 +20,11 @@ spec:
             runAsUser: 0
             runAsGroup: 0
             # runAsNonRoot: true
-            # fsGroup: 1000
+            fsGroup: 1000
             fsGroupChangePolicy: OnRootMismatch
             supplementalGroups:
               - 33
+              - 1000
         containers:
           app:
             image:
