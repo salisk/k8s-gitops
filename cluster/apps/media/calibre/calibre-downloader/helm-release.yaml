@@ -36,7 +36,7 @@ spec:
             env:
               FLASK_PORT: &port 8084
               INGEST_DIR: /cwa-book-ingest
-              BOOK_LANGUAGE: en
+              BOOK_LANGUAGE: en,lt
               DEFAULT_SLEEP: 15
               USE_BOOK_TITLE: true
               LOG_LEVEL: debug
