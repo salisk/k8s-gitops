@@ -14,3 +14,4 @@ resources:
   - ./stirling-pdf/ks.yaml
   # - ./radicale/ks.yaml
   - ./karakeep/ks.yaml
+  - ./it-tools/ks.yaml
