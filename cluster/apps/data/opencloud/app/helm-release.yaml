@@ -63,7 +63,7 @@ spec:
 
               # S3
               STORAGE_USERS_DRIVER: "decomposeds3"
-              DECOMPOSEDS3_ENDPOINT: "s3.${SECRET_DOMAIN}"
+              DECOMPOSEDS3_ENDPOINT: "https://s3.${SECRET_DOMAIN}"
               DECOMPOSEDS3_REGION: "eu-east-1"
               DECOMPOSEDS3_ACCESS_KEY: "${MINIO_ACCESS_KEY}"
               DECOMPOSEDS3_SECRET_KEY: "${MINIO_SECRET_KEY}"
