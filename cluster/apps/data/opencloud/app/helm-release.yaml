@@ -60,6 +60,13 @@ spec:
               SETTINGS_SETUP_DEFAULT_ASSIGNMENTS: "false"
               GRAPH_ASSIGN_DEFAULT_USER_ROLE: "false"
               GRAPH_USERNAME_MATCH: "none"
+
+              # S3
+              STORAGE_USERS_DRIVER: "decomposeds3"
+              DECOMPOSEDS3_ENDPOINT: "s3.${SECRET_DOMAIN}"
+              DECOMPOSEDS3_REGION: "eu-east-1"
+              DECOMPOSEDS3_ACCESS_KEY: "${MINIO_ACCESS_KEY}"
+              DECOMPOSEDS3_SECRET_KEY: "${MINIO_SECRET_KEY}"
             probes:
               liveness:
                 enabled: true
