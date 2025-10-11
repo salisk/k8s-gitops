@@ -95,7 +95,7 @@ spec:
             sectionName: https
         rules:
           - backendRefs:
-              - name: app
+              - name: qbittorrent
                 port: *port
     persistence:
       config:
