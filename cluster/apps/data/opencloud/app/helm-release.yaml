@@ -62,7 +62,7 @@ spec:
               GRAPH_USERNAME_MATCH: "none"
 
               # S3
-              STORAGE_USERS_DRIVER: "decomposeds3"
+              STORAGE_USERS_DRIVER: "decomposed"
               DECOMPOSEDS3_ENDPOINT: "http://minio.default.svc:9000"
               DECOMPOSEDS3_REGION: "eu-east-1"
               DECOMPOSEDS3_ACCESS_KEY: "${MINIO_ACCESS_KEY}"
