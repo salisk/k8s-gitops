@@ -1,0 +1,127 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: manyfold
+  namespace: default
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: manyfold
+  interval: 30m
+  values:
+    controllers:
+      manyfold:
+        forceRename: manyfold
+        annotations:
+          secret.reloader.stakater.com/reload: manyfold-secret
+
+        pod:
+          securityContext:
+            fsGroup: 2000
+            fsGroupChangePolicy: "OnRootMismatch"
+            runAsGroup: 2000
+            runAsUser: 2000
+
+        initContainers:
+          chown-tmpdirs:
+            image:
+              repository: docker.io/library/alpine
+              tag: "3.22"
+            command:
+              - /bin/sh
+              - -c
+            args:
+              - |
+                chmod o-rwx /tmp
+            securityContext:
+              runAsUser: 0
+          init-db:
+            image:
+              repository: ghcr.io/home-operations/postgres-init
+              tag: 17
+            envFrom: &envFrom
+              - secretRef:
+                  name: manyfold-secret
+        containers:
+          main:
+            image:
+              repository: ghcr.io/bjw-s-labs/manyfold
+              tag: 0.126.0@sha256:07d5bee1df36344df36eb9f859d1311bf490b92d08d8d438a37b3af1b9259766
+            env:
+              MULTIUSER: false
+              PORT: &httpPort 3214
+              REDIS_URL: redis://dragonfly.data.svc.cluster.local:6379
+              REGISTRATION: false
+              OIDC_CLIENT_ID: ${MANYFOLD_OAUTH_CLIENT_ID}
+              OIDC_CLIENT_SECRET: ${MANYFOLD_OAUTH_CLIENT_SECRET}
+              OIDC_ISSUER: https://sso.${SECRET_DOMAIN}/oauth2/openid/${APP}
+              OIDC_NAME: Authentik
+              FORCE_OIDC: true
+            envFrom: *envFrom
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: *httpPort
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+            resources:
+              requests:
+                cpu: 20m
+                memory: 128Mi
+              limits:
+                memory: 1536Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
+    service:
+      app:
+        forceRename: manyfold
+        primary: true
+        controller: manyfold
+        ports:
+          http:
+            port: *httpPort
+    persistence:
+      data:
+        existingClaim: manyfold-config-v1
+        advancedMounts:
+          manyfold:
+            main:
+              - path: /data/libraries/main
+                subPath: libraries/main
+      tmpfs:
+        type: emptyDir
+        advancedMounts:
+          manyfold:
+            main: &tmpdirs
+              - path: /tmp
+                subPath: host-tmp
+              - path: /app/tmp
+                subPath: app-tmp
+              - path: /app/log
+                subPath: app-log
+            chown-tmpdirs: *tmpdirs
+
+    route:
+      app:
+        hostnames: ["{{ .Release.Name }}.${SECRET_DOMAIN}"]
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *httpPort
