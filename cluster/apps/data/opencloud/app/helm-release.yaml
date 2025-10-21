@@ -67,6 +67,7 @@ spec:
               DECOMPOSEDS3_REGION: "eu-east-1"
               DECOMPOSEDS3_ACCESS_KEY: "${MINIO_ACCESS_KEY}"
               DECOMPOSEDS3_SECRET_KEY: "${MINIO_SECRET_KEY}"
+              DECOMPOSEDS3_BUCKET: opencloud
             probes:
               liveness:
                 enabled: true
