@@ -20,3 +20,4 @@ resources:
   - ./pinchflat/ks.yaml
   - ./calibre/ks.yaml
   - ./slskd/ks.yaml
+  - ./soulsync/ks.yaml
