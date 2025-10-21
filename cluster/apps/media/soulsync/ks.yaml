@@ -10,9 +10,23 @@ spec:
     labels:
       app.kubernetes.io/name: *name
   path: ./cluster/apps/media/soulsync/app
+  prune: true
   sourceRef:
     kind: GitRepository
     name: k8s-gitops
+  wait: false
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-gpg
   postBuild:
     substitute:
-      APP: *name
+      APP: *app
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-settings
+      - kind: Secret
+        name: cluster-secrets
