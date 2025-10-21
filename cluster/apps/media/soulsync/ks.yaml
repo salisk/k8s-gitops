@@ -24,7 +24,7 @@ spec:
       name: sops-gpg
   postBuild:
     substitute:
-      APP: *app
+      APP: *name
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings
