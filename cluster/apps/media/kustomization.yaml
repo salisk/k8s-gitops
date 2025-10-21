@@ -21,3 +21,4 @@ resources:
   - ./calibre/ks.yaml
   - ./slskd/ks.yaml
   - ./soulsync/ks.yaml
+  - ./audiobookshelf/ks.yaml
