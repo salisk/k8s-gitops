@@ -13,8 +13,8 @@ spec:
   prune: true
   sourceRef:
     kind: GitRepository
-    name: k8s-gitops
-  wait: false
+    name: flux-system
+  wait: true
   interval: 30m
   retryInterval: 1m
   timeout: 5m
