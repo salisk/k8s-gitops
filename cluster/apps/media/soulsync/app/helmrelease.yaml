@@ -9,14 +9,17 @@ spec:
     kind: OCIRepository
     name: app-template
     namespace: flux-system
+  maxHistory: 3
   install:
+    createNamespace: true
     remediation:
       retries: 3
   upgrade:
     cleanupOnFail: true
     remediation:
-      strategy: rollback
       retries: 3
+  uninstall:
+    keepHistory: false
   values:
     controllers:
       soulsync:
