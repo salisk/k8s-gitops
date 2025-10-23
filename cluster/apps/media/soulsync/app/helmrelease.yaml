@@ -85,8 +85,8 @@ spec:
         globalMounts:
           - path: /config/config.json
             subPath: config/config.json
-          - path: /app/database
-            subPath: database
+          - path: /app/database/music_library.db
+            subPath: database/music_library.db
       music-library:
         enabled: true
         existingClaim: nfs-media-pvc-v2
