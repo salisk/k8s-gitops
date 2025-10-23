@@ -80,10 +80,24 @@ spec:
         enabled: true
         existingClaim: soulsync-config
         globalMounts:
-          - path: /app
+          - path: /app/config
+            subPath: config
+          - path: /app/database
+            subPath: database
       music-library:
         enabled: true
         existingClaim: nfs-media-pvc-v2
         globalMounts:
-          - path: /media/downloads/soulseek
+          - path: /app/downloads
             subPath: downloads/soulseek
+          - path: /app/Transfers
+            subPath: downloads/soulseek-transfers
+      tmpfs:
+        type: emptyDir
+        advancedMounts:
+          bazarr:
+            app:
+              - path: /config/log
+                subPath: log
+              - path: /tmp
+                subPath: tmp
