@@ -83,8 +83,8 @@ spec:
         enabled: true
         existingClaim: soulsync-config
         globalMounts:
-          - path: /app/config
-            subPath: config
+          - path: /app/config/config.json
+            subPath: config.json
           - path: /app/database
             subPath: database
       music-library:
