@@ -95,7 +95,7 @@ spec:
       tmpfs:
         type: emptyDir
         advancedMounts:
-          bazarr:
+          soulsync:
             app:
               - path: /config/log
                 subPath: log
