@@ -1,0 +1,78 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app blackbox-exporter
+spec:
+  interval: 30m
+  chartRef:
+    kind: OCIRepository
+    name: blackbox-exporter
+  upgrade:
+    cleanupOnFail: true
+    crds: Skip
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    fullnameOverride: *app
+
+    image:
+      registry: quay.io
+
+    ingress:
+      enabled: false
+
+    securityContext:
+      capabilities:
+        add: ["NET_RAW"]
+
+    config:
+      modules:
+        http_2xx:
+          prober: http
+          timeout: 5s
+          http:
+            valid_http_versions: ["HTTP/1.1", "HTTP/2.0"]
+            follow_redirects: true
+            preferred_ip_protocol: ip4
+
+        icmp:
+          prober: icmp
+          timeout: 5s
+          icmp:
+            preferred_ip_protocol: ip4
+
+        tcp_connect:
+          prober: tcp
+          timeout: 5s
+          tcp:
+            preferred_ip_protocol: ip4
+
+    serviceMonitor:
+      enabled: true
+      defaults:
+        interval: 1m
+        scrapeTimeout: 10s
+
+    prometheusRule:
+      enabled: true
+      rules:
+        - alert: BlackboxProbeFailed
+          expr: probe_success == 0
+          for: 15m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Blackbox probe failed for {{ $labels.target }}"
+            description: "The blackbox exporter probe has failed for {{ $labels.target }} for more than 15 minutes."
+
+    podAnnotations:
+      reloader.stakater.com/auto: "true"
+
+    resources:
+      requests:
+        cpu: 10m
+        memory: 64Mi
+      limits:
+        memory: 128Mi
