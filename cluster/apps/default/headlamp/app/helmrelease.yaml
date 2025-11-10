@@ -45,10 +45,18 @@ spec:
     clusterRoleBinding:
       create: false
 
+    persistentVolumeClaim:
+      enabled: true
+      accessModes:
+        - ReadWriteOnce
+      size: 100Mi
+      storageClassName: longhorn
+
     volumeMounts:
       - mountPath: /build/plugins
         name: headlamp-plugins
 
     volumes:
       - name: headlamp-plugins
-        emptyDir: {}
+        persistentVolumeClaim:
+          claimName: headlamp
