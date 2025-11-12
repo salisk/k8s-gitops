@@ -1,0 +1,26 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: affine-config-v1
+  namespace: productivity
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: affine-storage-v1
+  namespace: productivity
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 10Gi

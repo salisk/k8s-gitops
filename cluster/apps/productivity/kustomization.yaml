@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - ./paperless/ks.yaml
   #  - monica
+  # - ./affine/ks.yaml
   - ./atuin/ks.yaml
   - ./actual/ks.yaml
   - ./lubelog/ks.yaml
