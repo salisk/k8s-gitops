@@ -53,6 +53,7 @@ spec:
             env:
               MULTIUSER: false
               PUBLIC_HOSTNAME: manyfold.${SECRET_DOMAIN}
+              SECRET_KEY_BASE: ${MANYFOLD_SECRET_KEY}
               PORT: &httpPort 3214
               REDIS_URL: redis://dragonfly.data.svc.cluster.local:6379
               REGISTRATION: false
