@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
-    - name: cluster-apps-kube-prometheus-stack
+    - name: kube-prometheus-stack
   path: ./cluster/apps/monitoring/blackbox-exporter/app
   prune: true
   sourceRef:
