@@ -51,12 +51,13 @@ spec:
               tag: 0.129.1@sha256:f0f57a9890e66ff313659490b68fe7fb9055234a155acd5e5f16f21e38fda226
             env:
               MULTIUSER: false
+              PUBLIC_HOSTNAME: manyfold.${SECRET_DOMAIN}
               PORT: &httpPort 3214
               REDIS_URL: redis://dragonfly.data.svc.cluster.local:6379
               REGISTRATION: false
               OIDC_CLIENT_ID: ${MANYFOLD_OAUTH_CLIENT_ID}
               OIDC_CLIENT_SECRET: ${MANYFOLD_OAUTH_CLIENT_SECRET}
-              OIDC_ISSUER: https://sso.${SECRET_DOMAIN}/oauth2/openid/${APP}
+              OIDC_ISSUER: https://sso.${SECRET_DOMAIN}/application/o/manyfold
               OIDC_NAME: Authentik
               FORCE_OIDC: true
             envFrom: *envFrom
