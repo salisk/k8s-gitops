@@ -18,13 +18,6 @@ spec:
         annotations:
           secret.reloader.stakater.com/reload: manyfold-secret
 
-        pod:
-          securityContext:
-            fsGroup: 2000
-            fsGroupChangePolicy: "OnRootMismatch"
-            runAsGroup: 2000
-            runAsUser: 2000
-
         initContainers:
           chown-tmpdirs:
             image:
@@ -46,7 +39,7 @@ spec:
               - secretRef:
                   name: manyfold-secret
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/bjw-s-labs/manyfold
               tag: 0.129.1@sha256:f0f57a9890e66ff313659490b68fe7fb9055234a155acd5e5f16f21e38fda226
@@ -88,6 +81,12 @@ spec:
               capabilities:
                 drop:
                   - ALL
+    defaultPodOptions:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 100
+        fsGroup: 100
+        fsGroupChangePolicy: OnRootMismatch
     service:
       app:
         forceRename: manyfold
@@ -101,14 +100,14 @@ spec:
         existingClaim: manyfold-config-v1
         advancedMounts:
           manyfold:
-            main:
+            app:
               - path: /data/libraries/main
                 subPath: libraries/main
       tmpfs:
         type: emptyDir
         advancedMounts:
           manyfold:
-            main: &tmpdirs
+            app: &tmpdirs
               - path: /tmp
                 subPath: host-tmp
               - path: /app/tmp
