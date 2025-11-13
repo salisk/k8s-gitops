@@ -35,10 +35,10 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/cetra3/divedb
-              tag: latest@sha256:b396b25a873ee495e2173a74a53f885a8320a27745702a3ef0cef157ffc4c719
-              # repository: harbor.${SECRET_DOMAIN}/divedb/backend
-              # tag: openid-connect
+              # repository: ghcr.io/cetra3/divedb
+              # tag: latest@sha256:b396b25a873ee495e2173a74a53f885a8320a27745702a3ef0cef157ffc4c719
+              repository: harbor.${SECRET_DOMAIN}/divedb/backend
+              tag: openid-connect
             env:
               SITE_URL: https://dive.${SECRET_DOMAIN}
               FRONTEND_URL: http://divedb-frontend.default.svc.cluster.local:3000
@@ -71,10 +71,10 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/cetra3/divedb-front
-              tag: latest@sha256:5318ea069708f0c679cf00ef343b0f5b8f5e912e0c38616f11e388de8e10553d
-              # repository: harbor.${SECRET_DOMAIN}/divedb/frontend
-              # tag: openid-connect
+              # repository: ghcr.io/cetra3/divedb-front
+              # tag: latest@sha256:5318ea069708f0c679cf00ef343b0f5b8f5e912e0c38616f11e388de8e10553d
+              repository: harbor.${SECRET_DOMAIN}/divedb/frontend
+              tag: openid-connect
             env:
               BACKEND_URL: http://divedb-backend.default.svc.cluster.local:3333
             resources:
