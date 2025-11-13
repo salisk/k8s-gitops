@@ -16,3 +16,4 @@ resources:
   # - ./radicale/ks.yaml
   - ./karakeep/ks.yaml
   - ./it-tools/ks.yaml
+  - ./affine/ks.yaml
