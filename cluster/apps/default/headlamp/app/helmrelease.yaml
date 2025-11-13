@@ -58,7 +58,7 @@ spec:
     persistentVolumeClaim:
       enabled: true
       accessModes:
-        - ReadWriteOnce
+        - ReadWriteMany
       size: 100Mi
       storageClassName: longhorn
 
