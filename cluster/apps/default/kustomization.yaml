@@ -10,3 +10,4 @@ resources:
   - ./headlamp/ks.yaml
   - ./flaresolverr/ks.yaml
   - ./divedb/ks.yaml
+  - ./headlamp/ks.yaml
