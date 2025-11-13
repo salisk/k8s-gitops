@@ -9,6 +9,7 @@ spec:
   chartRef:
     kind: OCIRepository
     name: manyfold
+    namespace: default
   interval: 30m
   values:
     controllers:
