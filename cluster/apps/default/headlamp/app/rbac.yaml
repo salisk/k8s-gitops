@@ -1,4 +1,12 @@
 ---
+### Token Auth
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: headlamp-admin
+  namespace: default
+automountServiceAccountToken: true
+---
 apiVersion: v1
 kind: Secret
 metadata:

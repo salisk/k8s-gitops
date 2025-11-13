@@ -8,6 +8,7 @@ spec:
   chartRef:
     kind: OCIRepository
     name: blackbox-exporter
+    namespace: montioring
   upgrade:
     cleanupOnFail: true
     crds: Skip
