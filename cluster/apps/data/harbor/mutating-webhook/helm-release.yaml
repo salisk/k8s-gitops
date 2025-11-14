@@ -28,6 +28,13 @@ spec:
   values:
     certManager:
       renewBefore: 720h0m0s
+    webhook:
+      namespaceSelector:
+        matchExpressions:
+          - key: kubernetes.io/metadata.name
+            operator: NotIn
+            values:
+              - data
     rules:
       - name: "docker.io rewrite rule"
         matches:
