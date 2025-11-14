@@ -74,8 +74,9 @@ spec:
             resources:
               requests:
                 cpu: 100m
-                memory: 512M
+                gpu.intel.com/i915: 1
               limits:
+                gpu.intel.com/i915: 1
                 memory: 3Gi
         pod:
           securityContext:
