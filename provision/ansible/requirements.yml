@@ -6,4 +6,4 @@ collections:
     version: 2.2.7
 roles:
   - src: xanmanning.k3s
-    version: v3.6.1
+    version: v3.6.2
