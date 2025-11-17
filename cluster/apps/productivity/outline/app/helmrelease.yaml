@@ -1,0 +1,132 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: outline
+  namespace: productivity
+spec:
+  interval: 30m
+  timeout: 15m
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    controllers:
+      outline:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/home-operations/postgres-init
+              tag: 18
+              pullPolicy: IfNotPresent
+            envFrom: &envFrom
+              - secretRef:
+                  name: outline-secret
+        containers:
+          app:
+            image:
+              repository: docker.io/outlinewiki/outline
+              tag: 0.82.2
+            command: ["/bin/sh", "-c"]
+            args:
+              - yarn db:migrate --env=production-ssl-disabled && yarn start --env=production-ssl-disabled
+            env:
+              TZ: "${TIMEZONE}"
+              # Basic Configuration
+              NODE_ENV: production
+              URL: "https://outline.${SECRET_DOMAIN}"
+              PORT: &port 8080
+              # Feature Flags
+              ENABLE_UPDATES: "false"
+              WEB_CONCURRENCY: "10"
+              LOG_LEVEL: "info"
+              # File Storage
+              FILE_STORAGE: "s3"
+              FILE_STORAGE_UPLOAD_MAX_SIZE: "26214400"
+              # Minio Configuration
+              AWS_S3_FORCE_PATH_STYLE: "true"
+              AWS_S3_ACL: "private"
+            envFrom: *envFrom
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /_health
+                    port: *port
+                  initialDelaySeconds: 30
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 4
+              readiness: *probes
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /_health
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 5
+                  timeoutSeconds: 1
+                  failureThreshold: 30
+            resources:
+              requests:
+                cpu: 10m
+                memory: 250Mi
+              limits:
+                memory: 2Gi
+        pod:
+          securityContext:
+            runAsUser: 1001
+            runAsGroup: 1001
+            fsGroup: 1001
+            fsGroupChangePolicy: OnRootMismatch
+    service:
+      app:
+        controller: outline
+        ports:
+          http:
+            port: *port
+    route:
+      app:
+        annotations:
+          hajimari.io/enable: "true"
+          hajimari.io/icon: "file-document-edit-outline"
+          cert-manager.io/cluster-issuer: "letsencrypt-production"
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Productivity
+          gethomepage.dev/name: Outline
+          gethomepage.dev/description: Team Wiki & Knowledge Base
+          gethomepage.dev/icon: outline.png
+        hostnames:
+          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
+    persistence:
+      data:
+        enabled: true
+        type: persistentVolumeClaim
+        storageClass: longhorn
+        accessMode: ReadWriteOnce
+        size: 5Gi
+        globalMounts:
+          - path: /var/lib/outline/data
