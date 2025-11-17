@@ -1,0 +1,235 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: appflowy
+  namespace: productivity
+spec:
+  interval: 30m
+  timeout: 15m
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    controllers:
+      # GoTrue Authentication Service
+      gotrue:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/home-operations/postgres-init
+              tag: 18
+              pullPolicy: IfNotPresent
+            envFrom: &envFrom
+              - secretRef:
+                  name: appflowy-secret
+        containers:
+          app:
+            image:
+              repository: docker.io/appflowyinc/gotrue
+              tag: latest
+            env:
+              TZ: "${TIMEZONE}"
+              PORT: &gotruePort 9999
+            envFrom: *envFrom
+            probes:
+              liveness: &gotrueProbes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: *gotruePort
+                  initialDelaySeconds: 30
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 4
+              readiness: *gotrueProbes
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: *gotruePort
+                  initialDelaySeconds: 0
+                  periodSeconds: 5
+                  timeoutSeconds: 1
+                  failureThreshold: 30
+            resources:
+              requests:
+                cpu: 10m
+                memory: 128Mi
+              limits:
+                memory: 512Mi
+        pod:
+          securityContext:
+            runAsUser: 1001
+            runAsGroup: 1001
+            fsGroup: 1001
+
+      # AppFlowy Cloud API Service
+      cloud:
+        type: deployment
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: docker.io/appflowyinc/appflowy_cloud
+              tag: latest
+            env:
+              TZ: "${TIMEZONE}"
+            envFrom: *envFrom
+            probes:
+              liveness: &cloudProbes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/healthz
+                    port: &cloudPort 8000
+                  initialDelaySeconds: 30
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 4
+              readiness: *cloudProbes
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/healthz
+                    port: *cloudPort
+                  initialDelaySeconds: 0
+                  periodSeconds: 5
+                  timeoutSeconds: 1
+                  failureThreshold: 60
+            resources:
+              requests:
+                cpu: 100m
+                memory: 512Mi
+              limits:
+                memory: 2Gi
+        pod:
+          securityContext:
+            runAsUser: 1001
+            runAsGroup: 1001
+            fsGroup: 1001
+
+      # AppFlowy Web Frontend
+      web:
+        type: deployment
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: docker.io/appflowyinc/appflowy_web
+              tag: latest
+            env:
+              TZ: "${TIMEZONE}"
+            envFrom: *envFrom
+            probes:
+              liveness: &webProbes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: &webPort 3000
+                  initialDelaySeconds: 30
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 4
+              readiness: *webProbes
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: *webPort
+                  initialDelaySeconds: 0
+                  periodSeconds: 5
+                  timeoutSeconds: 1
+                  failureThreshold: 30
+            resources:
+              requests:
+                cpu: 10m
+                memory: 128Mi
+              limits:
+                memory: 512Mi
+        pod:
+          securityContext:
+            runAsUser: 1001
+            runAsGroup: 1001
+            fsGroup: 1001
+
+    service:
+      gotrue:
+        controller: gotrue
+        ports:
+          http:
+            port: *gotruePort
+      cloud:
+        controller: cloud
+        ports:
+          http:
+            port: *cloudPort
+      web:
+        controller: web
+        ports:
+          http:
+            port: *webPort
+
+    route:
+      app:
+        annotations:
+          hajimari.io/enable: "true"
+          hajimari.io/icon: "note-multiple"
+          cert-manager.io/cluster-issuer: "letsencrypt-production"
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Productivity
+          gethomepage.dev/name: AppFlowy
+          gethomepage.dev/description: AI-Powered Workspace
+          gethomepage.dev/icon: appflowy.png
+        hostnames:
+          - "appflowy.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /web
+            backendRefs:
+              - name: appflowy-web
+                port: *webPort
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /gotrue
+            backendRefs:
+              - name: appflowy-gotrue
+                port: *gotruePort
+          - backendRefs:
+              - name: appflowy-cloud
+                port: *cloudPort
