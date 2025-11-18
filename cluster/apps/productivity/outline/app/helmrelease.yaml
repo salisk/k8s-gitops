@@ -62,7 +62,7 @@ spec:
               AWS_S3_FORCE_PATH_STYLE: "true"
               AWS_S3_ACL: "private"
               # Iframely for rich link previews
-              IFRAMELY_URL: "http://iframely.productivity.svc.cluster.local:8061"
+              IFRAMELY_URL: "http://outline-iframely.productivity.svc.cluster.local:8061"
             envFrom: *envFrom
             probes:
               liveness: &probes
@@ -190,5 +190,7 @@ spec:
         storageClass: longhorn
         accessMode: ReadWriteOnce
         size: 5Gi
-        globalMounts:
-          - path: /var/lib/outline/data
+        advancedMounts:
+          outline:
+            app:
+              - path: /var/lib/outline/data
