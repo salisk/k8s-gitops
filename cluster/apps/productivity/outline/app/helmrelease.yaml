@@ -54,7 +54,7 @@ spec:
               # Feature Flags
               ENABLE_UPDATES: "false"
               WEB_CONCURRENCY: "10"
-              LOG_LEVEL: "info"
+              LOG_LEVEL: "debug"
               # File Storage
               FILE_STORAGE: "s3"
               FILE_STORAGE_UPLOAD_MAX_SIZE: "26214400"
