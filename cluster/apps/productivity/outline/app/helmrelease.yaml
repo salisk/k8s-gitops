@@ -41,7 +41,7 @@ spec:
           app:
             image:
               repository: docker.io/outlinewiki/outline
-              tag: 0.82.2
+              tag: 0.87.4
             command: ["/bin/sh", "-c"]
             args:
               - yarn db:migrate --env=production-ssl-disabled && yarn start --env=production-ssl-disabled
