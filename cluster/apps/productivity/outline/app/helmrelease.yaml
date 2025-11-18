@@ -63,6 +63,8 @@ spec:
               AWS_S3_ACL: "private"
               # Iframely for rich link previews
               IFRAMELY_URL: "http://outline-iframely.productivity.svc.cluster.local:8061"
+              # Allow Outline to connect to internal/private IPs (for self-hosted Iframely)
+              ALLOWED_PRIVATE_IP_ADDRESSES: "10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
             envFrom: *envFrom
             probes:
               liveness: &probes
