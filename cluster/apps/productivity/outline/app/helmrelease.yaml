@@ -61,6 +61,8 @@ spec:
               # Minio Configuration
               AWS_S3_FORCE_PATH_STYLE: "true"
               AWS_S3_ACL: "private"
+              # Iframely for rich link previews
+              IFRAMELY_URL: "http://outline-iframely.productivity.svc.cluster.local:8061"
             envFrom: *envFrom
             probes:
               liveness: &probes
@@ -98,12 +100,68 @@ spec:
             runAsGroup: 1001
             fsGroup: 1001
             fsGroupChangePolicy: OnRootMismatch
+
+      # Iframely - Rich link previews and embeds
+      iframely:
+        type: deployment
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: harbor.${SECRET_DOMAIN}/library/iframely
+              tag: 2.5.0
+            env:
+              TZ: "${TIMEZONE}"
+              NODE_ENV: production
+              PORT: &iframelyPort 8061
+            probes:
+              liveness: &iframelyProbes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: *iframelyPort
+                  initialDelaySeconds: 10
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *iframelyProbes
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: *iframelyPort
+                  initialDelaySeconds: 0
+                  periodSeconds: 5
+                  timeoutSeconds: 1
+                  failureThreshold: 30
+            resources:
+              requests:
+                cpu: 10m
+                memory: 128Mi
+              limits:
+                memory: 512Mi
+        pod:
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
+
     service:
       app:
         controller: outline
         ports:
           http:
             port: *port
+      iframely:
+        controller: iframely
+        ports:
+          http:
+            port: *iframelyPort
     route:
       app:
         annotations:
