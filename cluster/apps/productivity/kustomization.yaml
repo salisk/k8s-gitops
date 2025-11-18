@@ -17,5 +17,5 @@ resources:
   - ./karakeep/ks.yaml
   - ./it-tools/ks.yaml
   - ./affine/ks.yaml
-  # - ./outline/ks.yaml
+  - ./outline/ks.yaml
   # - ./appflowy/ks.yaml
