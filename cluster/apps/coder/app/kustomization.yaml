@@ -5,3 +5,4 @@ resources:
   - ./ocirepository.yaml
   - ./helmrelease.yaml
   - ./secret.yaml
+  - ./httproute.yaml

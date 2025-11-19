@@ -33,7 +33,6 @@ spec:
           envFrom:
             - secretRef:
                 name: coder-secret
-
       env:
         - name: TZ
           value: "${TIMEZONE}"
@@ -88,27 +87,3 @@ spec:
           memory: 512Mi
         limits:
           memory: 2Gi
-
-    service:
-      coder:
-        controller: coder
-        ports:
-          http:
-            port: 8080
-    route:
-      coder:
-        annotations:
-          hajimari.io/enable: "true"
-          hajimari.io/icon: "dev-to"
-          cert-manager.io/cluster-issuer: "letsencrypt-production"
-          gethomepage.dev/enabled: "true"
-          gethomepage.dev/group: Development
-          gethomepage.dev/name: Coder
-          gethomepage.dev/description: Cloud Development Environments
-          gethomepage.dev/icon: coder.png
-        hostnames:
-          - "coder.${SECRET_DOMAIN}"
-        parentRefs:
-          - name: internal
-            namespace: kube-system
-            sectionName: https
