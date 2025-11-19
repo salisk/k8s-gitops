@@ -10,3 +10,4 @@ resources:
   - home.yaml
   - productivity.yaml
   - vault.yaml
+  - coder.yaml
