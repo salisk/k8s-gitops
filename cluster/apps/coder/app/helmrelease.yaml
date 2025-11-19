@@ -24,7 +24,7 @@ spec:
   values:
     coder:
       image:
-        tag: "2.28.3"
+        tag: v2.28.3
 
       initContainers:
         - name: init-db
