@@ -28,3 +28,6 @@ subjects:
   - kind: ServiceAccount
     name: headlamp-admin
     namespace: default
+  - kind: User
+    name: ${AUTHENTIK_ADMIN_EMAIL}
+    apiGroup: rbac.authorization.k8s.io
