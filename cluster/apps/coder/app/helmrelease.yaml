@@ -50,6 +50,12 @@ spec:
         - name: CODER_PROMETHEUS_ADDRESS
           value: "0.0.0.0:2112"
         # OIDC Authentication with Authentik
+        - name: CODER_DISABLE_PASSWORD_AUTH
+          value: "true"
+        - name: CODER_OAUTH2_GITHUB_DEFAULT_PROVIDER_ENABLE
+          value: "false"
+        - name: CODER_OAUTH2_GITHUB_DEVICE_FLOW
+          value: "false"
         - name: CODER_OIDC_SIGN_IN_TEXT
           value: "Log in with authentik"
         - name: CODER_OIDC_IGNORE_EMAIL_VERIFIED
