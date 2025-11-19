@@ -50,6 +50,7 @@ spec:
               # Basic Configuration
               NODE_ENV: production
               URL: "https://outline.${SECRET_DOMAIN}"
+              CDN_URL: "https://outline.${SECRET_DOMAIN}"
               PORT: &port 8080
               # Feature Flags
               ENABLE_UPDATES: "false"
