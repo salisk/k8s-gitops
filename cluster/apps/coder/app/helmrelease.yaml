@@ -59,7 +59,7 @@ spec:
         - name: CODER_OIDC_ISSUER_URL
           value: "https://sso.${SECRET_DOMAIN}/application/o/coder/"
         - name: CODER_OIDC_EMAIL_DOMAIN
-          value: "${SECRET_DOMAIN}"
+          value: "gmail.com"
         - name: CODER_OIDC_CLIENT_ID
           valueFrom:
             secretKeyRef:
