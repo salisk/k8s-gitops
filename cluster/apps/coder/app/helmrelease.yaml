@@ -1,0 +1,118 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: coder
+  namespace: coder
+spec:
+  interval: 30m
+  timeout: 15m
+  chart:
+    spec:
+      chart: coder
+      version: 2.27.6
+      sourceRef:
+        kind: OCIRepository
+        name: coder-v2
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    coder:
+      image:
+        tag: "2.27.6"
+
+      initContainers:
+        - name: init-db
+          image: ghcr.io/home-operations/postgres-init:18
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - secretRef:
+                name: coder-secret
+
+      env:
+        - name: TZ
+          value: "${TIMEZONE}"
+        - name: CODER_PG_CONNECTION_URL
+          valueFrom:
+            secretKeyRef:
+              name: coder-secret
+              key: CODER_PG_CONNECTION_URL
+        - name: CODER_ACCESS_URL
+          value: "https://coder.${SECRET_DOMAIN}"
+        - name: CODER_WILDCARD_ACCESS_URL
+          value: "*.coder.${SECRET_DOMAIN}"
+        - name: CODER_PROMETHEUS_ENABLE
+          value: "true"
+        - name: CODER_PROMETHEUS_ADDRESS
+          value: "0.0.0.0:2112"
+        # OIDC Authentication with Authentik
+        - name: CODER_OIDC_SIGN_IN_TEXT
+          value: "Log in with authentik"
+        - name: CODER_OIDC_ICON_URL
+          value: "https://authentik.company/static/dist/assets/icons/icon.png"
+        - name: CODER_OIDC_ISSUER_URL
+          value: "https://sso.${SECRET_DOMAIN}/application/o/coder/"
+        - name: CODER_OIDC_EMAIL_DOMAIN
+          value: "${SECRET_DOMAIN}"
+        - name: CODER_OIDC_CLIENT_ID
+          valueFrom:
+            secretKeyRef:
+              name: coder-secret
+              key: CODER_OIDC_CLIENT_ID
+        - name: CODER_OIDC_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: coder-secret
+              key: CODER_OIDC_CLIENT_SECRET
+        - name: CODER_OIDC_SCOPES
+          value: "openid,profile,email"
+
+      service:
+        type: ClusterIP
+        annotations: {}
+
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        runAsNonRoot: true
+
+      resources:
+        requests:
+          cpu: 250m
+          memory: 512Mi
+        limits:
+          memory: 2Gi
+
+    service:
+      coder:
+        controller: coder
+        ports:
+          http:
+            port: 8080
+    route:
+      coder:
+        annotations:
+          hajimari.io/enable: "true"
+          hajimari.io/icon: "dev-to"
+          cert-manager.io/cluster-issuer: "letsencrypt-production"
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Development
+          gethomepage.dev/name: Coder
+          gethomepage.dev/description: Cloud Development Environments
+          gethomepage.dev/icon: coder.png
+        hostnames:
+          - "coder.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https

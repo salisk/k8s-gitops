@@ -13,4 +13,5 @@ resources:
   - ./cert-manager/ks.yaml
   - security
   - system
+  - ./coder/ks.yaml
   # - vault
