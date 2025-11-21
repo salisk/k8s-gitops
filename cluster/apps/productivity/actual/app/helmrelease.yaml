@@ -22,6 +22,10 @@ spec:
               tag: 25.11.0
             env:
               ACTUAL_PORT: &httpPort 5006
+              ACTUAL_OPENID_DISCOVERY_URL: https://sso.${SECRET_DOMAIN}/application/o/actual-budget/
+              ACTUAL_OPENID_CLIENT_ID: ${ACTUAL_OPENID_CLIENT_ID}
+              ACTUAL_OPENID_CLIENT_SECRET: ${ACTUAL_OPENID_CLIENT_SECRET}
+              ACTUAL_OPENID_SERVER_HOSTNAME: https://sso.${SECRET_DOMAIN}
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
