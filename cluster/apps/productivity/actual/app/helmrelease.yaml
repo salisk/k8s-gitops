@@ -26,6 +26,7 @@ spec:
               ACTUAL_OPENID_CLIENT_ID: ${ACTUAL_OPENID_CLIENT_ID}
               ACTUAL_OPENID_CLIENT_SECRET: ${ACTUAL_OPENID_CLIENT_SECRET}
               ACTUAL_OPENID_SERVER_HOSTNAME: https://actual.${SECRET_DOMAIN}
+              ACTUAL_OPENID_ENFORCE: "true"
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
