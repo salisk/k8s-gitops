@@ -25,7 +25,7 @@ spec:
               ACTUAL_OPENID_DISCOVERY_URL: https://sso.${SECRET_DOMAIN}/application/o/actual-budget/
               ACTUAL_OPENID_CLIENT_ID: ${ACTUAL_OPENID_CLIENT_ID}
               ACTUAL_OPENID_CLIENT_SECRET: ${ACTUAL_OPENID_CLIENT_SECRET}
-              ACTUAL_OPENID_SERVER_HOSTNAME: https://sso.${SECRET_DOMAIN}
+              ACTUAL_OPENID_SERVER_HOSTNAME: https://actual.${SECRET_DOMAIN}
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
