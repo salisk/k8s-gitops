@@ -196,3 +196,12 @@ spec:
           main:
             main:
               - path: /data
+      tmp:
+        type: emptyDir
+        advancedMounts:
+          actualtap-red:
+            main:
+              - path: /tmp
+          actualtap-blue:
+            main:
+              - path: /tmp
