@@ -126,13 +126,17 @@ spec:
           http:
             port: 3001
     route:
-      app:
+      main:
         hostnames:
           - "actual.${SECRET_DOMAIN}"
         parentRefs:
           - name: internal
             namespace: kube-system
             sectionName: https
+        rules:
+          - backendRefs:
+              - identifier: main
+                port: *httpPort
       actualtap-red:
         hostnames:
           - "actualred.${SECRET_DOMAIN}"
@@ -140,6 +144,10 @@ spec:
           - name: internal
             namespace: kube-system
             sectionName: https
+        rules:
+          - backendRefs:
+              - identifier: actualtap-red
+                port: 3001
       actualtap-blue:
         hostnames:
           - "actualblue.${SECRET_DOMAIN}"
@@ -147,6 +155,10 @@ spec:
           - name: internal
             namespace: kube-system
             sectionName: https
+        rules:
+          - backendRefs:
+              - identifier: actualtap-blue
+                port: 3001
     persistence:
       config:
         enabled: true
