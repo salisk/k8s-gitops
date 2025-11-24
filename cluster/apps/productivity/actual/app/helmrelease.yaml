@@ -45,15 +45,104 @@ spec:
             runAsNonRoot: true
             fsGroup: 568
             fsGroupChangePolicy: OnRootMismatch
+      actualtap-red:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          main:
+            image:
+              repository: ghcr.io/mattyfaz/actualtap
+              tag: v1.0.19
+            env:
+              TZ: ${TIMEZONE}
+              API_KEY: ${ACTUALTAP_RED_API_KEY}
+              ACTUAL_URL: https://actual.${SECRET_DOMAIN}
+              ACTUAL_PASSWORD: ${ACTUAL_RED_PASSWORD}
+              ACTUAL_SYNC_ID: ${ACTUALTAP_RED_SYNC_ID}
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 10m
+                memory: 64M
+              limits:
+                memory: 128M
+        pod:
+          enableServiceLinks: false
+          securityContext:
+            runAsUser: 568
+            runAsGroup: 568
+            runAsNonRoot: true
+            fsGroup: 568
+            fsGroupChangePolicy: OnRootMismatch
+      actualtap-blue:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          main:
+            image:
+              repository: ghcr.io/mattyfaz/actualtap
+              tag: v1.0.19
+            env:
+              TZ: ${TIMEZONE}
+              API_KEY: ${ACTUALTAP_BLUE_API_KEY}
+              ACTUAL_URL: https://actual.${SECRET_DOMAIN}
+              ACTUAL_PASSWORD: ${ACTUAL_BLUE_PASSWORD}
+              ACTUAL_SYNC_ID: ${ACTUALTAP_BLUE_SYNC_ID}
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 10m
+                memory: 64M
+              limits:
+                memory: 128M
+        pod:
+          enableServiceLinks: false
+          securityContext:
+            runAsUser: 568
+            runAsGroup: 568
+            runAsNonRoot: true
+            fsGroup: 568
+            fsGroupChangePolicy: OnRootMismatch
     service:
       main:
+        controller: main
         ports:
           http:
             port: *httpPort
+      actualtap-red:
+        controller: actualtap-red
+        ports:
+          http:
+            port: 3001
+      actualtap-blue:
+        controller: actualtap-blue
+        ports:
+          http:
+            port: 3001
     route:
       app:
         hostnames:
           - "actual.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
+      actualtap-red:
+        hostnames:
+          - "actualred.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
+      actualtap-blue:
+        hostnames:
+          - "actualblue.${SECRET_DOMAIN}"
         parentRefs:
           - name: internal
             namespace: kube-system
