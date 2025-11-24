@@ -51,13 +51,13 @@ spec:
         initContainers:
           wait-for-actual:
             image:
-              repository: busybox
-              tag: 1.37.0
+              repository: curlimages/curl
+              tag: 8.11.1
             command:
               - sh
               - -c
               - |
-                until nc -z actual.productivity.svc.cluster.local 5006; do
+                until curl -f -s -o /dev/null https://actual.${SECRET_DOMAIN}; do
                   echo "Waiting for Actual server to be ready..."
                   sleep 5
                 done
@@ -97,13 +97,13 @@ spec:
         initContainers:
           wait-for-actual:
             image:
-              repository: busybox
-              tag: 1.37.0
+              repository: curlimages/curl
+              tag: 8.11.1
             command:
               - sh
               - -c
               - |
-                until nc -z actual.productivity.svc.cluster.local 5006; do
+                until curl -f -s -o /dev/null https://actual.${SECRET_DOMAIN}; do
                   echo "Waiting for Actual server to be ready..."
                   sleep 5
                 done
