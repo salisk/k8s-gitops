@@ -191,6 +191,7 @@ spec:
       config:
         enabled: true
         existingClaim: actual-pvc-v1
+        globalMounts: []
         advancedMounts:
           main:
             main:
