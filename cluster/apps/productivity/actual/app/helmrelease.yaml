@@ -48,6 +48,20 @@ spec:
       actualtap-red:
         annotations:
           reloader.stakater.com/auto: "true"
+        initContainers:
+          wait-for-actual:
+            image:
+              repository: busybox
+              tag: 1.37.0
+            command:
+              - sh
+              - -c
+              - |
+                until nc -z actual.productivity.svc.cluster.local 5006; do
+                  echo "Waiting for Actual server to be ready..."
+                  sleep 5
+                done
+                echo "Actual server is ready!"
         containers:
           main:
             image:
@@ -80,6 +94,20 @@ spec:
       actualtap-blue:
         annotations:
           reloader.stakater.com/auto: "true"
+        initContainers:
+          wait-for-actual:
+            image:
+              repository: busybox
+              tag: 1.37.0
+            command:
+              - sh
+              - -c
+              - |
+                until nc -z actual.productivity.svc.cluster.local 5006; do
+                  echo "Waiting for Actual server to be ready..."
+                  sleep 5
+                done
+                echo "Actual server is ready!"
         containers:
           main:
             image:
