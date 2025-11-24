@@ -51,7 +51,7 @@ spec:
         containers:
           main:
             image:
-              repository: ghcr.io/mattyfaz/actualtap
+              repository: ghcr.io/mattfaz/actualtap
               tag: v1.0.19
             env:
               TZ: ${TIMEZONE}
@@ -83,7 +83,7 @@ spec:
         containers:
           main:
             image:
-              repository: ghcr.io/mattyfaz/actualtap
+              repository: ghcr.io/mattfaz/actualtap
               tag: v1.0.19
             env:
               TZ: ${TIMEZONE}
@@ -163,5 +163,7 @@ spec:
       config:
         enabled: true
         existingClaim: actual-pvc-v1
-        globalMounts:
-          - path: /data
+        advancedMounts:
+          main:
+            main:
+              - path: /data
