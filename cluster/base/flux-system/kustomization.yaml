@@ -4,3 +4,6 @@ resources:
   - cluster.yaml
   - flux.yaml
   - charts
+  - webhook-token.yaml
+  - webhook-receiver.yaml
+  - webhook-httproute.yaml
