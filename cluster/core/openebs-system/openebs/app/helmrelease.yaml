@@ -1,0 +1,55 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.ok8.sh/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: openebs
+  namespace: openebs-system
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: openebs
+  install:
+    crds: Skip
+  upgrade:
+    crds: Skip
+  values:
+    localpv-provisioner:
+      localpv:
+        enabled: true
+        image:
+          registry: quay.io/
+      helperPod:
+        image:
+          registry: quay.io/
+      hostpathClass:
+        enabled: true
+        name: openebs-hostpath
+        isDefaultClass: false
+        basePath: /var/openebs/local
+      analytics:
+        enabled: false
+    mayastor:
+      enabled: false
+    engines:
+      local:
+        lvm:
+          enabled: false
+        zfs:
+          enabled: false
+      replicated:
+        mayastor:
+          enabled: false
+    crds:
+      csi:
+        volumeSnapshots:
+          enabled: false
+    loki-stack:
+      enabled: false
+    alloy:
+      enabled: false
+    minio:
+      enabled: false
+    preUpgradeHook:
+      enabled: false
