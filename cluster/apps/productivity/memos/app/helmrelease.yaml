@@ -12,7 +12,7 @@ spec:
     namespace: flux-system
   values:
     controllers:
-      main:
+      memos:
         annotations:
           reloader.stakater.com/auto: "true"
         initContainers:
@@ -25,7 +25,7 @@ spec:
               - secretRef:
                   name: memos-secret
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/usememos/memos
               tag: 0.25.2
@@ -74,25 +74,32 @@ spec:
             fsGroup: 568
             fsGroupChangePolicy: OnRootMismatch
     service:
-      main:
-        controller: main
+      app:
+        controller: memos
         ports:
           http:
             port: *httpPort
-    route:
-      main:
-        hostnames:
-          - "memos.${SECRET_DOMAIN}"
-        parentRefs:
-          - name: internal
-            namespace: kube-system
-            sectionName: https
-        rules:
-          - backendRefs:
-              - identifier: main
-                port: *httpPort
+            appProtocol: http
+      grpc:
+        controller: memos
+        ports:
+          http:
+            port: 5231
+            targetPort: &grpcPort 5230
+            appProtocol: kubernetes.io/h2c
+    route: {}
     persistence:
       tmp:
         type: emptyDir
         globalMounts:
           - path: /tmp
+      store:
+        enabled: true
+        type: persistentVolumeClaim
+        storageClass: longhorn
+        accessMode: ReadWriteOnce
+        size: 3Gi
+        advancedMounts:
+          memos:
+            app:
+              - path: /var/opt/memos
