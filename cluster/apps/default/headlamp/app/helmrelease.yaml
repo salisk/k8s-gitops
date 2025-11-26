@@ -39,21 +39,28 @@ spec:
         clientSecret: ${HEADLAMP_OAUTH_CLIENT_SECRET}
         issuerURL: https://sso.${SECRET_DOMAIN}/application/o/headlamp/
         scopes: "openid profile email"
-    # serviceAccount:
-    #   create: false
-    #   name: headlamp-admin
-    # clusterRoleBinding:
-    #   create: false
-    persistentVolumeClaim:
-      enabled: true
-      accessModes:
-        - ReadWriteMany
-      size: 100Mi
-      storageClassName: longhorn
     volumeMounts:
       - mountPath: /build/plugins
         name: headlamp-plugins
     volumes:
       - name: headlamp-plugins
-        persistentVolumeClaim:
-          claimName: headlamp
+        emptyDir: {}
+    # serviceAccount:
+    #   create: false
+    #   name: headlamp-admin
+    # clusterRoleBinding:
+    #   create: false
+    # persistentVolumeClaim:
+    #   enabled: true
+    #   accessModes:
+    #     - ReadWriteMany
+    #   size: 100Mi
+    #   storageClassName: longhorn
+    #
+    # volumeMounts:
+    #   - mountPath: /build/plugins
+    #     name: headlamp-plugins
+    # volumes:
+    #   - name: headlamp-plugins
+    #     persistentVolumeClaim:
+    #       claimName: headlamp
