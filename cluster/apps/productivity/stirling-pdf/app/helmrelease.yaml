@@ -45,8 +45,8 @@ spec:
                 spec:
                   failureThreshold: 90
                   periodSeconds: 5
-            securityContext:
-              readOnlyRootFilesystem: true
+            # securityContext:
+            #   readOnlyRootFilesystem: true
         pod:
           securityContext:
             runAsNonRoot: true
