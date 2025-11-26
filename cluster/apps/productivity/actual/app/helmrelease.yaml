@@ -52,7 +52,7 @@ spec:
           wait-for-actual:
             image:
               repository: curlimages/curl
-              tag: 8.11.1
+              tag: 8.17.0
             command:
               - sh
               - -c
@@ -98,7 +98,7 @@ spec:
           wait-for-actual:
             image:
               repository: curlimages/curl
-              tag: 8.11.1
+              tag: 8.17.0
             command:
               - sh
               - -c
