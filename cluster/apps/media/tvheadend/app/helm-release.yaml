@@ -68,9 +68,13 @@ spec:
                   failureThreshold: 30
                   periodSeconds: 10
             securityContext:
-              allowPrivilegeEscalation: false
+              allowPrivilegeEscalation: true
               readOnlyRootFilesystem: false
-              capabilities: { drop: ["ALL"] }
+              capabilities:
+                add:
+                  - CHOWN
+                  - SETUID
+                  - SETGID
             resources:
               requests:
                 cpu: 100m
