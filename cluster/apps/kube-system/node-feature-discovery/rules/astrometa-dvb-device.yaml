@@ -1,0 +1,17 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.ok8.sh/nfd.k8s-sigs.io/nodefeaturerule_v1alpha1.json
+apiVersion: nfd.k8s-sigs.io/v1alpha1
+kind: NodeFeatureRule
+metadata:
+  name: astrometa-dvb-device
+spec:
+  rules:
+    - # HanfTek Astrometa DVB-T/T2/C FM & DAB receiver [RTL2832P]
+      name: astrometa.dvb
+      labels:
+        astrometa.feature.node.kubernetes.io/dvb-tuner: "true"
+      matchFeatures:
+        - feature: usb.device
+          matchExpressions:
+            vendor: { op: In, value: ["15f4"] }
+            device: { op: In, value: ["0131"] }
