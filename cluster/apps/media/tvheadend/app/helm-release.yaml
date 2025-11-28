@@ -1,0 +1,138 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: tvheadend
+  namespace: media
+spec:
+  interval: 30m
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    controllers:
+      tvheadend:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        pod:
+          securityContext:
+            runAsUser: 568
+            runAsGroup: 568
+            fsGroup: 568
+            fsGroupChangePolicy: OnRootMismatch
+            supplementalGroups:
+              - 44 # video group
+              - 109 # render group
+          nodeSelector:
+            astrometa.feature.node.kubernetes.io/dvb-tuner: "true"
+        containers:
+          app:
+            image:
+              repository: lscr.io/linuxserver/tvheadend
+              tag: version-0b23983f
+            env:
+              TZ: ${TIMEZONE}
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: &port 9981
+                  initialDelaySeconds: 30
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: *port
+                  failureThreshold: 30
+                  periodSeconds: 10
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 100m
+                memory: 256Mi
+                gpu.intel.com/i915: "1"
+              limits:
+                memory: 2Gi
+                gpu.intel.com/i915: "1"
+    service:
+      app:
+        controller: tvheadend
+        type: LoadBalancer
+        annotations:
+          io.cilium/lb-ipam-ips: ${LB_TVHEADEND_IP}
+        ports:
+          http:
+            port: *port
+            appProtocol: http
+          htsp:
+            port: 9982
+            appProtocol: tcp
+    route:
+      app:
+        hostnames:
+          - "tvheadend.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *port
+    persistence:
+      config:
+        enabled: true
+        type: persistentVolumeClaim
+        storageClass: longhorn
+        accessMode: ReadWriteOnce
+        size: 1Gi
+        advancedMounts:
+          tvheadend:
+            app:
+              - path: /config
+      recordings:
+        enabled: true
+        type: nfs
+        server: ${NAS_ADDR}
+        path: /volume1/recordings
+        globalMounts:
+          - path: /recordings
+      timeshift:
+        enabled: true
+        type: emptyDir
+        globalMounts:
+          - path: /timeshift
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
+      dev:
+        enabled: true
+        type: hostPath
+        hostPath: /dev
+        globalMounts:
+          - path: /dev
