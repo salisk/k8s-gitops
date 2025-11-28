@@ -29,13 +29,14 @@ spec:
           reloader.stakater.com/auto: "true"
         pod:
           securityContext:
-            runAsUser: 568
-            runAsGroup: 568
+            runAsUser: 0
+            runAsGroup: 0
             fsGroup: 568
             fsGroupChangePolicy: OnRootMismatch
             supplementalGroups:
               - 44 # video group
               - 109 # render group
+              - 568 # for NFS access
           nodeSelector:
             astrometa.feature.node.kubernetes.io/dvb-tuner: "true"
         containers:
