@@ -118,7 +118,7 @@ spec:
         enabled: true
         type: nfs
         server: ${NAS_ADDR}
-        path: /volume1/recordings
+        path: /volume1/media/recordings
         globalMounts:
           - path: /recordings
       timeshift:
