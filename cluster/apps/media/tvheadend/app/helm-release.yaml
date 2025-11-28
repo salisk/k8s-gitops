@@ -48,6 +48,8 @@ spec:
               tag: version-0b23983f
             env:
               TZ: ${TIMEZONE}
+              PUID: "0"
+              PGID: "0"
             probes:
               liveness: &probes
                 enabled: true
