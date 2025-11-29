@@ -72,13 +72,7 @@ spec:
                   failureThreshold: 30
                   periodSeconds: 10
             securityContext:
-              allowPrivilegeEscalation: true
-              readOnlyRootFilesystem: false
-              capabilities:
-                add:
-                  - CHOWN
-                  - SETUID
-                  - SETGID
+              privileged: true
             resources:
               requests:
                 cpu: 100m
