@@ -133,9 +133,15 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /tmp
-      dev:
+      dev-dvb:
         enabled: true
         type: hostPath
-        hostPath: /dev
+        hostPath: /dev/dvb
         globalMounts:
-          - path: /dev
+          - path: /dev/dvb
+      dev-dri:
+        enabled: true
+        type: hostPath
+        hostPath: /dev/dri
+        globalMounts:
+          - path: /dev/dri
