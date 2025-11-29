@@ -12,8 +12,8 @@ spec:
     name: app-template
     namespace: flux-system
   maxHistory: 3
-  driftDetection:
-    mode: enabled
+  # driftDetection:
+  #   mode: enabled
   install:
     createNamespace: true
     remediation:
