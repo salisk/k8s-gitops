@@ -5,4 +5,4 @@ kind: Kustomization
 namespace: openebs-system
 resources:
   - ./namespace.yaml
-  - ./openebs/ks.yaml
+  - ./ks.yaml

@@ -7,10 +7,11 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h
-  path: ./cluster/core/openebs-system/openebs/app
+  path: ./cluster/core/openebs-system/app
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
+    namespace: flux-system
   targetNamespace: openebs-system
   wait: true
