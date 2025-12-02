@@ -10,26 +10,33 @@ spec:
   chartRef:
     kind: OCIRepository
     name: openebs
-  install:
-    crds: Skip
-  upgrade:
-    crds: Skip
   values:
+    preUpgradeHook:
+      enabled: false
     localpv-provisioner:
+      analytics:
+        enabled: false
       localpv:
-        enabled: true
         image:
           registry: quay.io/
-      helperPod:
-        image:
-          registry: quay.io/
+        basePath: &hostPath /var/mnt/local-hostpath
       hostpathClass:
         enabled: true
         name: openebs-hostpath
         isDefaultClass: false
-        basePath: /var/openebs/local
-      analytics:
-        enabled: false
+        basePath: *hostPath
+      helperPod:
+        image:
+          registry: quay.io/
+    openebs-crds:
+      csi:
+        volumeSnapshots:
+          enabled: false
+          keep: false
+    zfs-localpv:
+      enabled: false
+    lvm-localpv:
+      enabled: false
     mayastor:
       enabled: false
     engines:
@@ -41,15 +48,9 @@ spec:
       replicated:
         mayastor:
           enabled: false
-    crds:
-      csi:
-        volumeSnapshots:
-          enabled: false
-    loki-stack:
+    loki:
       enabled: false
     alloy:
       enabled: false
     minio:
-      enabled: false
-    preUpgradeHook:
       enabled: false
