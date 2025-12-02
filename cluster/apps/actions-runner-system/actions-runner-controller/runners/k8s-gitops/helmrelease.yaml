@@ -12,7 +12,7 @@ spec:
     name: gha-runner-scale-set
   values:
     runnerScaleSetName: k8s-gitops
-    githubConfigUrl: https://github.com/salisk/k8s-gitops
+    githubConfigUrl: https://github.com/salisk
     githubConfigSecret: k8s-gitops-runner-secret
     minRunners: 1
     maxRunners: 3
