@@ -1,0 +1,54 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.ok8.sh/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: k8s-gitops-runner
+  namespace: actions-runner-system
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: gha-runner-scale-set
+  values:
+    runnerScaleSetName: k8s-gitops
+    githubConfigUrl: https://github.com/salisk
+    githubConfigSecret: k8s-gitops-runner-secret
+    minRunners: 1
+    maxRunners: 3
+    containerMode:
+      type: dind
+    template:
+      spec:
+        containers:
+          - name: runner
+            image: ghcr.io/actions/actions-runner:2.321.0
+            command: ["/home/runner/run.sh"]
+            env:
+              - name: ACTIONS_RUNNER_CONTAINER_HOOKS
+                value: /home/runner/k8s/index.js
+              - name: ACTIONS_RUNNER_POD_NAME
+                valueFrom:
+                  fieldRef:
+                    fieldPath: metadata.name
+              - name: ACTIONS_RUNNER_REQUIRE_JOB_CONTAINER
+                value: "false"
+            resources:
+              requests:
+                cpu: 100m
+                memory: 256Mi
+              limits:
+                memory: 1Gi
+        volumes:
+          - name: work
+            ephemeral:
+              volumeClaimTemplate:
+                spec:
+                  accessModes: ["ReadWriteOnce"]
+                  storageClassName: openebs-hostpath
+                  resources:
+                    requests:
+                      storage: 10Gi
+    controllerServiceAccount:
+      namespace: actions-runner-system
+      name: actions-runner-controller
