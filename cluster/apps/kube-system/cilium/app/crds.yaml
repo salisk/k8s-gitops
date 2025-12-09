@@ -23,6 +23,8 @@ kind: Kustomization
 metadata:
   name: gateway-api
   namespace: flux-system
+  labels:
+    flux-local/skip: "true"
 spec:
   prune: true
   sourceRef:

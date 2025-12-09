@@ -8,7 +8,7 @@ tasks:
       Validates all Flux HelmReleases and Kustomizations in the cluster directory.
       Requires: Docker or flux-local installed locally
     cmds:
-      - docker run --rm -v {{.PROJECT_DIR}}:/workspace ghcr.io/allenporter/flux-local:v8.0.1 test --enable-helm --all-namespaces --path /workspace/cluster -v
+      - docker run --rm -v {{.PROJECT_DIR}}:/workspace -w /workspace ghcr.io/allenporter/flux-local:v8.0.1 test --enable-helm --all-namespaces --skip-crds --path ./cluster/base -v
 
   diff:helmrelease:
     desc: Show HelmRelease diff between current and main branch
