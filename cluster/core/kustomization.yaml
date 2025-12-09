@@ -3,4 +3,5 @@ kind: Kustomization
 resources:
   - namespaces
   - longhorn-system
-  - openebs-system
+  - ./openebs-system/namespace.yaml
+  - ./openebs-system/ks.yaml

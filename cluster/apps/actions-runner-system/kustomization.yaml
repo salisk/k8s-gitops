@@ -1,8 +1,0 @@
----
-# yaml-language-server: $schema=https://kubernetes-schemas.ok8.sh/kustomize.config.k8s.io/kustomization_v1beta1.json
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-namespace: actions-runner-system
-resources:
-  - ./namespace.yaml
-  - ./actions-runner-controller/ks.yaml

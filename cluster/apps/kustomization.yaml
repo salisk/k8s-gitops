@@ -14,5 +14,6 @@ resources:
   - security
   - system
   - ./coder/ks.yaml
-  - actions-runner-system
+  - ./actions-runner-system/namespace.yaml
+  - ./actions-runner-system/actions-runner-controller/ks.yaml
   # - vault
