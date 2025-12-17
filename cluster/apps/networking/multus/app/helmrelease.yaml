@@ -46,12 +46,8 @@ spec:
             image:
               repository: ghcr.io/home-operations/cni-plugins
               tag: 1.9.0@sha256:cd462d8720f1d9867748f86f84d3b0898f935f882a5130ce47c2c037b1bd3471
-    defaultPodOptions:
-      hostNetwork: true
-      # tolerations:
-      #   - key: "node-role.kubernetes.io/control-plane"
-      #     operator: "Exists"
-      #     effect: "NoSchedule"
+        serviceAccount:
+          identifier: multus
     persistence:
       etc-cni-net-d:
         type: hostPath
@@ -63,3 +59,47 @@ spec:
         hostPath: /opt/cni/bin
         globalMounts:
           - path: /host/opt/cni/bin
+    rbac:
+      roles:
+        multus:
+          type: ClusterRole
+          rules:
+            - apiGroups:
+                - "k8s.cni.cncf.io"
+              resources:
+                - "*"
+              verbs:
+                - "*"
+            - apiGroups:
+                - ""
+              resources:
+                - "pods"
+                - "pods/status"
+              verbs:
+                - "get"
+                - "update"
+            - apiGroups:
+                - ""
+                - "events.k8s.io"
+              resources:
+                - "events"
+              verbs:
+                - "create"
+                - "patch"
+                - "update"
+      bindings:
+        multus:
+          type: ClusterRoleBinding
+          roleRef:
+            identifier: multus
+          subjects:
+            - identifier: multus
+    serviceAccount:
+      multus:
+        enabled: true
+    defaultPodOptions:
+      hostNetwork: true
+      # tolerations:
+      #   - key: "node-role.kubernetes.io/control-plane"
+      #     operator: "Exists"
+      #     effect: "NoSchedule"
