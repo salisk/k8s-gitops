@@ -18,27 +18,25 @@ spec:
   values:
     image:
       repository: ghcr.io/k8snetworkplumbingwg/multus-cni
-      tag: v4.0.2-thick
+      tag: v4.2.3
     args:
-      - -config=auto
+      - --cleanup-config-on-exit=true
 
     cni:
       image:
-        repository: ghcr.io/angelnu/cni-plugins
-        tag: 1.8.0
+        repository: ghcr.io/home-operations/cni-plugins
+        tag: "1.9.0"
 
       paths:
-        # config: /var/lib/rancher/k3s/agent/etc/cni/net.d
-        # bin: /var/lib/rancher/k3s/data/current/bin
         config: /etc/cni/net.d
         bin: /opt/cni/bin
 
     resources:
       requests:
-        cpu: 5m
-        memory: 96Mi
+        cpu: 10m
+        memory: 32Mi
       limits:
-        memory: 96Mi
+        memory: 256Mi
 
     hostPaths:
       netns: /var/run/netns
