@@ -32,7 +32,7 @@ spec:
           app:
             image:
               repository: ghcr.io/calibrain/calibre-web-automated-book-downloader-extbp
-              tag: v0.3.1@sha256:5031e0bf05cfb6853bfc33f88add105257db3b330f6070350003aec2291561c8
+              tag: v0.3.4@sha256:23600fa32fb5d1a46a8cce6a66109a6506e39745427bcdff9d61b107103a5994
             env:
               FLASK_PORT: &port 8084
               INGEST_DIR: /cwa-book-ingest
