@@ -24,6 +24,7 @@ spec:
   values:
     coder:
       image:
+        # renovate: datasource=docker depName=ghcr.io/coder/coder
         tag: v2.28.3
 
       initContainers:
