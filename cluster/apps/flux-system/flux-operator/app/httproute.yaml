@@ -9,7 +9,7 @@ spec:
   hostnames:
     - "flux-operator.${SECRET_DOMAIN}"
   parentRefs:
-    - name: external
+    - name: internal
       namespace: kube-system
   rules:
     - backendRefs:
