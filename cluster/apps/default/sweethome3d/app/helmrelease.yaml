@@ -30,7 +30,7 @@ spec:
         containers:
           app:
             image:
-              repository: harbor.salisk.com/library/sweethome3d-js
+              repository: harbor.${SECRET_DOMAIN}/library/sweethome3d-js
               tag: latest
             env:
               CATALINA_OPTS: "-Xms512m -Xmx2048m"
