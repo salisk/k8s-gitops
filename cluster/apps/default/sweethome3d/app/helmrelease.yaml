@@ -24,27 +24,25 @@ spec:
     controllers:
       sweethome3d:
         replicas: 1
-        strategy: Recreate
+        strategy: RollingUpdate
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
           app:
             image:
-              repository: harbor.${SECRET_DOMAIN}/library/sweethome3d-js
+              repository: harbor.${SECRET_DOMAIN}/library/sweethome3d-js-php
               tag: latest
-            env:
-              CATALINA_OPTS: "-Xms512m -Xmx2048m"
             probes:
               liveness: &probes
                 enabled: true
                 custom: true
                 spec:
                   httpGet:
-                    path: /SweetHome3DJS-7.5.2/
-                    port: &port 8080
-                  initialDelaySeconds: 90
+                    path: /
+                    port: &port 80
+                  initialDelaySeconds: 30
                   periodSeconds: 30
-                  timeoutSeconds: 10
+                  timeoutSeconds: 5
                   failureThreshold: 3
               readiness: *probes
               startup:
@@ -52,18 +50,18 @@ spec:
                 custom: true
                 spec:
                   httpGet:
-                    path: /SweetHome3DJS-7.5.2/
+                    path: /
                     port: *port
                   initialDelaySeconds: 0
                   periodSeconds: 10
-                  timeoutSeconds: 10
+                  timeoutSeconds: 5
                   failureThreshold: 30
             resources:
               requests:
-                cpu: 100m
-                memory: 768Mi
+                cpu: 50m
+                memory: 128Mi
               limits:
-                memory: 2560Mi
+                memory: 512Mi
     service:
       app:
         controller: sweethome3d
@@ -89,10 +87,5 @@ spec:
         enabled: true
         type: persistentVolumeClaim
         existingClaim: sweethome3d-data
-        advancedMounts:
-          sweethome3d:
-            app:
-              - path: /usr/local/tomcat/webapps/SweetHome3DJS-7.5.2/homes
-                subPath: homes
-              - path: /usr/local/tomcat/webapps/SweetHome3DJS-7.5.2/furniture
-                subPath: furniture
+        globalMounts:
+          - path: /var/www/html/data

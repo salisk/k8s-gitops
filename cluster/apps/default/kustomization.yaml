@@ -12,4 +12,3 @@ resources:
   - ./divedb/ks.yaml
   - ./manyfold/ks.yaml
   - ./sweethome3d/ks.yaml
-  - ./sweethome3d-php/ks.yaml

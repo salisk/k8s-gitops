@@ -22,7 +22,7 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      GATUS_PATH: /SweetHome3DJS-7.5.2/
+      GATUS_PATH: /
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings
