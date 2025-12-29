@@ -93,4 +93,7 @@ spec:
         size: 5Gi
         retain: true
         globalMounts:
-          - path: /usr/local/tomcat/data
+          - path: /usr/local/tomcat/webapps/SweetHome3DJS-7.5.2/homes
+            subPath: homes
+          - path: /usr/local/tomcat/webapps/SweetHome3DJS-7.5.2/furniture
+            subPath: furniture
