@@ -64,12 +64,47 @@ spec:
                 memory: 768Mi
               limits:
                 memory: 2560Mi
+          php:
+            image:
+              repository: harbor.${SECRET_DOMAIN}/library/sweethome3d-js-php
+              tag: latest
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: &phpPort 80
+                  initialDelaySeconds: 30
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: *phpPort
+                  initialDelaySeconds: 10
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+            resources:
+              requests:
+                cpu: 50m
+                memory: 128Mi
+              limits:
+                memory: 512Mi
     service:
       app:
         controller: sweethome3d
         ports:
           http:
             port: *port
+          php:
+            port: *phpPort
     route:
       app:
         annotations:
@@ -84,6 +119,21 @@ spec:
           - name: internal
             namespace: kube-system
             sectionName: https
+            port: 8080
+      php:
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Design
+          gethomepage.dev/name: Sweet Home 3D PHP
+          gethomepage.dev/description: 3D Interior Design API
+          gethomepage.dev/icon: mdi-floor-plan
+        hostnames:
+          - "home3d-php.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
+            port: 80
     persistence:
       data:
         enabled: true
@@ -92,8 +142,13 @@ spec:
         accessMode: ReadWriteOnce
         size: 5Gi
         retain: true
-        globalMounts:
-          - path: /usr/local/tomcat/webapps/SweetHome3DJS-7.5.2/homes
-            subPath: homes
-          - path: /usr/local/tomcat/webapps/SweetHome3DJS-7.5.2/furniture
-            subPath: furniture
+        advancedMounts:
+          sweethome3d:
+            app:
+              - path: /usr/local/tomcat/webapps/SweetHome3DJS-7.5.2/homes
+                subPath: homes
+              - path: /usr/local/tomcat/webapps/SweetHome3DJS-7.5.2/furniture
+                subPath: furniture
+            php:
+              - path: /var/www/html/homes
+                subPath: homes
