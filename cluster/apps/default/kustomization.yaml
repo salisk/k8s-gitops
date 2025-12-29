@@ -11,3 +11,4 @@ resources:
   - ./flaresolverr/ks.yaml
   - ./divedb/ks.yaml
   - ./manyfold/ks.yaml
+  - ./sweethome3d/ks.yaml
