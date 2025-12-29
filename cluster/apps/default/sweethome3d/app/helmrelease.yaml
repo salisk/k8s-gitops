@@ -27,25 +27,6 @@ spec:
         strategy: Recreate
         annotations:
           reloader.stakater.com/auto: "true"
-        initContainers:
-          init-data:
-            image:
-              repository: busybox
-              tag: latest
-            command:
-              - /bin/sh
-              - -c
-              - |
-                # Create directories if they don't exist in PVC
-                if [ ! -d /mnt/data/homes ]; then
-                  echo "Creating homes directory..."
-                  mkdir -p /mnt/data/homes
-                fi
-                if [ ! -d /mnt/data/furniture ]; then
-                  echo "Creating furniture directory..."
-                  mkdir -p /mnt/data/furniture
-                fi
-                echo "Initialization complete"
         containers:
           app:
             image:
@@ -110,8 +91,6 @@ spec:
         existingClaim: sweethome3d-data
         advancedMounts:
           sweethome3d:
-            init-data:
-              - path: /mnt/data
             app:
               - path: /usr/local/tomcat/webapps/SweetHome3DJS-7.5.2/homes
                 subPath: homes
