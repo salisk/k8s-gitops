@@ -10,8 +10,6 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  dependsOn:
-    - name: cluster-apps-sweethome3d
   path: ./cluster/apps/default/sweethome3d-php/app
   prune: true
   sourceRef:
