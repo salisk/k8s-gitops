@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app sweethome3d
+  name: &app sweethome3d-php
 spec:
   interval: 30m
   chartRef:
@@ -22,48 +22,27 @@ spec:
     keepHistory: false
   values:
     controllers:
-      sweethome3d:
+      sweethome3d-php:
         replicas: 1
-        strategy: Recreate
+        strategy: RollingUpdate
         annotations:
           reloader.stakater.com/auto: "true"
-        initContainers:
-          init-data:
-            image:
-              repository: busybox
-              tag: latest
-            command:
-              - /bin/sh
-              - -c
-              - |
-                # Create directories if they don't exist in PVC
-                if [ ! -d /mnt/data/homes ]; then
-                  echo "Creating homes directory..."
-                  mkdir -p /mnt/data/homes
-                fi
-                if [ ! -d /mnt/data/furniture ]; then
-                  echo "Creating furniture directory..."
-                  mkdir -p /mnt/data/furniture
-                fi
-                echo "Initialization complete"
         containers:
           app:
             image:
-              repository: harbor.${SECRET_DOMAIN}/library/sweethome3d-js
+              repository: harbor.${SECRET_DOMAIN}/library/sweethome3d-js-php
               tag: latest
-            env:
-              CATALINA_OPTS: "-Xms512m -Xmx2048m"
             probes:
               liveness: &probes
                 enabled: true
                 custom: true
                 spec:
                   httpGet:
-                    path: /SweetHome3DJS-7.5.2/
-                    port: &port 8080
-                  initialDelaySeconds: 90
+                    path: /
+                    port: &port 80
+                  initialDelaySeconds: 30
                   periodSeconds: 30
-                  timeoutSeconds: 10
+                  timeoutSeconds: 5
                   failureThreshold: 3
               readiness: *probes
               startup:
@@ -71,21 +50,21 @@ spec:
                 custom: true
                 spec:
                   httpGet:
-                    path: /SweetHome3DJS-7.5.2/
+                    path: /
                     port: *port
                   initialDelaySeconds: 0
                   periodSeconds: 10
-                  timeoutSeconds: 10
+                  timeoutSeconds: 5
                   failureThreshold: 30
             resources:
               requests:
-                cpu: 100m
-                memory: 768Mi
+                cpu: 50m
+                memory: 128Mi
               limits:
-                memory: 2560Mi
+                memory: 512Mi
     service:
       app:
-        controller: sweethome3d
+        controller: sweethome3d-php
         ports:
           http:
             port: *port
@@ -94,11 +73,11 @@ spec:
         annotations:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Design
-          gethomepage.dev/name: Sweet Home 3D
-          gethomepage.dev/description: 3D Interior Design
+          gethomepage.dev/name: Sweet Home 3D PHP
+          gethomepage.dev/description: 3D Interior Design API
           gethomepage.dev/icon: mdi-floor-plan
         hostnames:
-          - "home3d.${SECRET_DOMAIN}"
+          - "home3d-php.${SECRET_DOMAIN}"
         parentRefs:
           - name: internal
             namespace: kube-system
@@ -108,12 +87,6 @@ spec:
         enabled: true
         type: persistentVolumeClaim
         existingClaim: sweethome3d-data
-        advancedMounts:
-          sweethome3d:
-            init-data:
-              - path: /mnt/data
-            app:
-              - path: /usr/local/tomcat/webapps/SweetHome3DJS-7.5.2/homes
-                subPath: homes
-              - path: /usr/local/tomcat/webapps/SweetHome3DJS-7.5.2/furniture
-                subPath: furniture
+        globalMounts:
+          - path: /var/www/html/homes
+            subPath: homes
