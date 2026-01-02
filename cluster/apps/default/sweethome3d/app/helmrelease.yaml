@@ -34,6 +34,7 @@ spec:
               tag: latest
             env:
               CATALINA_OPTS: "-Xms512m -Xmx2048m"
+              HOMES_DIR: "/data/homes"
             probes:
               liveness: &probes
                 enabled: true
@@ -90,4 +91,4 @@ spec:
         type: persistentVolumeClaim
         existingClaim: sweethome3d-data
         globalMounts:
-          - path: /data
+          - path: /data/homes
