@@ -24,14 +24,16 @@ spec:
     controllers:
       sweethome3d:
         replicas: 1
-        strategy: RollingUpdate
+        strategy: Recreate
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
           app:
             image:
-              repository: harbor.${SECRET_DOMAIN}/library/sweethome3d-js-php
+              repository: harbor.${SECRET_DOMAIN}/library/sweethome3d-js
               tag: latest
+            env:
+              CATALINA_OPTS: "-Xms512m -Xmx2048m"
             probes:
               liveness: &probes
                 enabled: true
@@ -39,10 +41,10 @@ spec:
                 spec:
                   httpGet:
                     path: /
-                    port: &port 80
-                  initialDelaySeconds: 30
+                    port: &port 8080
+                  initialDelaySeconds: 90
                   periodSeconds: 30
-                  timeoutSeconds: 5
+                  timeoutSeconds: 10
                   failureThreshold: 3
               readiness: *probes
               startup:
@@ -54,14 +56,14 @@ spec:
                     port: *port
                   initialDelaySeconds: 0
                   periodSeconds: 10
-                  timeoutSeconds: 5
+                  timeoutSeconds: 10
                   failureThreshold: 30
             resources:
               requests:
-                cpu: 50m
-                memory: 128Mi
+                cpu: 100m
+                memory: 768Mi
               limits:
-                memory: 512Mi
+                memory: 2560Mi
     service:
       app:
         controller: sweethome3d
@@ -88,4 +90,4 @@ spec:
         type: persistentVolumeClaim
         existingClaim: sweethome3d-data
         globalMounts:
-          - path: /var/www/html/data
+          - path: /data
