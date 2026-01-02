@@ -54,7 +54,7 @@ spec:
               OC_OIDC_ISSUER: https://sso.${SECRET_DOMAIN}/application/o/opencloud/
               WEB_OPTION_ACCOUNT_EDIT_LINK_HREF: "https://sso.${SECRET_DOMAIN}/ui/profile"
               WEB_OIDC_CLIENT_ID: *app
-              WEB_OIDC_SCOPE: "openid profile email"
+              WEB_OIDC_SCOPE: "openid profile email groups"
 
               OC_ADMIN_USER_ID: ""
               SETTINGS_SETUP_DEFAULT_ASSIGNMENTS: "false"
