@@ -51,7 +51,7 @@ spec:
               GATEWAY_GRPC_ADDR: 0.0.0.0:9142
               OC_ENABLE_OCM: false
 
-              OC_OIDC_ISSUER: https://sso.${SECRET_DOMAIN}/oauth2/openid/${APP}
+              OC_OIDC_ISSUER: https://sso.${SECRET_DOMAIN}/application/o/opencloud/
               WEB_OPTION_ACCOUNT_EDIT_LINK_HREF: "https://sso.${SECRET_DOMAIN}/ui/profile"
               WEB_OIDC_CLIENT_ID: *app
               WEB_OIDC_SCOPE: "openid profile email"
