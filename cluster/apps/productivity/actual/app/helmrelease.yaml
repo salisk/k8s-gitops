@@ -66,7 +66,7 @@ spec:
           main:
             image:
               repository: ghcr.io/mattfaz/actualtap
-              tag: v1.0.21
+              tag: v1.0.23
             env:
               TZ: ${TIMEZONE}
               API_KEY: ${ACTUALTAP_RED_API_KEY}
@@ -112,7 +112,7 @@ spec:
           main:
             image:
               repository: ghcr.io/mattfaz/actualtap
-              tag: v1.0.21
+              tag: v1.0.23
             env:
               TZ: ${TIMEZONE}
               API_KEY: ${ACTUALTAP_BLUE_API_KEY}
