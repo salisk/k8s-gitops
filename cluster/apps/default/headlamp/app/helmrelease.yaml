@@ -38,7 +38,7 @@ spec:
         clientID: ${HEADLAMP_OAUTH_CLIENT_ID}
         clientSecret: ${HEADLAMP_OAUTH_CLIENT_SECRET}
         issuerURL: https://sso.${SECRET_DOMAIN}/application/o/headlamp/
-        scopes: "openid profile email"
+        scopes: "openid profile email offline_access"
     volumeMounts:
       - mountPath: /build/plugins
         name: headlamp-plugins
