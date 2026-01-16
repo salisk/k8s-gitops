@@ -47,4 +47,8 @@ k3s_server:
   etcd-expose-metrics: true
   # Required for HAProxy health-checks
   kube-apiserver-arg:
-    - "anonymous-auth=true"
+    - anonymous-auth=true
+    - "oidc-issuer-url=https://sso.${SECRET_DOMAIN}/application/o/headlamp/"
+    - "oidc-client-id=test"
+    - "oidc-username-claim=email"
+    - "oidc-groups-claim=groups"
