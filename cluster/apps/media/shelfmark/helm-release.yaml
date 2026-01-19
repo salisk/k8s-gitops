@@ -3,12 +3,12 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app calibre-downloader
+  name: &app shelfmark
 spec:
   interval: 1h
   chartRef:
     kind: OCIRepository
-    name: calibre-downloader
+    name: shelfmark
   install:
     remediation:
       retries: 3
@@ -27,12 +27,12 @@ spec:
         runAsNonRoot: false
         seccompProfile: { type: RuntimeDefault }
     controllers:
-      calibre-downloader:
+      shelfmark:
         containers:
           app:
             image:
-              repository: ghcr.io/calibrain/calibre-web-automated-book-downloader-extbp
-              tag: v1.0.1@sha256:6a7a6415826b0378d5a338c6b0a5f688711861309a494a18386f2f7e3c48c3db
+              repository: ghcr.io/calibrain/shelfmark
+              tag: v1.0.1
             env:
               FLASK_PORT: &port 8084
               INGEST_DIR: /cwa-book-ingest
@@ -42,11 +42,6 @@ spec:
               LOG_LEVEL: debug
               # Use flaresolverr instead of integrated chromium
               EXT_BYPASSER_URL: http://flaresolverr.default:8191
-            command:
-              - /bin/sh
-              - -c
-              - |
-                gunicorn -t 300 -b 0.0.0.0:8084 app:app
             probes:
               liveness: &probes
                 enabled: true

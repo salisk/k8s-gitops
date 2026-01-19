@@ -19,7 +19,8 @@ resources:
   - ./recyclarr/ks.yaml
   - ./prowlarr/ks.yaml
   - ./pinchflat/ks.yaml
-  - ./calibre/ks.yaml
+  - ./calibre-web-automated/ks.yaml
+  - ./shelfmark/ks.yaml
   - ./slskd/ks.yaml
   - ./soulsync/ks.yaml
   - ./audiobookshelf/ks.yaml
