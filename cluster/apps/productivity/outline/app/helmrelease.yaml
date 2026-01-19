@@ -44,7 +44,7 @@ spec:
               tag: 1.3.0
             command: ["/bin/sh", "-c"]
             args:
-              - yarn db:migrate --env=production-ssl-disabled && yarn start --env=production-ssl-disabled
+              - corepack enable && yarn db:migrate --env=production-ssl-disabled && yarn start --env=production-ssl-disabled
             env:
               TZ: "${TIMEZONE}"
               # Basic Configuration
