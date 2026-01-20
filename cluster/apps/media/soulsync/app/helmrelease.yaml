@@ -37,7 +37,7 @@ spec:
               UMASK: "022"
               FLASK_ENV: production
               PYTHONPATH: /app
-              SOULSYNC_CONFIG_PATH: /config/config.json
+              SOULSYNC_CONFIG_PATH: /app/config/config.json
             probes:
               liveness: &probes
                 enabled: true
@@ -83,24 +83,23 @@ spec:
         enabled: true
         existingClaim: soulsync-config
         globalMounts:
-          - path: /config/config.json
-            subPath: config/config.json
-          - path: /app/database/music_library.db
-            subPath: database/music_library.db
+          - path: /app/config
+            subPath: config
+          - path: /app/logs
+            subPath: logs
+          - path: /app/downloads
+            subPath: downloads
+          - path: /app/data
+            subPath: data
       music-library:
         enabled: true
         existingClaim: nfs-media-pvc-v2
         globalMounts:
-          - path: /app/downloads
-            subPath: downloads/soulseek
-          - path: /app/Transfers
+          - path: /host/mnt/media
             subPath: downloads/soulseek-transfers
       tmpfs:
         type: emptyDir
         advancedMounts:
           soulsync:
             app:
-              - path: /config/log
-                subPath: log
               - path: /tmp
-                subPath: tmp
