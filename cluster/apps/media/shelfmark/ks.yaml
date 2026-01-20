@@ -10,7 +10,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./cluster/apps/media/shelfmark
+  path: ./cluster/apps/media/shelfmark/app
   prune: true
   sourceRef:
     kind: GitRepository
