@@ -10,7 +10,8 @@
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
       },
-      "separateMinorPatch": true
+      "separateMinorPatch": true,
+      "minimumGroupSize": 2
     },
     {
       "description": "System Upgrade Controller Group",
@@ -20,7 +21,19 @@
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
       },
-      "separateMinorPatch": true
+      "separateMinorPatch": true,
+      "minimumGroupSize": 2
+    },
+    {
+      "description": "Cilium Group",
+      "groupName": "Cilium",
+      "matchPackagePatterns": ["cilium"],
+      "matchDatasources": ["docker", "helm"],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
+      "separateMinorPatch": true,
+      "minimumGroupSize": 2
     }
   ]
 }

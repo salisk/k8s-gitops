@@ -45,6 +45,17 @@
       ],
       "datasourceTemplate": "custom.grafana-dashboards",
       "versioningTemplate": "regex:^(?<major>\\d+)$"
+    },
+    {
+      "customType": "regex",
+      "description": "Process OCI dependencies",
+      "fileMatch": [
+        "(^|/)cluster/.+\\.ya?ml(\\.j2)?$"
+      ],
+      "matchStrings": [
+        "\"oci://(?<depName>[^\"]+):(?<currentValue>[^\"]+)\""
+      ],
+      "datasourceTemplate": "docker"
     }
   ]
 }
