@@ -7,14 +7,10 @@ metadata:
   namespace: monitoring
 spec:
   interval: 30m
-  chart:
-    spec:
-      chart: promtail
-      version: 6.17.1
-      sourceRef:
-        kind: HelmRepository
-        name: grafana-charts
-        namespace: flux-system
+  chartRef:
+    kind: OCIRepository
+    name: promtail
+    namespace: flux-system
   install:
     remediation:
       retries: 3

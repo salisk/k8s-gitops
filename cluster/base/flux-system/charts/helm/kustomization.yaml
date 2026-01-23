@@ -1,26 +1,19 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - authentik-charts.yaml
-  - bitnami-charts.yaml
   - bjw-s.yaml
   - bjw-s-labs.yaml
   - deliveryhero-charts.yaml
-  - descheduler-charts.yaml
   - external-dns-charts.yaml
-  - grafana-charts.yaml
   - hajimari-charts.yaml
   - infracloudio-charts.yaml
-  - ./ingress-nginx.yaml
   - jetstack-charts.yaml
   - k8s-gateway.yaml
-  - kubernetes-dashboard.yaml
   - metallb.yaml
   - metrics-server-charts.yaml
   - minecraft-server-charts.yaml
   - minio-charts.yaml
   - nfs-subdir-external-provisioner-charts.yaml
-  - prometheus-community-charts.yaml
   - rook-ceph-charts.yaml
   - stakater-charts.yaml
   - traefik-charts.yaml
@@ -32,11 +25,8 @@ resources:
   - nextcloud-charts.yaml
   - hashicorp-charts.yaml
   - coredns.yaml
-  - cloudnative-pg.yaml
   - piped.yaml
   - intel.yaml
-  - node-feature-discovery.yaml
   - jameswynn.yaml
   - angelnu.yaml
-  - harbor.yaml
   - indeed-eng.yaml

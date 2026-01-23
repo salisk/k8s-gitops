@@ -6,15 +6,10 @@ metadata:
   name: authentik
 spec:
   interval: 30m
-  chart:
-    spec:
-      chart: authentik
-      version: 2025.12.1
-      sourceRef:
-        kind: HelmRepository
-        name: authentik-charts
-        namespace: flux-system
-      interval: 5m
+  chartRef:
+    kind: OCIRepository
+    name: authentik
+    namespace: flux-system
   values:
     global:
       podAnnotations:
