@@ -29,10 +29,12 @@
       customType: "regex",
       description: "Process CloudnativePG Postgresql version",
       managerFilePatterns: [
-        "/\\.yaml(?:\\.j2)?$/",
+        "/cluster\\.yaml$/",
+        "/cluster\\d+\\.yaml$/",
       ],
       matchStrings: [
-        "imageName: (?<depName>\\S+):(?<currentValue>.*\\-.*)",
+        "imageName: (?<depName>ghcr\\.io/cloudnative-pg/postgresql):(?<currentValue>.+)",
+        "imageName: (?<depName>ghcr\\.io/tensorchord/cloudnative-vectorchord):(?<currentValue>.+)",
       ],
       datasourceTemplate: "docker",
       versioningTemplate: "redhat",
