@@ -13,7 +13,6 @@ resources:
   - infracloudio-charts.yaml
   - ./ingress-nginx.yaml
   - jetstack-charts.yaml
-  - k8s-at-home-charts.yaml
   - k8s-gateway.yaml
   - kubernetes-dashboard.yaml
   - metallb.yaml
@@ -32,7 +31,6 @@ resources:
   - influxdata-charts.yaml
   - nextcloud-charts.yaml
   - hashicorp-charts.yaml
-  - cilium.yaml
   - coredns.yaml
   - cloudnative-pg.yaml
   - piped.yaml
