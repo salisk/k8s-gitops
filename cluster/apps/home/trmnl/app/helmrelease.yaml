@@ -53,7 +53,7 @@ spec:
                 custom: true
                 spec:
                   httpGet:
-                    path: /
+                    path: /up
                     port: &port 2300
                   initialDelaySeconds: 30
                   periodSeconds: 10
@@ -64,7 +64,7 @@ spec:
                 enabled: true
                 spec:
                   httpGet:
-                    path: /
+                    path: /up
                     port: *port
                   failureThreshold: 30
                   periodSeconds: 10
