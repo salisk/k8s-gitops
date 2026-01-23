@@ -32,8 +32,8 @@
       description: "Auto-merge trusted GitHub Actions",
       matchManagers: ["github-actions"],
       matchPackageNames: [
-        "/^actions\//",
-        "/^renovatebot\//",
+        "/^actions\\//",
+        "/^renovatebot\\//",
       ],
       automerge: true,
       automergeType: "branch",

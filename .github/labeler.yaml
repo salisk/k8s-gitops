@@ -2,19 +2,27 @@
 area/ansible:
   - changed-files:
       - any-glob-to-any-file: ansible/**/*
+
 area/github:
   - changed-files:
       - any-glob-to-any-file: .github/**/*
-area/cluster:
+
+area/kubernetes:
   - changed-files:
       - any-glob-to-any-file: cluster/**/*
+
+area/renovate:
+  - changed-files:
+      - any-glob-to-any-file:
+          - .renovate/**/*
+          - .renovaterc.json5
+
 area/taskfile:
   - changed-files:
-      - any-glob-to-any-file: .taskfiles/**/*
-      - any-glob-to-any-file: Taskfile*
+      - any-glob-to-any-file:
+          - .taskfiles/**/*
+          - Taskfile*
+
 area/terraform:
   - changed-files:
       - any-glob-to-any-file: terraform/**/*
-cluster/apps:
-  - changed-files:
-      - any-glob-to-any-file: cluster/apps/**/*

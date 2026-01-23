@@ -1,0 +1,45 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  packageRules: [
+    {
+      description: "Flux Group",
+      groupName: "flux",
+      matchPackageNames: ["/fluxcd/"],
+      matchDatasources: ["docker", "github-tags"],
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
+      minimumGroupSize: 2,
+    },
+    {
+      description: "Cilium Group",
+      groupName: "cilium",
+      matchPackageNames: ["/cilium/"],
+      matchDatasources: ["docker", "helm"],
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
+      minimumGroupSize: 2,
+    },
+    {
+      description: "Intel Device Plugins Group",
+      groupName: "intel-device-plugins",
+      matchPackageNames: ["/intel-device-plugins-operator/", "/intel-device-plugins-gpu/"],
+      matchDatasources: ["docker", "helm"],
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
+      minimumGroupSize: 2,
+    },
+    {
+      description: "Actions Runner Controller Group",
+      groupName: "actions-runner-controller",
+      matchPackageNames: ["/gha-runner-scale-set-controller/", "/gha-runner-scale-set/"],
+      matchDatasources: ["docker"],
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
+      minimumGroupSize: 2,
+    },
+  ],
+}
