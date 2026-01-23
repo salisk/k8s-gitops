@@ -9,6 +9,7 @@ spec:
   interval: 1h
   chart:
     spec:
+      # renovate: registryUrl=https://helm.cilium.io
       chart: cilium
       version: 1.18.0
       sourceRef:
