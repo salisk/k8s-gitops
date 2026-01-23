@@ -1,0 +1,36 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  extends: [
+    "config:recommended",
+    "docker:enableMajor",
+    "helpers:pinGitHubActionDigests",
+    "github>salisk/k8s-gitops//.renovate/autoMerge.json5",
+    "github>salisk/k8s-gitops//.renovate/customManagers.json5",
+    "github>salisk/k8s-gitops//.renovate/grafanaDashboards.json5",
+    "github>salisk/k8s-gitops//.renovate/groups.json5",
+    "github>salisk/k8s-gitops//.renovate/labels.json5",
+    "github>salisk/k8s-gitops//.renovate/packageRules.json5",
+    "github>salisk/k8s-gitops//.renovate/semanticCommits.json5",
+    ":automergeBranch",
+    ":disableRateLimiting",
+    ":dependencyDashboard",
+    ":semanticCommits",
+  ],
+  dependencyDashboardTitle: "Renovate Dashboard 🤖",
+  suppressNotifications: [
+    "prEditedNotification",
+    "prIgnoreNotification",
+  ],
+  ignorePaths: [
+    "**/.archive/**",
+  ],
+  flux: {
+    managerFilePatterns: ["/\\.yaml(?:\\.j2)?$/"],
+  },
+  "helm-values": {
+    managerFilePatterns: ["/\\.yaml(?:\\.j2)?$/"],
+  },
+  kubernetes: {
+    managerFilePatterns: ["/\\.yaml(?:\\.j2)?$/"],
+  },
+}
