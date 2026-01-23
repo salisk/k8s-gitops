@@ -9,10 +9,14 @@ spec:
     mode: enabled
   interval: 30m
   timeout: 15m
-  chartRef:
-    kind: OCIRepository
-    name: harbor
-    namespace: flux-system
+  chart:
+    spec:
+      chart: harbor
+      version: 1.18.1
+      sourceRef:
+        kind: HelmRepository
+        name: harbor-charts
+        namespace: flux-system
   install:
     remediation:
       retries: 3

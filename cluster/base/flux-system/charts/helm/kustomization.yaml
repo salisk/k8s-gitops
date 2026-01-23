@@ -30,3 +30,7 @@ resources:
   - jameswynn.yaml
   - angelnu.yaml
   - indeed-eng.yaml
+  - authentik-charts.yaml
+  - harbor-charts.yaml
+  - ingress-nginx-charts.yaml
+  - kubernetes-dashboard-charts.yaml
