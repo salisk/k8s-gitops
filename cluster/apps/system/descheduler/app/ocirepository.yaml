@@ -12,4 +12,4 @@ spec:
     operation: copy
   ref:
     tag: 0.34.0
-  url: oci://registry.k8s.io/descheduler/helm-chart/descheduler
+  url: oci://ghcr.io/home-operations/charts-mirror/descheduler
