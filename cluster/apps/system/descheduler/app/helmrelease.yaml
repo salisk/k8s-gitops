@@ -9,7 +9,6 @@ spec:
   chartRef:
     kind: OCIRepository
     name: descheduler
-    namespace: flux-system
   maxHistory: 2
   install:
     remediation:

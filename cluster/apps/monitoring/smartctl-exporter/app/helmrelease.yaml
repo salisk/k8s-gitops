@@ -10,7 +10,6 @@ spec:
   chartRef:
     kind: OCIRepository
     name: prometheus-smartctl-exporter
-    namespace: flux-system
   maxHistory: 2
   install:
     remediation:

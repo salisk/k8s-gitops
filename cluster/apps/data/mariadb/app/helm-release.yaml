@@ -9,7 +9,6 @@ spec:
   chartRef:
     kind: OCIRepository
     name: mariadb
-    namespace: flux-system
   maxHistory: 3
   install:
     remediation:
