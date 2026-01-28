@@ -59,6 +59,7 @@ spec:
               HBOX_OIDC_AUTO_REDIRECT: "true"
               HBOX_OPTIONS_ALLOW_REGISTRATION: "false"
               HBOX_OPTIONS_ALLOW_LOCAL_LOGIN: "false"
+              HBOX_OPTIONS_TRUST_PROXY: "true"
             envFrom: *envFrom
             probes:
               liveness: &probes
