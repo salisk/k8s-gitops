@@ -3,7 +3,6 @@ kind: Kustomization
 resources:
   # - ./thanos/ks.yaml
   - speedtest-exporter
-  - ./kubernetes-dashboard/ks.yaml
   # - ./goldilocks/ks.yaml
   # - ./vpa/ks.yaml
   - ./smartctl-exporter/ks.yaml

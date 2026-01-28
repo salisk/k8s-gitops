@@ -33,4 +33,3 @@ resources:
   - authentik-charts.yaml
   - harbor-charts.yaml
   - ingress-nginx-charts.yaml
-  - kubernetes-dashboard-charts.yaml
