@@ -9,3 +9,4 @@ resources:
   - ./zigbee2mqtt/ks.yaml
   - ./n8n/ks.yaml
   - ./trmnl/ks.yaml
+  - ./homebox/ks.yaml
