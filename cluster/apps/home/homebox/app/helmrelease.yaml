@@ -54,7 +54,7 @@ spec:
               HBOX_DATABASE_SSL_MODE: disable
               # OIDC
               HBOX_OIDC_ENABLED: "true"
-              HBOX_OIDC_ISSUER_URL: https://sso.${SECRET_DOMAIN}/application/o/homebox
+              HBOX_OIDC_ISSUER_URL: https://sso.${SECRET_DOMAIN}/application/o/homebox/
               HBOX_OIDC_SCOPE: "openid profile email"
               HBOX_OIDC_AUTO_REDIRECT: "true"
               HBOX_OPTIONS_ALLOW_REGISTRATION: "false"
