@@ -46,6 +46,7 @@ spec:
               TZ: ${TIMEZONE}
               API_URI: https://trmnl.${SECRET_DOMAIN}
               HANAMI_PORT: 2300
+              APP_SETUP: "true"
             envFrom: *envFrom
             probes:
               liveness: &probes
