@@ -195,6 +195,122 @@ spec:
     #         targetLabel: kubernetes_node
     kube-state-metrics:
       fullnameOverride: kube-state-metrics
+      rbac:
+        extraRules:
+          - apiGroups:
+              - helm.toolkit.fluxcd.io
+              - source.toolkit.fluxcd.io
+              - kustomize.toolkit.fluxcd.io
+              - notification.toolkit.fluxcd.io
+              - image.toolkit.fluxcd.io
+            resources:
+              - helmreleases
+              - gitrepositories
+              - kustomizations
+              - helmrepositories
+              - helmcharts
+              - ocirepositories
+              - buckets
+              - receivers
+              - alerts
+              - providers
+              - imagerepositories
+              - imagepolicies
+              - imageupdateautomations
+            verbs:
+              - "list"
+              - "watch"
+      customResourceState:
+        enabled: true
+        config:
+          spec:
+            resources:
+              - groupVersionKind:
+                  group: helm.toolkit.fluxcd.io
+                  version: v2
+                  kind: HelmRelease
+                metricNamePrefix: gotk
+                metrics:
+                  - name: "resource_info"
+                    help: "The current state of a Flux HelmRelease resource."
+                    each:
+                      type: Info
+                      info:
+                        labelsFromPath:
+                          name:
+                            - metadata
+                            - name
+                    labelsFromPath:
+                      exported_namespace:
+                        - metadata
+                        - namespace
+                      ready:
+                        - status
+                        - conditions
+                        - "[type=Ready]"
+                        - status
+                      suspended:
+                        - spec
+                        - suspend
+                      revision:
+                        - status
+                        - history
+                        - "0"
+                        - chartVersion
+                      chart_name:
+                        - status
+                        - history
+                        - "0"
+                        - chartName
+                      chart_app_version:
+                        - status
+                        - history
+                        - "0"
+                        - appVersion
+                      chart_ref_name:
+                        - spec
+                        - chartRef
+                        - name
+                      chart_source_name:
+                        - spec
+                        - chart
+                        - spec
+                        - sourceRef
+                        - name
+              - groupVersionKind:
+                  group: kustomize.toolkit.fluxcd.io
+                  version: v1
+                  kind: Kustomization
+                metricNamePrefix: gotk
+                metrics:
+                  - name: "resource_info"
+                    help: "The current state of a Flux Kustomization resource."
+                    each:
+                      type: Info
+                      info:
+                        labelsFromPath:
+                          name:
+                            - metadata
+                            - name
+                    labelsFromPath:
+                      exported_namespace:
+                        - metadata
+                        - namespace
+                      ready:
+                        - status
+                        - conditions
+                        - "[type=Ready]"
+                        - status
+                      suspended:
+                        - spec
+                        - suspend
+                      revision:
+                        - status
+                        - lastAppliedRevision
+                      source_name:
+                        - spec
+                        - sourceRef
+                        - name
       metricLabelsAllowlist:
         - pods=[*]
         - deployments=[*]
@@ -222,6 +338,32 @@ spec:
                 expr: count(time() - container_last_seen{image=~"(docker.io).*",container!=""} < 30) > 100
                 labels:
                   severity: critical
+      flux-rules:
+        groups:
+          - name: flux
+            rules:
+              - alert: HelmReleaseReconciliationFailure
+                expr: |
+                  gotk_resource_info{customresource_kind="HelmRelease", ready!="True"} == 1
+                for: 5m
+                labels:
+                  severity: critical
+                annotations:
+                  summary: "HelmRelease {{ $labels.name }} in {{ $labels.exported_namespace }} is not ready"
+                  description: >-
+                    HelmRelease {{ $labels.name }} in namespace {{ $labels.exported_namespace }}
+                    has not been ready for more than 5 minutes.
+              - alert: KustomizationReconciliationFailure
+                expr: |
+                  gotk_resource_info{customresource_kind="Kustomization", ready!="True"} == 1
+                for: 5m
+                labels:
+                  severity: critical
+                annotations:
+                  summary: "Kustomization {{ $labels.name }} in {{ $labels.exported_namespace }} is not ready"
+                  description: >-
+                    Kustomization {{ $labels.name }} in namespace {{ $labels.exported_namespace }}
+                    has not been ready for more than 5 minutes.
       oom-rules:
         groups:
           - name: oom
