@@ -18,7 +18,7 @@ spec:
   values:
     image:
       repository: nextcloud
-      tag: 32.0.5
+      tag: 32.0.6
     persistence:
       enabled: true
       existingClaim: nextcloud-config-v1
