@@ -32,4 +32,3 @@ resources:
   - indeed-eng.yaml
   - authentik-charts.yaml
   - harbor-charts.yaml
-  - ingress-nginx-charts.yaml
