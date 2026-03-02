@@ -3,7 +3,7 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: postgres-postgis
+  name: postgis
   namespace: data
 spec:
   instances: 3
@@ -35,7 +35,7 @@ spec:
         maxParallel: 8
       destinationPath: s3://postgresql/
       endpointURL: http://minio.default:9000
-      serverName: postgres-postgis-v1
+      serverName: postgis-v1
       s3Credentials:
         accessKeyId:
           name: cloudnative-pg-secret
