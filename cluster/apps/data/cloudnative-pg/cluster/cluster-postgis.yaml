@@ -6,7 +6,7 @@ metadata:
   name: postgres-postgis
   namespace: data
 spec:
-  instances: 1
+  instances: 3
   imageName: ghcr.io/cloudnative-pg/postgis:18-3.6-system-trixie
   enableSuperuserAccess: true
   inheritedMetadata:
