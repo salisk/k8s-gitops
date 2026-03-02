@@ -42,6 +42,8 @@ spec:
               FRONTEND_URL: "https://adventure.${SECRET_DOMAIN}"
               CSRF_TRUSTED_ORIGINS: "https://adventure.${SECRET_DOMAIN},https://adventure-backend.${SECRET_DOMAIN}"
               DEBUG: "false"
+              FORCE_SOCIALACCOUNT_LOGIN: "true"
+              SOCIALACCOUNT_ALLOW_SIGNUP: "true"
             envFrom: *envFrom
             probes:
               liveness: &probes
