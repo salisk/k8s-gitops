@@ -12,3 +12,4 @@ resources:
   - ./divedb/ks.yaml
   - ./manyfold/ks.yaml
   - ./sweethome3d/ks.yaml
+  - ./adventurelog/ks.yaml

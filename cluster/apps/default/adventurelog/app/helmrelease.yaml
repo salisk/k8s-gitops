@@ -1,0 +1,134 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app adventurelog
+spec:
+  interval: 30m
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    controllers:
+      backend:
+        annotations:
+          reloader.stakater.com/auto: "true"
+
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/home-operations/postgres-init
+              tag: 18
+            envFrom: &envFrom
+              - secretRef:
+                  name: adventurelog-secret
+
+        containers:
+          app:
+            image:
+              repository: ghcr.io/seanmorley15/adventurelog-backend
+              tag: v0.12.1
+            env:
+              PUBLIC_URL: "https://adventure-backend.${SECRET_DOMAIN}"
+              FRONTEND_URL: "https://adventure.${SECRET_DOMAIN}"
+              CSRF_TRUSTED_ORIGINS: "https://adventure.${SECRET_DOMAIN},https://adventure-backend.${SECRET_DOMAIN}"
+              DEBUG: "false"
+            envFrom: *envFrom
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: &backendPort 8000
+                  initialDelaySeconds: 30
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              readiness: *probes
+            resources:
+              requests:
+                cpu: 10m
+                memory: 256Mi
+              limits:
+                memory: 512Mi
+
+      frontend:
+        annotations:
+          reloader.stakater.com/auto: "true"
+
+        containers:
+          app:
+            image:
+              repository: ghcr.io/seanmorley15/adventurelog-frontend
+              tag: v0.12.1
+            env:
+              PUBLIC_SERVER_URL: "https://adventure-backend.${SECRET_DOMAIN}"
+              ORIGIN: "https://adventure.${SECRET_DOMAIN}"
+              BODY_SIZE_LIMIT: "Infinity"
+            resources:
+              requests:
+                cpu: 10m
+                memory: 64Mi
+              limits:
+                memory: 256Mi
+
+    service:
+      backend:
+        controller: backend
+        ports:
+          http:
+            port: *backendPort
+      frontend:
+        controller: frontend
+        ports:
+          http:
+            port: &frontendPort 3000
+
+    route:
+      frontend:
+        enabled: true
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
+        hostnames:
+          - "adventure.${SECRET_DOMAIN}"
+        rules:
+          - backendRefs:
+              - name: adventurelog-frontend
+                port: *frontendPort
+      backend:
+        enabled: true
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
+        hostnames:
+          - "adventure-backend.${SECRET_DOMAIN}"
+        rules:
+          - backendRefs:
+              - name: adventurelog-backend
+                port: *backendPort
+
+    persistence:
+      media:
+        enabled: true
+        type: persistentVolumeClaim
+        storageClass: longhorn
+        accessMode: ReadWriteOnce
+        size: 5Gi
+        advancedMounts:
+          backend:
+            app:
+              - path: /code/media
