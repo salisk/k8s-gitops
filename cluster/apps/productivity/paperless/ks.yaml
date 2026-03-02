@@ -12,6 +12,7 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: cluster-apps-cloudnative-pg-cluster
+    - name: dragonfly-cluster
   path: ./cluster/apps/productivity/paperless/app
   prune: true
   sourceRef:
