@@ -44,6 +44,7 @@ spec:
               DEBUG: "false"
               FORCE_SOCIALACCOUNT_LOGIN: "true"
               SOCIALACCOUNT_ALLOW_SIGNUP: "true"
+              DISABLE_REGISTRATION: "true"
             envFrom: *envFrom
             probes:
               liveness: &probes
