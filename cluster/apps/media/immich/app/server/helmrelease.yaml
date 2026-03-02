@@ -25,7 +25,7 @@ spec:
   values:
     initContainers:
       01-init-db:
-        image: ghcr.io/home-operations/postgres-init:18.2
+        image: ghcr.io/home-operations/postgres-init:18.3
         imagePullPolicy: IfNotPresent
         envFrom: &envFrom
           - configMapRef:
