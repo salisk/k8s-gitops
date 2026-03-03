@@ -12,6 +12,7 @@ spec:
   values:
     instance:
       distribution:
+        registry: ghcr.io/fluxcd
         artifact: oci://ghcr.io/controlplaneio-fluxcd/flux-operator-manifests:v0.43.0
         version: 2.x
       cluster:
@@ -27,6 +28,7 @@ spec:
         ref: refs/heads/main
         path: cluster/base
         interval: 1h
+        pullSecret: sops-gpg
       commonMetadata:
         labels:
           app.kubernetes.io/name: flux
