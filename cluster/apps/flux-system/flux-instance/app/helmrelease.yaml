@@ -28,12 +28,23 @@ spec:
         ref: refs/heads/main
         path: cluster/base
         interval: 1h
-        pullSecret: sops-gpg
       commonMetadata:
         labels:
           app.kubernetes.io/name: flux
       kustomize:
         patches:
+          # Enable SOPS decryption for the sync Kustomization
+          - patch: |-
+              - op: add
+                path: /spec/decryption
+                value:
+                  provider: sops
+                  secretRef:
+                    name: sops-gpg
+            target:
+              kind: Kustomization
+              name: flux-system
+
           # Remove the network policies that do not work with k3s
           - patch: |
               $patch: delete
