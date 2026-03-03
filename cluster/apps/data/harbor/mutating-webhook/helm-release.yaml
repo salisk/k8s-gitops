@@ -27,6 +27,15 @@ spec:
       strategy: rollback
       retries: 3
   values:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: kubernetes.io/hostname
+                  operator: NotIn
+                  values:
+                    - k8s-10
     certManager:
       renewBefore: 720h0m0s
     webhook:
