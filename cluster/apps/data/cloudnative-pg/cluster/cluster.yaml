@@ -19,30 +19,17 @@ spec:
   superuserSecret:
     name: cloudnative-pg-secret
   bootstrap:
-    # recovery:
-    #   source: &previousCluster postgres-v15
-    initdb:
-      database: immich
-      owner: immich
-      postInitApplicationSQL:
-        - CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-        - CREATE EXTENSION IF NOT EXISTS cube;
-        - CREATE EXTENSION IF NOT EXISTS earthdistance;
-        - CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
-        - CREATE EXTENSION IF NOT EXISTS pg_trgm;
-      # postInitSQL:
-      #   - ALTER SYSTEM SET search_path TO "$user", public, vectors;
-      #   - CREATE EXTENSION IF NOT EXISTS "vectors";
-  # bootstrap:
-  #   initdb
-  #     import:
-  #       type: monolith
-  #       databases:
-  #         - "*"
-  #       roles:
-  #         - "*"
-  #       source:
-  #         externalCluster: bitnami-pg
+    recovery:
+      source: &previousCluster postgres-v15.1
+    # initdb:
+    #   database: immich
+    #   owner: immich
+    #   postInitApplicationSQL:
+    #     - CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+    #     - CREATE EXTENSION IF NOT EXISTS cube;
+    #     - CREATE EXTENSION IF NOT EXISTS earthdistance;
+    #     - CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
+    #     - CREATE EXTENSION IF NOT EXISTS pg_trgm;
   postgresql:
     shared_preload_libraries:
       - vchord.so
@@ -59,7 +46,7 @@ spec:
         maxParallel: 8
       destinationPath: s3://postgresql/
       endpointURL: http://minio.default:9000
-      serverName: postgres-v15.1
+      serverName: postgres-v15.2
       s3Credentials:
         accessKeyId:
           name: cloudnative-pg-secret
@@ -67,27 +54,18 @@ spec:
         secretAccessKey:
           name: cloudnative-pg-secret
           key: aws-secret-access-key
-  # Note: externalClusters is needed when recovering from an existing cnpg cluster
-  # externalClusters:
-  #   - name: *previousCluster
-  #     barmanObjectStore:
-  #       wal:
-  #         compression: bzip2
-  #         maxParallel: 8
-  #       destinationPath: s3://postgresql/
-  #       endpointURL: http://minio.default:9000
-  #       s3Credentials:
-  #         accessKeyId:
-  #           name: cloudnative-pg-secret
-  #           key: aws-access-key-id
-  #         secretAccessKey:
-  #           name: cloudnative-pg-secret
-  #           key: aws-secret-access-key
-  # - name: bitnami-pg
-  #   connectionParameters:
-  #     host: postgresql.data.svc
-  #     user: postgres
-  #     dbname: postgres
-  #   password:
-  #     name: cloudnative-pg-secret
-  #     key: bitnami-password
+  externalClusters:
+    - name: *previousCluster
+      barmanObjectStore:
+        wal:
+          compression: bzip2
+          maxParallel: 8
+        destinationPath: s3://postgresql/
+        endpointURL: http://minio.default:9000
+        s3Credentials:
+          accessKeyId:
+            name: cloudnative-pg-secret
+            key: aws-access-key-id
+          secretAccessKey:
+            name: cloudnative-pg-secret
+            key: aws-secret-access-key
