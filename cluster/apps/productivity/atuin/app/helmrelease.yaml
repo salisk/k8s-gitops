@@ -42,7 +42,7 @@ spec:
               ATUIN_METRICS__PORT: &metricsPort 8080
               TZ: ${TIMEZONE}
             envFrom: *envFrom
-            command: ["atuin", "server", "start"]
+            args: ["start"]
             probes:
               liveness: &probes
                 enabled: true
