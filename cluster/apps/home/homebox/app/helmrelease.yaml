@@ -38,7 +38,7 @@ spec:
           app:
             image:
               repository: ghcr.io/sysadminsmedia/homebox
-              tag: 0.24.0@sha256:799be9851a0d5fd9a885d026ba64e27622b98e3501bdbcf93a60e342462c1bf4
+              tag: 0.24.2@sha256:532e0428d922fdea2441b31c1eb5b4018e5f1b2684273bee06dba102db576f30
             env:
               TZ: ${TIMEZONE}
               HBOX_MODE: production
