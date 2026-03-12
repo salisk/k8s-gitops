@@ -30,7 +30,7 @@ spec:
             image:
               # renovate: datasource=docker depName=boulderbadgedad/soulsync
               repository: boulderbadgedad/soulsync
-              tag: latest@sha256:b49384ed64172a14ed18626121d6cd97fbcb885c19fa1f9df6bc9a55cfc82ad8
+              tag: 1.9@sha256:7dec56fd3d3072ceaad089a771f86b8077e99231686b73d92a1ead57aa41aebb
             env:
               TZ: ${TIMEZONE}
               PUID: 1000
@@ -88,16 +88,20 @@ spec:
             subPath: config
           - path: /app/logs
             subPath: logs
-          - path: /app/downloads
-            subPath: downloads
           - path: /app/data
             subPath: data
-      music-library:
+      media:
         enabled: true
         existingClaim: nfs-media-pvc-v2
         globalMounts:
           - path: /host/mnt/media
-            subPath: downloads/soulseek-transfers
+            subPath: downloads/soulseek
+          - path: /app/Transfer
+            subPath: downloads/soulseek/complete
+          - path: /app/downloads
+            subPath: downloads/soulseek/downloads
+          - path: /app/Staging
+            subPath: downloads/soulseek/staging
       tmpfs:
         type: emptyDir
         advancedMounts:
