@@ -1,0 +1,31 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: castai-workload-autoscaler
+spec:
+  interval: 1h
+  chart:
+    spec:
+      chart: castai-workload-autoscaler
+      version: 0.1.186
+      sourceRef:
+        kind: HelmRepository
+        name: castai-charts
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    castai:
+      apiKey: ${CASTAI_API_KEY}
+      apiURL: ${CASTAI_API_URL}
+      clusterID: ${CASTAI_CLUSTER_ID}
+      telemetryURL: ${CASTAI_TELEMETRY_URL}

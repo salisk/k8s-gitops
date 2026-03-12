@@ -1,0 +1,33 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: castai-agent
+spec:
+  interval: 1h
+  chart:
+    spec:
+      chart: castai-agent
+      version: 0.145.0
+      sourceRef:
+        kind: HelmRepository
+        name: castai-charts
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    apiKey: ${CASTAI_API_KEY}
+    apiURL: ${CASTAI_API_URL}
+    provider: anywhere
+    replicaCount: 2
+    createNamespace: false
+    additionalEnv:
+      ANYWHERE_CLUSTER_NAME: k8s-cluster

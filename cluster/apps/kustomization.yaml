@@ -16,5 +16,7 @@ resources:
   - ./coder/ks.yaml
   - ./actions-runner-system/namespace.yaml
   - ./actions-runner-system/actions-runner-controller/ks.yaml
+  - ./castai-agent/namespace.yaml
+  - castai-agent
   - flux-system
   # - vault
