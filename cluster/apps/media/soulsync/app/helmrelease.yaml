@@ -94,12 +94,10 @@ spec:
         enabled: true
         existingClaim: nfs-media-pvc-v2
         globalMounts:
-          - path: /host/mnt/media
-            subPath: downloads/soulseek
-          - path: /app/Transfer
-            subPath: downloads/soulseek/complete
           - path: /app/downloads
-            subPath: downloads/soulseek/downloads
+            subPath: downloads/soulseek/complete
+          - path: /app/Transfer
+            subPath: downloads/soulseek/transfer
           - path: /app/Staging
             subPath: downloads/soulseek/staging
       tmpfs:
