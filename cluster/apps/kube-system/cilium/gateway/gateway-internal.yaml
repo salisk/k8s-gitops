@@ -44,7 +44,7 @@ metadata:
 spec:
   parentRefs:
     - name: internal
-      namespace: network
+      namespace: kube-system
       sectionName: http
   rules:
     - filters:
