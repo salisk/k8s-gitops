@@ -40,5 +40,14 @@
       },
       minimumGroupSize: 2,
     },
+    {
+      description: "CAST AI Workload Autoscaler Group",
+      groupName: "castai-workload-autoscaler",
+      matchPackageNames: ["castai-workload-autoscaler", "castai-workload-autoscaler-exporter"],
+      matchDatasources: ["helm"],
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
+    },
   ],
 }
