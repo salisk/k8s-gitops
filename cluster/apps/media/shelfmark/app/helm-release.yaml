@@ -39,7 +39,28 @@ spec:
               USE_BOOK_TITLE: true
               LOG_LEVEL: debug
               # Use flaresolverr instead of integrated chromium
-              EXT_BYPASSER_URL: http://flaresolverr.default:8191
+              EXT_BYPASSER_URL:
+                http://flaresolverr.default:8191
+
+                # Metadata provider configuration
+              METADATA_PROVIDER: hardcover
+              METADATA_PROVIDER_AUDIOBOOK: hardcover
+              HARDCOVER_ENABLED: "true"
+              DEFAULT_RELEASE_SOURCE: prowlarr
+              # HARDCOVER_API_KEY: "{{ .HARDCOVER_API_KEY }}"
+
+              # Prowlarr integration
+              PROWLARR_ENABLED: "true"
+              PROWLARR_URL: http://prowlarr:80
+              PROWLARR_TORRENT_CLIENT: qbittorrent
+              # PROWLARR_API_KEY: "{{ .PROWLARR_API_KEY }}"
+
+              QBITTORRENT_URL: http://qbittorrent:80
+              # QBITTORRENT_USERNAME: "{{ .QBITTORRENT_USERNAME }}"
+              # QBITTORRENT_PASSWORD: "{{ .QBITTORRENT_PASSWORD }}"
+
+              # Audiobookshelf integration
+              # AUDIOBOOKSHELF_TOKEN: "{{ .AUDIOBOOKSHELF_TOKEN }}"
             probes:
               liveness: &probes
                 enabled: true
