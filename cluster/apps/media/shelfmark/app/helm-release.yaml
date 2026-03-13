@@ -81,11 +81,18 @@ spec:
             timeouts:
               request: 0s
     persistence:
+      config:
+        enabled: true
+        type: persistentVolumeClaim
+        storageClass: longhorn
+        accessMode: ReadWriteOnce
+        size: 3Gi
+        globalMounts:
+          - path: /config
       tmpfs:
         type: emptyDir
         globalMounts:
           - path: /tmp
-          - path: /app/downloaded_files
           - path: /var/log
       ingest:
         type: nfs
