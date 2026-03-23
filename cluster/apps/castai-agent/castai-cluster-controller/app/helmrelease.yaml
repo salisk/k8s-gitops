@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: castai-cluster-controller
-      version: 0.90.1
+      version: 0.91.0
       sourceRef:
         kind: HelmRepository
         name: castai-charts
