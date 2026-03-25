@@ -19,7 +19,6 @@ spec:
       retries: 3
   upgrade:
     cleanupOnFail: true
-    resetValues: true
     remediation:
       retries: 3
   uninstall:
