@@ -13,3 +13,4 @@ resources:
   - ./manyfold/ks.yaml
   - ./sweethome3d/ks.yaml
   - ./adventurelog/ks.yaml
+  - ./wallos/ks.yaml
