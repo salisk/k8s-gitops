@@ -30,7 +30,7 @@ spec:
             image:
               # renovate: datasource=docker depName=boulderbadgedad/soulsync
               repository: boulderbadgedad/soulsync
-              tag: 2.1@sha256:c1cb8a59210b371cb5d6bde1570342bfdded7c443212f95ad712f4d885870ec9
+              tag: 2.2@sha256:66650a5a0c975d3a299b1195ccc5a0ec3cbcc5013532d08283bf2715b1591bb9
             env:
               TZ: ${TIMEZONE}
               PUID: 1000
