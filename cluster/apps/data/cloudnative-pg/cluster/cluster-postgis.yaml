@@ -21,9 +21,6 @@ spec:
   bootstrap:
     recovery:
       source: &previousCluster postgis-v1
-      postInitSQL:
-        - CREATE EXTENSION IF NOT EXISTS postgis;
-        - CREATE EXTENSION IF NOT EXISTS postgis_topology;
   monitoring:
     enablePodMonitor: true
   backup:
