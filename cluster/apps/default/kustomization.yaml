@@ -14,3 +14,4 @@ resources:
   - ./sweethome3d/ks.yaml
   - ./adventurelog/ks.yaml
   - ./wallos/ks.yaml
+  - ./dawarich/ks.yaml
