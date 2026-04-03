@@ -53,7 +53,7 @@ spec:
               TZ: "${TIMEZONE}"
               DISABLE_TELEMETRY: "true"
               OIDC_ISSUER: "https://sso.${SECRET_DOMAIN}/application/o/dawarich"
-              OIDC_REDIRECT_URI: "https://sso.${SECRET_DOMAIN}/users/auth/openid_connect/callback"
+              OIDC_REDIRECT_URI: "https://dawarich.${SECRET_DOMAIN}/users/auth/openid_connect/callback"
               OIDC_CLIENT_ID: "${DAWARICH_OIDC_CLIENT_ID}"
               OIDC_CLIENT_SECRET: "${DAWARICH_OIDC_CLIENT_SECRET}"
               OIDC_PROVIDER_NAME: "Sign in with Authentik"
