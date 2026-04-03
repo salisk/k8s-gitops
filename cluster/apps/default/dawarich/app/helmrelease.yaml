@@ -42,7 +42,7 @@ spec:
             args: ["bin/rails", "server", "-p", "3000", "-b", "::"]
             env: &env
               APPLICATION_HOSTS: "dawarich.${SECRET_DOMAIN}"
-              APPLICATION_PROTOCOL: https
+              APPLICATION_PROTOCOL: http
               BACKGROUND_PROCESSING_CONCURRENCY: "10"
               DISTANCE_UNIT: km
               MIN_MINUTES_SPENT_IN_CITY: 60
