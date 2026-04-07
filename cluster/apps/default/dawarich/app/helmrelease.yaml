@@ -152,8 +152,6 @@ spec:
         advancedMounts:
           dawarich:
             app: &tmp
-              - path: /tmp
-                subPath: tmp
               - path: /var/app/tmp
                 subPath: app
             sidekiq: *tmp
