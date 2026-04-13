@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: castai-agent
-      version: 0.150.0
+      version: 0.151.0
       sourceRef:
         kind: HelmRepository
         name: castai-charts
