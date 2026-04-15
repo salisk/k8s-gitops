@@ -28,7 +28,7 @@ spec:
     matchLabels:
       dashboards: grafana
   datasource:
-    type: loki
+    type: victoriametrics-logs-datasource
     name: VictoriaLogs
     uid: victoria-logs
     access: proxy

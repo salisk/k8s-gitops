@@ -31,7 +31,7 @@ spec:
           name tail
           alias kubernetes
           path /var/log/containers/*.log
-          parser containerd
+          multiline.parser cri
           tag kubernetes.*
           skip_empty_lines on
           skip_long_lines on
@@ -70,13 +70,7 @@ spec:
           rename k_labels_app app
           rename k_labels_k8s-app app
 
-      customParsers: |-
-        [PARSER]
-          name containerd
-          format regex
-          regex ^(?<time>[^ ]+) (?<stream>stdout|stderr) (?<logtag>[^ ]*) (?<log>.*)$
-          time_key time
-          time_format %Y-%m-%dT%H:%M:%S.%L%z
+      customParsers: ""
 
       outputs: |-
         [OUTPUT]
