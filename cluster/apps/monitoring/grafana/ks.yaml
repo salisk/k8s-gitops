@@ -50,6 +50,8 @@ spec:
     secretRef:
       name: sops-gpg
   postBuild:
+    substitute:
+      APP: grafana
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings
