@@ -541,6 +541,6 @@ spec:
     - datasourceName: Prometheus
       inputName: DS_PROMETHEUS
   grafanaCom:
-    # renovate: depName="etcd"
-    id: 3070
-    revision: 3
+    # renovate: depName="Kubernetes / ETCD"
+    id: 20330
+    revision: 1
