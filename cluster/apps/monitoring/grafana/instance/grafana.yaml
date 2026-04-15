@@ -1,0 +1,147 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/grafana.integreatly.org/grafana_v1beta1.json
+apiVersion: grafana.integreatly.org/v1beta1
+kind: Grafana
+metadata:
+  name: grafana
+  namespace: monitoring
+  labels:
+    dashboards: grafana
+spec:
+  config:
+    analytics:
+      check_for_updates: "false"
+      check_for_plugin_updates: "false"
+      reporting_enabled: "false"
+    auth:
+      signout_redirect_url: "https://sso.${SECRET_DOMAIN}/application/o/grafana/end-session/"
+      oauth_auto_login: "true"
+    auth.anonymous:
+      enabled: "false"
+    auth.generic_oauth:
+      name: authentik
+      enabled: "true"
+      scopes: "openid profile email"
+      auth_url: "https://sso.${SECRET_DOMAIN}/application/o/authorize/"
+      token_url: "https://sso.${SECRET_DOMAIN}/application/o/token/"
+      api_url: "https://sso.${SECRET_DOMAIN}/application/o/userinfo/"
+      role_attribute_path: "contains(groups, 'Grafana Admins') && 'Admin' || contains(groups, 'Grafana Editors') && 'Editor' || 'Viewer'"
+    date_formats:
+      use_browser_locale: "true"
+    explore:
+      enabled: "true"
+    feature_toggles:
+      enable: publicDashboards
+    log:
+      mode: console
+    metrics:
+      enabled: "true"
+    news:
+      news_feed_enabled: "false"
+    plugins:
+      allow_loading_unsigned_plugins: "natel-discrete-panel,pr0ps-trackmap-panel,panodata-map-panel"
+    security:
+      cookie_samesite: grafana
+    server:
+      enable_gzip: "true"
+      root_url: "https://grafana.${SECRET_DOMAIN}"
+  deployment:
+    spec:
+      replicas: 2
+      strategy:
+        type: RollingUpdate
+      template:
+        spec:
+          containers:
+            - name: grafana
+              env:
+                - name: GF_AUTH_GENERIC_OAUTH_CLIENT_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: grafana-secret
+                      key: GF_AUTH_GENERIC_OAUTH_CLIENT_ID
+                - name: GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET
+                  valueFrom:
+                    secretKeyRef:
+                      name: grafana-secret
+                      key: GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET
+                - name: GF_DATABASE_NAME
+                  valueFrom:
+                    secretKeyRef:
+                      name: grafana-secret
+                      key: GF_DATABASE_NAME
+                - name: GF_DATABASE_HOST
+                  valueFrom:
+                    secretKeyRef:
+                      name: grafana-secret
+                      key: GF_DATABASE_HOST
+                - name: GF_DATABASE_USER
+                  valueFrom:
+                    secretKeyRef:
+                      name: grafana-secret
+                      key: GF_DATABASE_USER
+                - name: GF_DATABASE_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: grafana-secret
+                      key: GF_DATABASE_PASSWORD
+                - name: GF_DATABASE_SSL_MODE
+                  valueFrom:
+                    secretKeyRef:
+                      name: grafana-secret
+                      key: GF_DATABASE_SSL_MODE
+                - name: GF_DATABASE_TYPE
+                  valueFrom:
+                    secretKeyRef:
+                      name: grafana-secret
+                      key: GF_DATABASE_TYPE
+          initContainers:
+            - name: 01-init-db
+              image: ghcr.io/home-operations/postgres-init:18
+              imagePullPolicy: IfNotPresent
+              envFrom:
+                - secretRef:
+                    name: grafana-secret
+          topologySpreadConstraints:
+            - maxSkew: 1
+              topologyKey: kubernetes.io/hostname
+              whenUnsatisfiable: DoNotSchedule
+              labelSelector:
+                matchLabels:
+                  app.kubernetes.io/name: grafana
+  plugins:
+    - name: grafana-clock-panel
+      version: latest
+    - name: grafana-piechart-panel
+      version: latest
+    - name: grafana-worldmap-panel
+      version: latest
+    - name: natel-discrete-panel
+      version: latest
+    - name: pr0ps-trackmap-panel
+      version: latest
+    - name: vonage-status-panel
+      version: latest
+  httpRoute:
+    metadata:
+      annotations:
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/group: Monitoring
+        gethomepage.dev/name: Grafana
+        gethomepage.dev/description: Metrics Dashboard
+        gethomepage.dev/icon: grafana.png
+        gethomepage.dev/widget.type: grafana
+        gethomepage.dev/widget.url: "http://grafana.monitoring"
+        gethomepage.dev/widget.username: "admin"
+        gethomepage.dev/widget.password: "${SECRET_GRAFANA_PASSWORD}"
+    spec:
+      hostnames:
+        - "grafana.${SECRET_DOMAIN}"
+      parentRefs:
+        - name: internal
+          namespace: kube-system
+          sectionName: https
+      rules:
+        - backendRefs:
+            - name: grafana-service
+              port: 3000
