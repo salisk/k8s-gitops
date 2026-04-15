@@ -21,7 +21,7 @@ spec:
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDatasource
 metadata:
-  name: loki
+  name: victoria-logs
   namespace: monitoring
 spec:
   instanceSelector:
@@ -29,10 +29,10 @@ spec:
       dashboards: grafana
   datasource:
     type: loki
-    name: Loki
+    name: VictoriaLogs
     uid: loki
     access: proxy
-    url: http://loki-headless.monitoring.svc.cluster.local:3100
+    url: http://victoria-logs-server.monitoring.svc.cluster.local:9428
     jsonData:
       maxLines: 250
 ---

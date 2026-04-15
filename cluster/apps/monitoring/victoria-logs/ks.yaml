@@ -3,24 +3,20 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: loki
+  name: victoria-logs
   namespace: flux-system
 spec:
-  path: ./cluster/apps/monitoring/loki/app
+  targetNamespace: monitoring
+  path: ./cluster/apps/monitoring/victoria-logs/app
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
-  wait: false
+  wait: true
   interval: 30m
   retryInterval: 1m
-  timeout: 15m
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-gpg
+  timeout: 5m
   postBuild:
-    substitute: {}
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings

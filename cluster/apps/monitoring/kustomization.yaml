@@ -8,8 +8,8 @@ resources:
   - ./smartctl-exporter/ks.yaml
   # - ./kube-state-metrics/ks.yaml
   - ./node-exporter/ks.yaml
-  - ./promtail/ks.yaml
-  - ./loki/ks.yaml
+  - ./victoria-logs/ks.yaml
+  - ./fluent-bit/ks.yaml
   - ./kube-prometheus-stack/ks.yaml
   - ./grafana/ks.yaml
   - ./gatus/ks.yaml
