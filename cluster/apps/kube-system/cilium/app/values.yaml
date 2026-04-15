@@ -26,7 +26,7 @@ endpointRoutes:
 envoy:
   # enabled: true
   log:
-    defaultLevel: trace
+    defaultLevel: warn
   rollOutPods: true
   prometheus:
     serviceMonitor:
@@ -42,7 +42,7 @@ gatewayAPI:
   xffNumTrustedHops: 1
 # devices: eno+
 debug:
-  enabled: true
+  enabled: false
 hubble:
   enabled: false
   # enabled: true
