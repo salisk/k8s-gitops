@@ -30,7 +30,7 @@ spec:
   datasource:
     type: loki
     name: VictoriaLogs
-    uid: loki
+    uid: victoria-logs
     access: proxy
     url: http://victoria-logs-server.monitoring.svc.cluster.local:9428
     jsonData:
