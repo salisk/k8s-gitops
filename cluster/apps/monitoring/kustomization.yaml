@@ -10,7 +10,7 @@ resources:
   - ./node-exporter/ks.yaml
   - ./victoria-logs/ks.yaml
   - ./fluent-bit/ks.yaml
-  - ./kube-prometheus-stack/ks.yaml
+  - ./victoria-metrics/ks.yaml
   - ./grafana/ks.yaml
   - ./gatus/ks.yaml
   - ./unpoller/ks.yaml

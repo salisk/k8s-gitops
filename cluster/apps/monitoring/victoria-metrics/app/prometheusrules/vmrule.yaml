@@ -1,0 +1,41 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/operator.victoriametrics.com/vmrule_v1beta1.json
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMRule
+metadata:
+  name: miscellaneous-rules
+  namespace: monitoring
+spec:
+  groups:
+    - name: flux.rules
+      rules:
+        - alert: HelmReleaseReconciliationFailure
+          expr: |
+            gotk_resource_info{customresource_kind="HelmRelease", ready!="True"} == 1
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "HelmRelease {{ $labels.name }} in {{ $labels.exported_namespace }} is not ready"
+            description: >-
+              HelmRelease {{ $labels.name }} in namespace {{ $labels.exported_namespace }}
+              has not been ready for more than 5 minutes.
+        - alert: KustomizationReconciliationFailure
+          expr: |
+            gotk_resource_info{customresource_kind="Kustomization", ready!="True"} == 1
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Kustomization {{ $labels.name }} in {{ $labels.exported_namespace }} is not ready"
+            description: >-
+              Kustomization {{ $labels.name }} in namespace {{ $labels.exported_namespace }}
+              has not been ready for more than 5 minutes.
+    - name: oom.rules
+      rules:
+        - alert: OomKilled
+          annotations:
+            summary: Container {{ $labels.container }} in pod {{ $labels.namespace }}/{{ $labels.pod }} has been OOMKilled {{ $value }} times in the last 10 minutes.
+          expr: (kube_pod_container_status_restarts_total - kube_pod_container_status_restarts_total offset 10m >= 1) and ignoring (reason) min_over_time(kube_pod_container_status_last_terminated_reason{reason="OOMKilled"}[10m]) == 1
+          labels:
+            severity: critical
