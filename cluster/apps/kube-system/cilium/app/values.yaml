@@ -31,6 +31,11 @@ envoy:
   prometheus:
     serviceMonitor:
       enabled: true
+      metricRelabelings:
+        # Drop high-cardinality histogram buckets (~28k series across 6 nodes)
+        - sourceLabels: [__name__]
+          regex: "envoy_cluster_(upstream_cx_length_ms|upstream_cx_connect_ms|update_duration)_bucket"
+          action: drop
 gatewayAPI:
   enableAlpn: true
   enabled: true
