@@ -82,12 +82,11 @@ spec:
           match kubernetes.*
           host victoria-logs-server.monitoring.svc.cluster.local
           port 9428
-          uri /insert/jsonline?_stream_fields=stream,k_namespace_name,k_pod_name,app&_msg_field=log&_time_field=date
+          uri /insert/jsonline?_stream_fields=stream,k_namespace_name,k_pod_name,app&_msg_field=log&_time_field=date&quiet=1
           format json_lines
           json_date_format iso8601
           compress gzip
           log_response_payload false
-          http_buffer_size 128KB
 
     dashboards:
       enabled: true
