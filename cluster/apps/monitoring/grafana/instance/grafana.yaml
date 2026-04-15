@@ -8,20 +8,6 @@ metadata:
   labels:
     dashboards: grafana
 spec:
-  client:
-    timeout: 5
-    preferIngress: false
-    credentials:
-      username:
-        valueFrom:
-          secretKeyRef:
-            name: grafana-secret
-            key: GF_SECURITY_ADMIN_USER
-      password:
-        valueFrom:
-          secretKeyRef:
-            name: grafana-secret
-            key: GF_SECURITY_ADMIN_PASSWORD
   config:
     analytics:
       check_for_updates: "false"
