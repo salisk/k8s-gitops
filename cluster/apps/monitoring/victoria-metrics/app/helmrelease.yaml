@@ -25,6 +25,7 @@ spec:
 
     victoria-metrics-operator:
       enabled: true
+      fullnameOverride: vm-operator
       crds:
         enabled: true
       operator:
