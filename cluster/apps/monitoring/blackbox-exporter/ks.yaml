@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
-    - name: kube-prometheus-stack
+    - name: victoria-metrics
   path: ./cluster/apps/monitoring/blackbox-exporter/app
   prune: true
   sourceRef:
