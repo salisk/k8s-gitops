@@ -15,7 +15,7 @@ spec:
     uid: prometheus
     access: proxy
     isDefault: true
-    url: http://prometheus-operated.monitoring.svc.cluster.local:9090
+    url: http://vm-victoria-metrics-single-server.monitoring.svc.cluster.local:8428
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/grafana.integreatly.org/grafanadatasource_v1beta1.json
 apiVersion: grafana.integreatly.org/v1beta1
@@ -51,6 +51,6 @@ spec:
     name: Alertmanager
     uid: alertmanager
     access: proxy
-    url: http://alertmanager-operated.monitoring.svc.cluster.local:9093
+    url: http://vm-alertmanager.monitoring.svc.cluster.local:9093
     jsonData:
       implementation: prometheus
