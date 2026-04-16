@@ -161,7 +161,7 @@ spec:
       dashboards: grafana
   datasources:
     - datasourceName: Prometheus
-      inputName: DS_AFRANET_PROMETHEUS
+      inputName: DS_PROMETHEUS
   grafanaCom:
     # renovate: depName="Envoy Proxy Monitoring gRPC"
     id: 23239
