@@ -8,7 +8,6 @@ resources:
   - ./helmrelease.yaml
   - ./alertmanagerconfig.yaml
   - ./secret.yaml
-  - ./prometheusrules
   - ./scrapeconfigs
 generatorOptions:
   disableNameSuffixHash: true
