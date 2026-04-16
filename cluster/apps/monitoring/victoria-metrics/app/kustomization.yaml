@@ -6,8 +6,6 @@ namespace: monitoring
 resources:
   - ./ocirepository.yaml
   - ./helmrelease.yaml
-  - ./alertmanagerconfig.yaml
   - ./secret.yaml
-  - ./scrapeconfigs
 generatorOptions:
   disableNameSuffixHash: true
