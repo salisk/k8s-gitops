@@ -328,3 +328,5 @@ spec:
       create: true
       disabled:
         KubeProxyDown: true
+      rules:
+        kubeProxy: false
