@@ -1,0 +1,77 @@
+---
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMRule
+metadata:
+  name: authentik-rules
+  namespace: monitoring
+spec:
+  groups:
+    - name: authentik.request_counters
+      rules:
+        - record: job:django_http_requests_total:sum_rate30s
+          expr: sum(rate(django_http_requests_total_by_method_total[30s])) by (job)
+        - record: job:django_http_requests_total_by_method:sum_rate30s
+          expr: sum(rate(django_http_requests_total_by_method_total[30s])) by (job, method)
+        - record: job:django_http_requests_total_by_transport:sum_rate30s
+          expr: sum(rate(django_http_requests_total_by_transport_total[30s])) by (job, transport)
+        - record: job:django_http_requests_total_by_view_transport_method:sum_rate30s
+          expr: sum(rate(django_http_requests_total_by_view_transport_method_total[30s])) by (job, view, transport, method)
+        - record: job:django_http_requests_before_middlewares_total:sum_rate30s
+          expr: sum(rate(django_http_requests_before_middlewares_total[30s])) by (job)
+        - record: job:django_http_ajax_requests_total:sum_rate30s
+          expr: sum(rate(django_http_ajax_requests_total[30s])) by (job)
+        - record: job:django_http_requests_body_total_bytes:sum_rate30s
+          expr: sum(rate(django_http_requests_body_total_bytes_sum[30s])) by (job)
+
+    - name: authentik.response_counters
+      rules:
+        - record: job:django_http_responses_total_by_status:sum_rate30s
+          expr: sum(rate(django_http_requests_total_by_view_transport_method_total[30s])) by (job, status)
+        - record: job:django_http_responses_total_by_charset:sum_rate30s
+          expr: sum(rate(django_http_requests_total_by_view_transport_method_total[30s])) by (job, charset)
+
+    - name: authentik.latency
+      rules:
+        - record: job:django_http_requests_latency_seconds_p50:rate30s
+          expr: histogram_quantile(0.50, sum(rate(django_http_requests_latency_including_middlewares_seconds_bucket[30s])) by (job, le))
+        - record: job:django_http_requests_latency_seconds_p95:rate30s
+          expr: histogram_quantile(0.95, sum(rate(django_http_requests_latency_including_middlewares_seconds_bucket[30s])) by (job, le))
+        - record: job:django_http_requests_latency_seconds_p99:rate30s
+          expr: histogram_quantile(0.99, sum(rate(django_http_requests_latency_including_middlewares_seconds_bucket[30s])) by (job, le))
+        - record: job:django_http_requests_latency_by_view_p95:rate30s
+          expr: histogram_quantile(0.95, sum(rate(django_http_requests_latency_seconds_by_view_method_bucket[30s])) by (job, view, method, le))
+
+    - name: authentik.database
+      rules:
+        - record: job:django_db_execute_total:sum_rate30s
+          expr: sum(rate(django_db_execute_total[30s])) by (job, alias, vendor)
+        - record: job:django_db_new_connections_total:sum_rate30s
+          expr: sum(rate(django_db_new_connections_total[30s])) by (job, alias, vendor)
+        - record: job:django_db_query_duration_p95:rate30s
+          expr: histogram_quantile(0.95, sum(rate(django_db_query_duration_seconds_bucket[30s])) by (job, alias, vendor, le))
+
+    - name: authentik.alerts
+      rules:
+        - alert: AuthentikNoWorkersConnected
+          expr: max(authentik_tasks_workers) < 1
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: No Authentik workers connected
+            description: Authentik has no connected workers for more than 5 minutes.
+        - alert: AuthentikFailedSystemTasks
+          expr: sum(increase(authentik_tasks_errors_total[2h])) by (actor_name) > 0
+          labels:
+            severity: warning
+          annotations:
+            summary: Authentik system task "{{ $labels.actor_name }}" failed
+            description: Authentik system task has encountered errors in the last 2 hours.
+        - alert: AuthentikDisconnectedOutposts
+          expr: sum by (outpost_name) (max without (pid) (authentik_outposts_connected)) < 1
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: Authentik outpost "{{ $labels.outpost_name }}" disconnected
+            description: Authentik outpost has been disconnected for more than 5 minutes.

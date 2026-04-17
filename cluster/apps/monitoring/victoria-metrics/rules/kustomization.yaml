@@ -6,4 +6,5 @@ namespace: monitoring
 resources:
   - ./alertmanagerconfig.yaml
   - ./vmrule.yaml
+  - ./vmrule-authentik.yaml
   - ./scrapeconfigs
