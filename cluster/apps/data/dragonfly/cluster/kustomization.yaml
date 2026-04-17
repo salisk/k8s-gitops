@@ -6,3 +6,4 @@ namespace: data
 resources:
   - ./cluster.yaml
   - ./podmonitor.yaml
+  - ./networkpolicy.yaml
