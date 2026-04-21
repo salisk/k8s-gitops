@@ -8,6 +8,7 @@ resources:
   - ./ghostfolio/ks.yaml
   - ./glance/ks.yaml
   - ./headlamp/ks.yaml
+  - ./kite/ks.yaml
   - ./flaresolverr/ks.yaml
   - ./divedb/ks.yaml
   - ./manyfold/ks.yaml
