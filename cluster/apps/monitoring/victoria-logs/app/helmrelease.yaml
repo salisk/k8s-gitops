@@ -38,7 +38,7 @@ spec:
               - path:
                   type: Exact
                   value: /
-      serviceMonitor:
+      vmServiceScrape:
         enabled: true
     dashboards:
       enabled: true
