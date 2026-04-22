@@ -60,6 +60,9 @@ spec:
         - html: true
           message: |-
             {{- range .Alerts }}
+              {{- if .Labels.kubernetes_node }}
+                <b>Node:</b> {{ .Labels.kubernetes_node }}<br>
+              {{- end }}
               {{- if ne .Annotations.description "" }}
                 {{ .Annotations.description }}
               {{- else if ne .Annotations.summary "" }}
@@ -82,7 +85,7 @@ spec:
           sendResolved: true
           # sound: gamelan
           title: >-
-            [{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ .CommonLabels.alertname }}
+            [{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ .CommonLabels.alertname }}{{ if .CommonLabels.kubernetes_node }} on {{ .CommonLabels.kubernetes_node }}{{ end }}
           ttl: 86400s
           token:
             name: &secret alertmanager-secret
