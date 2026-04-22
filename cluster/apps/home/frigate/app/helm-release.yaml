@@ -12,6 +12,7 @@ spec:
     name: app-template
     namespace: flux-system
   maxHistory: 2
+  timeout: 15m
   install:
     remediation:
       retries: 3
