@@ -60,15 +60,13 @@ spec:
         - html: true
           message: |-
             {{- range .Alerts }}
-              {{- if .Labels.kubernetes_node }}
-                <b>Node:</b> {{ .Labels.kubernetes_node }}<br>
-              {{- end }}
+              {{- if .Labels.kubernetes_node }}<b>Node:</b> {{ .Labels.kubernetes_node }}{{ end }}
               {{- if ne .Annotations.description "" }}
-                {{ .Annotations.description }}
+                {{- .Annotations.description }}
               {{- else if ne .Annotations.summary "" }}
-                {{ .Annotations.summary }}
+                {{- .Annotations.summary }}
               {{- else if ne .Annotations.message "" }}
-                {{ .Annotations.message }}
+                {{- .Annotations.message }}
               {{- else }}
                 Alert description not available
               {{- end }}
