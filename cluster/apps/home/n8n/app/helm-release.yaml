@@ -41,7 +41,7 @@ spec:
               N8N_HOST: n8n.${SECRET_DOMAIN}
               N8N_LOG_LEVEL: info
               N8N_LOG_OUTPUT: console
-              N8N_RUNNERS_ENABLED: true
+              # N8N_RUNNERS_ENABLED: true
             envFrom: *envFrom
             securityContext:
               allowPrivilegeEscalation: false
