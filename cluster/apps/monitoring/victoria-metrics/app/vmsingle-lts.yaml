@@ -29,6 +29,6 @@ spec:
     spec:
       type: ClusterIP
       ports:
-        -     name: http
+        - name: http
           port: 8428
-          targetPort: http
+          targetPort: 8428
