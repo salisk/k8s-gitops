@@ -80,19 +80,17 @@ spec:
               - source_labels: [__name__]
                 regex: 'hass_.*'
                 action: keep
-        additionalScrapeConfigs: |
-          # Scrape Home Assistant Prometheus endpoint
-          - job_name: 'home-assistant'
+        inlineScrapeConfig: |
+          - job_name: home-assistant
             scrape_interval: 60s
             metrics_path: /api/prometheus
-            authorization:
-              type: Bearer
-              credentials: ${HA_PROMETHEUS_TOKEN}
+            bearer_token: "${HA_PROMETHEUS_TOKEN}"
             scheme: https
             tls_config:
               insecure_skip_verify: true
             static_configs:
-              - targets: ['home-assistant.home.svc.cluster.local:8123']
+              - targets:
+                  - home-assistant.home.svc.cluster.local:8123
 
     vmalert:
       enabled: true
