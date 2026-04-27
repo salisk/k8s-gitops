@@ -1,0 +1,44 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/operator.victoriametrics.com/vmrule_v1beta1.json
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMRule
+metadata:
+  name: node-io-pressure
+  namespace: monitoring
+spec:
+  groups:
+    - name: node.io.pressure
+      rules:
+        # PSI io "some" — fraction of time at least one task is blocked on IO.
+        # Sustained high values mean workloads on this node are spending significant
+        # wall-clock time waiting for storage. This is the early-warning signal.
+        - alert: NodeIOPressureWaiting
+          expr: |
+            rate(node_pressure_io_waiting_seconds_total[5m]) > 0.5
+          for: 1h
+          labels:
+            severity: warning
+          annotations:
+            summary: "Node {{ $labels.kubernetes_node }} IO-waiting {{ $value | humanizePercentage }} of the time"
+            description: >-
+              At least one task on {{ $labels.kubernetes_node }} has been blocked on IO
+              for {{ $value | humanizePercentage }} of wall-clock time, sustained over 15m.
+              Storage subsystem is saturated. Check Longhorn replica distribution,
+              disk fullness, and per-pod write rates (cgroup io.stat).
+
+        # PSI io "full" — fraction of time *all* runnable tasks are blocked on IO.
+        # When this is non-trivial, the entire node is making little progress.
+        # Symptoms: pod terminations stalling, slow image pulls, kubelet probe timeouts.
+        - alert: NodeIOPressureStalled
+          expr: |
+            rate(node_pressure_io_stalled_seconds_total[5m]) > 0.3
+          for: 1h
+          labels:
+            severity: critical
+          annotations:
+            summary: "Node {{ $labels.kubernetes_node }} severely IO-stalled ({{ $value | humanizePercentage }})"
+            description: >-
+              All runnable tasks on {{ $labels.kubernetes_node }} were IO-blocked for
+              {{ $value | humanizePercentage }} of wall-clock time, sustained over 10m.
+              Workloads cannot make progress. Likely causes: Longhorn disk overcommitted,
+              snapshot-pinned blocks filling disk, replica rebuild storm, or hardware fault.

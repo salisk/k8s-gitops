@@ -7,4 +7,5 @@ resources:
   - ./alertmanagerconfig.yaml
   - ./vmrule.yaml
   - ./vmrule-authentik.yaml
+  - ./vmrule-node-io.yaml
   - ./scrapeconfigs
