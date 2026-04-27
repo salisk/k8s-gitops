@@ -54,3 +54,21 @@ spec:
     url: http://vmalertmanager-vm.monitoring.svc.cluster.local:9093
     jsonData:
       implementation: prometheus
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/grafana.integreatly.org/grafanadatasource_v1beta1.json
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDatasource
+metadata:
+  name: metrics-lts
+  namespace: monitoring
+spec:
+  instanceSelector:
+    matchLabels:
+      dashboards: grafana
+  datasource:
+    type: prometheus
+    name: Metrics LTS
+    uid: metrics-lts
+    access: proxy
+    isDefault: false
+    url: http://vmsingle-lts.monitoring.svc.cluster.local:8428
