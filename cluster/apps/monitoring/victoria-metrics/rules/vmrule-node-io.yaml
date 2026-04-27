@@ -42,3 +42,32 @@ spec:
               {{ $value | humanizePercentage }} of wall-clock time, sustained over 10m.
               Workloads cannot make progress. Likely causes: Longhorn disk overcommitted,
               snapshot-pinned blocks filling disk, replica rebuild storm, or hardware fault.
+
+    - name: pod.disk.writes
+      rules:
+        # Catch pods writing unexpectedly heavy traffic to disk — usually misbehaving
+        # apps that don't use tmpfs for /tmp, runaway logging, or unintended data churn.
+        # Naturally heavy writers (databases, registries, time-series, video) are excluded
+        # below. Threshold tuned so 2 MB/s sustained over 30 min triggers — that's
+        # ~170 GB/day, far above what a typical web app should produce.
+        - alert: PodHighDiskWriteRate
+          expr: |
+            sum by (namespace, pod) (
+              rate(container_fs_writes_bytes_total{
+                container!="",
+                container!="POD",
+                pod!~"(harbor-registry|harbor-jobservice|harbor-trivy|frigate|vmsingle|victoria-logs|mariadb|postgres|postgis|dragonfly|nextcloud|plex|jellyfin|immich|paperless|instance-manager|engine-image)-.*",
+                namespace!="longhorn-system",
+              }[10m])
+            ) > 2 * 1024 * 1024
+          for: 30m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Pod {{ $labels.namespace }}/{{ $labels.pod }} writing {{ $value | humanize }}B/s to disk"
+            description: >-
+              {{ $labels.namespace }}/{{ $labels.pod }} has been writing {{ $value | humanize }}B/s
+              ({{ $value | humanize1024 }}/s) to disk for 30 minutes. This is unusual for a non-storage
+              workload and usually indicates: missing tmpfs mount for /tmp, runaway logging, or unbounded
+              cache/state writes. Check container io.stat and consider mounting ephemeral paths as emptyDir
+              with medium=Memory.
