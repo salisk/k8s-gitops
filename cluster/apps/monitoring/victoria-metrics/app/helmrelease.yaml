@@ -80,7 +80,7 @@ spec:
               - source_labels: [__name__]
                 regex: 'hass_.*'
                 action: keep
-        additionalScrapeConfigs:
+        additionalScrapeConfigs: |
           # Scrape Home Assistant Prometheus endpoint
           - job_name: 'home-assistant'
             scrape_interval: 60s
