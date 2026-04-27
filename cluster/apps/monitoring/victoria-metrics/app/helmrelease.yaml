@@ -35,7 +35,7 @@ spec:
     vmsingle:
       enabled: true
       spec:
-        retentionPeriod: "14d"
+        retentionPeriod: "30d"
         storage:
           accessModes:
             - ReadWriteOnce
