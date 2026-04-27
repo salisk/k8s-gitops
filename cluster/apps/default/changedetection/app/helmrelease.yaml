@@ -109,6 +109,11 @@ spec:
           changedetection:
             browser:
               - path: /tmp
-              - path: /home/blessuser
+      shm:
+        type: emptyDir
+        medium: Memory
+        sizeLimit: 256Mi
+        advancedMounts:
+          changedetection:
+            browser:
               - path: /dev/shm
-                subPath: shm
