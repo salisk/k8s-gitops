@@ -101,3 +101,14 @@ spec:
         existingClaim: changedetection
         globalMounts:
           - path: /datastore
+      tmp:
+        type: emptyDir
+        medium: Memory
+        sizeLimit: 1Gi
+        advancedMounts:
+          changedetection:
+            browser:
+              - path: /tmp
+              - path: /home/blessuser
+              - path: /dev/shm
+                subPath: shm
