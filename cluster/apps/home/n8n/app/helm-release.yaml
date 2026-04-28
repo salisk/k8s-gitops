@@ -30,18 +30,9 @@ spec:
             command:
               - sh
               - -c
-              - |
-                DESIRED_VERSION="26.4.0"
-
-                # Check current global version
-                if npm list -g @actual-app/api 2>/dev/null | grep -q "@actual-app/api@$DESIRED_VERSION"; then
-                  echo "@actual-app/api@$DESIRED_VERSION already installed globally"
-                  exit 0
-                fi
-
-                echo "Installing @actual-app/api@$DESIRED_VERSION globally..."
-                npm install -g @actual-app/api@$DESIRED_VERSION
-                npm list -g @actual-app/api
+              - npm install -g @actual-app/api@26.4.0
+            securityContext:
+              runAsUser: 0
         containers:
           app:
             image:
