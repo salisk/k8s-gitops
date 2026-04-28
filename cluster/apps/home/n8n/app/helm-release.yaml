@@ -31,8 +31,7 @@ spec:
               - sh
               - -c
               - |
-                mkdir -p /usr/local/lib/node_modules/n8n/node_modules
-                cd /usr/local/lib/node_modules/n8n/node_modules
+                cd /home/node/.n8n
                 npm install @actual-app/api@26.4.0
             securityContext:
               runAsUser: 0
@@ -54,7 +53,8 @@ spec:
               N8N_HOST: n8n.${SECRET_DOMAIN}
               N8N_LOG_LEVEL: info
               N8N_LOG_OUTPUT: console
-              NODE_FUNCTION_ALLOW_EXTERNAL: "@actual-app/api"
+              # NODE_FUNCTION_ALLOW_EXTERNAL: "@actual-app/api"
+              NODE_FUNCTION_ALLOW_EXTERNAL: "*"
               NODE_FUNCTION_ALLOW_BUILTIN: "*"
               # N8N_RUNNERS_ENABLED: true
             envFrom: *envFrom
