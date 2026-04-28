@@ -30,7 +30,9 @@ spec:
             command:
               - sh
               - -c
-              - npm install -g @actual-app/api@26.4.0
+              - |
+                cd /usr/local/lib/node_modules/n8n/node_modules
+                npm install @actual-app/api@26.4.0
             securityContext:
               runAsUser: 0
         containers:
