@@ -23,6 +23,22 @@ spec:
             envFrom: &envFrom
               - secretRef:
                   name: n8n-secret
+          install-actual-api:
+            image:
+              repository: node
+              tag: 20-alpine
+            command:
+              - sh
+              - -c
+              - |
+                if [ ! -d /home/node/.n8n/node_modules/@actual-app ]; then
+                  cd /home/node/.n8n
+                  npm init -y 2>/dev/null || true
+                  npm install @actual-app/api@latest
+                fi
+            volumeMounts:
+              - name: data
+                mountPath: /home/node/.n8n
         containers:
           app:
             image:
@@ -41,6 +57,8 @@ spec:
               N8N_HOST: n8n.${SECRET_DOMAIN}
               N8N_LOG_LEVEL: info
               N8N_LOG_OUTPUT: console
+              NODE_FUNCTION_ALLOW_EXTERNAL: "@actual-app/api"
+              NODE_FUNCTION_ALLOW_BUILTIN: "*"
               # N8N_RUNNERS_ENABLED: true
             envFrom: *envFrom
             securityContext:
