@@ -31,11 +31,17 @@ spec:
               - sh
               - -c
               - |
-                if [ ! -d /home/node/.n8n/node_modules/@actual-app ]; then
-                  cd /home/node/.n8n
-                  npm init -y 2>/dev/null || true
-                  npm install @actual-app/api@26.4.0
+                DESIRED_VERSION="26.4.0"
+
+                # Check current global version
+                if npm list -g @actual-app/api 2>/dev/null | grep -q "@actual-app/api@$DESIRED_VERSION"; then
+                  echo "@actual-app/api@$DESIRED_VERSION already installed globally"
+                  exit 0
                 fi
+
+                echo "Installing @actual-app/api@$DESIRED_VERSION globally..."
+                npm install -g @actual-app/api@$DESIRED_VERSION
+                npm list -g @actual-app/api
         containers:
           app:
             image:
