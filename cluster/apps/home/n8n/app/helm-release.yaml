@@ -36,9 +36,6 @@ spec:
                   npm init -y 2>/dev/null || true
                   npm install @actual-app/api@latest
                 fi
-            volumeMounts:
-              - name: data
-                mountPath: /home/node/.n8n
         containers:
           app:
             image:
