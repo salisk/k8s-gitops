@@ -88,7 +88,7 @@ spec:
           sidekiq:
             image:
               repository: docker.io/freikin/dawarich
-              tag: 1.7.0
+              tag: 1.6.1
             command: ["sidekiq-entrypoint.sh"]
             env: *env
             envFrom: *envFrom
