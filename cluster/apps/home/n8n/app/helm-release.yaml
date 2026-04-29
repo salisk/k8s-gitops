@@ -23,18 +23,6 @@ spec:
             envFrom: &envFrom
               - secretRef:
                   name: n8n-secret
-          install-actual-api:
-            image:
-              repository: node
-              tag: 20-alpine
-            command:
-              - sh
-              - -c
-              - |
-                cd /home/node/.n8n
-                npm install @actual-app/api@26.4.0
-            securityContext:
-              runAsUser: 0
         containers:
           app:
             image:
@@ -53,10 +41,6 @@ spec:
               N8N_HOST: n8n.${SECRET_DOMAIN}
               N8N_LOG_LEVEL: info
               N8N_LOG_OUTPUT: console
-              # NODE_FUNCTION_ALLOW_EXTERNAL: "@actual-app/api"
-              NODE_FUNCTION_ALLOW_EXTERNAL: "*"
-              NODE_FUNCTION_ALLOW_BUILTIN: "*"
-              # N8N_RUNNERS_ENABLED: true
             envFrom: *envFrom
             securityContext:
               allowPrivilegeEscalation: false
@@ -70,6 +54,7 @@ spec:
                 memory: 2Gi
     defaultPodOptions:
       securityContext:
+        runAsNonRoot: true
         runAsUser: 1000
         runAsGroup: 1000
         fsGroup: 1000

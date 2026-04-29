@@ -65,8 +65,8 @@ spec:
         containers:
           main:
             image:
-              repository: ghcr.io/mattfaz/actualtap
-              tag: v1.0.28
+              repository: ghcr.io/salisk/actualtap
+              tag: 3adc6ef
             env:
               TZ: ${TIMEZONE}
               API_KEY: ${ACTUALTAP_RED_API_KEY}
@@ -111,8 +111,8 @@ spec:
         containers:
           main:
             image:
-              repository: ghcr.io/mattfaz/actualtap
-              tag: v1.0.28
+              repository: ghcr.io/salisk/actualtap
+              tag: 3adc6ef
             env:
               TZ: ${TIMEZONE}
               API_KEY: ${ACTUALTAP_BLUE_API_KEY}
