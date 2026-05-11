@@ -32,7 +32,7 @@ spec:
             image:
               repository: ghost
               # renovate: datasource=docker depName=ghost
-              tag: "6.36.0"
+              tag: "6.37.1"
             env:
               TZ: "${TIMEZONE}"
               url: "https://blog.${SECRET_DOMAIN}"
