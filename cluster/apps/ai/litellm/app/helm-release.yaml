@@ -43,12 +43,7 @@ spec:
               repository: ghcr.io/berriai/litellm
               tag: v1.83.14-stable@sha256:d6401c001f90f3bab4bb23c5fd6d9302a7df58999ec6fa9e3f175e1f5f26544b
             args:
-              - --host
-              - "::"
-              - --port
-              - "4000"
-              - --config
-              - /app/config.yaml
+              - --config=/app/config.yaml
             env:
               TZ: "${TIMEZONE}"
               LITELLM_LOG: INFO
@@ -61,28 +56,18 @@ spec:
               PROXY_BASE_URL: "https://llm.${SECRET_DOMAIN}"
             envFrom: *envFrom
             probes:
-              liveness:
+              liveness: &probes
                 enabled: true
                 custom: true
                 spec:
                   httpGet:
-                    path: /health/liveliness
+                    path: /
                     port: &port 4000
-                  initialDelaySeconds: 30
-                  periodSeconds: 60
-                  timeoutSeconds: 10
-                  failureThreshold: 3
-              readiness:
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /health/readiness
-                    port: *port
                   initialDelaySeconds: 5
-                  periodSeconds: 5
+                  periodSeconds: 10
                   timeoutSeconds: 5
                   failureThreshold: 3
+              readiness: *probes
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: false
