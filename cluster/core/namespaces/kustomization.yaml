@@ -11,3 +11,4 @@ resources:
   - productivity.yaml
   - vault.yaml
   - coder.yaml
+  - ai.yaml

@@ -13,6 +13,7 @@ resources:
   - ./cert-manager/ks.yaml
   - security
   - system
+  - ai
   - ./coder/ks.yaml
   - ./actions-runner-system/namespace.yaml
   - ./actions-runner-system/actions-runner-controller/ks.yaml
