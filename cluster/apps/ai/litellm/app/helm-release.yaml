@@ -130,6 +130,8 @@ spec:
         globalMounts:
           - path: /.cache
             subPath: cache
+          - path: /root/.cache
+            subPath: root-cache
           - path: /.npm
             subPath: npm
           - path: /tmp
@@ -138,3 +140,7 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /usr/local/lib/python3.13/site-packages/prisma
+      ui-restructure:
+        type: emptyDir
+        globalMounts:
+          - path: /app/.venv/lib/python3.13/site-packages/litellm/proxy/_experimental/out
