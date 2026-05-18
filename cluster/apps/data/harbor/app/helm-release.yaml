@@ -76,7 +76,7 @@ spec:
                       - k8s-10
       initContainers:
         - name: init-db
-          image: ghcr.io/home-operations/postgres-init:18.3
+          image: ghcr.io/home-operations/postgres-init:18.4
           envFrom:
             - secretRef:
                 name: harbor-secret
