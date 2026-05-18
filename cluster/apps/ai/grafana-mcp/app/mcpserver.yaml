@@ -8,10 +8,22 @@ spec:
   groupRef:
     name: mcp-tools
   image: grafana/mcp-grafana:0.14.0
-  transport: stdio
+  transport: streamable-http
   env:
     - name: GRAFANA_URL
       value: http://grafana-service.monitoring.svc.cluster.local:3000
   secrets:
     - name: grafana-mcp-secret
       key: GRAFANA_SERVICE_ACCOUNT_TOKEN
+  podTemplateSpec:
+    spec:
+      containers:
+        - name: mcp
+          args:
+            - "-t"
+            - "streamable-http"
+            - "--address"
+            - "0.0.0.0:8000"
+          ports:
+            - containerPort: 8000
+              name: mcp
