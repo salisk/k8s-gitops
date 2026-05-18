@@ -11,7 +11,7 @@ spec:
   transport: stdio
   env:
     - name: GRAFANA_URL
-      value: http://grafana.monitoring.svc.cluster.local:3000
+      value: http://grafana-service.monitoring.svc.cluster.local:3000
   secrets:
     - name: grafana-mcp-secret
       key: GRAFANA_SERVICE_ACCOUNT_TOKEN
