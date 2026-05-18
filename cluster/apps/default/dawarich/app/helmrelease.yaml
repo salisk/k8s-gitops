@@ -59,6 +59,7 @@ spec:
               OIDC_PROVIDER_NAME: "Sign in with Authentik"
               OIDC_AUTO_REGISTER: "true"
               ALLOW_EMAIL_PASSWORD_REGISTRATION: "false"
+              ALLOW_EMAIL_PASSWORD_LOGIN: "false"
             envFrom: *envFrom
             probes:
               liveness: &probes
