@@ -49,8 +49,8 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/bjw-s-labs/piped-frontend
-              tag: 2025.3.17@sha256:8ed05c7df0bc8899e54a3952a99b63d55cdc7669d759beeb9370fbb32330468b
+              repository: docker.io/1337kavin/piped-frontend
+              tag: latest@sha256:bfbacd2d78ae4bc24bced006c72916887ab9dcddc5cc1058d11ef6833ee26f5b
             env:
               BACKEND_HOSTNAME: piped-api.${SECRET_DOMAIN}
             probes:
