@@ -33,6 +33,14 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         strategy: Recreate
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/home-operations/postgres-init
+              tag: 18@sha256:5086f94abc783f1147d7c2a32c01db00ab594820026e4f6a82ac2af3dbde7fc7
+            envFrom: &envFrom
+              - secretRef:
+                  name: open-webui-secret
         containers:
           app:
             image:
@@ -41,6 +49,8 @@ spec:
             env:
               TZ: ${TIMEZONE}
               WEBUI_URL: "https://chat.${SECRET_DOMAIN}"
+              # Database
+              DATABASE_URL: "postgresql://open-webui:${OPEN_WEBUI_POSTGRES_PASSWORD}@postgres-rw.data.svc.cluster.local:5432/open-webui?sslmode=disable"
               # OIDC / Authentik
               ENABLE_SIGNUP: "false"
               ENABLE_LOGIN_FORM: "false"
@@ -62,9 +72,7 @@ spec:
               ENABLE_WEBSOCKET_SUPPORT: "true"
               WEBSOCKET_MANAGER: redis
               WEBSOCKET_REDIS_URL: "redis://dragonfly.data.svc.cluster.local:6379/7"
-            envFrom:
-              - secretRef:
-                  name: open-webui-secret
+            envFrom: *envFrom
             probes:
               liveness: &probes
                 enabled: true
@@ -119,7 +127,7 @@ spec:
                 port: *port
 
     persistence:
-      config:
+      uploads:
         existingClaim: open-webui
         globalMounts:
           - path: /app/backend/data
