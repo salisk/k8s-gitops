@@ -101,7 +101,6 @@ spec:
     service:
       app:
         controller: *app
-        identifier: app
         ports:
           http:
             port: *port
