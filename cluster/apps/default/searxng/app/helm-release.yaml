@@ -33,7 +33,7 @@ spec:
             env:
               SEARXNG_BASE_URL: https://search.${SECRET_DOMAIN}
               SEARXNG_PORT: &port 8080
-              SEARXNG_REDIS_URL: "redis://dragonfly.data.svc.cluster.local:6379/8"
+              SEARXNG_VALKEY_URL: "redis://dragonfly.data.svc.cluster.local:6379/8"
               TZ: ${TIMEZONE}
               UWSGI_WORKERS: 1
               UWSGI_THREADS: 4
@@ -48,6 +48,9 @@ spec:
                   httpGet:
                     path: /healthz
                     port: *port
+                    httpHeaders:
+                      - name: X-Forwarded-For
+                        value: 127.0.0.1
                   initialDelaySeconds: 15
                   periodSeconds: 10
                   timeoutSeconds: 1
@@ -97,6 +100,9 @@ spec:
             app:
               - path: /etc/searxng/settings.yml
                 subPath: settings.yml
+                readOnly: true
+              - path: /etc/searxng/favicons.toml
+                subPath: favicons.toml
                 readOnly: true
               - path: /etc/searxng/limiter.toml
                 subPath: limiter.toml
