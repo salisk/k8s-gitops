@@ -70,3 +70,5 @@ spec:
             path: /app/config/widgets.yaml
     serviceAccount:
       homepage: {}
+    defaultPodOptions:
+      automountServiceAccountToken: true
