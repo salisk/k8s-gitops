@@ -46,6 +46,11 @@ spec:
                   - ALL
       frontend:
         strategy: RollingUpdate
+        pod:
+          securityContext:
+            runAsUser: 101
+            runAsGroup: 101
+            fsGroup: 101
         containers:
           app:
             image:
@@ -53,6 +58,7 @@ spec:
               tag: latest@sha256:bfbacd2d78ae4bc24bced006c72916887ab9dcddc5cc1058d11ef6833ee26f5b
             env:
               BACKEND_HOSTNAME: piped-api.${SECRET_DOMAIN}
+              HTTP_PORT: "8080"
             probes:
               liveness:
                 enabled: true
