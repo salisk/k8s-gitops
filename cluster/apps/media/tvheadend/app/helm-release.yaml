@@ -27,6 +27,7 @@ spec:
   values:
     controllers:
       tvheadend:
+        replicas: 0
         annotations:
           reloader.stakater.com/auto: "true"
         pod:
