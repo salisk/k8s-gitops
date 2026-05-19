@@ -174,7 +174,7 @@ spec:
             sectionName: https
         rules:
           - backendRefs:
-              - name: backend
+              - identifier: backend
                 port: *port
       frontend:
         hostnames:
@@ -185,7 +185,7 @@ spec:
             sectionName: https
         rules:
           - backendRefs:
-              - name: frontend
+              - identifier: frontend
                 port: *port
       ytproxy:
         hostnames:
@@ -196,7 +196,7 @@ spec:
             sectionName: https
         rules:
           - backendRefs:
-              - name: ytproxy
+              - identifier: ytproxy
                 port: *port
       # ingress:
       # bg-helper:
