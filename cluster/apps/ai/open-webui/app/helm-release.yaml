@@ -64,10 +64,10 @@ spec:
               ENABLE_RAG_WEB_SEARCH: "true"
               RAG_WEB_SEARCH_ENGINE: searxng
               SEARXNG_QUERY_URL: "http://searxng.default.svc.cluster.local:8080/search?q=<query>"
-              # LLM API (via litellm proxy)
+              # LLM API (via litellm proxy + hermes agent)
               ENABLE_OPENAI_API: "true"
-              OPENAI_API_BASE_URLS: "http://litellm.ai.svc.cluster.local/v1"
-              OPENAI_API_KEYS: "${LITELLM_MASTER_KEY}"
+              OPENAI_API_BASE_URLS: "http://litellm.ai.svc.cluster.local/v1;http://hermes.ai.svc.cluster.local:8642/v1"
+              OPENAI_API_KEYS: "${LITELLM_MASTER_KEY};${LITELLM_MASTER_KEY}"
               # WebSocket
               ENABLE_WEBSOCKET_SUPPORT: "true"
               WEBSOCKET_MANAGER: redis
