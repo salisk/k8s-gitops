@@ -7,3 +7,4 @@ resources:
   - ./memory-mcp/ks.yaml
   - ./grafana-mcp/ks.yaml
   - ./open-webui/ks.yaml
+  - ./hermes/ks.yaml
