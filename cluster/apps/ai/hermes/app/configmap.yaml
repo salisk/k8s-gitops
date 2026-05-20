@@ -11,14 +11,14 @@ data:
     model:
       default: kimi-k2.6
       provider: custom:kubernetes
-      base_url: http://litellm.ai.svc.cluster.local:4000/v1
+      base_url: http://litellm.ai.svc.cluster.local/v1
       api_key: ${LITELLM_MASTER_KEY}
     fallback_providers:
       - provider: custom:kubernetes
         model: minimax-m2.7
     providers:
       kubernetes:
-        base_url: http://litellm.ai.svc.cluster.local:4000/v1
+        base_url: http://litellm.ai.svc.cluster.local/v1
         api_key: ${LITELLM_MASTER_KEY}
     toolsets:
       - hermes-cli
