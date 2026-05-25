@@ -54,10 +54,14 @@ spec:
               OIDC_PROVIDER_NAME: authentik
               OIDC_CONFIGURATION_URL: https://sso.${SECRET_DOMAIN}/application/o/mealie/.well-known/openid-configuration
               OIDC_SIGNUP_ENABLED: true
+              OIDC_USER_CLAIM: preferred_username
+              OIDC_NAME_CLAIM: name
+              OIDC_GROUPS_CLAIM: groups
               OIDC_USER_GROUP: "authentik users"
-              OIDC_ADMIN_GROUP: "Service Aadmin"
+              OIDC_ADMIN_GROUP: "admins"
               OIDC_AUTO_REDIRECT: true # Optional: The login page will be bypassed and you will be sent directly to your Identity Provider.
               OIDC_REMEMBER_ME: true # Optional: By setting this value to true, a session will be extended as if "Remember Me" was checked.
+              ALLOW_PASSWORD_LOGIN: false
             envFrom: *envFrom
             securityContext:
               allowPrivilegeEscalation: false
