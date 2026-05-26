@@ -12,7 +12,6 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: home-assistant
-      namespace: home
   path: ./cluster/apps/home/matter-server/app
   prune: true
   sourceRef:
