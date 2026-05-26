@@ -10,3 +10,4 @@ resources:
   - ./n8n/ks.yaml
   - ./trmnl/ks.yaml
   - ./homebox/ks.yaml
+  - ./matter-server/ks.yaml
