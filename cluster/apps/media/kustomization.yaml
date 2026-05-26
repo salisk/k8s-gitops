@@ -7,7 +7,6 @@ resources:
   - ./qbittorrent/ks.yaml
   - ./bazarr/ks.yaml
   - ./immich/ks.yaml
-  - ./overseerr/ks.yaml
   - ./seerr/ks.yaml
   - ./dispatcharr/ks.yaml
   - ./radarr/ks.yaml
