@@ -5,3 +5,4 @@ resources:
   - nfs-photos.yaml
   - nfs-nextcloud.yaml
   - nfs-immich.yaml
+  - overseerr-config-v1.yaml
