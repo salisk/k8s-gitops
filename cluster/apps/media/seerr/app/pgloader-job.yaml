@@ -26,7 +26,7 @@ spec:
                 --with "quote identifiers" \
                 --with "data only" \
                 /app/config/db.sqlite3 \
-                "postgresql://seerr:${DB_PASS}@postgres-rw.data.svc.cluster.local:5432/seerr"
+                "postgresql://seerr:$${DB_PASS}@postgres-rw.data.svc.cluster.local:5432/seerr"
           env:
             - name: DB_PASS
               valueFrom:
