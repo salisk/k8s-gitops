@@ -15,14 +15,22 @@ spec:
           command: ["/bin/sh", "-c"]
           args:
             - |
+              DB_PASS="$(cat /secrets/DB_PASS)"
+              if [ -z "$DB_PASS" ]; then
+                echo "ERROR: DB_PASS is empty. Check seerr-secret contains the password."
+                exit 1
+              fi
               pgloader \
                 --with "quote identifiers" \
                 --with "data only" \
                 /app/config/db.sqlite3 \
                 "postgresql://seerr:${DB_PASS}@postgres-rw.data.svc.cluster.local:5432/seerr"
-          envFrom:
-            - secretRef:
-                name: seerr-secret
+          env:
+            - name: DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: seerr-secret
+                  key: DB_PASS
           volumeMounts:
             - name: config
               mountPath: /app/config
