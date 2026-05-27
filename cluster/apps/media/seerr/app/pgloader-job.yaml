@@ -15,11 +15,13 @@ spec:
           command: ["/bin/sh", "-c"]
           args:
             - |
-              DB_PASS="$(cat /secrets/DB_PASS)"
               if [ -z "$DB_PASS" ]; then
-                echo "ERROR: DB_PASS is empty. Check seerr-secret contains the password."
+                echo "ERROR: DB_PASS is empty or not set"
+                echo "Env dump (names only):"
+                env | sort
                 exit 1
               fi
+              echo "DB_PASS is set (length: ${#DB_PASS})"
               pgloader \
                 --with "quote identifiers" \
                 --with "data only" \
