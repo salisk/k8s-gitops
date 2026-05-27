@@ -1,0 +1,32 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: seerr-pgloader-migration
+  namespace: media
+spec:
+  suspend: true
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: pgloader
+          image: ghcr.io/ralgar/pgloader:pr-1531
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              pgloader \
+                --with "quote identifiers" \
+                --with "data only" \
+                /app/config/db.sqlite3 \
+                "postgresql://seerr:${DB_PASS}@postgres-rw.data.svc.cluster.local:5432/seerr"
+          envFrom:
+            - secretRef:
+                name: seerr-secret
+          volumeMounts:
+            - name: config
+              mountPath: /app/config
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: overseerr-config-v1

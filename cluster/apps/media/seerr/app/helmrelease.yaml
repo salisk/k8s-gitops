@@ -36,6 +36,15 @@ spec:
       seerr:
         annotations:
           reloader.stakater.com/auto: "true"
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/home-operations/postgres-init
+              tag: 18
+              pullPolicy: IfNotPresent
+            envFrom: &envFrom
+              - secretRef:
+                  name: seerr-secret
         containers:
           app:
             image:
@@ -45,6 +54,7 @@ spec:
               TZ: "${TIMEZONE}"
               LOG_LEVEL: "info"
               PORT: &port 5055
+            envFrom: *envFrom
             probes:
               liveness: &probe
                 enabled: true
@@ -94,7 +104,7 @@ spec:
           gethomepage.dev/description: Movie Requests
           gethomepage.dev/icon: overseerr.png
           gethomepage.dev/widget.type: overseerr
-          gethomepage.dev/widget.url: http://overseerr.media
+          gethomepage.dev/widget.url: http://seerr.media
           gethomepage.dev/widget.key: "${HOMEPAGE_OVERSEERR_KEY}"
         hostnames:
           - "requests.${SECRET_DOMAIN}"
