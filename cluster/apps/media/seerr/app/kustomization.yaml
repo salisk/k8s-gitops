@@ -4,5 +4,4 @@ resources:
   - config-pvc.yaml
   - helmrelease.yaml
   - secret.yaml
-  - pgloader-job.yaml
   - ../../../../templates/gatus/external
