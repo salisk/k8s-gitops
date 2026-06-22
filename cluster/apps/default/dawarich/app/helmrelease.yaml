@@ -37,7 +37,7 @@ spec:
           app:
             image:
               repository: docker.io/freikin/dawarich
-              tag: 1.7.10
+              tag: 1.9.0
             command: ["web-entrypoint.sh"]
             args: ["bin/rails", "server", "-p", "3000", "-b", "::"]
             env: &env
@@ -89,7 +89,7 @@ spec:
           sidekiq:
             image:
               repository: docker.io/freikin/dawarich
-              tag: 1.7.10
+              tag: 1.9.0
             command: ["sidekiq-entrypoint.sh"]
             env: *env
             envFrom: *envFrom
