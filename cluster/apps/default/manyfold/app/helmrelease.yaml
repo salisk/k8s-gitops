@@ -42,7 +42,7 @@ spec:
           app:
             image:
               repository: ghcr.io/bjw-s-labs/manyfold
-              tag: 0.141.0@sha256:b0c31ebb191d558aa031d3090cd952759bacbaa533ac1879d2604cf89a903572
+              tag: 0.144.1@sha256:a6845dcc78b8ef6dba37e7c7e46d2ea3e433f565ae008b77a069cee3fffddb13
             env:
               MULTIUSER: false
               PUBLIC_HOSTNAME: manyfold.${SECRET_DOMAIN}
