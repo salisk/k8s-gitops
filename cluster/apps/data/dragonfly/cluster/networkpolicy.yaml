@@ -12,6 +12,13 @@ spec:
       app.kubernetes.io/part-of: dragonfly
   ingress:
     - from:
+        - podSelector: {}
+          namespaceSelector: {}
+      ports:
+        - port: 6379
+          protocol: TCP
+    # Admin/metrics scraping — narrow allowlist.
+    - from:
         - namespaceSelector:
             matchLabels:
               kubernetes.io/metadata.name: monitoring
