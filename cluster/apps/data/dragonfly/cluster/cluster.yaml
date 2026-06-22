@@ -7,7 +7,8 @@ metadata:
   namespace: data
 spec:
   image: ghcr.io/dragonflydb/dragonfly:v1.39.0@sha256:0fa01a2b929e704c7a9300d23e7f52002ebd39e90996fb8bb63826aed92fa06f
-  replicas: 4 # set to the number of nodes in the cluster
+  replicas: 3
+  networkPolicyEnabled: false
   env:
     - name: MAX_MEMORY
       valueFrom:
@@ -24,12 +25,10 @@ spec:
       cpu: 100m
     limits:
       memory: 512Mi
-  affinity:
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-          - matchExpressions:
-              - key: kubernetes.io/hostname
-                operator: NotIn
-                values:
-                  - k8s-15
+  topologySpreadConstraints:
+    - maxSkew: 1
+      topologyKey: "kubernetes.io/hostname"
+      whenUnsatisfiable: "DoNotSchedule"
+      labelSelector:
+        matchLabels:
+          app.kubernetes.io/part-of: dragonfly
