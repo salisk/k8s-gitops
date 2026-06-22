@@ -25,7 +25,7 @@ spec:
     coder:
       image:
         # renovate: datasource=docker depName=ghcr.io/coder/coder
-        tag: v2.33.6
+        tag: v2.34.3
 
       initContainers:
         - name: init-db
