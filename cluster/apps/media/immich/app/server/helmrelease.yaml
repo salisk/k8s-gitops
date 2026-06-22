@@ -56,6 +56,9 @@ spec:
               requests:
                 cpu: 100m
                 memory: 250Mi
+                gpu.intel.com/i915: "1"
+              limits:
+                gpu.intel.com/i915: "1"
             probes:
               liveness: &probes
                 enabled: true
