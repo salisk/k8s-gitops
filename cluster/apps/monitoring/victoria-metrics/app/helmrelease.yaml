@@ -70,7 +70,7 @@ spec:
             inlineUrlRelabelConfig:
               # Drop HASS metrics - they go to LTS
               - source_labels: [__name__]
-                regex: 'hass_.*'
+                regex: "hass_.*"
                 action: drop
           # Home Assistant metrics to long-term storage
           - url: "http://vmsingle-lts.monitoring.svc.cluster.local:8428/api/v1/write"
@@ -78,7 +78,7 @@ spec:
             inlineUrlRelabelConfig:
               # Only keep HASS metrics
               - source_labels: [__name__]
-                regex: 'hass_.*'
+                regex: "hass_.*"
                 action: keep
         inlineScrapeConfig: |
           - job_name: home-assistant
@@ -349,10 +349,3 @@ spec:
 
     nodeExporter:
       enabled: false
-
-    defaultRules:
-      create: true
-      disabled:
-        KubeProxyDown: true
-      rules:
-        kubeProxy: false
