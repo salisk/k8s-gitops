@@ -50,7 +50,7 @@ spec:
           app:
             image:
               repository: docker.io/nousresearch/hermes-agent
-              tag: v2026.5.16@sha256:b6e41c155d6bfce5ad83c5d0fec670086db8a43250e4511c9474134be5482d33
+              tag: v2026.6.19@sha256:9f367c7756ef087661a361536a89f438d57a122b958dc23d82d456b1433e6e9e
             args: ["gateway", "run"]
             env:
               TZ: ${TIMEZONE}
@@ -91,7 +91,7 @@ spec:
           dashboard:
             image:
               repository: docker.io/nousresearch/hermes-agent
-              tag: v2026.5.16@sha256:b6e41c155d6bfce5ad83c5d0fec670086db8a43250e4511c9474134be5482d33
+              tag: v2026.6.19@sha256:9f367c7756ef087661a361536a89f438d57a122b958dc23d82d456b1433e6e9e
             args:
               - dashboard
               - --host
