@@ -13,6 +13,7 @@ resources:
   #  - ./linkwarden/ks.yaml
   #  - ./linkding/ks.yaml
   - ./stirling-pdf/ks.yaml
+  - ./sure/ks.yaml
   # - ./radicale/ks.yaml
   - ./karakeep/ks.yaml
   - ./it-tools/ks.yaml
