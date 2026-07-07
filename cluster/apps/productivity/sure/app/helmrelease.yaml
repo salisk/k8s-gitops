@@ -163,11 +163,3 @@ spec:
               - path: /rails/storage
             worker:
               - path: /rails/storage
-      tmp:
-        type: emptyDir
-        advancedMounts:
-          sure:
-            app:
-              - path: /tmp
-            worker:
-              - path: /tmp
