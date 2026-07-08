@@ -83,7 +83,6 @@ spec:
               limits:
                 memory: 4Gi
             securityContext:
-              allowPrivilegeEscalation: false
               readOnlyRootFilesystem: false
               capabilities:
                 add: ["CHOWN"]
