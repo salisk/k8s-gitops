@@ -18,3 +18,4 @@ resources:
   - ./dawarich/ks.yaml
   - ./changedetection/ks.yaml
   - ./searxng/ks.yaml
+  - ./trek/ks.yaml
