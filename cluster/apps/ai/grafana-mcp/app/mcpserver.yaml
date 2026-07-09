@@ -9,12 +9,7 @@ spec:
     name: mcp-tools
   image: grafana/mcp-grafana:0.17.1
   transport: streamable-http
-  env:
-    - name: GRAFANA_URL
-      value: http://grafana-service.monitoring.svc.cluster.local:3000
-  secrets:
-    - name: grafana-mcp-secret
-      key: GRAFANA_SERVICE_ACCOUNT_TOKEN
+  mcpPort: 8080
   podTemplateSpec:
     spec:
       containers:
@@ -24,6 +19,15 @@ spec:
             - "streamable-http"
             - "--address"
             - "0.0.0.0:8080"
+            - "--allowed-hosts"
+            - "*"
           ports:
             - containerPort: 8080
-              name: mcp
+              name: http
+              protocol: TCP
+  env:
+    - name: GRAFANA_URL
+      value: http://grafana-service.monitoring.svc.cluster.local:3000
+  secrets:
+    - name: grafana-mcp-secret
+      key: GRAFANA_SERVICE_ACCOUNT_TOKEN
