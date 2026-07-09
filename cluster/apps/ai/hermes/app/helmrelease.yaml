@@ -59,6 +59,9 @@ spec:
               HOME: /opt/data
               SEARXNG_URL: http://searxng.default.svc.cluster.local:8080
               TERM: xterm-256color
+              HERMES_DASHBOARD: "1"
+              HERMES_DASHBOARD_OIDC_ISSUER: https://sso.${SECRET_DOMAIN}/application/o/hermes/
+              HERMES_DASHBOARD_PUBLIC_URL: https://hermes.${SECRET_DOMAIN}
             envFrom:
               - secretRef:
                   name: hermes-secret
@@ -73,6 +76,9 @@ spec:
               - containerPort: 8642
                 name: http
                 protocol: TCP
+              - containerPort: 9119
+                name: dashboard
+                protocol: TCP
             resources:
               requests:
                 cpu: 100m
@@ -81,29 +87,6 @@ spec:
                 memory: 4Gi
             securityContext:
               readOnlyRootFilesystem: false
-          dashboard:
-            image:
-              repository: docker.io/nousresearch/hermes-agent
-              tag: v2026.7.7@sha256:ce3b39adf33fffae8cb19dcae74f971975b972efe91207f7d7539f80a0aae66a
-            args:
-              - dashboard
-              - --host
-              - "0.0.0.0"
-            env:
-              TZ: ${TIMEZONE}
-              GATEWAY_HEALTH_URL: http://localhost:8642
-              HERMES_DASHBOARD_OIDC_ISSUER: https://sso.${SECRET_DOMAIN}/application/o/hermes/
-              HERMES_DASHBOARD_PUBLIC_URL: https://hermes.${SECRET_DOMAIN}
-            resources:
-              requests:
-                cpu: 50m
-                memory: 256Mi
-              limits:
-                memory: 1Gi
-            ports:
-              - containerPort: 9119
-                name: http
-                protocol: TCP
 
     service:
       app:
@@ -111,16 +94,13 @@ spec:
         ports:
           http:
             port: *port
+          dashboard:
+            port: 9119
           codeserver: # placeholder for future code-server
             port: 12321
-      dashboard:
-        controller: hermes
-        ports:
-          http:
-            port: 9119
 
     route:
-      dashboard:
+      app:
         hostnames:
           - "hermes.${SECRET_DOMAIN}"
         parentRefs:
@@ -129,8 +109,8 @@ spec:
             sectionName: https
         rules:
           - backendRefs:
-              - identifier: dashboard
-                port: http
+              - identifier: app
+                port: dashboard
 
     persistence:
       data:
