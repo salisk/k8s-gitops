@@ -6,7 +6,12 @@ metadata:
   namespace: ai
 data:
   config.yaml: |
-    model_list: []
+    model_list:
+      - model_name: "kimchi/*"
+        litellm_params:
+          model: "openai/*"
+          api_base: os.environ/KIMCHI_URL
+          api_key: os.environ/KIMCHI_API_KEY
 
     general_settings:
       health_check_endpoint: /v1/health
