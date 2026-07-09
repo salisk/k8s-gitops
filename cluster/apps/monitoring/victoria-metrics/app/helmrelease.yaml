@@ -23,6 +23,17 @@ spec:
   values:
     fullnameOverride: vm
 
+    defaultRules:
+      groups:
+        kube-prometheus-general.rules:
+          enabled: false
+        kube-scheduler.rules:
+          enabled: false
+        kubernetes-system-scheduler:
+          enabled: false
+        kubernetes-system-controller-manager:
+          enabled: false
+
     victoria-metrics-operator:
       enabled: true
       fullnameOverride: vm-operator
