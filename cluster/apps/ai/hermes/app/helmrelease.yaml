@@ -89,11 +89,11 @@ spec:
               - dashboard
               - --host
               - "0.0.0.0"
-              - --insecure
             env:
               TZ: ${TIMEZONE}
               GATEWAY_HEALTH_URL: http://localhost:8642
               HERMES_DASHBOARD_OIDC_ISSUER: https://sso.${SECRET_DOMAIN}/application/o/hermes/
+              HERMES_DASHBOARD_PUBLIC_URL: https://hermes.${SECRET_DOMAIN}
             resources:
               requests:
                 cpu: 50m
