@@ -7,9 +7,19 @@ metadata:
 data:
   config.yaml: |
     model_list:
-      - model_name: "kimchi/*"
+      - model_name: "kimchi/glm-5.2-fp8"
         litellm_params:
-          model: "openai/*"
+          model: "openai/glm-5.2-fp8"
+          api_base: os.environ/KIMCHI_URL
+          api_key: os.environ/KIMCHI_API_KEY
+      - model_name: "kimchi/kimi-k2.7"
+        litellm_params:
+          model: "openai/kimi-k2.7"
+          api_base: os.environ/KIMCHI_URL
+          api_key: os.environ/KIMCHI_API_KEY
+      - model_name: "kimchi/minimax-m3"
+        litellm_params:
+          model: "openai/minimax-m3"
           api_base: os.environ/KIMCHI_URL
           api_key: os.environ/KIMCHI_API_KEY
 
