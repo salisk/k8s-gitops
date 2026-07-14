@@ -52,7 +52,7 @@
     {
       description: "Coder Group",
       groupName: "coder",
-      matchPackageNames: ["/coder/coder", "/coder/chart/coder"],
+      matchPackageNames: ["/coder/coder/", "/coder/chart/coder/"],
       matchDatasources: ["docker", "helm"],
       group: {
         commitMessageTopic: "{{{groupName}}} group",
