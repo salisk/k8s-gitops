@@ -35,7 +35,7 @@ spec:
           app:
             image:
               repository: ghcr.io/kite-org/kite
-              tag: v0.13.0
+              tag: v0.14.1
             env:
               HOST: https://kite.${SECRET_DOMAIN}
               KITE_CONFIG_FILE: /etc/kite/config.yaml
