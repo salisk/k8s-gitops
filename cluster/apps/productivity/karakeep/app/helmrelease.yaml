@@ -108,7 +108,7 @@ spec:
               tag: v1.51.0
             args:
               - /bin/meilisearch
-              - --experimental-dumpless-upgrade
+              # - --experimental-dumpless-upgrade
             env:
               MEILI_NO_ANALYTICS: true
               MEILI_MASTER_KEY: ${KARAKEEP_MEILI_KEY}
