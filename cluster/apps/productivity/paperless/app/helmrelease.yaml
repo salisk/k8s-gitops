@@ -53,10 +53,6 @@ spec:
               PAPERLESS_OCR_LANGUAGES: eng lit
               PAPERLESS_TIME_ZONE: "${TIMEZONE}"
               PAPERLESS_DBHOST: postgres-rw.data.svc.cluster.local
-              PAPERLESS_DBPASS: ${PAPERLESS_DBPASS}
-              PAPERLESS_ADMIN_USER: ${PAPERLESS_ADMIN_USER}
-              PAPERLESS_ADMIN_PASSWORD: ${PAPERLESS_ADMIN_PASSWORD}
-              PAPERLESS_SECRET_KEY: ${PAPERLESS_SECRET_KEY}
               # Redis
               PAPERLESS_REDIS: redis://dragonfly.data.svc.cluster.local:6379
               # Configuration
@@ -70,6 +66,9 @@ spec:
               PAPERLESS_PRE_CONSUME_SCRIPT: /usr/src/paperless/scripts/pdfpassword.py
               # Configure user permissions
               USERMAP_GID: "1000"
+            envFrom:
+              - secretRef:
+                  name: paperless-secret
             probes:
               liveness:
                 enabled: true

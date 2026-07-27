@@ -5,6 +5,7 @@ kind: Kustomization
 resources:
   - ./config-pvc.yaml
   - ./helmrelease.yaml
+  - ./secret.yaml
   - ./pdf-passwords.yaml
   - ../../../../templates/gatus/internal
 configMapGenerator:
