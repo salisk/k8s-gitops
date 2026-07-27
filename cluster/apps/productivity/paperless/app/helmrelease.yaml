@@ -56,6 +56,7 @@ spec:
               PAPERLESS_DBPASS: ${PAPERLESS_DBPASS}
               PAPERLESS_ADMIN_USER: ${PAPERLESS_ADMIN_USER}
               PAPERLESS_ADMIN_PASSWORD: ${PAPERLESS_ADMIN_PASSWORD}
+              PAPERLESS_SECRET_KEY: ${PAPERLESS_SECRET_KEY}
               # Redis
               PAPERLESS_REDIS: redis://dragonfly.data.svc.cluster.local:6379
               # Configuration
