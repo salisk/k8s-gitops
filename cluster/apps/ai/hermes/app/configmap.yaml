@@ -9,13 +9,13 @@ data:
     # Hermes Agent configuration
     # Model provider: routed through the existing litellm proxy
     model:
-      default: kimi-k2.6
-      provider: custom:kubernetes
+      default: kimchi/glm-5.2-fp8
+      provider: kubernetes
       base_url: http://litellm.ai.svc.cluster.local/v1
       api_key: ${LITELLM_MASTER_KEY}
     fallback_providers:
-      - provider: custom:kubernetes
-        model: minimax-m2.7
+      - provider: kubernetes
+        model: kimchi/kimi-k2.7
     providers:
       kubernetes:
         base_url: http://litellm.ai.svc.cluster.local/v1
