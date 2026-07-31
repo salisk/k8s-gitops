@@ -19,5 +19,6 @@ resources:
   - ./actions-runner-system/actions-runner-controller/ks.yaml
   - ./castai-agent/namespace.yaml
   - castai-agent
+  - books
   - flux-system
   # - vault

@@ -12,3 +12,4 @@ resources:
   - vault.yaml
   - coder.yaml
   - ai.yaml
+  - books.yaml

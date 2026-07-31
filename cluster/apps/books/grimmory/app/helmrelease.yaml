@@ -1,0 +1,166 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: grimmory
+  namespace: books
+spec:
+  interval: 30m
+  chartRef:
+    kind: OCIRepository
+    name: grimmory
+    namespace: books
+  maxHistory: 2
+  install:
+    remediation:
+      retries: -1
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+      strategy: rollback
+  uninstall:
+    keepHistory: false
+  values:
+    controllers:
+      grimmory:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        initContainers:
+          init-db:
+            image:
+              repository: docker.io/library/mariadb
+              tag: 11.4.5
+            envFrom:
+              - secretRef:
+                  name: grimmory-secret
+            command: ["bash", "-c"]
+            args:
+              - |
+                until mariadb -h mariadb.data.svc -u root -p"$MYSQL_ROOT_PASSWORD" -e 'SELECT 1'; do
+                  echo "Waiting for MariaDB..."
+                  sleep 3
+                done
+                mariadb -h mariadb.data.svc -u root -p"$MYSQL_ROOT_PASSWORD" -e "
+                  CREATE DATABASE IF NOT EXISTS grimmory CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci';
+                  CREATE USER IF NOT EXISTS 'grimmory'@'%' IDENTIFIED BY '$DATABASE_PASSWORD';
+                  GRANT ALL PRIVILEGES ON grimmory.* TO 'grimmory'@'%';
+                  FLUSH PRIVILEGES;
+                "
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
+        containers:
+          app:
+            image:
+              repository: ghcr.io/grimmory-tools/grimmory
+              tag: v3.2.4@sha256:dfa7afdfcf25d649fd664497a62385dd00cd9678c37546e182c172e41c8e80cb
+            # Bypass /usr/local/bin/entrypoint.sh — it expects to start as root
+            # to addgroup/adduser/chown before su-exec'ing down to USER_ID.
+            # Invoke java directly; the JVM runs as UID 1000 from the start.
+            command: ["java"]
+            args:
+              - "--enable-native-access=ALL-UNNAMED"
+              - "--enable-preview"
+              - "-jar"
+              - /app/app.jar
+            env:
+              TZ: "${TIMEZONE}"
+              USER_ID: "1000"
+              GROUP_ID: "1000"
+              BOOKLORE_PORT: &port 6060
+              DATABASE_URL: jdbc:mariadb://mariadb.data.svc:3306/grimmory
+              DATABASE_USERNAME: grimmory
+              DATABASE_PASSWORD:
+                valueFrom:
+                  secretKeyRef:
+                    name: grimmory-secret
+                    key: DATABASE_PASSWORD
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/v1/healthcheck
+                    port: *port
+                  initialDelaySeconds: 30
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/v1/healthcheck
+                    port: *port
+                  failureThreshold: 30
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
+            resources:
+              requests:
+                cpu: 50m
+                memory: 500Mi
+              limits:
+                memory: 2Gi
+        pod:
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
+            fsGroupChangePolicy: OnRootMismatch
+
+    service:
+      app:
+        controller: grimmory
+        ports:
+          http:
+            port: *port
+
+    persistence:
+      config:
+        existingClaim: grimmory-config-v1
+        advancedMounts:
+          grimmory:
+            app:
+              - path: /app/data
+      books:
+        type: nfs
+        server: "${NAS_ADDR}"
+        path: /volume1/media
+        advancedMounts:
+          grimmory:
+            app:
+              - path: /books
+                subPath: books
+              - path: /bookdrop
+                subPath: bookdrop
+      tmpfs:
+        type: emptyDir
+        advancedMounts:
+          grimmory:
+            app:
+              - path: /tmp
+
+    route:
+      app:
+        hostnames: ["{{ .Release.Name }}.${SECRET_DOMAIN}"]
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *port
