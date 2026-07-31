@@ -38,11 +38,11 @@ spec:
             command: ["bash", "-c"]
             args:
               - |
-                until mariadb -h mariadb.data.svc -u root -p"$MYSQL_ROOT_PASSWORD" -e 'SELECT 1'; do
+                until mariadb --ssl=false -h mariadb.data.svc -u root -p"$MYSQL_ROOT_PASSWORD" -e 'SELECT 1'; do
                   echo "Waiting for MariaDB..."
                   sleep 3
                 done
-                mariadb -h mariadb.data.svc -u root -p"$MYSQL_ROOT_PASSWORD" -e "
+                mariadb --ssl=false -h mariadb.data.svc -u root -p"$MYSQL_ROOT_PASSWORD" -e "
                   CREATE DATABASE IF NOT EXISTS grimmory CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci';
                   CREATE USER IF NOT EXISTS 'grimmory'@'%' IDENTIFIED BY '$DATABASE_PASSWORD';
                   GRANT ALL PRIVILEGES ON grimmory.* TO 'grimmory'@'%';
