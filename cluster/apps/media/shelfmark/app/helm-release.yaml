@@ -33,7 +33,7 @@ spec:
               tag: v1.3.5
             env:
               FLASK_PORT: &port 8084
-              INGEST_DIR: /cwa-book-ingest
+              INGEST_DIR: /bookdrop
               BOOK_LANGUAGE: en,lt
               DEFAULT_SLEEP: 15
               USE_BOOK_TITLE: true
@@ -115,9 +115,9 @@ spec:
         globalMounts:
           - path: /tmp
           - path: /var/log
-      ingest:
+      bookdrop:
         type: nfs
         server: "${NAS_ADDR}"
-        path: /volume1/media/calibre/ingest
+        path: /volume1/media/bookdrop
         globalMounts:
-          - path: /cwa-book-ingest
+          - path: /bookdrop
