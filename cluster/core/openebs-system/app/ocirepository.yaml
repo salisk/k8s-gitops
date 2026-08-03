@@ -10,6 +10,7 @@ spec:
   layerSelector:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
+  # renovate: datasource=docker depName=ghcr.io/openebs/charts/openebs
   ref:
     tag: 4.5.1
   url: oci://ghcr.io/openebs/charts/openebs
