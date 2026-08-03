@@ -20,4 +20,3 @@ resources:
   - ./affine/ks.yaml
   - ./outline/ks.yaml
   - ./memos/ks.yaml
-  # - ./appflowy/ks.yaml
