@@ -46,7 +46,7 @@ spec:
           app:
             image:
               repository: lscr.io/linuxserver/tvheadend
-              tag: latest@sha256:9d51223a41d909b7c18b40d323df6779201b1b8ca8890b5279262635d06174c2
+              tag: latest@sha256:ccd9f055f0eb5c78c43b40397e35ff30a884a40389222ef04f2e33efecbd3067
             env:
               TZ: ${TIMEZONE}
               PUID: "0"
