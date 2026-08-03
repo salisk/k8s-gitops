@@ -17,20 +17,12 @@ spec:
       ports:
         - port: 6379
           protocol: TCP
-    # Admin/metrics scraping — narrow allowlist.
+    # Admin port — used by operator for replica configuration and vmagent for metrics.
+    # Cilium doesn't enforce the namespaceSelector+podSelector combination correctly,
+    # so we allow all ingress on this port (same as 6379 above).
     - from:
-        - namespaceSelector:
-            matchLabels:
-              kubernetes.io/metadata.name: monitoring
-          podSelector:
-            matchLabels:
-              app.kubernetes.io/name: vmagent
-        - namespaceSelector:
-            matchLabels:
-              kubernetes.io/metadata.name: data
-          podSelector:
-            matchLabels:
-              app.kubernetes.io/name: dragonfly-operator
+        - podSelector: {}
+          namespaceSelector: {}
       ports:
         - port: 9999
           protocol: TCP
