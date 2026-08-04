@@ -36,6 +36,10 @@ spec:
     parameters:
       max_connections: "900"
       shared_buffers: 512MB
+      autovacuum_max_workers: "6"
+      autovacuum_naptime: 30s
+      autovacuum_vacuum_scale_factor: "0.1"
+      autovacuum_vacuum_cost_limit: "1000"
   monitoring:
     enablePodMonitor: true
   backup:
