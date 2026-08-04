@@ -1,0 +1,44 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/toolhive.stacklok.dev/mcpserver_v1beta1.json
+apiVersion: toolhive.stacklok.dev/v1beta1
+kind: MCPServer
+metadata:
+  name: ha-mcp
+spec:
+  groupRef:
+    name: mcp-tools
+  image: ghcr.io/homeassistant-ai/ha-mcp:8.0.0@sha256:d65630f6a3fd14d8f536c27432d4d2cf3045e6f6a2d196cba754ee8566491ae4
+  transport: streamable-http
+  mcpPort: 8086
+  podTemplateSpec:
+    spec:
+      volumes:
+        - name: tmp
+          emptyDir: {}
+      containers:
+        - name: mcp
+          args:
+            - ha-mcp-web
+          ports:
+            - containerPort: 8086
+              name: http
+              protocol: TCP
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+  env:
+    - name: HOMEASSISTANT_URL
+      value: http://home-assistant.home.svc.cluster.local:8123
+    - name: MCP_PORT
+      value: "8086"
+    - name: MCP_SECRET_PATH
+      value: /mcp
+  secrets:
+    - name: ha-mcp-secret
+      key: HOMEASSISTANT_TOKEN
