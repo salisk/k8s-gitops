@@ -56,9 +56,9 @@ spec:
         resources:
           requests:
             cpu: 100m
-            memory: 512Mi
+            memory: 1Gi
           limits:
-            memory: 2Gi
+            memory: 4Gi
         extraArgs:
           maxLabelsPerTimeseries: "40"
           search.minStalenessInterval: 5m
