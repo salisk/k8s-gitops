@@ -77,6 +77,9 @@ spec:
                   httpGet:
                     path: /
                     port: &port 5000
+                    httpHeaders:
+                      - name: Host
+                        value: mail.${SECRET_DOMAIN}
                   initialDelaySeconds: 30
                   periodSeconds: 10
                   timeoutSeconds: 5
@@ -89,6 +92,9 @@ spec:
                   httpGet:
                     path: /
                     port: *port
+                    httpHeaders:
+                      - name: Host
+                        value: mail.${SECRET_DOMAIN}
                   failureThreshold: 30
                   periodSeconds: 5
             resources:
