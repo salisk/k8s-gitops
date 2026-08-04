@@ -95,6 +95,7 @@ spec:
               HERMES_HOME: /opt/data
               HOME: /opt/data
               HERMES_DASHBOARD_OIDC_ISSUER: https://sso.${SECRET_DOMAIN}/application/o/hermes/
+              HERMES_DASHBOARD_OIDC_SCOPES: "openid profile email offline_access"
               HERMES_DASHBOARD_PUBLIC_URL: https://hermes.${SECRET_DOMAIN}
             envFrom:
               - secretRef:
