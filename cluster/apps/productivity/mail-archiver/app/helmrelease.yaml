@@ -128,7 +128,7 @@ spec:
             sectionName: https
         rules:
           - backendRefs:
-              - name: mail-archiver-app
+              - identifier: app
                 port: *port
     persistence:
       data-protection-keys:
