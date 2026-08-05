@@ -30,11 +30,15 @@ spec:
               tag: v3.3.4@sha256:6cd108c731a4f5896d008982ba53b398a5510421d4ef67ce2218aa61d6d2cf8d
             env:
               TZ: "${TIMEZONE}"
-              UP_UNIFI_DEFAULT_ROLE: k8s-gitops
-              UP_UNIFI_DEFAULT_URL: https://${GATEWAY_ADDR}
               UP_PROMETHEUS_HTTP_LISTEN: 0.0.0.0:80
               UP_INFLUXDB_DISABLE: true
-              UP_UNIFI_DEFAULT_API_KEY: ${UNIFI_API_KEY}
+              # Controller 0
+              UP_UNIFI_CONTROLLER_0_ROLE: k8s-gitops
+              UP_UNIFI_CONTROLLER_0_URL: https://${GATEWAY_ADDR}
+              UP_UNIFI_CONTROLLER_0_API_KEY: ${UNIFI_API_KEY}
+              # Controller 1
+              UP_UNIFI_CONTROLLER_1_URL: https://${GATEWAY_ADDR_2}
+              UP_UNIFI_CONTROLLER_1_API_KEY: ${UNIFI_API_KEY_2}
             probes:
               liveness:
                 enabled: true

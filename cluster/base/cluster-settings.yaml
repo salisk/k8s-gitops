@@ -6,6 +6,7 @@ metadata:
   namespace: flux-system
 data:
   GATEWAY_ADDR: 192.168.30.1
+  GATEWAY_ADDR_2: 192.168.0.1
   NAS_ADDR: 192.168.30.180
   #
   METALLB_LB_RANGE: 192.168.30.210-192.168.30.245
