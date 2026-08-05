@@ -35,12 +35,12 @@ spec:
               # Controller 0
               UP_UNIFI_CONTROLLER_0_ROLE: k8s-gitops
               UP_UNIFI_CONTROLLER_0_URL: https://${GATEWAY_ADDR}
-              UP_UNIFI_CONTROLLER_0_API_KEY: ${UNIFI_API_KEY}
               UP_UNIFI_CONTROLLER_0_DEFAULT_SITE_NAME_OVERRIDE: Home
               # Controller 1
               UP_UNIFI_CONTROLLER_1_URL: https://${GATEWAY_ADDR_2}
-              UP_UNIFI_CONTROLLER_1_API_KEY: ${UNIFI_API_KEY_2}
-              UP_UNIFI_CONTROLLER_1_DEFAULT_SITE_NAME_OVERRIDE: ${UNIFI_SITE_2}
+            envFrom:
+              - secretRef:
+                  name: unpoller-secret
             probes:
               liveness:
                 enabled: true
