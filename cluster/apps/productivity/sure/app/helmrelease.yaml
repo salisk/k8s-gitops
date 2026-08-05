@@ -34,8 +34,8 @@ spec:
               - secretRef:
                   name: sure-secret
           migrate:
-            image: &image
-              # renovate: datasource=docker depName=ghcr.io/we-promise/sure
+            image:
+              &image # renovate: datasource=docker depName=ghcr.io/we-promise/sure
               repository: ghcr.io/we-promise/sure
               tag: "0.7.3"
               digest: sha256:24ac3013a8b6e17bd661cef9cbdd61dbdb885d94ef256d7c0595fd8e545d16c1
@@ -54,6 +54,9 @@ spec:
               REDIS_URL: redis://dragonfly.data.svc.cluster.local:6379/6
               OIDC_ISSUER: https://sso.${SECRET_DOMAIN}/application/o/sure/
               OIDC_REDIRECT_URI: https://sure.${SECRET_DOMAIN}/auth/openid_connect/callback
+              AUTH_LOCAL_LOGIN_ENABLED: "false"
+              AUTH_LOCAL_ADMIN_OVERRIDE_ENABLED: "false"
+              AUTH_JIT_MODE: create_and_link
             envFrom:
               - secretRef:
                   name: sure-secret
@@ -165,3 +168,10 @@ spec:
               - path: /rails/storage
             worker:
               - path: /rails/storage
+      sidekiq-cron-patch:
+        type: configMap
+        name: sure-sidekiq-cron-patch
+        globalMounts:
+          - path: /rails/config/initializers/zz_sidekiq_cron_patch.rb
+            subPath: zz_sidekiq_cron_patch.rb
+            readOnly: true

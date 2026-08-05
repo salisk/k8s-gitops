@@ -1,0 +1,43 @@
+---
+# Runtime patch for sidekiq-cron 2.3.0 incompatibility with Sidekiq 8.x.
+#
+# Sidekiq 8 uses the `redis-client` gem, whose pipelined `hgetall` returns a
+# flat array [k, v, k, v, ...] instead of a Hash. sidekiq-cron's `Job.all`
+# calls `h.merge(...)` on the result, raising NoMethodError.
+# Upstream has not fixed this: https://github.com/sidekiq-cron/sidekiq-cron/issues/378
+#
+# This initializer is mounted into the container and loaded at Rails boot,
+# before Sidekiq lifecycle events fire.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sure-sidekiq-cron-patch
+data:
+  zz_sidekiq_cron_patch.rb: |
+    # frozen_string_literal: true
+
+    # Patch Sidekiq::Cron::Job.all to handle redis-client returning flat
+    # arrays from pipelined hgetall (Sidekiq 8.x incompatibility).
+    require "sidekiq/cron/job" unless defined?(Sidekiq::Cron::Job)
+
+    Sidekiq::Cron::Job.singleton_class.prepend(Module.new do
+      def all(namespace = Sidekiq::Cron.configuration.default_namespace)
+        job_hashes = nil
+        Sidekiq.redis do |conn|
+          job_keys = job_keys_from_namespace(namespace)
+          job_hashes = conn.pipelined do |pipeline|
+            job_keys.each { |job_key| pipeline.hgetall(job_key) }
+          end
+        end
+
+        # redis-client returns [k, v, k, v, ...] from pipelined hgetall
+        # instead of { k => v, ... }. Convert back to a Hash.
+        job_hashes = job_hashes.map do |h|
+          h.is_a?(Array) ? h.each_slice(2).to_h : h
+        end
+
+        job_hashes.compact.reject(&:empty?).map do |h|
+          Sidekiq::Cron::Job.new(h.merge(fetch_missing_args: false))
+        end
+      end
+    end)
