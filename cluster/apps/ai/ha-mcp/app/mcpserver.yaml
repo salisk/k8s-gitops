@@ -34,7 +34,7 @@ spec:
                 - ALL
   env:
     - name: HOMEASSISTANT_URL
-      value: http://home-assistant.home.svc.cluster.local:8123
+      value: http://home-assistant-app.home.svc.cluster.local:8123
     - name: MCP_PORT
       value: "8086"
     - name: MCP_SECRET_PATH
