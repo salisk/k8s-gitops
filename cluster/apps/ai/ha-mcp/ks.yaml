@@ -12,6 +12,7 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: toolhive-operator-crds
+    - name: home-assistant
   path: ./cluster/apps/ai/ha-mcp/app
   prune: true
   sourceRef:
