@@ -38,7 +38,6 @@ spec:
               &image # renovate: datasource=docker depName=ghcr.io/we-promise/sure
               repository: ghcr.io/we-promise/sure
               tag: "0.7.3"
-              digest: sha256:24ac3013a8b6e17bd661cef9cbdd61dbdb885d94ef256d7c0595fd8e545d16c1
             command:
               - /bin/sh
               - -c
