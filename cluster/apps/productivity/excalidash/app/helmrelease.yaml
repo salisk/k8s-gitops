@@ -25,11 +25,7 @@ spec:
               - secretRef:
                   name: excalidash-secret
         pod:
-          securityContext:
-            runAsUser: 1000
-            runAsGroup: 1000
-            fsGroup: 1000
-            fsGroupChangePolicy: OnRootMismatch
+          enableServiceLinks: false
         containers:
           backend:
             image:
@@ -49,9 +45,21 @@ spec:
               OIDC_SCOPES: openid profile email
               OIDC_GROUPS_CLAIM: groups
               OIDC_ADMIN_GROUPS: admins
+              OIDC_REQUIRE_EMAIL_VERIFIED: "false"
               UPDATE_CHECK_OUTBOUND: "false"
             envFrom: *envFrom
             probes:
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: *backendPort
+                  initialDelaySeconds: 0
+                  periodSeconds: 5
+                  timeoutSeconds: 10
+                  failureThreshold: 30
               liveness: &probes-backend
                 enabled: true
                 custom: true
@@ -59,17 +67,13 @@ spec:
                   httpGet:
                     path: /health
                     port: *backendPort
-                  initialDelaySeconds: 30
+                  initialDelaySeconds: 0
                   periodSeconds: 30
                   timeoutSeconds: 10
                   failureThreshold: 3
               readiness: *probes-backend
             securityContext:
               allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
-              capabilities:
-                drop:
-                  - ALL
             resources:
               requests:
                 cpu: 100m
@@ -97,9 +101,6 @@ spec:
               readiness: *probes-frontend
             securityContext:
               allowPrivilegeEscalation: false
-              capabilities:
-                drop:
-                  - ALL
             resources:
               requests:
                 cpu: 10m
