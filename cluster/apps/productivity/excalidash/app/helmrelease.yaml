@@ -15,6 +15,15 @@ spec:
       excalidash:
         annotations:
           reloader.stakater.com/auto: "true"
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/home-operations/postgres-init
+              tag: 18
+              pullPolicy: IfNotPresent
+            envFrom: &envFrom
+              - secretRef:
+                  name: excalidash-secret
         pod:
           securityContext:
             runAsUser: 1000
@@ -27,8 +36,7 @@ spec:
               repository: zimengxiong/excalidash-backend
               tag: 0.5.1@sha256:f37cd418bcad543add138c16cdb5e6301c3065b77344125458ab462adde99f15
             env:
-              DATABASE_PROVIDER: sqlite
-              DATABASE_URL: file:/app/prisma/dev.db
+              DATABASE_PROVIDER: postgresql
               PORT: &backendPort 8000
               NODE_ENV: production
               FRONTEND_URL: https://draw.${SECRET_DOMAIN}
@@ -42,9 +50,7 @@ spec:
               OIDC_GROUPS_CLAIM: groups
               OIDC_ADMIN_GROUPS: excalidash-admins
               UPDATE_CHECK_OUTBOUND: "false"
-            envFrom:
-              - secretRef:
-                  name: excalidash-secret
+            envFrom: *envFrom
             probes:
               liveness: &probes-backend
                 enabled: true
@@ -115,16 +121,6 @@ spec:
             namespace: kube-system
             sectionName: https
     persistence:
-      data:
-        enabled: true
-        type: persistentVolumeClaim
-        storageClass: longhorn
-        accessMode: ReadWriteOnce
-        size: 2Gi
-        advancedMounts:
-          excalidash:
-            backend:
-              - path: /app/prisma
       tmp:
         type: emptyDir
         globalMounts:
