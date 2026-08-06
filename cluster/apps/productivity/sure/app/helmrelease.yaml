@@ -147,7 +147,7 @@ spec:
           gethomepage.dev/group: Finance
           gethomepage.dev/name: Sure
           gethomepage.dev/icon: si:money
-          gethomepage.dev/description: Self-hosted budgeting
+          gethomepage.dev/description: Budgeting
         hostnames:
           - "sure.${SECRET_DOMAIN}"
         parentRefs:
