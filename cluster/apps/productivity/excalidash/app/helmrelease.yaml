@@ -48,7 +48,7 @@ spec:
               OIDC_REDIRECT_URI: https://draw.${SECRET_DOMAIN}/api/auth/oidc/callback
               OIDC_SCOPES: openid profile email
               OIDC_GROUPS_CLAIM: groups
-              OIDC_ADMIN_GROUPS: excalidash-admins
+              OIDC_ADMIN_GROUPS: admins
               UPDATE_CHECK_OUTBOUND: "false"
             envFrom: *envFrom
             probes:
