@@ -1,0 +1,131 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app excalidash
+spec:
+  interval: 30m
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
+  values:
+    controllers:
+      excalidash:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        pod:
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
+            fsGroupChangePolicy: OnRootMismatch
+        containers:
+          backend:
+            image:
+              repository: zimengxiong/excalidash-backend
+              tag: 0.5.1@sha256:f37cd418bcad543add138c16cdb5e6301c3065b77344125458ab462adde99f15
+            env:
+              DATABASE_PROVIDER: sqlite
+              DATABASE_URL: file:/app/prisma/dev.db
+              PORT: &backendPort 8000
+              NODE_ENV: production
+              FRONTEND_URL: https://draw.${SECRET_DOMAIN}
+              TRUST_PROXY: "1"
+              ENFORCE_HTTPS_REDIRECT: "false"
+              AUTH_MODE: oidc_enforced
+              OIDC_PROVIDER_NAME: Authentik
+              OIDC_ISSUER_URL: https://sso.${SECRET_DOMAIN}/application/o/excalidash/
+              OIDC_REDIRECT_URI: https://draw.${SECRET_DOMAIN}/api/auth/oidc/callback
+              OIDC_SCOPES: openid profile email
+              OIDC_GROUPS_CLAIM: groups
+              OIDC_ADMIN_GROUPS: excalidash-admins
+              UPDATE_CHECK_OUTBOUND: "false"
+            envFrom:
+              - secretRef:
+                  name: excalidash-secret
+            probes:
+              liveness: &probes-backend
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: *backendPort
+                  initialDelaySeconds: 30
+                  periodSeconds: 30
+                  timeoutSeconds: 10
+                  failureThreshold: 3
+              readiness: *probes-backend
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
+            resources:
+              requests:
+                cpu: 100m
+                memory: 128Mi
+              limits:
+                memory: 512Mi
+          frontend:
+            image:
+              repository: zimengxiong/excalidash-frontend
+              tag: 0.5.1@sha256:de12bee592b2db0bcdee1b7066283297696a3e9e3a309798f78ca6c9d6caff9c
+            env:
+              BACKEND_URL: localhost:8000
+            probes:
+              liveness: &probes-frontend
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: &frontendPort 80
+                  initialDelaySeconds: 30
+                  periodSeconds: 30
+                  timeoutSeconds: 10
+                  failureThreshold: 3
+              readiness: *probes-frontend
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+            resources:
+              requests:
+                cpu: 10m
+                memory: 32Mi
+              limits:
+                memory: 128Mi
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: *frontendPort
+    route:
+      app:
+        hostnames:
+          - draw.${SECRET_DOMAIN}
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
+    persistence:
+      data:
+        enabled: true
+        type: persistentVolumeClaim
+        storageClass: longhorn
+        accessMode: ReadWriteOnce
+        size: 2Gi
+        advancedMounts:
+          excalidash:
+            backend:
+              - path: /app/prisma
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
