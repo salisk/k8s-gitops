@@ -20,4 +20,5 @@ resources:
   - ./affine/ks.yaml
   - ./outline/ks.yaml
   - ./memos/ks.yaml
+  - ./excalidash/ks.yaml
   - ./mail-archiver/ks.yaml

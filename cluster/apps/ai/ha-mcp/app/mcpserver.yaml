@@ -12,6 +12,14 @@ spec:
   mcpPort: 8086
   podTemplateSpec:
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 999
+        runAsGroup: 999
+        fsGroup: 999
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
       volumes:
         - name: tmp
           emptyDir: {}
@@ -26,6 +34,12 @@ spec:
           volumeMounts:
             - name: tmp
               mountPath: /tmp
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              memory: 1Gi
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
