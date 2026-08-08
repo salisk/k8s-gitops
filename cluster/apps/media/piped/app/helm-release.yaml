@@ -55,7 +55,7 @@ spec:
           app:
             image:
               repository: docker.io/1337kavin/piped-frontend
-              tag: latest@sha256:bfbacd2d78ae4bc24bced006c72916887ab9dcddc5cc1058d11ef6833ee26f5b
+              tag: latest@sha256:1d0bf19d224b06ea7d386cddb1149726571e18e3349598aa6600d91d9eababf1
             env:
               BACKEND_HOSTNAME: piped-api.${SECRET_DOMAIN}
               HTTP_PORT: "8080"
