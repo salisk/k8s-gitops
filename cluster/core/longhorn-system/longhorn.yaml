@@ -17,6 +17,9 @@ spec:
         name: longhorn-charts
         namespace: flux-system
   values:
+    metrics:
+      serviceMonitor:
+        enabled: true
     # persistence:
     #   defaultClassReplicaCount: 3
     # defaultSettings:

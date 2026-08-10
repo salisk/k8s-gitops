@@ -1,0 +1,204 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/operator.victoriametrics.com/vmrule_v1beta1.json
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMRule
+metadata:
+  name: longhorn-rules
+  namespace: monitoring
+spec:
+  groups:
+    - name: longhorn.rules
+      rules:
+        # ─── Volume Robustness ───────────────────────────────────────────
+        # Uses the state label (healthy/degraded/faulted), value 1 = current state.
+        # This is the modern metric format for Longhorn >= 1.4.
+        - alert: LonghornVolumeDegraded
+          expr: |
+            longhorn_volume_robustness{state="degraded"} == 1
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Longhorn volume {{ $labels.volume }} is degraded"
+            description: >-
+              Longhorn volume {{ $labels.volume }} in namespace {{ $labels.pvc_namespace }}
+              has degraded robustness — at least one replica is unavailable.
+
+        - alert: LonghornVolumeFaulted
+          expr: |
+            longhorn_volume_robustness{state="faulted"} == 1
+          for: 1m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Longhorn volume {{ $labels.volume }} is faulted"
+            description: >-
+              Longhorn volume {{ $labels.volume }} in namespace {{ $labels.pvc_namespace }}
+              is faulted — no healthy replicas remain. Data may be lost.
+
+        - alert: LonghornVolumeFileSystemReadOnly
+          expr: |
+            longhorn_volume_file_system_read_only == 1
+          for: 2m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Longhorn volume {{ $labels.volume }} is read-only"
+            description: >-
+              Longhorn volume {{ $labels.volume }} in namespace {{ $labels.pvc_namespace }}
+              has entered read-only mode. This usually indicates an underlying I/O error
+              or replica failure that the filesystem is protecting against.
+
+        # ─── Volume Actual Space Used ──────────────────────────────────────
+        # Actual space used by each replica vs the volume's configured capacity.
+        - alert: LonghornVolumeActualSpaceUsedWarning
+          expr: |
+            (longhorn_volume_actual_size_bytes / longhorn_volume_capacity_bytes) * 100 > 90
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Longhorn volume {{ $labels.volume }} actual space over 90%"
+            description: >-
+              The actual space used by Longhorn volume {{ $labels.volume }} on
+              {{ $labels.node }} is at {{ printf "%.1f" $value }}% capacity.
+
+        # ─── Node Storage ─────────────────────────────────────────────────
+        - alert: LonghornNodeStorageWarning
+          expr: |
+            (longhorn_node_storage_usage_bytes / longhorn_node_storage_capacity_bytes) * 100 > 85
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Longhorn node {{ $labels.node }} storage over 85%"
+            description: >-
+              The used storage of node {{ $labels.node }} is at
+              {{ printf "%.1f" $value }}% capacity.
+
+        - alert: LonghornNodeStorageCritical
+          expr: |
+            (longhorn_node_storage_usage_bytes / longhorn_node_storage_capacity_bytes) * 100 > 95
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Longhorn node {{ $labels.node }} storage over 95%"
+            description: >-
+              The used storage of node {{ $labels.node }} is at
+              {{ printf "%.1f" $value }}% capacity. Volume scheduling and
+              replica rebuilds will fail imminently.
+
+        # ─── Disk Storage ─────────────────────────────────────────────────
+        - alert: LonghornDiskStorageWarning
+          expr: |
+            (longhorn_disk_usage_bytes / longhorn_disk_capacity_bytes) * 100 > 85
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Longhorn disk {{ $labels.disk }} on {{ $labels.node }} over 85%"
+            description: >-
+              The used storage of disk {{ $labels.disk }} on node {{ $labels.node }} is at
+              {{ printf "%.1f" $value }}% capacity.
+
+        - alert: LonghornDiskStorageCritical
+          expr: |
+            (longhorn_disk_usage_bytes / longhorn_disk_capacity_bytes) * 100 > 95
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Longhorn disk {{ $labels.disk }} on {{ $labels.node }} over 95%"
+            description: >-
+              The used storage of disk {{ $labels.disk }} on node {{ $labels.node }} is at
+              {{ printf "%.1f" $value }}% capacity. Immediate action required.
+
+        # ─── Disk Health ───────────────────────────────────────────────────
+        - alert: LonghornDiskNotReady
+          expr: |
+            longhorn_disk_status{condition="ready"} == 0
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Longhorn disk {{ $labels.disk }} on {{ $labels.node }} is not ready"
+            description: >-
+              Disk {{ $labels.disk }} on node {{ $labels.node }} has been in a not-ready
+              state for more than 5 minutes. Replicas on this disk may be unavailable.
+
+        - alert: LonghornDiskUnhealthy
+          expr: |
+            longhorn_disk_health == 0
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Longhorn disk {{ $labels.disk }} on {{ $labels.node }} is unhealthy"
+            description: >-
+              SMART health check reports disk {{ $labels.disk }} on node {{ $labels.node }}
+              as unhealthy. Check the physical disk immediately to prevent data loss.
+
+        # ─── Node Status ──────────────────────────────────────────────────
+        - alert: LonghornNodeNotReady
+          expr: |
+            longhorn_node_status{condition="ready"} == 0
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Longhorn node {{ $labels.node }} is not ready"
+            description: >-
+              Longhorn node {{ $labels.node }} has been not ready for more than 5 minutes.
+              Volumes with replicas on this node may be at risk.
+
+        - alert: LonghornNodeNotSchedulable
+          expr: |
+            longhorn_node_status{condition="schedulable"} == 0
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Longhorn node {{ $labels.node }} is not schedulable"
+            description: >-
+              Longhorn node {{ $labels.node }} has been unschedulable for more than
+              10 minutes. New replicas cannot be placed on this node.
+
+        - alert: LonghornNodeDown
+          expr: |
+            (avg(longhorn_node_count_total) or on() vector(0))
+              - (count(longhorn_node_status{condition="ready"} == 1) or on() vector(0)) > 0
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "{{ $value }} Longhorn node(s) are offline"
+            description: >-
+              {{ $value }} Longhorn node(s) have been offline for more than 5 minutes.
+
+        # ─── Node CPU Pressure ─────────────────────────────────────────────
+        - alert: LonghornNodeCPUUsageWarning
+          expr: |
+            (longhorn_node_cpu_usage_millicpu / longhorn_node_cpu_capacity_millicpu) * 100 > 90
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Longhorn node {{ $labels.node }} high CPU usage"
+            description: >-
+              Longhorn node {{ $labels.node }} CPU usage is at
+              {{ printf "%.1f" $value }}% of capacity.
+
+        # ─── Instance Manager CPU Pressure ─────────────────────────────────
+        - alert: LonghornInstanceManagerCPUUsageWarning
+          expr: |
+            (longhorn_instance_manager_cpu_usage_millicpu
+              / longhorn_instance_manager_cpu_requests_millicpu) * 100 > 300
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Longhorn instance manager {{ $labels.instance_manager }} high CPU"
+            description: >-
+              Instance manager {{ $labels.instance_manager }} on {{ $labels.node }} is using
+              {{ printf "%.0f" $value }}% of its CPU request. Consider raising the CPU request.
