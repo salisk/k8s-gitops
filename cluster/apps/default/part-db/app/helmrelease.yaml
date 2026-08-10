@@ -106,7 +106,7 @@ spec:
         type: persistentVolumeClaim
         storageClass: longhorn
         accessMode: ReadWriteOnce
-        size: 5Gi
+        size: 2Gi
         advancedMounts:
           part-db:
             app:
@@ -116,7 +116,7 @@ spec:
         type: persistentVolumeClaim
         storageClass: longhorn
         accessMode: ReadWriteOnce
-        size: 5Gi
+        size: 2Gi
         advancedMounts:
           part-db:
             app:
