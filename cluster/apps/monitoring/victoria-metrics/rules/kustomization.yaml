@@ -8,4 +8,5 @@ resources:
   - ./vmrule.yaml
   - ./vmrule-authentik.yaml
   - ./vmrule-node-io.yaml
+  - ./vmrule-longhorn.yaml
   - ./scrapeconfigs
