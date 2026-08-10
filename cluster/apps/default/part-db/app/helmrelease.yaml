@@ -1,0 +1,123 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app part-db
+  namespace: default
+spec:
+  interval: 30m
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    controllers:
+      part-db:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/home-operations/postgres-init
+              tag: 18
+            envFrom: &envFrom
+              - secretRef:
+                  name: part-db-secret
+        containers:
+          app:
+            image:
+              repository: docker.io/jbtronics/part-db1
+              tag: v2.14.1@sha256:d77b7d3c57505001959b16a9563a07988812b07424b5d5d5ea027a3b303204d1
+            env:
+              APP_ENV: docker
+              DB_AUTOMIGRATE: "true"
+              BASE_CURRENCY: EUR
+              DEFAULT_LANG: en
+              DEFAULT_TIMEZONE: "${TIMEZONE}"
+              DEFAULT_URI: "https://part-db.${SECRET_DOMAIN}/"
+              INSTANCE_NAME: Part-DB
+              TRUSTED_PROXIES: "10.42.0.0/16"
+            envFrom: *envFrom
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: &port 80
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 6
+              readiness: *probes
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 5
+                  failureThreshold: 30
+            securityContext:
+              allowPrivilegeEscalation: false
+            resources:
+              requests:
+                cpu: 50m
+                memory: 256Mi
+              limits:
+                memory: 1Gi
+    service:
+      app:
+        controller: part-db
+        ports:
+          http:
+            port: *port
+    route:
+      app:
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Tools
+          gethomepage.dev/name: Part-DB
+          gethomepage.dev/description: Electronic Parts Inventory
+          gethomepage.dev/icon: mdi-chip
+        hostnames:
+          - "part-db.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
+    persistence:
+      uploads:
+        enabled: true
+        type: persistentVolumeClaim
+        storageClass: longhorn
+        accessMode: ReadWriteOnce
+        size: 5Gi
+        advancedMounts:
+          part-db:
+            app:
+              - path: /var/www/html/uploads
+      media:
+        enabled: true
+        type: persistentVolumeClaim
+        storageClass: longhorn
+        accessMode: ReadWriteOnce
+        size: 5Gi
+        advancedMounts:
+          part-db:
+            app:
+              - path: /var/www/html/public/media
