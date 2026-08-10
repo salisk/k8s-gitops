@@ -19,3 +19,4 @@ resources:
   - ./changedetection/ks.yaml
   - ./searxng/ks.yaml
   - ./trek/ks.yaml
+  - ./part-db/ks.yaml
