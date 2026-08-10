@@ -45,7 +45,7 @@ spec:
               BASE_CURRENCY: EUR
               DEFAULT_LANG: en
               DEFAULT_TIMEZONE: "${TIMEZONE}"
-              DEFAULT_URI: "https://part-db.${SECRET_DOMAIN}/"
+              DEFAULT_URI: "https://partdb.${SECRET_DOMAIN}/"
               INSTANCE_NAME: Part-DB
               TRUSTED_PROXIES: "10.42.0.0/16"
             envFrom: *envFrom
@@ -95,7 +95,7 @@ spec:
           gethomepage.dev/description: Electronic Parts Inventory
           gethomepage.dev/icon: mdi-chip
         hostnames:
-          - "part-db.${SECRET_DOMAIN}"
+          - "partdb.${SECRET_DOMAIN}"
         parentRefs:
           - name: internal
             namespace: kube-system

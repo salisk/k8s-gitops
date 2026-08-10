@@ -28,6 +28,7 @@ spec:
   postBuild:
     substitute:
       APP: *app
+      GATUS_SUBDOMAIN: partdb
       GATUS_PATH: /en/
     substituteFrom:
       - kind: ConfigMap
