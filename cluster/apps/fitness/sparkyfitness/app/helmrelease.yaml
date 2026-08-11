@@ -47,59 +47,18 @@ spec:
               SPARKY_FITNESS_FRONTEND_URL: https://fitness.${SECRET_DOMAIN}
               SPARKY_FITNESS_DISABLE_SIGNUP: "false"
               SPARKY_FITNESS_LOG_LEVEL: info
-              SPARKY_FITNESS_DB_HOST:
-                valueFrom: &dbHost
-                  secretKeyRef:
-                    name: sparkyfitness-secret
-                    key: INIT_POSTGRES_HOST
-              SPARKY_FITNESS_DB_PORT:
-                value: "5432"
-              SPARKY_FITNESS_DB_NAME:
-                valueFrom: &dbName
-                  secretKeyRef:
-                    name: sparkyfitness-secret
-                    key: INIT_POSTGRES_DBNAME
-              SPARKY_FITNESS_DB_USER:
-                valueFrom: &dbUser
-                  secretKeyRef:
-                    name: sparkyfitness-secret
-                    key: INIT_POSTGRES_USER
-              SPARKY_FITNESS_DB_PASSWORD:
-                valueFrom: &dbPass
-                  secretKeyRef:
-                    name: sparkyfitness-secret
-                    key: INIT_POSTGRES_PASS
-              SPARKY_FITNESS_APP_DB_USER: *dbUser
-              SPARKY_FITNESS_APP_DB_PASSWORD: *dbPass
-              SPARKY_FITNESS_API_ENCRYPTION_KEY:
-                valueFrom:
-                  secretKeyRef:
-                    name: sparkyfitness-secret
-                    key: SPARKY_FITNESS_API_ENCRYPTION_KEY
-              BETTER_AUTH_SECRET:
-                valueFrom:
-                  secretKeyRef:
-                    name: sparkyfitness-secret
-                    key: BETTER_AUTH_SECRET
+              SPARKY_FITNESS_DB_PORT: "5432"
               # OIDC (Authentik)
               SPARKY_FITNESS_OIDC_AUTH_ENABLED: "true"
               SPARKY_FITNESS_OIDC_PROVIDER_SLUG: authentik
               SPARKY_FITNESS_OIDC_PROVIDER_NAME: Authentik
               SPARKY_FITNESS_OIDC_ISSUER_URL: https://sso.${SECRET_DOMAIN}/application/o/sparkyfitness/
-              SPARKY_FITNESS_OIDC_CLIENT_ID:
-                valueFrom:
-                  secretKeyRef:
-                    name: sparkyfitness-secret
-                    key: SPARKY_FITNESS_OIDC_CLIENT_ID
-              SPARKY_FITNESS_OIDC_CLIENT_SECRET:
-                valueFrom:
-                  secretKeyRef:
-                    name: sparkyfitness-secret
-                    key: SPARKY_FITNESS_OIDC_CLIENT_SECRET
               SPARKY_FITNESS_OIDC_AUTO_REGISTER: "true"
               SPARKY_FITNESS_OIDC_AUTO_REDIRECT: "true"
               SPARKY_FITNESS_OIDC_ADMIN_GROUP: admins
               SPARKY_FITNESS_DISABLE_EMAIL_LOGIN: "true"
+              # Garmin
+              GARMIN_MICROSERVICE_URL: http://sparkyfitness-garmin:8000
             envFrom: *envFrom
             probes:
               liveness: &probes-server
@@ -163,6 +122,26 @@ spec:
                 memory: 64Mi
               limits:
                 memory: 256Mi
+      garmin:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        pod:
+          enableServiceLinks: false
+        containers:
+          app:
+            image:
+              repository: docker.io/codewithcj/sparkyfitness_garmin
+              tag: v1.6.1@sha256:05ba6add680ae439537ce3bd052b068f5a09e2e82668ddaa3cec9e31c23cb89c
+            env:
+              TZ: ${TIMEZONE}
+              GARMIN_SERVICE_PORT: "8000"
+              GARMIN_MICROSERVICE_URL: http://sparkyfitness-garmin:8000
+            resources:
+              requests:
+                cpu: 10m
+                memory: 64Mi
+              limits:
+                memory: 256Mi
     service:
       server:
         controller: server
@@ -174,6 +153,11 @@ spec:
         ports:
           http:
             port: *frontendPort
+      garmin:
+        controller: garmin
+        ports:
+          http:
+            port: 8000
     route:
       app:
         hostnames:
