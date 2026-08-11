@@ -20,5 +20,6 @@ resources:
   - ./castai-agent/namespace.yaml
   - castai-agent
   - books
+  - fitness
   - flux-system
   # - vault
