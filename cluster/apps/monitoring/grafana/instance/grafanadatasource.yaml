@@ -93,5 +93,6 @@ spec:
     jsonData:
       httpMode: GET
       version: InfluxQL
+      dbName: GarminStats
     secureJsonData:
       password: "${SECRET_INFLUXDB_TOKEN}"
