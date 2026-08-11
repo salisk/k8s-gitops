@@ -171,7 +171,7 @@ spec:
               - identifier: frontend
                 port: http
     persistence:
-      uploads:
+      data:
         enabled: true
         type: persistentVolumeClaim
         storageClass: longhorn
@@ -180,14 +180,7 @@ spec:
         advancedMounts:
           server:
             app:
-              - path: /app/SparkyFitnessServer/uploads
-      backup:
-        enabled: true
-        type: persistentVolumeClaim
-        storageClass: longhorn
-        accessMode: ReadWriteOnce
-        size: 5Gi
-        advancedMounts:
-          server:
-            app:
-              - path: /app/SparkyFitnessServer/backup
+              - subPath: uploads
+                path: /app/SparkyFitnessServer/uploads
+              - subPath: backup
+                path: /app/SparkyFitnessServer/backup
