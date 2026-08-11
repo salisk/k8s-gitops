@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./sparkyfitness/ks.yaml
+  - ./garmin-grafana/ks.yaml
