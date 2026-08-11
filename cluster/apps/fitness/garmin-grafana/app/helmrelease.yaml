@@ -1,0 +1,83 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app garmin-grafana
+spec:
+  interval: 30m
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    controllers:
+      garmin-fetch:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        pod:
+          enableServiceLinks: false
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
+            fsGroupChangePolicy: OnRootMismatch
+            seccompProfile:
+              type: RuntimeDefault
+        containers:
+          app:
+            image:
+              repository: docker.io/thisisarpanghosh/garmin-fetch-data
+              tag: latest@sha256:5aef6ead1b823400f5b29090dc9fda0a838db5e89af5f1c5e30f3377d3c696c4
+            env:
+              # Points to existing InfluxDB v2 (v1 compat API) in data namespace
+              INFLUXDB_HOST: influxdb-influxdb2.data.svc.cluster.local
+              INFLUXDB_PORT: "80"
+              INFLUXDB_DATABASE: GarminStats
+              INFLUXDB_ENDPOINT_IS_HTTP: "True"
+              INFLUXDB_VERSION: "1"
+              USER_TIMEZONE: ${TIMEZONE}
+              ALWAYS_PROCESS_FIT_FILES: "True"
+            envFrom:
+              - secretRef:
+                  name: garmin-grafana-secret
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
+            resources:
+              requests:
+                cpu: 50m
+                memory: 256Mi
+              limits:
+                memory: 512Mi
+    persistence:
+      garmin-tokens:
+        enabled: true
+        type: persistentVolumeClaim
+        storageClass: longhorn
+        accessMode: ReadWriteOnce
+        size: 100Mi
+        advancedMounts:
+          garmin-fetch:
+            app:
+              - path: /home/appuser/.garminconnect
+      tmp:
+        enabled: true
+        type: emptyDir
+        advancedMounts:
+          garmin-fetch:
+            app:
+              - path: /tmp

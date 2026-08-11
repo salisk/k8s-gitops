@@ -72,3 +72,27 @@ spec:
     access: proxy
     isDefault: false
     url: http://vmsingle-lts.monitoring.svc.cluster.local:8428
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/grafana.integreatly.org/grafanadatasource_v1beta1.json
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDatasource
+metadata:
+  name: influxdb
+  namespace: monitoring
+spec:
+  instanceSelector:
+    matchLabels:
+      dashboards: grafana
+  datasource:
+    type: influxdb
+    name: InfluxDB
+    uid: influxdb
+    access: proxy
+    url: http://influxdb-influxdb2.data.svc.cluster.local:80
+    user: admin
+    database: GarminStats
+    jsonData:
+      httpMode: GET
+      version: InfluxQL
+    secureJsonData:
+      password: "${SECRET_INFLUXDB_TOKEN}"

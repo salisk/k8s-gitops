@@ -66,7 +66,7 @@ spec:
                       name: grafana-secret
                       key: GF_SECURITY_ADMIN_PASSWORD
                 - name: GF_INSTALL_PLUGINS
-                  value: "grafana-clock-panel,grafana-piechart-panel,grafana-worldmap-panel,natel-discrete-panel,pr0ps-trackmap-panel,vonage-status-panel,victoriametrics-logs-datasource"
+                  value: "grafana-clock-panel,grafana-piechart-panel,grafana-worldmap-panel,natel-discrete-panel,pr0ps-trackmap-panel,vonage-status-panel,victoriametrics-logs-datasource,marcusolsson-hourly-heatmap-panel"
                 - name: GF_AUTH_GENERIC_OAUTH_CLIENT_ID
                   valueFrom:
                     secretKeyRef:
