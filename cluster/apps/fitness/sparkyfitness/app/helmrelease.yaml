@@ -172,16 +172,22 @@ spec:
                 port: http
     persistence:
       uploads:
-        existingClaim: ${APP}
+        enabled: true
+        type: persistentVolumeClaim
+        storageClass: longhorn
+        accessMode: ReadWriteOnce
+        size: 5Gi
         advancedMounts:
           server:
             app:
-              - subPath: uploads
-                path: /app/SparkyFitnessServer/uploads
+              - path: /app/SparkyFitnessServer/uploads
       backup:
-        existingClaim: ${APP}
+        enabled: true
+        type: persistentVolumeClaim
+        storageClass: longhorn
+        accessMode: ReadWriteOnce
+        size: 5Gi
         advancedMounts:
           server:
             app:
-              - subPath: backup
-                path: /app/SparkyFitnessServer/backup
+              - path: /app/SparkyFitnessServer/backup
