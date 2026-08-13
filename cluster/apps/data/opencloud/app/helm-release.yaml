@@ -208,6 +208,8 @@ spec:
                 subPath: config
           wopi:
             wopi:
+              - path: /var/lib/opencloud
+                subPath: data
               - path: /etc/opencloud
                 subPath: config
       tmpfs:
