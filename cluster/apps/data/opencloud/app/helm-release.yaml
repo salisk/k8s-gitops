@@ -129,6 +129,8 @@ spec:
               OC_EVENTS_ENDPOINT: opencloud.data.svc.cluster.local:9233
               OC_EVENTS_CLUSTER: opencloud-cluster
               OC_URL: https://cloud.${SECRET_DOMAIN}
+              OC_SERVICE_ACCOUNT_ID: "${OPENCLOUD_SERVICE_ACCOUNT_ID}"
+              OC_SERVICE_ACCOUNT_SECRET: "${OPENCLOUD_SERVICE_ACCOUNT_SECRET}"
             probes:
               liveness:
                 enabled: true
