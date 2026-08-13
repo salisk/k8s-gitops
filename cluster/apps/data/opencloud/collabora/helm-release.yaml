@@ -1,0 +1,98 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app collabora
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
+  dependsOn:
+    - name: opencloud
+  values:
+    controllers:
+      *app :
+        annotations:
+          reloader.stakater.com/auto: "true"
+        pod:
+          securityContext:
+            runAsUser: 1001
+            runAsGroup: 1001
+            fsGroup: 1001
+            fsGroupChangePolicy: OnRootMismatch
+            seccompProfile:
+              type: Unconfined
+        containers:
+          app:
+            image:
+              repository: collabora/code
+              tag: 26.04.3.1.1@sha256:6b70f91f0b6e9c76f75f162f58ef0a12cf9415d78e14713d33c0318ddc4a2cc0
+            env:
+              aliasgroup1: http://opencloud-wopi:9300
+              DONT_GEN_SSL_CERT: "YES"
+              extra_params: |
+                --o:ssl.enable=false \
+                --o:ssl.ssl_verification=false \
+                --o:ssl.termination=true \
+                --o:welcome.enable=false \
+                --o:net.frame_ancestors=cloud.${SECRET_DOMAIN}
+              username:
+                secretKeyRef:
+                  name: *app
+                  key: COLLABORA_ADMIN_USER
+              password:
+                secretKeyRef:
+                  name: *app
+                  key: COLLABORA_ADMIN_PASS
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    port: 9980
+                    path: /hosting/discovery
+              readiness: *probes
+            resources:
+              requests:
+                cpu: 150m
+                memory: 768Mi
+              limits:
+                memory: 3Gi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                add:
+                  - MKNOD
+                drop:
+                  - ALL
+    service:
+      app:
+        ports:
+          http:
+            port: 9980
+    route:
+      app:
+        hostnames: ["collabora.${SECRET_DOMAIN}"]
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: 9980
+    persistence:
+      tmpfs:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
+            subPath: tmp
+          - path: /opt/cool/cache
+            subPath: cache
+          - path: /opt/cool/child-roots
+            subPath: roots
