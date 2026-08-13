@@ -150,6 +150,7 @@ spec:
                   - ALL
     service:
       app:
+        controller: opencloud
         forceRename: opencloud
         ports:
           http:
