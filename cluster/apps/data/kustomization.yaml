@@ -7,4 +7,3 @@ resources:
   - ./dragonfly/ks.yaml
   - ./harbor/ks.yaml
   - ./opencloud/ks.yaml
-  - ./collabora/ks.yaml
