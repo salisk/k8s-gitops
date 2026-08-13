@@ -34,7 +34,7 @@ spec:
               [
                 "/bin/sh",
                 "-c",
-                "opencloud init --force-overwrite || true; opencloud server",
+                "opencloud init || true; opencloud server",
               ]
             env:
               OC_INSECURE: true
