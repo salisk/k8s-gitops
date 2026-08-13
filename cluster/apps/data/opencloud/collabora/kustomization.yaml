@@ -4,4 +4,4 @@ kind: Kustomization
 namespace: data
 resources:
   - ./helm-release.yaml
-  - ./secret.sops.yaml
+  - ./secret.yaml
