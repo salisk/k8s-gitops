@@ -115,6 +115,10 @@ spec:
         globalMounts:
           - path: /tmp
           - path: /var/log
+      media:
+        existingClaim: nfs-media-pvc-v2
+        globalMounts:
+          - path: /media
       bookdrop:
         type: nfs
         server: "${NAS_ADDR}"
