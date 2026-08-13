@@ -7,6 +7,8 @@ directives:
     - "https://companion.${SECRET_DOMAIN}/"
     - "https://sso.${SECRET_DOMAIN}/"
     - "wss://companion.${SECRET_DOMAIN}/"
+    - "https://wopi.${SECRET_DOMAIN}/"
+    - "wss://wopi.${SECRET_DOMAIN}/"
     - "https://raw.githubusercontent.com/opencloud-eu/awesome-apps/"
     - "https://idm.${SECRET_DOMAIN}/"
   default-src:

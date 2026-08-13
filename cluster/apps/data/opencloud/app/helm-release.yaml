@@ -56,6 +56,10 @@ spec:
               GATEWAY_GRPC_ADDR: 0.0.0.0:9142
               OC_ENABLE_OCM: false
 
+              # Collabora integration
+              FRONTEND_APP_HANDLER_SECURE_VIEW_APP_ADDR: eu.opencloud.api.collaboration.CollaboraOnline
+              NATS_NATS_HOST: "0.0.0.0"
+
               OC_OIDC_ISSUER: https://sso.${SECRET_DOMAIN}/application/o/opencloud/
               WEB_OPTION_ACCOUNT_EDIT_LINK_HREF: "https://sso.${SECRET_DOMAIN}/ui/profile"
               WEB_OIDC_CLIENT_ID: *app
@@ -90,12 +94,79 @@ spec:
               capabilities:
                 drop:
                   - ALL
+      wopi:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        pod:
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
+            fsGroup: 1000
+            fsGroupChangePolicy: OnRootMismatch
+        containers:
+          wopi:
+            image:
+              repository: opencloudeu/opencloud-rolling
+              tag: 7.4.0@sha256:e9df43040866c3587daae47af68bc3c412026bc99614686bf6869bdc72c52526
+            command: ["/bin/sh", "-c", "opencloud collaboration server"]
+            env:
+              COLLABORATION_WOPI_SRC: http://opencloud-wopi:9300
+              COLLABORATION_APP_NAME: CollaboraOnline
+              COLLABORATION_APP_PRODUCT: Collabora
+              COLLABORATION_APP_ADDR: https://collabora.${SECRET_DOMAIN}
+              COLLABORATION_APP_ICON: https://collabora.${SECRET_DOMAIN}/favicon.ico
+              COLLABORATION_APP_INSECURE: true
+              COLLABORATION_APP_PROOF_DISABLE: true
+              COLLABORATION_CS3API_DATAGATEWAY_INSECURE: true
+              COLLABORATION_GRPC_ADDR: 0.0.0.0:9301
+              COLLABORATION_HTTP_ADDR: 0.0.0.0:9300
+              MICRO_REGISTRY: nats-js-kv
+              MICRO_REGISTRY_ADDRESS: opencloud.data.svc.cluster.local:9233
+              OC_CACHE_STORE: nats-js-kv
+              OC_CACHE_STORE_NODES: opencloud.data.svc.cluster.local:9233
+              OC_PERSISTENT_STORE: nats-js-kv
+              OC_PERSISTENT_STORE_NODES: opencloud.data.svc.cluster.local:9233
+              OC_EVENTS_ENDPOINT: opencloud.data.svc.cluster.local:9233
+              OC_EVENTS_CLUSTER: opencloud-cluster
+              OC_URL: https://cloud.${SECRET_DOMAIN}
+              OC_SERVICE_ACCOUNT_ID: "${OPENCLOUD_SERVICE_ACCOUNT_ID}"
+              OC_SERVICE_ACCOUNT_SECRET: "${OPENCLOUD_SERVICE_ACCOUNT_SECRET}"
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+            resources:
+              requests:
+                cpu: 10m
+                memory: 64Mi
+              limits:
+                memory: 512Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
     service:
       app:
+        forceRename: opencloud
         ports:
           http:
             port: 80
             targetPort: 9200
+          nats:
+            port: 9233
+            targetPort: 9233
+      wopi:
+        controller: wopi
+        ports:
+          http:
+            port: 9300
+            targetPort: 9300
+          grpc:
+            port: 9301
+            targetPort: 9301
     route:
       app:
         hostnames: ["cloud.${SECRET_DOMAIN}"]
@@ -107,6 +178,16 @@ spec:
           - backendRefs:
               - identifier: app
                 port: 80
+      wopi:
+        hostnames: ["wopi.${SECRET_DOMAIN}"]
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
+        rules:
+          - backendRefs:
+              - identifier: wopi
+                port: 9300
 
     persistence:
       config:
@@ -119,11 +200,17 @@ spec:
             subPath: proxy.yaml
       data:
         existingClaim: nfs-opencloud-v1
-        globalMounts:
-          - path: /var/lib/opencloud
-            subPath: data
-          - path: /etc/opencloud
-            subPath: config
+        advancedMounts:
+          opencloud:
+            app:
+              - path: /var/lib/opencloud
+                subPath: data
+              - path: /etc/opencloud
+                subPath: config
+          wopi:
+            wopi:
+              - path: /etc/opencloud
+                subPath: config
       tmpfs:
         type: emptyDir
         globalMounts:
