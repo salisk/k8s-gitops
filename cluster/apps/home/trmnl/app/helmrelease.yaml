@@ -29,6 +29,7 @@ spec:
       trmnl:
         annotations:
           reloader.stakater.com/auto: "true"
+        strategy: Recreate
         initContainers:
           init-db:
             image:
@@ -69,6 +70,26 @@ spec:
                     port: *port
                   failureThreshold: 30
                   periodSeconds: 10
+            resources:
+              requests:
+                cpu: 50m
+                memory: 256Mi
+              limits:
+                memory: 512Mi
+          worker:
+            image:
+              repository: ghcr.io/usetrmnl/terminus
+              tag: 0.69.0
+            command:
+              - bundle
+              - exec
+              - sidekiq
+              - -r
+              - ./config/sidekiq.rb
+            env:
+              TZ: ${TIMEZONE}
+              API_URI: https://trmnl.${SECRET_DOMAIN}
+            envFrom: *envFrom
             resources:
               requests:
                 cpu: 50m
