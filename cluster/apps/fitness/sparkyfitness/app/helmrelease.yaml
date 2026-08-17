@@ -131,7 +131,7 @@ spec:
           app:
             image:
               repository: docker.io/codewithcj/sparkyfitness_garmin
-              tag: v1.6.1@sha256:05ba6add680ae439537ce3bd052b068f5a09e2e82668ddaa3cec9e31c23cb89c
+              tag: v1.6.2@sha256:7bb2678ce1fbd94b641d9df14b2f70d2745f28a604c8828d7e56343ad35bece3
             env:
               TZ: ${TIMEZONE}
               GARMIN_SERVICE_PORT: "8000"
