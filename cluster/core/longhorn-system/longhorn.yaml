@@ -17,6 +17,8 @@ spec:
         name: longhorn-charts
         namespace: flux-system
   values:
+    csi:
+      kubeletRootDir: /var/lib/kubelet
     metrics:
       serviceMonitor:
         enabled: true
