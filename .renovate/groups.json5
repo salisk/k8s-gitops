@@ -69,5 +69,15 @@
       },
       minimumGroupSize: 2,
     },
+    {
+      description: "Sparky Fitness Group",
+      groupName: "sparkyfitness",
+      matchPackageNames: ["/codewithcj/sparkyfitness/"],
+      matchDatasources: ["docker"],
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
+      minimumGroupSize: 2,
+    },
   ],
 }
