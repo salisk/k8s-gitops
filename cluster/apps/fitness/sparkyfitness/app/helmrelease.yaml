@@ -98,7 +98,7 @@ spec:
           app:
             image:
               repository: docker.io/codewithcj/sparkyfitness
-              tag: v1.6.1@sha256:092090994d27c968d4d5ea7808f8d566aa9c323508b564f0bd4762720b358979
+              tag: v1.6.2@sha256:66c6f8ee86d7b9a2196c479b91f5187a55c462805432d97c55a28e50e5044353
             env:
               SPARKY_FITNESS_FRONTEND_URL: https://fitness.${SECRET_DOMAIN}
               SPARKY_FITNESS_SERVER_HOST: sparkyfitness-server
