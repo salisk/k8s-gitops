@@ -36,9 +36,8 @@ spec:
               - -c
               - |
                 set -euo pipefail
-                apk add --no-cache git
                 rm -rf /add-ons/*
-                git clone --depth 1 https://github.com/blacktwin/JBOPS /add-ons
+                wget -qO- https://github.com/blacktwin/JBOPS/archive/refs/heads/master.tar.gz | tar xz -C /add-ons --strip-components=1
             resources:
               requests:
                 cpu: 10m
