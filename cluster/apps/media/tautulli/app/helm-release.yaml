@@ -26,6 +26,25 @@ spec:
       tautulli:
         annotations:
           reloader.stakater.com/auto: "true"
+        initContainers:
+          jbops:
+            image:
+              repository: docker.io/library/alpine
+              tag: "3.24"
+            command:
+              - sh
+              - -c
+              - |
+                set -euo pipefail
+                apk add --no-cache git
+                rm -rf /add-ons/*
+                git clone --depth 1 https://github.com/blacktwin/JBOPS /add-ons
+            resources:
+              requests:
+                cpu: 10m
+                memory: 10M
+              limits:
+                memory: 128M
         containers:
           app:
             image:
@@ -54,21 +73,6 @@ spec:
                 memory: 128Mi
               limits:
                 memory: 512Mi
-          jbops:
-            image:
-              repository: registry.k8s.io/git-sync/git-sync
-              tag: v4.7.1
-            env:
-              GITSYNC_REPO: https://github.com/blacktwin/JBOPS
-              GITSYNC_REF: master
-              GITSYNC_PERIOD: 24h
-              GITSYNC_ROOT: /add-ons
-            resources:
-              requests:
-                cpu: 10m
-                memory: 10M
-              limits:
-                memory: 128M
         pod:
           securityContext:
             runAsUser: 568
