@@ -38,6 +38,7 @@ spec:
               UP_UNIFI_CONTROLLER_0_DEFAULT_SITE_NAME_OVERRIDE: Home
               # Controller 1
               UP_UNIFI_CONTROLLER_1_URL: https://${GATEWAY_ADDR_2}
+              UP_UNIFI_CONTROLLER_1_TIMEOUT: 15s
             envFrom:
               - secretRef:
                   name: unpoller-secret
