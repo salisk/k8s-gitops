@@ -38,11 +38,21 @@ spec:
               UP_UNIFI_CONTROLLER_0_DEFAULT_SITE_NAME_OVERRIDE: Home
               # Controller 1
               UP_UNIFI_CONTROLLER_1_URL: https://${GATEWAY_ADDR_2}
-              UP_UNIFI_CONTROLLER_1_TIMEOUT: 15s
+              UP_UNIFI_CONTROLLER_1_TIMEOUT: 5s
             envFrom:
               - secretRef:
                   name: unpoller-secret
             probes:
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: 80
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 30 # 5 minutes max startup time
               liveness: &probes
                 enabled: true
                 custom: true
@@ -50,7 +60,6 @@ spec:
                   httpGet:
                     path: /health
                     port: 80
-                  initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
                   failureThreshold: 3
