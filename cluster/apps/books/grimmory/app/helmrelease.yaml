@@ -31,7 +31,7 @@ spec:
           init-db:
             image:
               repository: docker.io/library/mariadb
-              tag: 11.8.9
+              tag: 12.3.3
             envFrom:
               - secretRef:
                   name: grimmory-secret
