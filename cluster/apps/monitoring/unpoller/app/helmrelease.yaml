@@ -27,7 +27,7 @@ spec:
           app:
             image:
               repository: ghcr.io/unpoller/unpoller
-              tag: v5.2.1@sha256:6425e0e8c41138234054d9297219a152089c4b19b8dc9495f6f2f432f42dcc85
+              tag: v5.2.4@sha256:e1fad2c2d897cd71e3aaebe32c6fa87b1b205b6ebfde5c8fc036bc62b1930731
             env:
               TZ: "${TIMEZONE}"
               UP_PROMETHEUS_HTTP_LISTEN: 0.0.0.0:80
