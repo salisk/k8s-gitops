@@ -40,7 +40,7 @@ spec:
           app:
             image:
               repository: docker.io/codewithcj/sparkyfitness_server
-              tag: v1.6.5@sha256:0a365e3d5561ad58ebe1e6cba1d132c7e968958d632bfd9f6a39cd736c3dc9d7
+              tag: v1.7.1@sha256:dd340607b2748941032a5c0db679363eb736ad810e26df10d93810a2b1518d5e
             env:
               TZ: ${TIMEZONE}
               NODE_ENV: production
@@ -98,7 +98,7 @@ spec:
           app:
             image:
               repository: docker.io/codewithcj/sparkyfitness
-              tag: v1.6.5@sha256:4e836f23fa92a762335dcf4552f76696ca77bde16c7d5c14c49946a3e5faf83a
+              tag: v1.7.1@sha256:4dd132cf1db66d6c4f4669bd04d9558ffe5006e40e8b7ee33c0859d52d9de379
             env:
               SPARKY_FITNESS_FRONTEND_URL: https://fitness.${SECRET_DOMAIN}
               SPARKY_FITNESS_SERVER_HOST: sparkyfitness-server
@@ -131,7 +131,7 @@ spec:
           app:
             image:
               repository: docker.io/codewithcj/sparkyfitness_garmin
-              tag: v1.6.5@sha256:45f03e4358e224b274c99a09301b169977f067c2004a346d9e698a8d93c986b3
+              tag: v1.7.1@sha256:6ed61b7623e3c4f928f1c302cf0a1b128f2e62633c09f47414d2f69f6d14a523
             env:
               TZ: ${TIMEZONE}
               GARMIN_SERVICE_PORT: "8000"
