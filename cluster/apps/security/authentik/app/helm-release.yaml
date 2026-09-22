@@ -46,7 +46,7 @@ spec:
           hostnames:
             - sso.${SECRET_DOMAIN}
           # annotations:
-          # external-dns.alpha.kubernetes.io/target: sso.${SECRET_DOMAIN}
+          # external-dns.kubernetes.io/target: sso.${SECRET_DOMAIN}
           parentRefs:
             - name: internal
               namespace: kube-system
