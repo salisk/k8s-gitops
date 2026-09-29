@@ -55,6 +55,7 @@ spec:
               REDIS_HOST: dragonfly.data.svc.cluster.local
               REDIS_PORT: "6379"
               PROXY_BASE_URL: "https://llm.${SECRET_DOMAIN}"
+              CHATGPT_TOKEN_DIR: /data/chatgpt
             envFrom: *envFrom
             probes:
               liveness: &probes
@@ -121,3 +122,8 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /usr/local/lib/python3.13/site-packages/prisma
+      chatgpt-tokens:
+        type: persistentVolumeClaim
+        existingClaim: litellm-chatgpt-tokens-v1
+        globalMounts:
+          - path: /data/chatgpt

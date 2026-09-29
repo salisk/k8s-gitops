@@ -6,5 +6,6 @@ namespace: ai
 resources:
   - ./secret.yaml
   - ./configmap.yaml
+  - ./chatgpt-tokens-pvc.yaml
   - ./helm-release.yaml
   - ../../../../templates/gatus/internal
