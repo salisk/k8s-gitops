@@ -30,7 +30,7 @@ spec:
           backend:
             image:
               repository: zimengxiong/excalidash-backend
-              tag: 0.6.0@sha256:cbdab75f31b21e342b464d6404a454791e5da7452e3614b137021a800fc4cac6
+              tag: 0.6.3@sha256:4cdb4136218029125688d194ed64130f27b80483247a740f5145b6f461240123
             env:
               DATABASE_PROVIDER: postgresql
               PORT: &backendPort 8000
@@ -83,7 +83,7 @@ spec:
           frontend:
             image:
               repository: zimengxiong/excalidash-frontend
-              tag: 0.6.0@sha256:4ec5b20c03034b96d37cfb87b5c39e9cc5958441a3abd8dcc413d11dfb11809c
+              tag: 0.6.3@sha256:d39c62bb98a1da9e3261667bfbc1792de907323502b2107ec7d6e9b6d1837b02
             env:
               BACKEND_URL: localhost:8000
             probes:
