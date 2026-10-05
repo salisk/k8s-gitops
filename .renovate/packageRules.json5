@@ -2,6 +2,12 @@
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
   packageRules: [
     {
+      description: "Pin minio to last full-featured community release (WebUI/OIDC/distributed mode removed in later MinIO builds)",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["ghcr.io/coollabsio/minio"],
+      allowedVersions: "/^RELEASE\\.2025-04-22T22-12-26Z$/",
+    },
+    {
       description: "Loose versioning for non-semver packages",
       matchDatasources: ["docker"],
       versioning: "loose",
