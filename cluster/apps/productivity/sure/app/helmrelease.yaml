@@ -56,6 +56,11 @@ spec:
               AUTH_LOCAL_LOGIN_ENABLED: "false"
               AUTH_LOCAL_ADMIN_OVERRIDE_ENABLED: "false"
               AUTH_JIT_MODE: create_and_link
+              # LLM via litellm (builtin assistant, auto-categorization, merchant detection)
+              OPENAI_URI_BASE: http://litellm.ai.svc.cluster.local/v1
+              OPENAI_MODEL: chatgpt/gpt-6-luna
+              LLM_CONTEXT_WINDOW: "131072"
+              LLM_MAX_RESPONSE_TOKENS: "8192"
             envFrom:
               - secretRef:
                   name: sure-secret
