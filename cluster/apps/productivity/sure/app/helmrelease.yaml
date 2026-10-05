@@ -59,6 +59,9 @@ spec:
               # LLM via litellm (builtin assistant, auto-categorization, merchant detection)
               OPENAI_URI_BASE: http://litellm.ai.svc.cluster.local/v1
               OPENAI_MODEL: chatgpt/gpt-6-luna
+              # chatgpt/* models are responses-only upstream; litellm's chat-completions bridge is
+              # broken for them (BerriAI/litellm#38719) so force sure onto the Responses API
+              OPENAI_SUPPORTS_RESPONSES_ENDPOINT: "true"
               LLM_CONTEXT_WINDOW: "131072"
               LLM_MAX_RESPONSE_TOKENS: "8192"
             envFrom:
