@@ -21,7 +21,7 @@ spec:
         containers:
           app:
             image:
-              repository: quay.io/minio/minio
+              repository: ghcr.io/coollabsio/minio
               tag: RELEASE.2025-04-22T22-12-26Z
             args:
               - server
