@@ -38,7 +38,7 @@ spec:
     image:
       registry: docker.io
       repository: bitnamilegacy/mariadb
-      tag: 11.2.2-debian-11-r6
+      tag: 11.2.3-debian-11-r6
       debug: true
     auth:
       rootPassword: "${MARIADB_ROOT_PASSWORD}"
