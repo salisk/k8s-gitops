@@ -38,7 +38,7 @@ spec:
           app:
             image:
               repository: docker.io/thisisarpanghosh/garmin-fetch-data
-              tag: latest@sha256:3282b5144f23a8b9e96e4593a03f50914add28c5d837e4ef529781d45ee7cba7
+              tag: latest@sha256:88522b41c940ccc0f70e21e1fdee78d9ac2d7d26814d1edd03043aebd9f4b000
             env:
               # Points to existing InfluxDB v2 (v1 compat API) in data namespace
               INFLUXDB_HOST: influxdb-influxdb2.data.svc.cluster.local
