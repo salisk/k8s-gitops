@@ -37,20 +37,22 @@ spec:
           app:
             image:
               repository: docker.io/freikin/dawarich
-              tag: 1.15.3
+              tag: 1.18.0
             command: ["web-entrypoint.sh"]
             args: ["bin/rails", "server", "-p", "3000", "-b", "::"]
             env: &env
               APPLICATION_HOSTS: "dawarich.${SECRET_DOMAIN}"
               APPLICATION_PROTOCOL: http
-              BACKGROUND_PROCESSING_CONCURRENCY: "10"
+              BACKGROUND_PROCESSING_CONCURRENCY: "2"
               DISTANCE_UNIT: km
               MIN_MINUTES_SPENT_IN_CITY: 60
               RAILS_ENV: production
               REDIS_URL: redis://dragonfly.data.svc.cluster.local:6379
               SELF_HOSTED: "true"
+              SIDEKIQ_EMBEDDED: "true"
               TIME_ZONE: "${TIMEZONE}"
               TZ: "${TIMEZONE}"
+              WEB_CONCURRENCY: "0"
               DISABLE_TELEMETRY: "true"
               OIDC_ISSUER: "https://sso.${SECRET_DOMAIN}/application/o/dawarich/"
               OIDC_REDIRECT_URI: "https://dawarich.${SECRET_DOMAIN}/users/auth/openid_connect/callback"
@@ -80,20 +82,6 @@ spec:
             securityContext: &sc
               allowPrivilegeEscalation: false
               capabilities: { drop: ["ALL"] }
-            resources:
-              requests:
-                cpu: 50m
-                memory: 512Mi
-              limits:
-                memory: 2Gi
-          sidekiq:
-            image:
-              repository: docker.io/freikin/dawarich
-              tag: 1.15.3
-            command: ["sidekiq-entrypoint.sh"]
-            env: *env
-            envFrom: *envFrom
-            securityContext: *sc
             resources:
               requests:
                 cpu: 50m
@@ -137,7 +125,6 @@ spec:
                 subPath: public
               - path: /var/app/storage
                 subPath: storage
-            sidekiq: *mounts
       watched:
         type: emptyDir
         sizeLimit: 1Gi
@@ -145,7 +132,6 @@ spec:
           dawarich:
             app: &watched
               - path: /var/app/tmp/imports/watched
-            sidekiq: *watched
       tmp:
         type: emptyDir
         medium: Memory
@@ -155,4 +141,3 @@ spec:
             app: &tmp
               - path: /var/app/tmp
                 subPath: app
-            sidekiq: *tmp
