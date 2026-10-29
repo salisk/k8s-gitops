@@ -88,7 +88,6 @@ spec:
           gethomepage.dev/icon: maintainerr.png
           gethomepage.dev/widget.type: maintainerr
           gethomepage.dev/widget.url: http://maintainerr.media
-          gethomepage.dev/widget.key: "${HOMEPAGE_MAINTAINERR_KEY}"
         hostnames:
           - "maintainerr.${SECRET_DOMAIN}"
         parentRefs:
