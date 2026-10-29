@@ -101,3 +101,7 @@ spec:
         existingClaim: maintainerr-config-v1
         globalMounts:
           - path: /opt/data
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
