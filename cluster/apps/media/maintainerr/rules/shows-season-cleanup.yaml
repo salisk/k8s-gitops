@@ -1,0 +1,13 @@
+# Seasons: S2+ (specials/S0 kept) of shows in the "Fully watched shows"
+# collection. Parent-inclusive membership lets a season match the collection
+# its show is in. Start with arrAction = Do nothing, inspect, then switch to
+# "Unmonitor and delete season" with delete-after = 30 days.
+mediaType: SHOW
+rules:
+  - "0":
+      - firstValue: Plex.collection_names_including_parent
+        action: CONTAINS
+        customValue: {type: TEXT, value: Fully watched shows}
+      - firstValue: Sonarr.seasonNumber
+        action: BIGGER
+        customValue: {type: NUMBER, value: "1"}

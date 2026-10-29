@@ -1,0 +1,17 @@
+# Movies: memory hogs (>20GB) that were watched long ago, keeping
+# well-reviewed (IMDb >= 7.5) and Marvel-franchise titles.
+mediaType: MOVIE
+rules:
+  - "0":
+      - firstValue: Radarr.fileSize
+        action: BIGGER
+        customValue: {type: NUMBER, value: "20000"}
+      - firstValue: Plex.lastViewedAt
+        action: BEFORE
+        customValue: {type: custom_days, value: "180"}
+      - firstValue: Plex.rating_imdb
+        action: SMALLER
+        customValue: {type: NUMBER, value: "7.5"}
+      - firstValue: Plex.studios
+        action: NOT_CONTAINS_PARTIAL
+        customValue: {type: TEXT, value: Marvel}
