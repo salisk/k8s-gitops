@@ -1,12 +1,11 @@
-# Shows: entire series watched by the whole household + Sonarr says ended.
+# Shows: entire series watched by at least one user + Sonarr says ended.
 # Keep this collection present in Plex — the season-cleanup group resolves
 # its members via parent-inclusive collection membership.
 mediaType: SHOW
 rules:
   - "0":
       - firstValue: Plex.sw_allEpisodesSeenBy
-        action: CONTAINS_ALL
-        customValue: {type: TEXT_LIST, value: [USER1, USER2]}
+        action: EXISTS
       - firstValue: Plex.lastViewedAt
         action: BEFORE
         customValue: {type: custom_days, value: "90"}

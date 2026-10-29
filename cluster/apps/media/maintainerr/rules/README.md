@@ -20,6 +20,8 @@ Files:
 - `shows-fully-watched.yaml`    — whole show watched by household + ended (Do nothing)
 - `shows-season-cleanup.yaml`   — S2+ of those shows (season granularity)
 
-Replace `USER1` / `USER2` with the household's Plex usernames before import.
+Replace `USER1` / `USER2` placeholders in any imported YAML with the
+household's Plex usernames. (`shows-fully-watched.yaml` needs none —
+"any user watched it all" is `EXISTS` on the watched-by list.)
 `Sonarr.ended` requires the Sonarr integration to be configured in Maintainerr
 settings; the same applies to Radarr props in the movie files.
