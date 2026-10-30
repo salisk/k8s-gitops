@@ -1,3 +1,4 @@
+---
 # Movies: low rated (TMDB < 5.5) AND already watched (>180d ago)
 # Sections are OR-combined; rules within a section are AND-combined.
 mediaType: MOVIE
