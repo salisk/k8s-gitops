@@ -12,7 +12,7 @@ spec:
         - alert: SmartDeviceHighTemperature
           annotations:
             summary: Node {{ $labels.node }} - Mounted drive {{ $labels.device }} has a temperature higher than 70°C.
-          expr: smartctl_device_temperature > 70
+          expr: smartctl_device_temperature{temperature_type="current"} > 70
           for: 15m
           labels:
             severity: critical
