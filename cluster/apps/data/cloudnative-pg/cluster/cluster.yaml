@@ -40,6 +40,10 @@ spec:
       autovacuum_naptime: 30s
       autovacuum_vacuum_scale_factor: "0.1"
       autovacuum_vacuum_cost_limit: "1000"
+      # kill sessions that forget an open transaction; protects the global xmin horizon
+      idle_in_transaction_session_timeout: "1800000"
+      # make anti-wraparound autovacuum passes visible in postgres logs
+      log_autovacuum_min_duration: "10000"
   monitoring:
     enablePodMonitor: true
   backup:
