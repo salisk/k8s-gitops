@@ -26,8 +26,11 @@ spec:
           - name: severity
             value: info|none
             matchType: =~
-      # Waiting+Stalled on the same node describe one condition — one page per node
+      # Waiting+Stalled on the same node describe one condition — one page per node.
+      # Staggered groupWaits spread reload/config-push bursts across 15s/30s/60s waves
+      # so Pushover never sees a simultaneous volley (HTTP 429 lesson, 2026-11).
       - receiver: pushover
+        groupWait: 15s
         groupBy:
           - kubernetes_node
         matchers:
@@ -43,6 +46,7 @@ spec:
       #       value: Watchdog
       #       matchType: =
       - receiver: pushover
+        groupWait: 30s
         matchers:
           - name: severity
             value: critical
