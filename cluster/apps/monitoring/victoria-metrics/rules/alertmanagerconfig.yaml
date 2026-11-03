@@ -19,6 +19,12 @@ spec:
           - name: alertname
             value: InfoInhibitor
             matchType: =
+      # keep phone sane: info/none severities never page
+      - receiver: "null"
+        matchers:
+          - name: severity
+            value: info|none
+            matchType: =~
       # - receiver: heartbeat
       #   groupInterval: 5m
       #   groupWait: 0s

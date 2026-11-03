@@ -112,25 +112,9 @@ spec:
       enabled: true
       spec:
         externalURL: "https://alertmanager.${SECRET_DOMAIN}"
-        # Default route: notify everything (was chart default → blackhole, which silently
-        # dropped every alert lacking namespace="monitoring"). info/none stay muted.
-        configRawYaml: |
-          route:
-            receiver: monitoring-alertmanager-pushover
-            group_by: ["alertname", "kubernetes_node", "namespace", "job"]
-            group_wait: 1m
-            group_interval: 10m
-            repeat_interval: 12h
-            continue: false
-            routes:
-              - receiver: monitoring-alertmanager-null
-                matchers:
-                  - alertname = "InfoInhibitor"
-                continue: false
-              - receiver: monitoring-alertmanager-null
-                matchers:
-                  - severity =~ "info|none"
-                continue: false
+        # Route ALL alerts (any namespace) through the AlertmanagerConfig subtrees
+        # instead of only those carrying namespace="monitoring" (chart default → blackhole).
+        disableNamespaceMatcher: true
         storage:
           volumeClaimTemplate:
             spec:
