@@ -42,6 +42,8 @@ spec:
       autovacuum_vacuum_cost_limit: "1000"
       # kill sessions that forget an open transaction; protects the global xmin horizon
       idle_in_transaction_session_timeout: "1800000"
+      # cycle stale pooled connections; does NOT protect xmin horizon (plain idle holds no xmin)
+      idle_session_timeout: "86400000"
       # make anti-wraparound autovacuum passes visible in postgres logs
       log_autovacuum_min_duration: "10000"
   monitoring:
