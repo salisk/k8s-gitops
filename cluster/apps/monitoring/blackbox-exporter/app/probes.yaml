@@ -13,7 +13,6 @@ spec:
   targets:
     staticConfig:
       static:
-        - 192.168.0.127 # house-doorbell
         - 192.168.0.151 # terrace
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/monitoring.coreos.com/probe_v1.json
