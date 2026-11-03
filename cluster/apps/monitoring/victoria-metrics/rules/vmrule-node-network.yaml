@@ -1,0 +1,61 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/operator.victoriametrics.com/vmrule_v1beta1.json
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMRule
+metadata:
+  name: node-network
+  namespace: monitoring
+spec:
+  groups:
+    - name: node.network
+      rules:
+        # Per-node NIC capability map: the maximum link speed each node's physical
+        # NIC supports (bytes/s). node_exporter only reports the *negotiated* speed,
+        # so capability is encoded here. All nodes' primary NIC is eno1; the device
+        # label is included so alert annotations keep it. Update when hardware changes:
+        #   k8s-12, k8s-13           Intel I225-V      -> 2.5 GbE (3.125e8)
+        #   k8s-10, k8s-11, k8s-15   Realtek RTL8111   -> 1 GbE   (1.25e8)
+        #   k8s-14                   Intel I219-V      -> 1 GbE   (1.25e8)
+        - record: node:network_speed_capability_bytes
+          expr: |
+            label_replace(label_replace(vector(3.125e+08), "kubernetes_node", "k8s-12", "", ""), "device", "eno1", "", "")
+            or label_replace(label_replace(vector(3.125e+08), "kubernetes_node", "k8s-13", "", ""), "device", "eno1", "", "")
+            or label_replace(label_replace(vector(1.25e+08), "kubernetes_node", "k8s-10", "", ""), "device", "eno1", "", "")
+            or label_replace(label_replace(vector(1.25e+08), "kubernetes_node", "k8s-11", "", ""), "device", "eno1", "", "")
+            or label_replace(label_replace(vector(1.25e+08), "kubernetes_node", "k8s-14", "", ""), "device", "eno1", "", "")
+            or label_replace(label_replace(vector(1.25e+08), "kubernetes_node", "k8s-15", "", ""), "device", "eno1", "", "")
+
+        # Fires only when the negotiated link speed is below the NIC's capability —
+        # i.e. a physical-layer fault, not a node whose hardware maxes out lower.
+        # A 100 Mb/s link on a 2.5 GbE-capable I225-V fires; a healthy 1 Gb/s node
+        # with a 1 Gb/s-only NIC stays silent.
+        - alert: NodeNetworkLinkBelowCapability
+          expr: |
+            node_network_speed_bytes{device!~"lo|veth.*|cali.*|cilium.*|lxc.*|flannel.*|docker.*|tunl0|vxlan.*"}
+              < on(kubernetes_node, device) node:network_speed_capability_bytes
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Node {{ $labels.kubernetes_node }}: {{ $labels.device }} linked at {{ $value | humanize }}B/s, below NIC capability"
+            description: >-
+              {{ $labels.device }} on {{ $labels.kubernetes_node }} negotiated a link
+              slower than the NIC supports. Almost always a physical-layer fault:
+              a damaged cable pair (gigabit+ needs all four pairs; one bad pair drops
+              the link to 100 Mb/s) or a switch port forced or damaged to a lower
+              speed. Reseat/replace the cable, then check the switch port config.
+
+        # Half-duplex means a duplex mismatch — both ends must be full. Mismatches
+        # produce collisions and throughput collapse even at a nominally good speed.
+        - alert: NodeNetworkHalfDuplex
+          expr: node_network_info{device!~"lo|veth.*|cali.*|cilium.*|lxc.*|flannel.*|docker.*|tunl0|vxlan.*", duplex="half"} == 1
+          for: 15m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Node {{ $labels.kubernetes_node }}: {{ $labels.device }} in half-duplex"
+            description: >-
+              {{ $labels.device }} on {{ $labels.kubernetes_node }} negotiated
+              half-duplex, which indicates a duplex mismatch with the switch port.
+              Collisions will cripple throughput. Set both ends to autoneg and
+              replace the cable if that doesn't restore full duplex.
