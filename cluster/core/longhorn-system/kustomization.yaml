@@ -3,4 +3,5 @@ kind: Kustomization
 resources:
   - longhorn.yaml
   - longhorn-backup-secret.yaml
+  - networkpolicy-allow-metrics.yaml
   - ./httproute.yaml
