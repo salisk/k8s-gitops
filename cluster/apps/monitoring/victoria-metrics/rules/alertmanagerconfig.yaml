@@ -26,6 +26,14 @@ spec:
           - name: severity
             value: info|none
             matchType: =~
+      # Waiting+Stalled on the same node describe one condition — one page per node
+      - receiver: pushover
+        groupBy:
+          - kubernetes_node
+        matchers:
+          - name: alertname
+            value: NodeIOPressure(Waiting|Stalled)
+            matchType: =~
       # - receiver: heartbeat
       #   groupInterval: 5m
       #   groupWait: 0s
