@@ -6,9 +6,10 @@ metadata:
   name: alertmanager
 spec:
   route:
+    # '...' = group by ALL labels: every distinct alert instance gets its own
+    # notification instead of collapsing by alertname
     groupBy:
-      - alertname
-      - job
+      - '...'
     groupInterval: 10m
     groupWait: 1m
     receiver: pushover
