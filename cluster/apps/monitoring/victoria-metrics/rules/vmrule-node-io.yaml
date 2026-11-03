@@ -22,26 +22,50 @@ spec:
             summary: "Node {{ $labels.kubernetes_node }} IO-waiting {{ $value | humanizePercentage }} of the time"
             description: >-
               At least one task on {{ $labels.kubernetes_node }} has been blocked on IO
-              for {{ $value | humanizePercentage }} of wall-clock time, sustained over 15m.
-              Storage subsystem is saturated. Check Longhorn replica distribution,
-              disk fullness, and per-pod write rates (cgroup io.stat).
+              for {{ $value | humanizePercentage }} of wall-clock time, sustained over 1h.
+              Distinguish local vs network storage: node_disk_* covers local sd/nvme only —
+              PSI includes NFS and iSCSI waits. Slow-but-answering NFS servers show zero
+              RPC retransmissions; check per-device latency and 'ps -eLo stat,comm' for D.
 
         # PSI io "full" — fraction of time *all* runnable tasks are blocked on IO.
-        # When this is non-trivial, the entire node is making little progress.
-        # Symptoms: pod terminations stalling, slow image pulls, kubelet probe timeouts.
+        # Caveat learned 2026-11: on near-idle nodes PSI "full" is inflated by math
+        # (denominator = currently non-idle tasks), e.g. 70% PSI with only 20% real
+        # CPU iowait — so the critical tier requires an iowait corroborator, and the
+        # unconfirmed case demotes to the informational one below.
         - alert: NodeIOPressureStalled
           expr: |
             rate(node_pressure_io_stalled_seconds_total[5m]) > 0.3
+            and on (kubernetes_node)
+            avg by (kubernetes_node) (rate(node_cpu_seconds_total{mode="iowait"}[5m])) > 0.10
           for: 1h
           labels:
             severity: critical
           annotations:
-            summary: "Node {{ $labels.kubernetes_node }} severely IO-stalled ({{ $value | humanizePercentage }})"
+            summary: "Node {{ $labels.kubernetes_node }} severely IO-stalled (PSI full {{ $value | humanizePercentage }}, iowait corroborated)"
             description: >-
               All runnable tasks on {{ $labels.kubernetes_node }} were IO-blocked for
-              {{ $value | humanizePercentage }} of wall-clock time, sustained over 10m.
-              Workloads cannot make progress. Likely causes: Longhorn disk overcommitted,
-              snapshot-pinned blocks filling disk, replica rebuild storm, or hardware fault.
+              {{ $value | humanizePercentage }} of wall-clock time for 1h, AND CPU iowait
+              exceeds 10% of capacity — the stall is real, not idle-node PSI inflation.
+              Triage: ps -eLo stat,wchan:24,comm | awk '$1 ~ /D/' on the node; check
+              NFS mounts (slow-but-answering servers produce *zero* retransmissions),
+              Longhorn iSCSI session churn (dmesg resets), and disk latencies.
+
+        # Same PSI signal WITHOUT iowait corroboration: most likely the idle-node
+        # inflation artifact or rare micro-stalls — informational only (muted to Pushover).
+        - alert: NodeIOPressureStalledSuspected
+          expr: |
+            rate(node_pressure_io_stalled_seconds_total[5m]) > 0.3
+            and on (kubernetes_node)
+            avg by (kubernetes_node) (rate(node_cpu_seconds_total{mode="iowait"}[5m])) <= 0.10
+          for: 1h
+          labels:
+            severity: info
+          annotations:
+            summary: "Node {{ $labels.kubernetes_node }} reports high IO full-stall without iowait backing"
+            description: >-
+              PSI full io >30% for 1h but CPU iowait stays low (<10%). Usually the
+              idle-node PSI inflation artifact on master-class nodes. If real work
+              complains (slow image pulls, pod stalls), triage with ps -eLo on-node.
 
     - name: pod.disk.writes
       rules:
