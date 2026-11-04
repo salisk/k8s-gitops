@@ -6,6 +6,7 @@ resources:
   - ./toolhive/ks.yaml
   - ./memory-mcp/ks.yaml
   - ./grafana-mcp/ks.yaml
+  - ./arr-mcp/ks.yaml
   - ./kubesearch-mcp/ks.yaml
   - ./ha-mcp/ks.yaml
   - ./open-webui/ks.yaml

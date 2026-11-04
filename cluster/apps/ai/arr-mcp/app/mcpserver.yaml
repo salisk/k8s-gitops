@@ -1,0 +1,61 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/toolhive.stacklok.dev/mcpserver_v1beta1.json
+apiVersion: toolhive.stacklok.dev/v1beta1
+kind: MCPServer
+metadata:
+  name: arr-mcp
+spec:
+  groupRef:
+    name: mcp-tools
+  image: ghcr.io/aplaceforallmystuff/mcp-arr:1.7.3@sha256:ace72c56448e8695e1d2d060e7437470e3f883fcc9316f1294e3a7f682e1efa1
+  transport: streamable-http
+  mcpPort: 3000
+  env:
+    - name: MCP_TRANSPORT
+      value: http
+    - name: HOST
+      value: 0.0.0.0
+    - name: PORT
+      value: "3000"
+    - name: SONARR_URL
+      value: http://sonarr-app.media.svc.cluster.local
+    - name: RADARR_URL
+      value: http://radarr-app.media.svc.cluster.local
+  secrets:
+    - name: arr-mcp-secret
+      key: SONARR_API_KEY
+      targetEnvName: SONARR_API_KEY
+    - name: arr-mcp-secret
+      key: RADARR_API_KEY
+      targetEnvName: RADARR_API_KEY
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      memory: 256Mi
+  podTemplateSpec:
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1001
+        runAsGroup: 1001
+        fsGroup: 1001
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
+      automountServiceAccountToken: false
+      volumes:
+        - name: tmp
+          emptyDir: {}
+      containers:
+        - name: mcp
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
