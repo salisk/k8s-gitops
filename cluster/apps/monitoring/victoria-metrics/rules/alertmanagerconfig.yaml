@@ -45,6 +45,22 @@ spec:
       #     - name: alertname
       #       value: Watchdog
       #       matchType: =
+      # Dedicated route for pod-state alerts: long groupInterval + long
+      # repeatInterval avoids repaging on transient flapping, while the
+      # upstream `keep_firing_for: 30m` override keeps the alert firing
+      # through short recoveries so group state remains stable.
+      - receiver: pushover
+        groupBy:
+          - namespace
+          - pod
+          - alertname
+        groupWait: 1m
+        groupInterval: 30m
+        repeatInterval: 12h
+        matchers:
+          - name: alertname
+            value: KubePodCrashLooping|KubePodNotReady
+            matchType: =~
       - receiver: pushover
         groupWait: 30s
         matchers:
