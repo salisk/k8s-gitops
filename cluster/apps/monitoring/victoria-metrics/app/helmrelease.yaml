@@ -33,6 +33,17 @@ spec:
           enabled: false
         kubernetes-system-controller-manager:
           enabled: false
+      # Keep these alerts firing for 1h after recovery so short-lived pod
+      # restarts (CrashLoopBackOff, NotReady blips) do not flap notifications
+      # and trigger re-pages. Upstream `for:` and `expr` are preserved;
+      # only `keep_firing_for` is extended via the chart's sync job overrides.
+      rules:
+        KubePodCrashLooping:
+          spec:
+            keep_firing_for: 1h
+        KubePodNotReady:
+          spec:
+            keep_firing_for: 1h
 
     victoria-metrics-operator:
       enabled: true
