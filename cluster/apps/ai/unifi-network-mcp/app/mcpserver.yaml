@@ -1,0 +1,69 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/toolhive.stacklok.dev/mcpserver_v1beta1.json
+apiVersion: toolhive.stacklok.dev/v1beta1
+kind: MCPServer
+metadata:
+  name: unifi-network-mcp
+spec:
+  groupRef:
+    name: mcp-tools
+  image: ghcr.io/sirkirby/unifi-network-mcp:0.44.0@sha256:de690e741b5713f45c811defd443964bdb6f02ba3c44e6777dbc5fe093e28a92
+  transport: streamable-http
+  mcpPort: 3000
+  env:
+    - name: UNIFI_NETWORK_HOST
+      value: "https://${GATEWAY_ADDR}"
+    - name: UNIFI_NETWORK_PORT
+      value: "443"
+    - name: UNIFI_NETWORK_SITE
+      value: default
+    - name: UNIFI_NETWORK_VERIFY_SSL
+      value: "false"
+    - name: UNIFI_MCP_HTTP_ENABLED
+      value: "true"
+    - name: UNIFI_MCP_HTTP_TRANSPORT
+      value: streamable-http
+    - name: UNIFI_MCP_HOST
+      value: 0.0.0.0
+    - name: UNIFI_MCP_PORT
+      value: "3000"
+    - name: UNIFI_MCP_ENABLE_DNS_REBINDING_PROTECTION
+      value: "false"
+    - name: UNIFI_TOOL_REGISTRATION_MODE
+      value: meta_only
+    - name: UNIFI_POLICY_CREATE
+      value: "false"
+    - name: UNIFI_POLICY_UPDATE
+      value: "false"
+    - name: UNIFI_POLICY_DELETE
+      value: "false"
+    - name: UNIFI_TOOL_PERMISSION_MODE
+      value: confirm
+  secrets:
+    - name: unifi-network-mcp-secret
+      key: UNIFI_NETWORK_USERNAME
+      targetEnvName: UNIFI_NETWORK_USERNAME
+    - name: unifi-network-mcp-secret
+      key: UNIFI_NETWORK_PASSWORD
+      targetEnvName: UNIFI_NETWORK_PASSWORD
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
+  podTemplateSpec:
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: mcp
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
