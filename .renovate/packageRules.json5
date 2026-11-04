@@ -31,5 +31,11 @@
       versioning: "regex:^RELEASE\\.(?<major>\\d+)-(?<minor>\\d+)-(?<patch>\\d+)T.*Z$",
       matchPackageNames: ["/minio/"],
     },
+    {
+      description: "Exclude discontinued Hermes calendar-version tags",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["docker.io/nousresearch/hermes-agent", "nousresearch/hermes-agent"],
+      allowedVersions: "!/^v?\\d{4}\\./",
+    },
   ],
 }
