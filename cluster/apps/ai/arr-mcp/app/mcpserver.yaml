@@ -8,19 +8,13 @@ spec:
   groupRef:
     name: mcp-tools
   image: ghcr.io/aplaceforallmystuff/mcp-arr:1.7.3@sha256:ace72c56448e8695e1d2d060e7437470e3f883fcc9316f1294e3a7f682e1efa1
-  transport: streamable-http
-  mcpPort: 3000
+  transport: stdio
+  proxyMode: streamable-http
   env:
-    - name: MCP_TRANSPORT
-      value: http
-    - name: HOST
-      value: 0.0.0.0
-    - name: PORT
-      value: "3000"
     - name: SONARR_URL
-      value: http://sonarr-app.media.svc.cluster.local
+      value: http://sonarr.media.svc.cluster.local
     - name: RADARR_URL
-      value: http://radarr-app.media.svc.cluster.local
+      value: http://radarr.media.svc.cluster.local
   secrets:
     - name: arr-mcp-secret
       key: SONARR_API_KEY
