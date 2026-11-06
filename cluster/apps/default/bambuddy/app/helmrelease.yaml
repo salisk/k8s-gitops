@@ -26,6 +26,14 @@ spec:
               TZ: ${TIMEZONE}
               PORT: 8000
               LOG_LEVEL: INFO
+              BAMBUDDY_OIDC_NAME: Authentik
+              BAMBUDDY_OIDC_ISSUER_URL: "https://sso.${SECRET_DOMAIN}/application/o/bambuddy/"
+              BAMBUDDY_OIDC_AUTO_CREATE_USERS: "true"
+              BAMBUDDY_OIDC_REQUIRE_EMAIL_VERIFIED: "true"
+              BAMBUDDY_OIDC_AUTO_LINK_EXISTING: "true"
+            envFrom:
+              - secretRef:
+                  name: bambuddy-secret
             probes:
               readiness:
                 enabled: true
@@ -71,6 +79,8 @@ spec:
               limits:
                 memory: 2Gi
     defaultPodOptions:
+      annotations:
+        secret.reloader.stakater.com/reload: bambuddy-secret
       automountServiceAccountToken: false
       securityContext:
         runAsNonRoot: true
