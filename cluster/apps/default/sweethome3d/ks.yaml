@@ -22,7 +22,7 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      GATUS_PATH: /
+      GATUS_SUBDOMAIN: home3d
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings

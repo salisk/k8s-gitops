@@ -93,7 +93,10 @@ spec:
     secretRef:
       name: sops-gpg
   postBuild:
-    substitute: {}
+    substitute:
+      APP: toolhive-operator-config
+      GATUS_SUBDOMAIN: mcp
+      GATUS_PATH: /health
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings

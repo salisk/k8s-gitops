@@ -26,8 +26,8 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      GATUS_PATH: /healthcheck
-      GATUS_SUBDOMAIN: rss
+      GATUS_PATH: /minio/health/live
+      GATUS_SUBDOMAIN: s3
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings

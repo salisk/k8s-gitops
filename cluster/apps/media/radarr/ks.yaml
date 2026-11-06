@@ -25,6 +25,7 @@ spec:
   postBuild:
     substitute:
       APP: *app
+      GATUS_PATH: /ping
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings

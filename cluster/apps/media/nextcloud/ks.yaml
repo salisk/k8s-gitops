@@ -23,6 +23,7 @@ spec:
   postBuild:
     substitute:
       APP: *app
+      GATUS_PATH: /status.php
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings
