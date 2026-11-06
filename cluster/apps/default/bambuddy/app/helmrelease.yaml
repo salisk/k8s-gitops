@@ -34,6 +34,7 @@ spec:
               TZ: ${TIMEZONE}
               PORT: 8000
               LOG_LEVEL: INFO
+              APP_URL: "https://bambu.${SECRET_DOMAIN}"
               BAMBUDDY_OIDC_NAME: Authentik
               BAMBUDDY_OIDC_ISSUER_URL: "https://sso.${SECRET_DOMAIN}/application/o/bambuddy/"
               BAMBUDDY_OIDC_AUTO_CREATE_USERS: "true"
