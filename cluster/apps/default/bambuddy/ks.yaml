@@ -7,6 +7,8 @@ metadata:
   namespace: flux-system
 spec:
   targetNamespace: default
+  dependsOn:
+    - name: cluster-apps-cloudnative-pg-cluster
   path: ./cluster/apps/default/bambuddy/app
   prune: true
   sourceRef:

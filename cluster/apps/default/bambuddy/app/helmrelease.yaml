@@ -17,11 +17,19 @@ spec:
         type: deployment
         replicas: 1
         strategy: Recreate
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/home-operations/postgres-init
+              tag: 18
+            envFrom:
+              - secretRef:
+                  name: bambuddy-secret
         containers:
           app:
             image:
               repository: ghcr.io/maziggy/bambuddy
-              tag: 1.2.5.7@sha256:807f67511fa8c2b644b09de50a5d41794372214d00bd04fda59f576d9958d280
+              tag: 1.3.0@sha256:ce483fde3a25058326cce654014e6d9d268a28ed8456db6c26825a7616d41d1c
             env:
               TZ: ${TIMEZONE}
               PORT: 8000
