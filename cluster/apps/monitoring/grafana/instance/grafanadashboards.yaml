@@ -227,8 +227,11 @@ spec:
     matchLabels:
       dashboards: grafana
   datasources:
-    - datasourceName: Prometheus
+    - datasourceName: prometheus
       inputName: DS_PROMETHEUS
+  variables:
+    - name: NASDevices
+      value: "1"
   grafanaCom:
     # renovate: depName="Synology NAS Details"
     id: 14284
