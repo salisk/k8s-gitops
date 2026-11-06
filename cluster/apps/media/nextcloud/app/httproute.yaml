@@ -6,7 +6,7 @@ metadata:
   name: nextcloud
 spec:
   parentRefs:
-    - name: external
+    - name: internal
       namespace: kube-system
       sectionName: https
   hostnames:
