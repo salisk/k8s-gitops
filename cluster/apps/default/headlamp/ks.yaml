@@ -20,7 +20,8 @@ spec:
     secretRef:
       name: sops-gpg
   postBuild:
-    substitute: {}
+    substitute:
+      APP: headlamp
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings

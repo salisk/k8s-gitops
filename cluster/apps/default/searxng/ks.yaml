@@ -20,7 +20,10 @@ spec:
     secretRef:
       name: sops-gpg
   postBuild:
-    substitute: {}
+    substitute:
+      APP: searxng
+      GATUS_SUBDOMAIN: search
+      GATUS_PATH: /healthz
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings

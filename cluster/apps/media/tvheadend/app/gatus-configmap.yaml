@@ -1,0 +1,22 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tvheadend-gatus-ep
+  namespace: media
+  labels:
+    gatus.io/enabled: "true"
+data:
+  config.yaml: |
+    endpoints:
+      - name: tvheadend
+        # Enable after scaling TVHeadend up.
+        enabled: false
+        group: internal
+        url: "https://tvheadend.${SECRET_DOMAIN}/"
+        interval: 1m
+        conditions:
+          # The UI may require an HTTP authentication challenge.
+          - "[STATUS] == 200 || [STATUS] == 401"
+        alerts:
+          - type: pushover

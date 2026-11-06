@@ -20,7 +20,9 @@ spec:
     secretRef:
       name: sops-gpg
   postBuild:
-    substitute: {}
+    substitute:
+      APP: kite
+      GATUS_PATH: /healthz
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings

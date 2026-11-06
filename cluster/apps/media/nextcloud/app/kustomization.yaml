@@ -1,6 +1,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
+  - ../../../../templates/gatus/internal
   - helm-release.yaml
   - config-pvc.yaml
   - ./httproute.yaml

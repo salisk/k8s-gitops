@@ -22,7 +22,9 @@ spec:
     secretRef:
       name: sops-gpg
   postBuild:
-    substitute: {}
+    substitute:
+      APP: frigate
+      GATUS_PATH: /api/version
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings

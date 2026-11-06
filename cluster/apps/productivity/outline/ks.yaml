@@ -23,7 +23,9 @@ spec:
     secretRef:
       name: sops-gpg
   postBuild:
-    substitute: {}
+    substitute:
+      APP: outline
+      GATUS_PATH: /_health
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings
