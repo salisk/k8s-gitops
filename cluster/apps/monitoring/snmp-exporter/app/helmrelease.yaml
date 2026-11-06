@@ -1,0 +1,73 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app snmp-exporter
+spec:
+  interval: 30m
+  chartRef:
+    kind: OCIRepository
+    name: snmp-exporter
+    namespace: monitoring
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    crds: Skip
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    fullnameOverride: *app
+
+    service:
+      type: ClusterIP
+      port: 9116
+
+    ingress:
+      enabled: false
+    route:
+      main:
+        enabled: false
+
+    podAnnotations:
+      reloader.stakater.com/auto: "true"
+
+    extraSecretMounts:
+      - name: snmp-exporter-secret
+        secretName: snmp-exporter-secret
+        mountPath: /run/secrets/snmp-exporter
+        readOnly: true
+        defaultMode: 420
+
+    # Load the image's vendor modules alongside the auth-only Secret file.
+    extraArgs:
+      - --config.file=/etc/snmp_exporter/snmp.yml
+      - --config.file=/run/secrets/snmp-exporter/auth.yml
+
+    serviceMonitor:
+      enabled: true
+      params:
+        - name: synology
+          target: ${NAS_ADDR}
+          module: [synology, if_mib, hrStorage]
+          auth: [synology_v3]
+          interval: 1m
+          scrapeTimeout: 30s
+      relabelings:
+        - sourceLabels: [__param_target]
+          targetLabel: instance
+      selfMonitor:
+        enabled: true
+        path: /metrics
+        port: http
+        interval: 1m
+        scrapeTimeout: 10s
+
+    resources:
+      requests:
+        cpu: 10m
+        memory: 64Mi
+      limits:
+        memory: 128Mi
