@@ -23,6 +23,7 @@ spec:
   postBuild:
     substitute:
       APP: ghost
+      GATUS_SUBDOMAIN: blog
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings
