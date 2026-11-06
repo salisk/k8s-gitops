@@ -1,0 +1,50 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app snmp-exporter
+spec:
+  interval: 30m
+  chartRef:
+    kind: OCIRepository
+    name: snmp-exporter
+    namespace: monitoring
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    crds: Skip
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    fullnameOverride: *app
+
+    service:
+      type: ClusterIP
+      port: 9116
+
+    ingress:
+      enabled: false
+    route:
+      main:
+        enabled: false
+
+    # Preserve the image's shipped snmp.yml modules; no custom config or auth yet.
+    serviceMonitor:
+      enabled: false
+      params: []
+      selfMonitor:
+        enabled: true
+        path: /metrics
+        port: http
+        interval: 1m
+        scrapeTimeout: 10s
+
+    resources:
+      requests:
+        cpu: 10m
+        memory: 64Mi
+      limits:
+        memory: 128Mi
