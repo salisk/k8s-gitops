@@ -33,8 +33,17 @@ spec:
 
     # Preserve the image's shipped snmp.yml modules; no custom config or auth yet.
     serviceMonitor:
+      # Device scraping stays disabled pending DSM SNMP/auth setup.
       enabled: false
-      params: []
+      params:
+        - name: synology
+          target: ${NAS_ADDR}
+          module: [synology, if_mib, hrStorage]
+          interval: 1m
+          scrapeTimeout: 30s
+      relabelings:
+        - sourceLabels: [__param_target]
+          targetLabel: instance
       selfMonitor:
         enabled: true
         path: /metrics
