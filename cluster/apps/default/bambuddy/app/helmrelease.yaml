@@ -29,7 +29,8 @@ spec:
               BAMBUDDY_OIDC_NAME: Authentik
               BAMBUDDY_OIDC_ISSUER_URL: "https://sso.${SECRET_DOMAIN}/application/o/bambuddy/"
               BAMBUDDY_OIDC_AUTO_CREATE_USERS: "true"
-              BAMBUDDY_OIDC_REQUIRE_EMAIL_VERIFIED: "false"
+              BAMBUDDY_OIDC_REQUIRE_EMAIL_VERIFIED: "true"
+              BAMBUDDY_OIDC_AUTO_LINK_EXISTING: "true"
             envFrom:
               - secretRef:
                   name: bambuddy-secret
