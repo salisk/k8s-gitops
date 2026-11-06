@@ -90,7 +90,7 @@ spec:
     route:
       app:
         hostnames:
-          - bambuddy.${SECRET_DOMAIN}
+          - bambu.${SECRET_DOMAIN}
         parentRefs:
           - name: internal
             namespace: kube-system
