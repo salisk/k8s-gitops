@@ -222,6 +222,7 @@ metadata:
   name: synology-nas-details
   namespace: monitoring
 spec:
+  contentCacheDuration: 1m
   allowCrossNamespaceImport: true
   instanceSelector:
     matchLabels:
