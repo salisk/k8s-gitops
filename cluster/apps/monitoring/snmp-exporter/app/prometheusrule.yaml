@@ -1,0 +1,14 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.ok8.sh/monitoring.coreos.com/prometheusrule_v1.json
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: snmp-exporter-rules
+  namespace: monitoring
+spec:
+  groups:
+    - name: snmp-exporter.rules
+      rules:
+        # Compatibility for legacy dashboard variables using label_values(ifName, ifName).
+        - record: ifName
+          expr: max by (job, instance, ifIndex, ifName) (ifType_info{job="snmp-exporter"})
