@@ -31,14 +31,28 @@ spec:
       main:
         enabled: false
 
-    # Preserve the image's shipped snmp.yml modules; no custom config or auth yet.
+    podAnnotations:
+      reloader.stakater.com/auto: "true"
+
+    extraSecretMounts:
+      - name: snmp-exporter-secret
+        secretName: snmp-exporter-secret
+        mountPath: /run/secrets/snmp-exporter
+        readOnly: true
+        defaultMode: 420
+
+    # Load the image's vendor modules alongside the auth-only Secret file.
+    extraArgs:
+      - --config.file=/etc/snmp_exporter/snmp.yml
+      - --config.file=/run/secrets/snmp-exporter/auth.yml
+
     serviceMonitor:
-      # Device scraping stays disabled pending DSM SNMP/auth setup.
-      enabled: false
+      enabled: true
       params:
         - name: synology
           target: ${NAS_ADDR}
           module: [synology, if_mib, hrStorage]
+          auth: [synology_v3]
           interval: 1m
           scrapeTimeout: 30s
       relabelings:
