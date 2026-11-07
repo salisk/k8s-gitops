@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - pvc
   - ./jellyfin/ks.yaml
+  - ./silo/ks.yaml
   - ./plex/ks.yaml
   - ./qbittorrent/ks.yaml
   - ./bazarr/ks.yaml
