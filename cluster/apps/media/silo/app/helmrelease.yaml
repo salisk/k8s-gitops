@@ -42,14 +42,10 @@ spec:
           reloader.stakater.com/auto: "true"
         initContainers:
           init-db:
-            image: &postgresImage
+            image:
               repository: ghcr.io/home-operations/postgres-init
               tag: "18"
-            # Stop the standard script on errors, including SQL via PSQLRC.
-            command: [bash, -e, /entrypoint.sh]
-            env:
-              PSQLRC: /initdb/psqlrc
-            envFrom: &initEnv
+            envFrom:
               - secretRef:
                   name: silo-init-secret
             securityContext: &security
@@ -57,16 +53,6 @@ spec:
               readOnlyRootFilesystem: true
               capabilities:
                 drop: [ALL]
-          init-extensions:
-            image: *postgresImage
-            # Also enforce extensions when the Silo database already exists.
-            command: [sh, -ec]
-            args:
-              - |
-                export PGHOST="$INIT_POSTGRES_HOST" PGUSER="$INIT_POSTGRES_SUPER_USER" PGPASSWORD="$INIT_POSTGRES_SUPER_PASS"
-                exec psql -v ON_ERROR_STOP=1 --dbname=silo --file=/initdb/silo.sql
-            envFrom: *initEnv
-            securityContext: *security
         containers:
           app:
             # Bypass root-only s6 init; PostgreSQL is external, Redis is optional.
@@ -177,8 +163,5 @@ spec:
         advancedMounts:
           silo:
             init-db:
-              - path: /initdb
-                readOnly: true
-            init-extensions:
               - path: /initdb
                 readOnly: true

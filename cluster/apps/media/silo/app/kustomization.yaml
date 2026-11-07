@@ -12,4 +12,3 @@ configMapGenerator:
   - name: silo-initdb
     files:
       - silo.sql
-      - psqlrc
