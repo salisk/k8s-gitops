@@ -54,10 +54,11 @@ spec:
               IDM_ADMIN_PASSWORD: "${OPENCLOUD_IDM_PASSWORD}"
 
               GATEWAY_GRPC_ADDR: 0.0.0.0:9142
+              STORAGE_USERS_HTTP_ADDR: 0.0.0.0:9158
+              STORAGE_USERS_DATA_SERVER_URL: http://opencloud.data.svc.cluster.local:9158/data
               OC_ENABLE_OCM: false
 
               # Collabora integration
-              FRONTEND_APP_HANDLER_SECURE_VIEW_APP_ADDR: eu.opencloud.api.collaboration.CollaboraOnline
               NATS_NATS_HOST: "0.0.0.0"
 
               OC_OIDC_ISSUER: https://sso.${SECRET_DOMAIN}/application/o/opencloud/
@@ -159,6 +160,10 @@ spec:
           nats:
             port: 9233
             targetPort: 9233
+          storage-data:
+            port: 9158
+            targetPort: 9158
+            protocol: HTTP
       wopi:
         controller: wopi
         ports:
