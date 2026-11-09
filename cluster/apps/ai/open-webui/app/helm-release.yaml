@@ -6,7 +6,7 @@ metadata:
   name: &app open-webui
 spec:
   interval: 30m
-  timeout: 20m
+  timeout: 15m
   chartRef:
     kind: OCIRepository
     name: app-template
@@ -96,6 +96,16 @@ spec:
                   periodSeconds: 10
                   timeoutSeconds: 5
                   failureThreshold: 3
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: *port
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 60
             resources:
               requests:
                 cpu: 500m
