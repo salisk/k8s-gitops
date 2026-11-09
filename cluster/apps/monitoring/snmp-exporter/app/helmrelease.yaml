@@ -51,7 +51,7 @@ spec:
       params:
         - name: synology
           target: ${NAS_ADDR}
-          module: [synology, if_mib, hrStorage, system, ucd_system_stats, ucd_memory]
+          module: [synology, if_mib, hrStorage, system, ucd_system_stats, ucd_memory, ucd_la_table, hrSystem]
           auth: [synology_v3]
           interval: 1m
           scrapeTimeout: 30s
