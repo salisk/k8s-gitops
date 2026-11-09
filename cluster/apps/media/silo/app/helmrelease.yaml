@@ -1,0 +1,167 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: silo
+  namespace: media
+spec:
+  interval: 30m
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    defaultPodOptions:
+      enableServiceLinks: false
+      terminationGracePeriodSeconds: 120
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        supplementalGroups: [44, 105, 109, 100, 10000]
+        seccompProfile:
+          type: RuntimeDefault
+    controllers:
+      silo:
+        replicas: 1
+        strategy: Recreate
+        annotations:
+          reloader.stakater.com/auto: "true"
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/home-operations/postgres-init
+              tag: "18"
+            envFrom:
+              - secretRef:
+                  name: silo-init-secret
+            securityContext: &security
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop: [ALL]
+        containers:
+          app:
+            # Bypass root-only s6 init; PostgreSQL is external, Redis is optional.
+            command: [silo]
+            image:
+              repository: ghcr.io/silo-server/silo-server
+              tag: build-2069@sha256:4135ad1c1177228be9cdcf4aa44df3442148ba1d6eec6c96268679601a10ad63
+            env:
+              TZ: "${TIMEZONE}"
+              MODE: integrated
+              POSTGRES_TUNE: "off"
+              PORT: &port 8080
+              JF_PORT: &jfPort 8096
+              HOME: /tmp
+              SILO_PLUGIN_CACHE_DIR: /var/lib/silo/plugins
+            envFrom:
+              - secretRef:
+                  name: silo-secret
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/v1/health
+                    port: *port
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/v1/ready
+                    port: *port
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/v1/health
+                    port: *port
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 150
+            securityContext: *security
+            resources:
+              requests:
+                cpu: 100m
+                memory: 512Mi
+                gpu.intel.com/i915: 1
+              limits:
+                memory: 4Gi
+                gpu.intel.com/i915: 1
+    service:
+      app:
+        controller: silo
+        ports:
+          http:
+            port: *port
+          jellyfin:
+            port: *jfPort
+    route:
+      app:
+        hostnames:
+          - "silo.${SECRET_DOMAIN}"
+        parentRefs: &parents
+          - name: internal
+            namespace: kube-system
+            sectionName: https
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *port
+      jellyfin:
+        hostnames:
+          - "silo-jf.${SECRET_DOMAIN}"
+        parentRefs: *parents
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *jfPort
+    persistence:
+      config:
+        existingClaim: silo-config-v1
+        advancedMounts:
+          silo:
+            app:
+              - path: /config/silo
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
+      media:
+        existingClaim: nfs-media-pvc-v2
+        advancedMounts:
+          silo:
+            app:
+              - path: /media
+                readOnly: true
+      initdb:
+        type: configMap
+        name: silo-initdb
+        advancedMounts:
+          silo:
+            init-db:
+              - path: /initdb
+                readOnly: true
