@@ -6,6 +6,7 @@ metadata:
   name: ghostfolio
   namespace: flux-system
 spec:
+  targetNamespace: default
   path: ./cluster/apps/default/ghostfolio/app
   prune: true
   sourceRef:
