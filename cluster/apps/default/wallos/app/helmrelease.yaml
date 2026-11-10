@@ -36,6 +36,7 @@ spec:
               tag: 5.11.1@sha256:182d4be4dae26834cc5cec3686bb142e78b0a139a0eb1059355d061d8c0de3e5
             env:
               TZ: "${TIMEZONE}"
+              SSRF_ALLOWLIST: "sso.${SECRET_DOMAIN}"
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: false
