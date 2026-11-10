@@ -5,3 +5,10 @@ resources:
   - helmrelease.yaml
   - secret.yaml
   - gatus-configmap.yaml
+  - grafanadashboard.yaml
+configMapGenerator:
+  - name: divegrade-dashboard
+    files:
+      - divegrade.json
+generatorOptions:
+  disableNameSuffixHash: true
