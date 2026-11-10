@@ -112,7 +112,7 @@ spec:
                     fieldPath: metadata.namespace
               WORKER_IMAGE: '{{ include "bjw-s.common.lib.imageSpecificationToImage" (dict "rootContext" . "imageSpec" .Values.controllers.dispatcher.containers.app.image) }}'
               MAX_CONCURRENT_JOBS: "4"
-              WORKER_CPU: "2"
+              WORKER_CPU: "1"
               WORKER_MEMORY_REQUEST: 4Gi
               WORKER_MEMORY_LIMIT: 8Gi
               SCRATCH_LIMIT: 45Gi
