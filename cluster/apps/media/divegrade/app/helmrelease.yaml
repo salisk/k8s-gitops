@@ -118,7 +118,7 @@ spec:
               MAX_CONCURRENT_JOBS: "4"
               WORKER_CPU: "2"
               WORKER_MEMORY_REQUEST: 1Gi
-              WORKER_MEMORY_LIMIT: 8Gi
+              WORKER_MEMORY_LIMIT: 3Gi
               SCRATCH_LIMIT: 45Gi
             securityContext:
               allowPrivilegeEscalation: false
