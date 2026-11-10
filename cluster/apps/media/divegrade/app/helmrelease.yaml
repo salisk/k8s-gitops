@@ -111,10 +111,6 @@ spec:
                   fieldRef:
                     fieldPath: metadata.namespace
               WORKER_IMAGE: '{{ include "bjw-s.common.lib.imageSpecificationToImage" (dict "rootContext" . "imageSpec" .Values.controllers.dispatcher.containers.app.image) }}'
-              WORKER_IMAGE_PULL_SECRETS: '{{ .Values.defaultPodOptions.imagePullSecrets | default list | toJson }}'
-              WORKER_CONFIGMAP_NAME: divegrade
-              WORKER_SECRET_NAME: divegrade
-              WORKER_SERVICE_ACCOUNT: divegrade-worker
               MAX_CONCURRENT_JOBS: "4"
               WORKER_CPU: "2"
               WORKER_MEMORY_REQUEST: 1Gi
