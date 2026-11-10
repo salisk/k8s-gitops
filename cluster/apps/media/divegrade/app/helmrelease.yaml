@@ -117,7 +117,7 @@ spec:
               WORKER_SERVICE_ACCOUNT: divegrade-worker
               MAX_CONCURRENT_JOBS: "4"
               WORKER_CPU: "2"
-              WORKER_MEMORY_REQUEST: 4Gi
+              WORKER_MEMORY_REQUEST: 1Gi
               WORKER_MEMORY_LIMIT: 8Gi
               SCRATCH_LIMIT: 45Gi
             securityContext:
