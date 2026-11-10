@@ -27,3 +27,4 @@ resources:
   - ./soulsync/ks.yaml
   - ./audiobookshelf/ks.yaml
   - ./tvheadend/ks.yaml
+  - ./divegrade/ks.yaml
