@@ -1,0 +1,171 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: divegrade
+  namespace: media
+spec:
+  interval: 30m
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    global:
+      createDefaultServiceAccount: false
+    defaultPodOptions:
+      automountServiceAccountToken: true
+      enableServiceLinks: false
+      imagePullSecrets: []
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        fsGroup: 10001
+        seccompProfile:
+          type: RuntimeDefault
+    serviceAccount:
+      dispatcher:
+        forceRename: divegrade-dispatcher
+        automountServiceAccountToken: true
+      worker:
+        forceRename: divegrade-worker
+        automountServiceAccountToken: true
+    rbac:
+      roles:
+        dispatcher:
+          type: Role
+          forceRename: divegrade-dispatcher
+          rules:
+            - apiGroups: [batch]
+              resources: [jobs]
+              verbs: [get, list, create, patch, delete]
+            - apiGroups: [""]
+              resources: [pods]
+              verbs: [get, list]
+        worker:
+          type: Role
+          forceRename: divegrade-worker
+          rules:
+            - apiGroups: [batch]
+              resources: [jobs]
+              verbs: [get, patch]
+      bindings:
+        dispatcher:
+          type: RoleBinding
+          forceRename: divegrade-dispatcher
+          roleRef:
+            identifier: dispatcher
+          subjects:
+            - kind: ServiceAccount
+              name: divegrade-dispatcher
+              namespace: media
+        worker:
+          type: RoleBinding
+          forceRename: divegrade-worker
+          roleRef:
+            identifier: worker
+          subjects:
+            - kind: ServiceAccount
+              name: divegrade-worker
+              namespace: media
+    configMaps:
+      app:
+        forceRename: divegrade
+        data:
+          IMMICH_URL: http://immich-server.media.svc.cluster.local:2283/api
+          IMMICH_PROCESS_TAG: dive/process
+    controllers:
+      dispatcher:
+        replicas: 1
+        strategy: Recreate
+        serviceAccount:
+          identifier: dispatcher
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/salisk/divegrade
+              tag: 0.0.2@sha256:20f8002ba49cd889ed31a8fafcc9bbc241eface692df129e5afb8183b9beb035
+            command: [divegrade-api]
+            envFrom:
+              - configMapRef:
+                  name: divegrade
+              - secretRef:
+                  name: divegrade
+            env:
+              POD_NAMESPACE:
+                valueFrom:
+                  fieldRef:
+                    fieldPath: metadata.namespace
+              WORKER_IMAGE: '{{ include "bjw-s.common.lib.imageSpecificationToImage" (dict "rootContext" . "imageSpec" .Values.controllers.dispatcher.containers.app.image) }}'
+              MAX_CONCURRENT_JOBS: "4"
+              WORKER_CPU: "2"
+              WORKER_MEMORY_REQUEST: 1Gi
+              WORKER_MEMORY_LIMIT: 3Gi
+              SCRATCH_LIMIT: 45Gi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop: [ALL]
+            resources:
+              requests:
+                cpu: 100m
+                memory: 128Mi
+              limits:
+                memory: 512Mi
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /healthz
+                    port: 8080
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /readyz
+                    port: 8080
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /healthz
+                    port: 8080
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 60
+    service:
+      app:
+        controller: dispatcher
+        ports:
+          http:
+            port: 8080
+    persistence:
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
