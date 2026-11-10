@@ -23,7 +23,7 @@ spec:
   values:
     controllers:
       sweethome3d:
-        replicas: 1
+        replicas: 0
         strategy: Recreate
         annotations:
           reloader.stakater.com/auto: "true"

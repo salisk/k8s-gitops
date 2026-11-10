@@ -20,6 +20,7 @@ spec:
         fsGroupChangePolicy: "OnRootMismatch"
     controllers:
       backend:
+        replicas: 0
         strategy: RollingUpdate
         annotations:
           secret.reloader.stakater.com/reload: piped-secret
@@ -45,6 +46,7 @@ spec:
                 drop:
                   - ALL
       frontend:
+        replicas: 0
         strategy: RollingUpdate
         pod:
           securityContext:
@@ -77,6 +79,7 @@ spec:
                   - ALL
               # readOnlyRootFilesystem: true
       ytproxy:
+        replicas: 0
         strategy: RollingUpdate
         containers:
           app:
