@@ -35,12 +35,63 @@ spec:
         fsGroup: 10001
         seccompProfile:
           type: RuntimeDefault
+    serviceAccount:
+      dispatcher:
+        forceRename: divegrade-dispatcher
+        automountServiceAccountToken: true
+      worker:
+        forceRename: divegrade-worker
+        automountServiceAccountToken: true
+    rbac:
+      roles:
+        dispatcher:
+          type: Role
+          forceRename: divegrade-dispatcher
+          rules:
+            - apiGroups: [batch]
+              resources: [jobs]
+              verbs: [get, list, create, patch, delete]
+            - apiGroups: [""]
+              resources: [pods]
+              verbs: [get, list]
+        worker:
+          type: Role
+          forceRename: divegrade-worker
+          rules:
+            - apiGroups: [batch]
+              resources: [jobs]
+              verbs: [get, patch]
+      bindings:
+        dispatcher:
+          type: RoleBinding
+          forceRename: divegrade-dispatcher
+          roleRef:
+            identifier: dispatcher
+          subjects:
+            - kind: ServiceAccount
+              name: divegrade-dispatcher
+              namespace: media
+        worker:
+          type: RoleBinding
+          forceRename: divegrade-worker
+          roleRef:
+            identifier: worker
+          subjects:
+            - kind: ServiceAccount
+              name: divegrade-worker
+              namespace: media
+    configMaps:
+      app:
+        forceRename: divegrade
+        data:
+          IMMICH_URL: http://immich-server.media.svc.cluster.local:2283/api
+          IMMICH_PROCESS_TAG: dive/process
     controllers:
       dispatcher:
         replicas: 1
         strategy: Recreate
         serviceAccount:
-          name: divegrade-dispatcher
+          identifier: dispatcher
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
@@ -117,18 +168,6 @@ spec:
         ports:
           http:
             port: 8080
-    route:
-      app:
-        hostnames:
-          - divegrade.${SECRET_DOMAIN}
-        parentRefs:
-          - name: internal
-            namespace: kube-system
-            sectionName: https
-        rules:
-          - backendRefs:
-              - identifier: app
-                port: 8080
     persistence:
       tmp:
         type: emptyDir
