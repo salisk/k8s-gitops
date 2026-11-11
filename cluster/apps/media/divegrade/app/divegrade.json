@@ -1,13 +1,13 @@
 {
   "uid": "divegrade",
   "title": "DiveGrade",
-  "description": "Dispatcher health, retained scheduler history and sampled worker resources. Namespace media; no job or asset IDs.",
+  "description": "Dispatcher health, retained scheduler/media history, aggregate video frame progress and sampled worker resources. Namespace media; no job or asset IDs.",
   "tags": [
     "media",
     "divegrade"
   ],
   "schemaVersion": 39,
-  "version": 1,
+  "version": 2,
   "editable": true,
   "timezone": "browser",
   "refresh": "30s",
@@ -53,7 +53,8 @@
       "fieldConfig": {
         "defaults": {
           "unit": "short",
-          "min": 0
+          "min": 0,
+          "noValue": "N/A"
         },
         "overrides": []
       },
@@ -100,7 +101,8 @@
       "fieldConfig": {
         "defaults": {
           "unit": "short",
-          "min": 0
+          "min": 0,
+          "noValue": "N/A"
         },
         "overrides": []
       },
@@ -147,7 +149,8 @@
       "fieldConfig": {
         "defaults": {
           "unit": "short",
-          "min": 0
+          "min": 0,
+          "noValue": "N/A"
         },
         "overrides": []
       },
@@ -194,7 +197,8 @@
       "fieldConfig": {
         "defaults": {
           "unit": "s",
-          "min": 0
+          "min": 0,
+          "noValue": "N/A"
         },
         "overrides": []
       },
@@ -252,7 +256,8 @@
       "fieldConfig": {
         "defaults": {
           "unit": "short",
-          "min": 0
+          "min": 0,
+          "noValue": "N/A"
         },
         "overrides": []
       },
@@ -297,7 +302,8 @@
       "fieldConfig": {
         "defaults": {
           "unit": "short",
-          "min": 0
+          "min": 0,
+          "noValue": "N/A"
         },
         "overrides": []
       },
@@ -342,7 +348,8 @@
       "fieldConfig": {
         "defaults": {
           "unit": "short",
-          "min": 0
+          "min": 0,
+          "noValue": "N/A"
         },
         "overrides": []
       },
@@ -387,7 +394,8 @@
       "fieldConfig": {
         "defaults": {
           "unit": "s",
-          "min": 0
+          "min": 0,
+          "noValue": "N/A"
         },
         "overrides": []
       },
@@ -405,7 +413,7 @@
       "id": 9,
       "title": "Active processing phases",
       "type": "timeseries",
-      "description": "Cached Kubernetes snapshot; check snapshot age. Admitted running Jobs by last reported phase. No per-job or frame-progress metrics are exported; phase can remain unchanged during long work.",
+      "description": "Cached Kubernetes snapshot; check snapshot age. Admitted running Jobs by last reported phase. No per-job metrics are exported; aggregate video frame metrics appear in Media progress. Phase can remain unchanged during long work.",
       "datasource": {
         "type": "prometheus",
         "uid": "prometheus"
@@ -432,7 +440,8 @@
       "fieldConfig": {
         "defaults": {
           "unit": "short",
-          "min": 0
+          "min": 0,
+          "noValue": "N/A"
         },
         "overrides": []
       },
@@ -477,7 +486,8 @@
       "fieldConfig": {
         "defaults": {
           "unit": "ops",
-          "min": 0
+          "min": 0,
+          "noValue": "N/A"
         },
         "overrides": []
       },
@@ -533,7 +543,8 @@
       "fieldConfig": {
         "defaults": {
           "unit": "ops",
-          "min": 0
+          "min": 0,
+          "noValue": "N/A"
         },
         "overrides": []
       },
@@ -578,7 +589,8 @@
       "fieldConfig": {
         "defaults": {
           "unit": "short",
-          "min": 0
+          "min": 0,
+          "noValue": "N/A"
         },
         "overrides": []
       },
@@ -634,7 +646,8 @@
       "fieldConfig": {
         "defaults": {
           "unit": "short",
-          "min": 0
+          "min": 0,
+          "noValue": "N/A"
         },
         "overrides": []
       },
@@ -690,7 +703,8 @@
       "fieldConfig": {
         "defaults": {
           "unit": "s",
-          "min": 0
+          "min": 0,
+          "noValue": "N/A"
         },
         "overrides": []
       },
@@ -735,7 +749,8 @@
       "fieldConfig": {
         "defaults": {
           "unit": "short",
-          "min": 0
+          "min": 0,
+          "noValue": "N/A"
         },
         "overrides": []
       },
@@ -780,7 +795,8 @@
       "fieldConfig": {
         "defaults": {
           "unit": "bytes",
-          "min": 0
+          "min": 0,
+          "noValue": "N/A"
         },
         "overrides": []
       },
@@ -847,7 +863,8 @@
       "fieldConfig": {
         "defaults": {
           "unit": "bytes",
-          "min": 0
+          "min": 0,
+          "noValue": "N/A"
         },
         "overrides": []
       },
@@ -892,7 +909,8 @@
       "fieldConfig": {
         "defaults": {
           "unit": "percentunit",
-          "min": 0
+          "min": 0,
+          "noValue": "N/A"
         },
         "overrides": []
       },
@@ -948,7 +966,624 @@
       "fieldConfig": {
         "defaults": {
           "unit": "cores",
-          "min": 0
+          "min": 0,
+          "noValue": "N/A"
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      }
+    },
+    {
+      "id": 20,
+      "title": "Media progress",
+      "type": "row",
+      "collapsed": false,
+      "gridPos": {
+        "x": 0,
+        "y": 39,
+        "w": 24,
+        "h": 1
+      },
+      "panels": []
+    },
+    {
+      "id": 21,
+      "title": "Retained completed photos / videos",
+      "description": "Cached snapshot; check snapshot age. Latest retry generation per processing task counts once. Retained gauges fall as Kubernetes history expires; not lifetime totals. Older workers may report unknown media facts.",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 40,
+        "w": 8,
+        "h": 7
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (kind) (divegrade_media{namespace=\"media\",state=\"complete\",kind=~\"photo|video\"})",
+          "legendFormat": "{{kind}}",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "range": false,
+          "instant": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0,
+          "noValue": "N/A"
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "colorMode": "value"
+      }
+    },
+    {
+      "id": 22,
+      "title": "Retained media by kind / state",
+      "description": "Cached snapshot; check snapshot age. Latest retry generation per processing task counts once. Retained gauges fall as Kubernetes history expires; not lifetime totals. Older workers may report unknown media facts.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "x": 8,
+        "y": 40,
+        "w": 8,
+        "h": 7
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (kind, state) (divegrade_media{namespace=\"media\"})",
+          "legendFormat": "{{kind}} / {{state}}",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "range": true,
+          "instant": false
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0,
+          "noValue": "N/A",
+          "custom": {
+            "spanNulls": false
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      }
+    },
+    {
+      "id": 23,
+      "title": "Retained media resolution buckets",
+      "description": "Cached snapshot; check snapshot age. Latest retry generation per processing task counts once. Retained gauges fall as Kubernetes history expires; not lifetime totals. Older workers may report unknown media facts. Mutually exclusive longest-edge buckets: \u22641280, \u22641920, \u22644096, \u22645760, >5760 pixels or unknown; not cumulative histogram buckets.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "x": 16,
+        "y": 40,
+        "w": 8,
+        "h": 7
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (kind, resolution) (divegrade_media{namespace=\"media\"})",
+          "legendFormat": "{{kind}} / {{resolution}}",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "range": true,
+          "instant": false
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0,
+          "noValue": "N/A",
+          "custom": {
+            "spanNulls": false
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      }
+    },
+    {
+      "id": 24,
+      "title": "New completions \u00b7 selected range",
+      "description": "Counter increases over the selected dashboard time range, evaluated at its end. Reset on dispatcher restart; exclude historical completions at startup. Observational counts, not a permanent audit; short events between scrapes may be missed. Processed and recovered results are separate (unknown mode retained).",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 47,
+        "w": 8,
+        "h": 7
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (kind, mode) (increase(divegrade_media_completed_total{namespace=\"media\"}[$__range]))",
+          "legendFormat": "{{kind}} / {{mode}}",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "range": false,
+          "instant": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0,
+          "noValue": "N/A"
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "colorMode": "value"
+      }
+    },
+    {
+      "id": 25,
+      "title": "Completed source duration / frames \u00b7 selected range",
+      "description": "Counter increases over the selected dashboard time range, evaluated at its end. Reset on dispatcher restart; exclude historical completions at startup. Observational counts, not a permanent audit; short events between scrapes may be missed. Processed and recovered results are separate (unknown mode retained). Duration is known source video seconds; frames are known completed-result frames (photos normally one), not instantaneous processing speed.",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "x": 8,
+        "y": 47,
+        "w": 8,
+        "h": 7
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (mode) (increase(divegrade_video_completed_duration_seconds_total{namespace=\"media\"}[$__range]))",
+          "legendFormat": "Video seconds / {{mode}}",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "range": false,
+          "instant": true
+        },
+        {
+          "refId": "B",
+          "expr": "sum by (kind, mode) (increase(divegrade_media_completed_frames_total{namespace=\"media\"}[$__range]))",
+          "legendFormat": "Frames / {{kind}} / {{mode}}",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "range": false,
+          "instant": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0,
+          "noValue": "N/A"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byFrameRefID",
+              "options": "A"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "s"
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "colorMode": "value"
+      }
+    },
+    {
+      "id": 26,
+      "title": "Active video source duration / frames",
+      "description": "Cached admitted running videos, deduplicated across retries. Source duration in seconds; frames done/total include only videos with known exact frame totals. These are gauges, not completion counters.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "x": 16,
+        "y": 47,
+        "w": 8,
+        "h": 7
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "divegrade_active_video_duration_seconds{namespace=\"media\"}",
+          "legendFormat": "Source duration",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "range": true,
+          "instant": false
+        },
+        {
+          "refId": "B",
+          "expr": "divegrade_active_video_frames_done{namespace=\"media\"}",
+          "legendFormat": "Frames done",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "range": true,
+          "instant": false
+        },
+        {
+          "refId": "C",
+          "expr": "divegrade_active_video_frames_total{namespace=\"media\"}",
+          "legendFormat": "Frames total",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "range": true,
+          "instant": false
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0,
+          "noValue": "N/A",
+          "custom": {
+            "spanNulls": false
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byFrameRefID",
+              "options": "A"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "s"
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      }
+    },
+    {
+      "id": 27,
+      "title": "Active video weighted frame progress",
+      "description": "Reported frames done divided by total frames across admitted videos with known totals; weighted by frame count, not mean per-worker percentage. Unknown progress stays NaN / N/A; never zero-filled. Check frame_stats contribution count and snapshot age.",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 54,
+        "w": 8,
+        "h": 7
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "divegrade_active_video_processing_progress_ratio{namespace=\"media\"}",
+          "legendFormat": "Frame progress",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "range": false,
+          "instant": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "min": 0,
+          "noValue": "N/A",
+          "max": 1
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "colorMode": "value"
+      }
+    },
+    {
+      "id": 28,
+      "title": "Combined active video processing speed",
+      "description": "Combined throughput across fresh active video frame processors, not source FPS or per-job speed. FPS sums measured frames per wall second; realtime ratio sums source video-seconds processed per wall second (1 = realtime). Freshness threshold max(30s, 2/FPS); excludes stopped workers and later phases. Check speed_samples.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "x": 8,
+        "y": 54,
+        "w": 8,
+        "h": 7
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "divegrade_active_video_processing_fps{namespace=\"media\"}",
+          "legendFormat": "Processing FPS",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "range": true,
+          "instant": false
+        },
+        {
+          "refId": "B",
+          "expr": "divegrade_active_video_processing_realtime_ratio{namespace=\"media\"}",
+          "legendFormat": "Realtime ratio",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "range": true,
+          "instant": false
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0,
+          "noValue": "N/A",
+          "custom": {
+            "spanNulls": false
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byFrameRefID",
+              "options": "A"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "fps"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byFrameRefID",
+              "options": "B"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      }
+    },
+    {
+      "id": 29,
+      "title": "Maximum remaining frame-work ETA",
+      "description": "Maximum fresh active video frame-loop estimate after at least two processed frames. Excludes later encoding/flush, verification, upload, queued tasks and future retries; not whole-job completion time. Unknown/stale ETA stays NaN / N/A, never zero-filled. Check eta_estimates.",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "x": 16,
+        "y": 54,
+        "w": 8,
+        "h": 7
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "divegrade_active_video_processing_eta_max_seconds{namespace=\"media\"}",
+          "legendFormat": "Frame-work ETA",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "range": false,
+          "instant": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "min": 0,
+          "noValue": "N/A"
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "colorMode": "value"
+      }
+    },
+    {
+      "id": 30,
+      "title": "Video estimate contribution counts",
+      "description": "frame_stats: admitted videos with known exact frame totals. speed_samples: videos with fresh active frame-processing speed. eta_estimates: fresh frame-work estimates contributing to maximum ETA. Zero contributors means no estimate, not zero remaining work.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 61,
+        "w": 8,
+        "h": 7
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "divegrade_active_video_frame_stats{namespace=\"media\"}",
+          "legendFormat": "frame_stats",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "range": true,
+          "instant": false
+        },
+        {
+          "refId": "B",
+          "expr": "divegrade_active_video_processing_speed_samples{namespace=\"media\"}",
+          "legendFormat": "speed_samples",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "range": true,
+          "instant": false
+        },
+        {
+          "refId": "C",
+          "expr": "divegrade_active_video_processing_eta_estimates{namespace=\"media\"}",
+          "legendFormat": "eta_estimates",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "range": true,
+          "instant": false
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0,
+          "noValue": "N/A",
+          "custom": {
+            "spanNulls": false
+          }
         },
         "overrides": []
       },
