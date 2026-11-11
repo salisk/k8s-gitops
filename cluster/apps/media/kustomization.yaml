@@ -16,7 +16,7 @@ resources:
   - ./sonarr/ks.yaml
   - ./tautulli/ks.yaml
   - ./maintainerr/ks.yaml
-  - ./nextcloud/ks.yaml
+  # - ./nextcloud/ks.yaml
   - ./piped/ks.yaml
   - ./recyclarr/ks.yaml
   - ./prowlarr/ks.yaml
