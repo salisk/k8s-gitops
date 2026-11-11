@@ -21,7 +21,7 @@ resources:
   - mojo2600-charts.yaml
   - emqx-charts.yaml
   - influxdata-charts.yaml
-  - nextcloud-charts.yaml
+  # - nextcloud-charts.yaml
   - hashicorp-charts.yaml
   - coredns.yaml
   - piped.yaml
