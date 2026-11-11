@@ -11,7 +11,7 @@ resources:
   - ./kite/ks.yaml
   - ./flaresolverr/ks.yaml
   - ./divedb/ks.yaml
-  - ./manyfold/ks.yaml
+  # - ./manyfold/ks.yaml
   - ./bambuddy/ks.yaml
   - ./sweethome3d/ks.yaml
   - ./adventurelog/ks.yaml
