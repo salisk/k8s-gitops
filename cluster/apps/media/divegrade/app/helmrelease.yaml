@@ -98,7 +98,7 @@ spec:
           app:
             image:
               repository: ghcr.io/salisk/divegrade
-              tag: 0.0.5@sha256:b7f70e11404fc2f52e65d91a33d02b0a8eafe874451512b59f6bc04584bb6ac4
+              tag: 0.0.6@sha256:876f2e1b085342d43d874f73219c35bf1d5e7cbc079abf745247c4f55f4d008a
             command: [divegrade-api]
             envFrom:
               - configMapRef:
