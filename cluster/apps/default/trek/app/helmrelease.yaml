@@ -27,7 +27,7 @@ spec:
           app:
             image:
               repository: docker.io/mauriceboe/trek
-              tag: 5.1.2
+              tag: 5.1.3
             args:
               - sh
               - -c
