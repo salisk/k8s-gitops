@@ -160,6 +160,15 @@ spec:
           http:
             port: 8000
             appProtocol: kubernetes.io/ws
+    serviceMonitor:
+      app:
+        serviceName: bambuddy
+        endpoints:
+          - port: http
+            scheme: http
+            path: /api/v1/metrics
+            interval: 30s
+            scrapeTimeout: 10s
     route:
       app:
         hostnames:
