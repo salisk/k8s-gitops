@@ -86,6 +86,8 @@ spec:
         data:
           IMMICH_URL: http://immich-server.media.svc.cluster.local:2283/api
           IMMICH_PROCESS_TAG: dive/process
+          VIDEO_ENCODER: hevc_vaapi
+          VAAPI_QP: "16"
     controllers:
       dispatcher:
         replicas: 1
@@ -98,7 +100,7 @@ spec:
           app:
             image:
               repository: ghcr.io/salisk/divegrade
-              tag: 0.0.6@sha256:876f2e1b085342d43d874f73219c35bf1d5e7cbc079abf745247c4f55f4d008a
+              tag: 0.0.7@sha256:0e8e5546e9f825498d987f6a8a3309370a159042ac754390cd3c9cc26ec857ca
             command: [divegrade-api]
             envFrom:
               - configMapRef:
@@ -111,6 +113,10 @@ spec:
                   fieldRef:
                     fieldPath: metadata.namespace
               WORKER_IMAGE: '{{ include "bjw-s.common.lib.imageSpecificationToImage" (dict "rootContext" . "imageSpec" .Values.controllers.dispatcher.containers.app.image) }}'
+              VIDEO_ENCODER: hevc_vaapi
+              VAAPI_QP: "16"
+              WORKER_GPU_SUPPLEMENTAL_GROUPS: "[105]"
+              WORKER_GPU_NODE_SELECTOR: '{"divegrade.io/hevc-main10":"true"}'
               MAX_CONCURRENT_JOBS: "4"
               WORKER_CPU: "1"
               WORKER_MEMORY_REQUEST: 4Gi
