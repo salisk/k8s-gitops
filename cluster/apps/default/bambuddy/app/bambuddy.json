@@ -1,0 +1,249 @@
+{
+  "uid": "bambuddy",
+  "title": "Bambuddy",
+  "description": "Live printer telemetry and global archive totals. Missing archive samples do not indicate scrape failure; check Scrape health.",
+  "tags": [
+    "bambuddy",
+    "home"
+  ],
+  "schemaVersion": 39,
+  "version": 1,
+  "editable": true,
+  "timezone": "browser",
+  "refresh": "30s",
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "annotations": {
+    "list": []
+  },
+  "templating": {
+    "list": [
+      {
+        "name": "printer",
+        "label": "Printer",
+        "type": "query",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "prometheus"
+        },
+        "query": {
+          "query": "label_values(bambuddy_printer_connected,printer_name)",
+          "refId": "PrinterVariableQuery"
+        },
+        "refresh": 1,
+        "sort": 1,
+        "multi": true,
+        "includeAll": true,
+        "allValue": ".*",
+        "current": {
+          "selected": true,
+          "text": "All",
+          "value": "$__all"
+        },
+        "options": []
+      }
+    ]
+  },
+  "panels": [
+    {
+      "id": 1,
+      "title": "Connected / total printers",
+      "type": "stat",
+      "description": "",
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "gridPos": {"x": 0, "y": 0, "w": 6, "h": 4},
+      "targets": [{"refId": "A", "expr": "bambuddy_printers_connected{namespace=\"default\",service=\"bambuddy\"}", "legendFormat": "Connected", "instant": true, "range": false}, {"refId": "B", "expr": "bambuddy_printers_total{namespace=\"default\",service=\"bambuddy\"}", "legendFormat": "Total", "instant": true, "range": false}],
+      "fieldConfig": {"defaults": {"unit": "short", "noValue": "N/A", "min": 0}, "overrides": []},
+      "options": {"reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": false}, "textMode": "auto", "colorMode": "value"}
+    },
+    {
+      "id": 2,
+      "title": "Queue",
+      "type": "stat",
+      "description": "",
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "gridPos": {"x": 6, "y": 0, "w": 6, "h": 4},
+      "targets": [{"refId": "A", "expr": "bambuddy_queue_pending{namespace=\"default\",service=\"bambuddy\"}", "legendFormat": "Pending", "instant": true, "range": false}, {"refId": "B", "expr": "bambuddy_queue_printing{namespace=\"default\",service=\"bambuddy\"}", "legendFormat": "Printing", "instant": true, "range": false}],
+      "fieldConfig": {"defaults": {"unit": "short", "noValue": "N/A", "min": 0}, "overrides": []},
+      "options": {"reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": false}, "textMode": "auto", "colorMode": "value"}
+    },
+    {
+      "id": 3,
+      "title": "Scrape health",
+      "type": "stat",
+      "description": "1 = successful scrape; 0 = failed. No data may mean the target is undiscovered. Archive totals are independent of scrape health.",
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "gridPos": {"x": 12, "y": 0, "w": 6, "h": 4},
+      "targets": [{"refId": "A", "expr": "up{namespace=\"default\",service=\"bambuddy\"}", "legendFormat": "Scrape", "instant": true, "range": false}],
+      "fieldConfig": {"defaults": {"unit": "short", "noValue": "N/A", "mappings": [{"type": "value", "options": {"0": {"text": "Down", "color": "red"}, "1": {"text": "Up", "color": "green"}}}]}, "overrides": []},
+      "options": {"reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": false}, "textMode": "auto", "colorMode": "value"}
+    },
+    {
+      "id": 4,
+      "title": "Bambuddy version",
+      "type": "stat",
+      "description": "",
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "gridPos": {"x": 18, "y": 0, "w": 6, "h": 4},
+      "targets": [{"refId": "A", "expr": "bambuddy_build_info{namespace=\"default\",service=\"bambuddy\"}", "legendFormat": "{{version}}", "instant": true, "range": false}],
+      "fieldConfig": {"defaults": {"unit": "short", "noValue": "N/A"}, "overrides": []},
+      "options": {"reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": false}, "textMode": "name", "colorMode": "value"}
+    },
+    {
+      "id": 5,
+      "title": "Printer connection",
+      "type": "stat",
+      "description": "",
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "gridPos": {"x": 0, "y": 4, "w": 6, "h": 5},
+      "targets": [{"refId": "A", "expr": "bambuddy_printer_connected{namespace=\"default\",service=\"bambuddy\",printer_name=~\"$printer\"}", "legendFormat": "{{printer_name}} · {{model}}", "instant": true, "range": false}],
+      "fieldConfig": {"defaults": {"unit": "short", "noValue": "N/A", "mappings": [{"type": "value", "options": {"0": {"text": "Disconnected", "color": "red"}, "1": {"text": "Connected", "color": "green"}}}]}, "overrides": []},
+      "options": {"reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": false}, "textMode": "auto", "colorMode": "value"}
+    },
+    {
+      "id": 6,
+      "title": "Printer state",
+      "type": "stat",
+      "description": "",
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "gridPos": {"x": 6, "y": 4, "w": 6, "h": 5},
+      "targets": [{"refId": "A", "expr": "bambuddy_printer_state{namespace=\"default\",service=\"bambuddy\",printer_name=~\"$printer\"}", "legendFormat": "{{printer_name}}", "instant": true, "range": false}],
+      "fieldConfig": {"defaults": {"unit": "short", "noValue": "N/A", "mappings": [{"type": "value", "options": {"0": {"text": "Unknown", "color": "gray"}, "1": {"text": "Idle", "color": "blue"}, "2": {"text": "Running", "color": "green"}, "3": {"text": "Paused", "color": "orange"}, "4": {"text": "Finished", "color": "green"}, "5": {"text": "Failed", "color": "red"}, "6": {"text": "Preparing", "color": "blue"}, "7": {"text": "Slicing", "color": "blue"}}}]}, "overrides": []},
+      "options": {"reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": false}, "textMode": "auto", "colorMode": "value"}
+    },
+    {
+      "id": 7,
+      "title": "Print progress",
+      "type": "stat",
+      "description": "",
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "gridPos": {"x": 12, "y": 4, "w": 6, "h": 5},
+      "targets": [{"refId": "A", "expr": "bambuddy_print_progress{namespace=\"default\",service=\"bambuddy\",printer_name=~\"$printer\"}", "legendFormat": "{{printer_name}}", "instant": true, "range": false}],
+      "fieldConfig": {"defaults": {"unit": "percent", "noValue": "N/A", "min": 0, "max": 100}, "overrides": []},
+      "options": {"reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": false}, "textMode": "auto", "colorMode": "value"}
+    },
+    {
+      "id": 8,
+      "title": "Print remaining",
+      "type": "stat",
+      "description": "",
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "gridPos": {"x": 18, "y": 4, "w": 6, "h": 5},
+      "targets": [{"refId": "A", "expr": "bambuddy_print_remaining_seconds{namespace=\"default\",service=\"bambuddy\",printer_name=~\"$printer\"}", "legendFormat": "{{printer_name}}", "instant": true, "range": false}],
+      "fieldConfig": {"defaults": {"unit": "s", "noValue": "N/A", "min": 0}, "overrides": []},
+      "options": {"reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": false}, "textMode": "auto", "colorMode": "value"}
+    },
+    {
+      "id": 9,
+      "title": "Print layers · current / total",
+      "type": "stat",
+      "description": "",
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "gridPos": {"x": 0, "y": 9, "w": 8, "h": 6},
+      "targets": [{"refId": "A", "expr": "bambuddy_print_layer_current{namespace=\"default\",service=\"bambuddy\",printer_name=~\"$printer\"}", "legendFormat": "{{printer_name}} · current", "instant": true, "range": false}, {"refId": "B", "expr": "bambuddy_print_layer_total{namespace=\"default\",service=\"bambuddy\",printer_name=~\"$printer\"}", "legendFormat": "{{printer_name}} · total", "instant": true, "range": false}],
+      "fieldConfig": {"defaults": {"unit": "short", "noValue": "N/A", "min": 0, "decimals": 0}, "overrides": []},
+      "options": {"reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": false}, "textMode": "auto", "colorMode": "value"}
+    },
+    {
+      "id": 10,
+      "title": "Wi-Fi signal",
+      "type": "timeseries",
+      "description": "Signal in dBm; values closer to zero indicate a stronger signal.",
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "gridPos": {"x": 8, "y": 9, "w": 8, "h": 6},
+      "targets": [{"refId": "A", "expr": "bambuddy_wifi_signal_dbm{namespace=\"default\",service=\"bambuddy\",printer_name=~\"$printer\"}", "legendFormat": "{{printer_name}}", "instant": false, "range": true}],
+      "fieldConfig": {"defaults": {"unit": "dBm", "noValue": "N/A"}, "overrides": []},
+      "options": {"legend": {"displayMode": "list", "placement": "bottom"}, "tooltip": {"mode": "multi"}}
+    },
+    {
+      "id": 11,
+      "title": "Fan speed",
+      "type": "timeseries",
+      "description": "No samples are currently exposed. No data means fan telemetry is unavailable, not a failed scrape.",
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "gridPos": {"x": 16, "y": 9, "w": 8, "h": 6},
+      "targets": [{"refId": "A", "expr": "bambuddy_fan_speed_percent{namespace=\"default\",service=\"bambuddy\",printer_name=~\"$printer\"}", "legendFormat": "{{printer_name}} · {{fan}}", "instant": false, "range": true}],
+      "fieldConfig": {"defaults": {"unit": "percent", "noValue": "N/A", "min": 0, "max": 100}, "overrides": []},
+      "options": {"legend": {"displayMode": "list", "placement": "bottom"}, "tooltip": {"mode": "multi"}}
+    },
+    {
+      "id": 12,
+      "title": "Bed temperatures",
+      "type": "timeseries",
+      "description": "",
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "gridPos": {"x": 0, "y": 15, "w": 8, "h": 7},
+      "targets": [{"refId": "A", "expr": "bambuddy_bed_temp_celsius{namespace=\"default\",service=\"bambuddy\",printer_name=~\"$printer\"}", "legendFormat": "{{printer_name}} · actual", "instant": false, "range": true}, {"refId": "B", "expr": "bambuddy_bed_target_celsius{namespace=\"default\",service=\"bambuddy\",printer_name=~\"$printer\"}", "legendFormat": "{{printer_name}} · target", "instant": false, "range": true}],
+      "fieldConfig": {"defaults": {"unit": "celsius", "noValue": "N/A", "custom": {"lineWidth": 2, "spanNulls": false}}, "overrides": [{"matcher": {"id": "byFrameRefID", "options": "B"}, "properties": [{"id": "custom.lineStyle", "value": {"fill": "dash", "dash": [8, 4]}}]}]},
+      "options": {"legend": {"displayMode": "list", "placement": "bottom"}, "tooltip": {"mode": "multi"}}
+    },
+    {
+      "id": 13,
+      "title": "Nozzle temperatures",
+      "type": "timeseries",
+      "description": "",
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "gridPos": {"x": 8, "y": 15, "w": 8, "h": 7},
+      "targets": [{"refId": "A", "expr": "bambuddy_nozzle_temp_celsius{namespace=\"default\",service=\"bambuddy\",printer_name=~\"$printer\"}", "legendFormat": "{{printer_name}} · nozzle {{nozzle}} · actual", "instant": false, "range": true}, {"refId": "B", "expr": "bambuddy_nozzle_target_celsius{namespace=\"default\",service=\"bambuddy\",printer_name=~\"$printer\"}", "legendFormat": "{{printer_name}} · nozzle {{nozzle}} · target", "instant": false, "range": true}],
+      "fieldConfig": {"defaults": {"unit": "celsius", "noValue": "N/A", "custom": {"lineWidth": 2, "spanNulls": false}}, "overrides": [{"matcher": {"id": "byFrameRefID", "options": "B"}, "properties": [{"id": "custom.lineStyle", "value": {"fill": "dash", "dash": [8, 4]}}]}]},
+      "options": {"legend": {"displayMode": "list", "placement": "bottom"}, "tooltip": {"mode": "multi"}}
+    },
+    {
+      "id": 14,
+      "title": "Chamber temperature",
+      "type": "timeseries",
+      "description": "",
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "gridPos": {"x": 16, "y": 15, "w": 8, "h": 7},
+      "targets": [{"refId": "A", "expr": "bambuddy_chamber_temp_celsius{namespace=\"default\",service=\"bambuddy\",printer_name=~\"$printer\"}", "legendFormat": "{{printer_name}} · actual", "instant": false, "range": true}],
+      "fieldConfig": {"defaults": {"unit": "celsius", "noValue": "N/A", "custom": {"lineWidth": 2, "spanNulls": false}}, "overrides": []},
+      "options": {"legend": {"displayMode": "list", "placement": "bottom"}, "tooltip": {"mode": "multi"}}
+    },
+    {
+      "id": 15,
+      "title": "Archived prints by result",
+      "type": "stat",
+      "description": "Global archive total as reported by Bambuddy, independent of the printer selection and dashboard time range. No print samples are currently exposed; missing data is unavailable history, not zero prints or exporter failure.",
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "gridPos": {"x": 0, "y": 22, "w": 6, "h": 6},
+      "targets": [{"refId": "A", "expr": "sum by (result) (bambuddy_prints_total{namespace=\"default\",service=\"bambuddy\"})", "legendFormat": "{{result}}", "instant": true, "range": false}],
+      "fieldConfig": {"defaults": {"unit": "short", "noValue": "No archive samples", "min": 0}, "overrides": []},
+      "options": {"reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": false}, "textMode": "auto", "colorMode": "value"}
+    },
+    {
+      "id": 16,
+      "title": "Archived prints by printer",
+      "type": "stat",
+      "description": "Archive total for selected printers, independent of dashboard time range. No samples are currently exposed; missing data means unavailable history, not zero prints or exporter failure.",
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "gridPos": {"x": 6, "y": 22, "w": 6, "h": 6},
+      "targets": [{"refId": "A", "expr": "bambuddy_printer_prints_total{namespace=\"default\",service=\"bambuddy\",printer_name=~\"$printer\"}", "legendFormat": "{{printer_name}}", "instant": true, "range": false}],
+      "fieldConfig": {"defaults": {"unit": "short", "noValue": "No archive samples", "min": 0}, "overrides": []},
+      "options": {"reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": false}, "textMode": "auto", "colorMode": "value"}
+    },
+    {
+      "id": 17,
+      "title": "Archived filament used",
+      "type": "stat",
+      "description": "Global archive total as reported by Bambuddy, independent of the printer selection and dashboard time range. No print samples are currently exposed; missing data is unavailable history, not zero prints or exporter failure.",
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "gridPos": {"x": 12, "y": 22, "w": 6, "h": 6},
+      "targets": [{"refId": "A", "expr": "bambuddy_filament_used_grams{namespace=\"default\",service=\"bambuddy\"}", "legendFormat": "Filament", "instant": true, "range": false}],
+      "fieldConfig": {"defaults": {"unit": "massg", "noValue": "No archive samples", "min": 0}, "overrides": []},
+      "options": {"reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": false}, "textMode": "auto", "colorMode": "value"}
+    },
+    {
+      "id": 18,
+      "title": "Archived print time",
+      "type": "stat",
+      "description": "Global archive total as reported by Bambuddy, independent of the printer selection and dashboard time range. No print samples are currently exposed; missing data is unavailable history, not zero prints or exporter failure.",
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "gridPos": {"x": 18, "y": 22, "w": 6, "h": 6},
+      "targets": [{"refId": "A", "expr": "bambuddy_print_time_seconds{namespace=\"default\",service=\"bambuddy\"}", "legendFormat": "Print time", "instant": true, "range": false}],
+      "fieldConfig": {"defaults": {"unit": "s", "noValue": "No archive samples", "min": 0}, "overrides": []},
+      "options": {"reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": false}, "textMode": "auto", "colorMode": "value"}
+    }
+  ]
+}

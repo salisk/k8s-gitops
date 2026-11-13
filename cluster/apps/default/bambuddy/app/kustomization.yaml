@@ -7,3 +7,10 @@ resources:
   - ./secret.yaml
   - ./config-pvc.yaml
   - ../../../../templates/gatus/internal
+  - ./grafanadashboard.yaml
+configMapGenerator:
+  - name: bambuddy-dashboard
+    files:
+      - bambuddy.json
+generatorOptions:
+  disableNameSuffixHash: true
