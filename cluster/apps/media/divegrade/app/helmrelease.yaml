@@ -116,7 +116,7 @@ spec:
               VIDEO_ENCODER: hevc_vaapi
               VAAPI_QP: "16"
               WORKER_GPU_SUPPLEMENTAL_GROUPS: "[105]"
-              WORKER_GPU_NODE_SELECTOR: '{"divegrade.io/hevc-main10":"true"}'
+              WORKER_GPU_NODE_SELECTOR: "{}"
               MAX_CONCURRENT_JOBS: "4"
               WORKER_CPU: "1"
               WORKER_MEMORY_REQUEST: 4Gi
