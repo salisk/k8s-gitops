@@ -37,7 +37,7 @@ spec:
             image:
               &image # renovate: datasource=docker depName=ghcr.io/we-promise/sure
               repository: ghcr.io/we-promise/sure
-              tag: "0.7.6"
+              tag: "0.7.6-hotfix.1"
             command:
               - /bin/sh
               - -c
@@ -45,6 +45,7 @@ spec:
             env: &env
               RAILS_ENV: production
               SELF_HOSTED: "true"
+              POSTHOG_FEEDBACK_ENABLED: "false"
               RAILS_ASSUME_SSL: "true"
               RAILS_FORCE_SSL: "false"
               RAILS_LOG_TO_STDOUT: "true"
