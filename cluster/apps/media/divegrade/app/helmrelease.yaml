@@ -119,8 +119,8 @@ spec:
               WORKER_GPU_NODE_SELECTOR: "{}"
               MAX_CONCURRENT_JOBS: "4"
               WORKER_CPU: "1"
-              WORKER_MEMORY_REQUEST: 4Gi
-              WORKER_MEMORY_LIMIT: 8Gi
+              WORKER_MEMORY_REQUEST: 2Gi
+              WORKER_MEMORY_LIMIT: 4Gi
               SCRATCH_LIMIT: 45Gi
             securityContext:
               allowPrivilegeEscalation: false
