@@ -22,7 +22,7 @@ spec:
           app:
             image:
               repository: ghcr.io/coollabsio/minio
-              tag: RELEASE.2025-04-22T22-12-26Z
+              tag: RELEASE.2025-10-15T17-29-55Z
             args:
               - server
               - /data/minio
