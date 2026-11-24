@@ -38,7 +38,7 @@ spec:
           app:
             image:
               repository: docker.io/jbtronics/part-db1
-              tag: v2.20.6@sha256:8f12802ba0cb87268fa2382a89953b696ddc2dfa56a330a3828d27e362fd5f3d
+              tag: v2.21.2@sha256:d958375d7dcbae6fbde56001109cd27427cff32200b77bff1f64333e3505d41e
             env:
               APP_ENV: docker
               DB_AUTOMIGRATE: "true"
